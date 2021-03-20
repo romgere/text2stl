@@ -1,7 +1,11 @@
 {{page-title "Text2stl"}}
 
-{{!-- The following component displays Ember's default welcome message. --}}
-<WelcomePage />
-{{!-- Feel free to remove this! --}}
+<UkButton
+  @color="primary"
+  @size="large"
+  @on-click={{fn this.myAction}}
+>
+  Click me!
+</UkButton>
 
 {{outlet}}
