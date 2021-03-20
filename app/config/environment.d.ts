@@ -1,4 +1,4 @@
-export default config;
+export default config
 
 /**
  * Type declarations for
@@ -11,4 +11,4 @@ declare const config: {
   locationType: string;
   rootURL: string;
   APP: Record<string, unknown>;
-};
+}

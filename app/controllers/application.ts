@@ -1,9 +1,7 @@
-import Controller from '@ember/controller';
+import Controller from '@ember/controller'
 import { action } from '@ember/object'
 
-export default class Application extends Controller.extend({
-  // anything which *must* be merged to prototype here
-}) {
+export default class Application extends Controller {
   @action
   myAction() {
     alert('toto')
