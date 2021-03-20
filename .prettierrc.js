@@ -1,5 +1,6 @@
-'use strict';
+/* eslint-env node */
+'use strict'
 
 module.exports = {
-  singleQuote: true,
-};
+  singleQuote: true
+}
