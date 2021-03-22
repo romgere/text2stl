@@ -133,7 +133,7 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
     this.mesh.position.x = -xCenter
 
     let zCenter = min.y + (this.meshSize.y / 2) // Use y size here as mesh is rotate
-    this.mesh.position.z = -zCenter
+    this.mesh.position.z = zCenter
 
     this.scene.add(this.mesh)
   }
