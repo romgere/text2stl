@@ -109,14 +109,18 @@ export default class TextMaker extends Service {
       let shapes = this.glyphToShapes(glyph)
       let geometry = new THREE.ExtrudeGeometry(shapes, {
         depth: width,
-        steps: 1
-        // bevelEnabled: true,
-        // bevelSize: 5,
-        // bevelThickness: 20,
-        // bevelSegments: 10,
-        // bevelOffset: 0,
+        bevelEnabled: true,
+        bevelThickness: 0,
+        bevelSize: 0,
+        bevelOffset: 0,
+        bevelSegments: 0
       })
-      geometry.applyMatrix4(new THREE.Matrix4().makeScale(1 / font.unitsPerEm * size, 1 / font.unitsPerEm * size, 1))
+      geometry.applyMatrix4(new THREE.Matrix4().makeScale(
+        1 / font.unitsPerEm * size,
+        1 / font.unitsPerEm * size,
+        1
+      ))
+
       geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(x, y, 0))
       geometries.push(geometry)
     })

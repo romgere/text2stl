@@ -6,7 +6,7 @@ Inspired from : https://github.com/mo22/textstl
 
 ## TODO : 
 
-- [ ] center 3D render
+- [x] center 3D render
 - [ ] Add somes options
 - [ ] use mm unit for options (size, etc...)
 - [ ] better UI
