@@ -10,14 +10,14 @@
           <Ui::Input
             class="uk-input uk-margin"
             @type="text"
-            @value={{this.text}}
-            @onChange={{fn (mut this.text)}}
+            @value={{this.model.settings.text}}
+            @onChange={{fn (mut this.model.settings.text)}}
           />
 
           <XSelect
             @model={{this.model.fontNames}}
-            @value={{this.font}}
-            @onSelect={{fn (mut this.font)}}
+            @value={{this.model.settings.fontName}}
+            @onSelect={{fn this.updateFont}}
             @required={{true}}
             class="uk-margin"
           />
@@ -25,21 +25,21 @@
           <Ui::Input
             class="uk-input uk-margin"
             @type="number"
-            @value={{this.size}}
+            @value={{this.model.settings.size}}
             @onChange={{fn this.setInt 'size'}}
           />
 
           <Ui::Input
             class="uk-input uk-margin"
             @type="number"
-            @value={{this.height}}
+            @value={{this.model.settings.height}}
             @onChange={{fn this.setInt 'height'}}
           />
 
           <Ui::Input
             class="uk-input uk-margin"
             @type="number"
-            @value={{this.spacing}}
+            @value={{this.model.settings.spacing}}
             @onChange={{fn this.setInt 'spacing'}}
           />
           <hr>
@@ -57,23 +57,9 @@
       </form>
     </div>
     <div class="uk-width-1-1 uk-width-3-4@m">
-      {{this.font}} - {{this.text}} - {{this.size}} - {{this.width}} - {{this.kerning}}
+      {{this.model.settings.fontName}} - {{this.model.settings.text}} - {{this.model.settings.size}} - {{this.model.settings.height}} - {{this.model.settings.spacing}}
       <hr>
-      {{#deferred-content this.geometry as |d|}}
-        {{#d.settled}}
-          Settled
-        {{/d.settled}}
-        {{#d.pending}}
-          Loading....
-        {{/d.pending}}
-        {{#d.fulfilled as |geometry|}}
-          <ThreePreview @geometry={{geometry}} @registerMesh={{this.registerMesh}} />
-        {{/d.fulfilled}}
-        {{#d.rejected as |reason|}}
-          Error please try agin
-        {{/d.rejected}}
-      {{/deferred-content}}
-
+      <ThreePreview @geometry={{geometry}} @registerMesh={{this.registerMesh}} />
     </div>
   </div>
   <div class="uk-text-center">

@@ -92,8 +92,9 @@ export default class TextMaker extends Service {
   }
 
   stringToGeometry(params: TextMakerParameters): THREE.BufferGeometry {
-    let { font, text } = params
+    let { font } = params
 
+    let text = params.text || textMakerDefault.text
     let size = params.size ?? textMakerDefault.size
     let height = params.height ?? textMakerDefault.height
     let spacing = params.spacing ?? textMakerDefault.spacing

@@ -1,15 +1,19 @@
 import Controller from '@ember/controller'
 import { tracked } from '@glimmer/tracking'
 import { action } from '@ember/object'
-import * as opentype from 'opentype.js'
 import { inject as service } from '@ember/service'
+import FontManager from 'text2stl/services/font-manager'
 import TextMaker from 'text2stl/services/text-maker'
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
+
+import type { FontName } from 'text2stl/services/font-manager'
 import type { BufferGeometry, Mesh } from 'three'
 
 export default class Application extends Controller {
 
   @service declare textMaker: TextMaker
+
+  @service declare fontManager: FontManager
 
   @tracked mesh?: Mesh
 
@@ -23,40 +27,8 @@ export default class Application extends Controller {
 
   @tracked spacing: number = 10
 
-  fontCache: Record<string, opentype.Font> = {}
-
-  async getGoogleFont(fontName: string): Promise<opentype.Font> {
-
-    let { variants } = this.model.fonts[fontName]
-    let variant = variants['normal'] || variants[Object.keys(variants)[0]]
-    let face = variant['400'] || variant[Object.keys(variant)[0]]
-
-    let url = face.url.ttf!.replace('http:', ':')
-
-    // TODO: add cache ?
-    if (!this.fontCache[fontName]) {
-      let res = await fetch(url)
-      let fontData = await res.arrayBuffer()
-      this.fontCache[fontName] = opentype.parse(fontData)
-    }
-
-    return this.fontCache[fontName]
-  }
-
-  get geometry(): Promise<BufferGeometry> {
-    let params = {
-      text: this.text || 'Hello',
-      size: this.size,
-      height: this.height,
-      spacing: this.spacing
-    }
-
-    return this.getGoogleFont(this.font).then((font) => {
-      return this.textMaker.stringToGeometry({
-        ...params,
-        font
-      })
-    })
+  get geometry(): BufferGeometry {
+    return this.textMaker.stringToGeometry(this.model.settings)
   }
 
   get exportDisabled() {
@@ -64,8 +36,15 @@ export default class Application extends Controller {
   }
 
   @action
+  async updateFont(fontName: FontName) {
+    this.model.settings.fontName = fontName
+    this.model.settings.font = await this.fontManager.fetchFont(fontName)
+  }
+
+  @action
   setInt(props: 'size' | 'height' | 'spacing', value: string) {
-    this[props] = parseInt(value, 10)
+    let v = parseInt(value, 10)
+    this.model.settings[props] = isNaN(v) ? undefined : v
   }
 
   @action

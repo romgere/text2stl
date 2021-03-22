@@ -1,12 +1,29 @@
 import Route from '@ember/routing/route'
-import fonts from 'google-fonts-complete'
 import { hash } from 'rsvp'
+import { inject as service } from '@ember/service'
+import TextMakerSettings from 'text2stl/models/text-maker-settings'
+import FontManager from 'text2stl/services/font-manager'
+import config from 'text2stl/config/environment'
+const {
+  APP: { textMakerDefault }
+} = config
 
 export default class Application extends Route {
-  model() {
+
+  @service declare fontManager: FontManager
+
+  async model() {
+    // Fetch default font
+    let defaultFont = await this.fontManager.fetchFont(textMakerDefault.fontName)
+
     return hash({
-      fonts,
-      fontNames: Object.keys(fonts)
+      fonts: this.fontManager.fonts,
+      fontNames: this.fontManager.fontNames,
+      // Create a default settings for first rendering
+      settings: new TextMakerSettings({
+        ...textMakerDefault,
+        font: defaultFont
+      })
     })
   }
 }

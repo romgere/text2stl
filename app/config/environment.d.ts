@@ -11,7 +11,7 @@ declare const config: {
   locationType: string;
   rootURL: string;
   APP: Record<string, unknown> & {
-    textMakerDefault :{
+    textMakerDefault : {
       fontName: string
       text: string
       size: number
