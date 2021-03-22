@@ -2,6 +2,10 @@ import Service from '@ember/service'
 import * as opentype from 'opentype.js'
 import * as THREE from 'three'
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
+import config from 'text2stl/config/environment'
+const {
+  APP: { textMakerDefault }
+} = config
 
 interface ContourPoint {
   x: number
@@ -90,9 +94,9 @@ export default class TextMaker extends Service {
   stringToGeometry(params: TextMakerParameters): THREE.BufferGeometry {
     let { font, text } = params
 
-    let size = params.size ?? 72
-    let height = params.height ?? 20
-    let spacing = params.spacing ?? 10
+    let size = params.size ?? textMakerDefault.size
+    let height = params.height ?? textMakerDefault.height
+    let spacing = params.spacing ?? textMakerDefault.spacing
 
     let geometries: THREE.ExtrudeGeometry[] = []
     let dx = 0

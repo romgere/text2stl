@@ -10,5 +10,13 @@ declare const config: {
   podModulePrefix: string;
   locationType: string;
   rootURL: string;
-  APP: Record<string, unknown>;
+  APP: Record<string, unknown> & {
+    textMakerDefault :{
+      fontName: string
+      text: string
+      size: number
+      height: number
+      spacing: number
+    }
+  };
 }

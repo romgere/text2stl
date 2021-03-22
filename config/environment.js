@@ -19,8 +19,13 @@ module.exports = function(environment) {
     },
 
     APP: {
-      // Here you can pass flags/options to your application instance
-      // when it is created
+      textMakerDefault: {
+        fontName: 'Parisienne',
+        text: 'Bienvenue !',
+        size: 72,
+        height: 20,
+        spacing: 10
+      }
     }
   }
 
