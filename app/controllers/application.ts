@@ -19,9 +19,9 @@ export default class Application extends Controller {
 
   @tracked size: number = 72
 
-  @tracked width: number = 20
+  @tracked height: number = 20
 
-  @tracked kerning: number = 10
+  @tracked spacing: number = 10
 
   fontCache: Record<string, opentype.Font> = {}
 
@@ -47,8 +47,8 @@ export default class Application extends Controller {
     let params = {
       text: this.text || 'Hello',
       size: this.size,
-      width: this.width,
-      kerning: this.kerning
+      height: this.height,
+      spacing: this.spacing
     }
 
     return this.getGoogleFont(this.font).then((font) => {
@@ -64,7 +64,7 @@ export default class Application extends Controller {
   }
 
   @action
-  setInt(props: 'size' | 'width' | 'kerning', value: string) {
+  setInt(props: 'size' | 'height' | 'spacing', value: string) {
     this[props] = parseInt(value, 10)
   }
 

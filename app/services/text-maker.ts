@@ -13,8 +13,8 @@ export interface TextMakerParameters {
   font: opentype.Font
   text: string
   size?: number
-  width?: number
-  kerning?: number
+  height?: number
+  spacing?: number
 }
 export type Contour = ContourPoint[]
 
@@ -91,8 +91,8 @@ export default class TextMaker extends Service {
     let { font, text } = params
 
     let size = params.size ?? 72
-    let width = params.width ?? 20
-    let kerning = params.kerning ?? 10
+    let height = params.height ?? 20
+    let spacing = params.spacing ?? 10
 
     let geometries: THREE.ExtrudeGeometry[] = []
     let dx = 0
@@ -100,11 +100,11 @@ export default class TextMaker extends Service {
     // Iterate on text char to generate a Geometry for each
     font.forEachGlyph(text, 0, 0, size, undefined, (glyph, x, y) => {
       x += dx
-      dx += kerning
+      dx += spacing
 
       let shapes = this.glyphToShapes(glyph)
       let geometry = new THREE.ExtrudeGeometry(shapes, {
-        depth: width,
+        depth: height,
         bevelEnabled: true,
         bevelThickness: 0,
         bevelSize: 0,
