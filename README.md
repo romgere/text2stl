@@ -1,7 +1,24 @@
 # text2stl
 
-This README outlines the details of collaborating on this Ember application.
-A short introduction of this app could easily go here.
+Generate STL with text easily !
+
+Inspired from : https://github.com/mo22/textstl
+
+## TODO : 
+
+- [ ] center 3D render
+- [ ] Add somes options
+- [ ] use mm unit for options (size, etc...)
+- [ ] better UI
+- [ ] fr/en translation
+- [ ] add other type of shape (with support, / negative text)
+- [ ] handle resize
+- [ ] multi-line text
+- [ ] save/load text (via URL encoded / local storage ?)
+- [ ] handle custom font
+- [ ] better font management (limit list, allow filtering, live preview)
+- [ ] improve test coverage & deploy
+- [ ] Any way to handle emoji or special char like '★' ?
 
 ## Prerequisites
 
@@ -44,11 +61,8 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember build` (development)
 * `ember build --environment production` (production)
 
-### Deploying
 
-Specify what it takes to deploy your app.
-
-## Further Reading / Useful Links
+## 
 
 * [ember.js](https://emberjs.com/)
 * [ember-cli](https://ember-cli.com/)
