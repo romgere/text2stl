@@ -1,13 +1,82 @@
 {{page-title (t "app_name")}}
+<div class="uk-container uk-padding">
+  <div uk-grid="" class="uk-grid-divider uk-grid">
+    <div class="uk-width-1-1 uk-width-1-4@m uk-first-column">
+      <form>
+        <fieldset class="uk-fieldset">
 
-<UkButton
-  @color="primary"
-  @size="large"
-  @on-click={{fn this.myAction}}
->
-  Click me!
-  dede
-</UkButton>
+          <legend class="uk-legend">Settings</legend>
 
-{{outlet}}
+          <Ui::Input
+            class="uk-input uk-margin"
+            @type="text"
+            @value={{this.text}}
+            @onChange={{fn (mut this.text)}}
+          />
 
+          <XSelect
+            @model={{this.model.fontNames}}
+            @onSelect={{fn (mut this.font)}}
+            class="uk-margin"
+          />
+
+          <Ui::Input
+            class="uk-input uk-margin"
+            @type="number"
+            @value={{this.size}}
+            @onChange={{fn this.setInt 'size'}}
+          />
+
+          <Ui::Input
+            class="uk-input uk-margin"
+            @type="number"
+            @value={{this.width}}
+            @onChange={{fn this.setInt 'width'}}
+          />
+
+          <Ui::Input
+            class="uk-input uk-margin"
+            @type="number"
+            @value={{this.kerning}}
+            @onChange={{fn this.setInt 'kerning'}}
+          />
+          <hr>
+
+          <UkButton
+            @color="primary"  
+            @fill={{true}}
+            @disabled={{this.exportDisabled}}
+            @on-click={{fn this.exportSTL}}
+          >
+            Export STL
+          </UkButton>
+            
+        </fieldset>
+      </form>
+    </div>
+    <div class="uk-width-1-1 uk-width-3-4@m">
+      {{this.font}} - {{this.text}} - {{this.size}} - {{this.width}} - {{this.kerning}}
+      <hr>
+      {{#deferred-content this.geometry as |d|}}
+        {{#d.settled}}
+          Settled
+        {{/d.settled}}
+        {{#d.pending}}
+          Loading....
+        {{/d.pending}}
+        {{#d.fulfilled as |geometry|}}
+          <ThreePreview @geometry={{geometry}} @registerMesh={{this.registerMesh}} />
+        {{/d.fulfilled}}
+        {{#d.rejected as |reason|}}
+          Error please try agin
+        {{/d.rejected}}
+      {{/deferred-content}}
+
+    </div>
+  </div>
+  <div class="uk-text-center">
+    <p>
+      BOTTOM
+    </p>
+  </div>
+</div>

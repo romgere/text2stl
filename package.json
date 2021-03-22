@@ -24,6 +24,7 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
+    "@ember/render-modifiers": "^1.0.2",
     "@ember/test-helpers": "^2.2.0",
     "@glimmer/component": "^1.0.3",
     "@glimmer/tracking": "^1.0.3",
@@ -66,6 +67,7 @@
     "ember-cli-typescript": "^4.1.0",
     "ember-cli-typescript-blueprints": "^3.0.0",
     "ember-data": "~3.25.0",
+    "ember-deferred-content": "^1.0.0",
     "ember-export-application-global": "^2.0.1",
     "ember-fetch": "^8.0.4",
     "ember-intl": "^5.6.2",
@@ -74,6 +76,7 @@
     "ember-page-title": "^6.2.1",
     "ember-qunit": "^5.1.2",
     "ember-resolver": "^8.0.2",
+    "ember-select": "^0.8.2",
     "ember-source": "~3.25.1",
     "ember-template-lint": "^2.18.1",
     "ember-uikit": "^2.2.2",

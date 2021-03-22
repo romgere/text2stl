@@ -1104,6 +1104,14 @@
     ember-cli-babel "^7.22.1"
     ember-compatibility-helpers "^1.1.1"
 
+"@ember/render-modifiers@^1.0.2":
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/@ember/render-modifiers/-/render-modifiers-1.0.2.tgz#2e87c48db49d922ce4850d707215caaac60d8444"
+  integrity sha512-6tEnHl5+62NTSAG2mwhGMFPhUrJQjoVqV+slsn+rlTknm2Zik+iwxBQEbwaiQOU1FUYxkS8RWcieovRNMR8inQ==
+  dependencies:
+    ember-cli-babel "^7.10.0"
+    ember-modifier-manager-polyfill "^1.1.0"
+
 "@ember/string@^1.0.0":
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/@ember/string/-/string-1.0.0.tgz#3a2254caedacb95e09071204d36cad49e0f8b855"
@@ -1859,6 +1867,11 @@
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/@types/symlink-or-copy/-/symlink-or-copy-1.2.0.tgz#4151a81b4052c80bc2becbae09f3a9ec010a9c7a"
   integrity sha512-Lja2xYuuf2B3knEsga8ShbOdsfNOtzT73GyJmZyY7eGl2+ajOqrs8yM5ze0fsSoYwvA6bw7/Qr7OZ7PEEmYwWg==
+
+"@types/three@^0.126.1":
+  version "0.126.1"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.126.1.tgz#f53450d4218a7c8bfb17af062f9d8473c8e241e0"
+  integrity sha512-GR7e3d9CYYmwIR3HDiRZDFpoHIp2Vg5IbULcIjL296C8VbjruGwJ7Br1GTBkslEVfkezKrtJTf7KuqoIt3oYTg==
 
 "@typescript-eslint/eslint-plugin@^4.18.0":
   version "4.18.0"
@@ -5322,7 +5335,7 @@ ember-cli-babel-plugin-helpers@^1.0.0, ember-cli-babel-plugin-helpers@^1.1.1:
   resolved "https://registry.yarnpkg.com/ember-cli-babel-plugin-helpers/-/ember-cli-babel-plugin-helpers-1.1.1.tgz#5016b80cdef37036c4282eef2d863e1d73576879"
   integrity sha512-sKvOiPNHr5F/60NLd7SFzMpYPte/nnGkq/tMIfXejfKHIhaiIkYFqX8Z9UFTKWLLn+V7NOaby6niNPZUdvKCRw==
 
-ember-cli-babel@^6.0.0-beta.4:
+ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.6.0:
   version "6.18.0"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-6.18.0.tgz#3f6435fd275172edeff2b634ee7b29ce74318957"
   integrity sha512-7ceC8joNYxY2wES16iIBlbPSxwKDBhYwC8drU3ZEvuPDMwVv1KzxCNu1fvxyFEBWhwaRNTUxSCsEVoTd9nosGA==
@@ -5389,6 +5402,16 @@ ember-cli-get-component-path-option@^1.0.0:
   version "1.0.0"
   resolved "https://registry.yarnpkg.com/ember-cli-get-component-path-option/-/ember-cli-get-component-path-option-1.0.0.tgz#0d7b595559e2f9050abed804f1d8eff1b08bc771"
   integrity sha1-DXtZVVni+QUKvtgE8djv8bCLx3E=
+
+ember-cli-htmlbars@^2.0.1:
+  version "2.0.5"
+  resolved "https://registry.yarnpkg.com/ember-cli-htmlbars/-/ember-cli-htmlbars-2.0.5.tgz#b5a105429a6bce4f7c9c97b667e3b8926e31397f"
+  integrity sha512-3f3PAxdnQ/fhQa8XP/3z4RLRgLHxV8j4Ln75aHbRdemOCjBa048KxL9l+acRLhCulbGQCMnLiIUIC89PAzLrcA==
+  dependencies:
+    broccoli-persistent-filter "^1.4.3"
+    hash-for-dep "^1.2.3"
+    json-stable-stringify "^1.0.0"
+    strip-bom "^3.0.0"
 
 ember-cli-htmlbars@^5.2.0, ember-cli-htmlbars@^5.3.1, ember-cli-htmlbars@^5.3.2, ember-cli-htmlbars@^5.7.1:
   version "5.7.1"
@@ -5764,6 +5787,14 @@ ember-decorators@^6.1.1:
     "@ember-decorators/object" "^6.1.1"
     ember-cli-babel "^7.7.3"
 
+ember-deferred-content@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/ember-deferred-content/-/ember-deferred-content-1.0.0.tgz#8e62a98b86b5d59178a5cb3dc613a32592311337"
+  integrity sha1-jmKpi4a11ZF4pcs9xhOjJZIxEzc=
+  dependencies:
+    ember-cli-babel "^6.6.0"
+    ember-cli-htmlbars "^2.0.1"
+
 ember-destroyable-polyfill@^2.0.2, ember-destroyable-polyfill@^2.0.3:
   version "2.0.3"
   resolved "https://registry.yarnpkg.com/ember-destroyable-polyfill/-/ember-destroyable-polyfill-2.0.3.tgz#1673ed66609a82268ef270a7d917ebd3647f11e1"
@@ -5889,7 +5920,7 @@ ember-maybe-import-regenerator@^0.1.6:
     ember-cli-babel "^6.0.0-beta.4"
     regenerator-runtime "^0.9.5"
 
-ember-modifier-manager-polyfill@^1.2.0:
+ember-modifier-manager-polyfill@^1.1.0, ember-modifier-manager-polyfill@^1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/ember-modifier-manager-polyfill/-/ember-modifier-manager-polyfill-1.2.0.tgz#cf4444e11a42ac84f5c8badd85e635df57565dda"
   integrity sha512-bnaKF1LLKMkBNeDoetvIJ4vhwRPKIIumWr6dbVuW6W6p4QV8ZiO+GdF8J7mxDNlog9CeL9Z/7wam4YS86G8BYA==
@@ -5957,6 +5988,14 @@ ember-router-generator@^2.0.0:
     "@babel/parser" "^7.4.5"
     "@babel/traverse" "^7.4.5"
     recast "^0.18.1"
+
+ember-select@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/ember-select/-/ember-select-0.8.2.tgz#6823229cc42d4b1804f9de4b05e22e58fc705ccc"
+  integrity sha512-n2qse2+jAAE+vJ68ayLCYY1QoSMPWYlN4lj5UJI42B5Sj35RjDTDRRMAQKYdVs1dWgAhlB+hLRH2zhNNKAWN2w==
+  dependencies:
+    ember-cli-babel "^7.22.1"
+    ember-cli-htmlbars "^5.3.1"
 
 ember-source-channel-url@^3.0.0:
   version "3.0.0"
