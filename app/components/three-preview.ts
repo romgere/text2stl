@@ -112,6 +112,9 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
       })
     )
 
+    // Register mesh before manipulate
+    this.args.registerMesh?.(this.mesh.clone() as THREE.Mesh)
+
     // Rotate & Center mesh
     this.mesh.rotation.x = -Math.PI / 2
 
@@ -127,7 +130,6 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
 
     this.scene.add(this.mesh)
 
-    this.args.registerMesh?.(this.mesh)
   }
 
   renderFrame() {

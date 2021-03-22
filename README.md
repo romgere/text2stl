@@ -8,7 +8,8 @@ Inspired from : https://github.com/mo22/textstl
 
 - [x] center 3D render
 - [ ] Add somes options
-- [ ] use mm unit for options (size, etc...)
+- [ ] Add model size information
+- [ ] use mm unit for font size ?
 - [ ] better UI
 - [ ] fr/en translation
 - [ ] add other type of shape (with support, / negative text)

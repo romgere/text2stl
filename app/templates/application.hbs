@@ -16,7 +16,9 @@
 
           <XSelect
             @model={{this.model.fontNames}}
+            @value={{this.font}}
             @onSelect={{fn (mut this.font)}}
+            @required={{true}}
             class="uk-margin"
           />
 

@@ -6,7 +6,7 @@ export default class Application extends Route {
   model() {
     return hash({
       fonts,
-      fontNames: Object.keys(fonts).slice(0, 30)
+      fontNames: Object.keys(fonts)
     })
   }
 }

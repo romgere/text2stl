@@ -3,12 +3,8 @@ import { tracked } from '@glimmer/tracking'
 import { action } from '@ember/object'
 import * as opentype from 'opentype.js'
 import { inject as service } from '@ember/service'
-
 import TextMaker from 'text2stl/services/text-maker'
-
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
-
-import type { TextMakerParameters } from 'text2stl/services/text-maker'
 import type { BufferGeometry, Mesh } from 'three'
 
 export default class Application extends Controller {
@@ -17,7 +13,7 @@ export default class Application extends Controller {
 
   @tracked mesh?: Mesh
 
-  @tracked font: string = 'Open Sans Condensed'
+  @tracked font: string = 'Parisienne'
 
   @tracked text: string = 'Romgere'
 
@@ -48,21 +44,19 @@ export default class Application extends Controller {
   }
 
   get geometry(): Promise<BufferGeometry> {
-    return this.generateGeometry()
-  }
-
-  async generateGeometry(): Promise<BufferGeometry> {
-    let params: TextMakerParameters = {
+    let params = {
       text: this.text || 'Hello',
-      font: await this.getGoogleFont(this.font),
       size: this.size,
       width: this.width,
       kerning: this.kerning
     }
 
-    console.log('geometry', params)
-
-    return this.textMaker.stringToGeometry(params)
+    return this.getGoogleFont(this.font).then((font) => {
+      return this.textMaker.stringToGeometry({
+        ...params,
+        font
+      })
+    })
   }
 
   get exportDisabled() {
