@@ -2,6 +2,7 @@ import Component from '@glimmer/component'
 import { action } from '@ember/object'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
+import { tracked } from '@glimmer/tracking'
 
 interface ThreePreviewArgs {
   geometry?: THREE.BufferGeometry;
@@ -21,6 +22,9 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
   controls?: OrbitControls
 
   container?: HTMLDivElement
+
+  @tracked
+  meshSize?: { x: number, y: number, z: number }
 
   rendererSize: { width: number, height: number } = { width: 0, height: 0 }
 
@@ -115,21 +119,23 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
     // Register mesh before manipulate
     this.args.registerMesh?.(this.mesh.clone() as THREE.Mesh)
 
+    let { min, max } = new THREE.Box3().setFromObject(this.mesh)
+    this.meshSize = {
+      x: max.x - min.x,
+      y: max.y - min.y,
+      z: max.z - min.z
+    }
+
     // Rotate & Center mesh
     this.mesh.rotation.x = -Math.PI / 2
 
-    let { min, max } = new THREE.Box3().setFromObject(this.mesh)
-    console.log(min, max)
-    console.log(this.mesh.position)
-
-    let xCenter = min.x + ((max.x - min.x) / 2)
+    let xCenter = min.x + (this.meshSize.x / 2)
     this.mesh.position.x = -xCenter
 
-    let zCenter = min.z + ((max.z - min.z) / 2)
+    let zCenter = min.y + (this.meshSize.y / 2) // Use y size here as mesh is rotate
     this.mesh.position.z = -zCenter
 
     this.scene.add(this.mesh)
-
   }
 
   renderFrame() {

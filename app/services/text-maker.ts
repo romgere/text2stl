@@ -3,7 +3,7 @@ import * as opentype from 'opentype.js'
 import * as THREE from 'three'
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
 
-export interface ContourPoint {
+interface ContourPoint {
   x: number
   y: number
   onCurve: boolean
@@ -14,7 +14,7 @@ export interface TextMakerParameters {
   text: string
   size?: number
   width?: number
-  kerning?: number|number[]
+  kerning?: number
 }
 export type Contour = ContourPoint[]
 
@@ -100,11 +100,7 @@ export default class TextMaker extends Service {
     // Iterate on text char to generate a Geometry for each
     font.forEachGlyph(text, 0, 0, size, undefined, (glyph, x, y) => {
       x += dx
-      if (typeof kerning === 'number') {
-        dx += kerning
-      } else if (Array.isArray(kerning) && kerning.length > 0) {
-        dx += kerning.shift()!
-      }
+      dx += kerning
 
       let shapes = this.glyphToShapes(glyph)
       let geometry = new THREE.ExtrudeGeometry(shapes, {

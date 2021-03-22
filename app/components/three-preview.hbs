@@ -4,3 +4,6 @@
   {{will-destroy (fn (mut this.active) false)}}
 >
 </div>
+{{#if this.meshSize}}
+  <p>Print size : {{float-to-fixed this.meshSize.x 1}} x {{float-to-fixed this.meshSize.y 1}} x {{float-to-fixed this.meshSize.z 1}} mm</p>
+{{/if}}
