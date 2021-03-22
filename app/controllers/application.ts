@@ -35,10 +35,14 @@ export default class Application extends Controller {
     return !this.mesh
   }
 
+  get currentFont() {
+    return this.fontManager.fetchFont(this.model.settings.fontName)
+  }
+
   @action
   async updateFont(fontName: FontName) {
     this.model.settings.fontName = fontName
-    this.model.settings.font = await this.fontManager.fetchFont(fontName)
+    this.model.settings.font = await this.currentFont
   }
 
   @action

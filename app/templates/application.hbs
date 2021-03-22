@@ -59,6 +59,11 @@
     <div class="uk-width-1-1 uk-width-3-4@m">
       {{this.model.settings.fontName}} - {{this.model.settings.text}} - {{this.model.settings.size}} - {{this.model.settings.height}} - {{this.model.settings.spacing}}
       <hr>
+      <DeferredContent @promise={{this.currentFont}} as |p|>
+        <p.pending>
+          LOADING...
+        </p.pending>
+      </DeferredContent>
       <ThreePreview @geometry={{geometry}} @registerMesh={{this.registerMesh}} />
     </div>
   </div>
