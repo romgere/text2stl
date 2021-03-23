@@ -7,17 +7,17 @@ Inspired from : https://github.com/mo22/textstl
 ## TODO : 
 
 - [x] center 3D render
-- [ ] Add somes options
-- [ ] Add model size information
-- [ ] use mm unit for font size ?
+- [x] move mesh rendering in textMaker service
+- [x] Add model size information
 - [ ] better UI
-- [ ] fr/en translation
-- [ ] add other type of shape (with support, / negative text)
 - [ ] handle resize
-- [ ] multi-line text
+- [ ] better font management (limit list, allow filtering, live preview)
+- [ ] add other type of shape (with support / negative text / badge)
+- [ ] fr/en translation
+- [ ] Add somes options
+- [ ] multi-line text ?
 - [ ] save/load text (via URL encoded / local storage ?)
 - [ ] handle custom font
-- [ ] better font management (limit list, allow filtering, live preview)
 - [ ] improve test coverage & deploy
 - [ ] Any way to handle emoji or special char like '★' ?
 

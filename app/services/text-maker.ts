@@ -4,7 +4,7 @@ import * as THREE from 'three'
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
 import config from 'text2stl/config/environment'
 const {
-  APP: { textMakerDefault }
+  APP: { textMakerDefault, threePreviewSettings: { meshParameters } }
 } = config
 
 interface ContourPoint {
@@ -91,7 +91,7 @@ export default class TextMaker extends Service {
     return shapes
   }
 
-  stringToGeometry(params: TextMakerParameters): THREE.BufferGeometry {
+  private stringToGeometry(params: TextMakerParameters): THREE.BufferGeometry {
     let { font } = params
 
     let text = params.text || textMakerDefault.text
@@ -127,6 +127,17 @@ export default class TextMaker extends Service {
     })
 
     return BufferGeometryUtils.mergeBufferGeometries(geometries)
+  }
+
+  generateMesh(params: TextMakerParameters): THREE.Mesh {
+    let geometry = this.stringToGeometry(params)
+    return new THREE.Mesh(
+      geometry,
+      new THREE.MeshLambertMaterial({
+        ...meshParameters,
+        side: THREE.DoubleSide
+      })
+    )
   }
 }
 

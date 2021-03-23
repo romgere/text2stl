@@ -7,15 +7,13 @@ import TextMaker from 'text2stl/services/text-maker'
 import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
 
 import type { FontName } from 'text2stl/services/font-manager'
-import type { BufferGeometry, Mesh } from 'three'
+import type { Mesh } from 'three'
 
 export default class Application extends Controller {
 
   @service declare textMaker: TextMaker
 
   @service declare fontManager: FontManager
-
-  @tracked mesh?: Mesh
 
   @tracked font: string = 'Parisienne'
 
@@ -27,8 +25,8 @@ export default class Application extends Controller {
 
   @tracked spacing: number = 10
 
-  get geometry(): BufferGeometry {
-    return this.textMaker.stringToGeometry(this.model.settings)
+  get mesh(): Mesh {
+    return this.textMaker.generateMesh(this.model.settings)
   }
 
   get exportDisabled() {
@@ -49,11 +47,6 @@ export default class Application extends Controller {
   setInt(props: 'size' | 'height' | 'spacing', value: string) {
     let v = parseInt(value, 10)
     this.model.settings[props] = isNaN(v) ? undefined : v
-  }
-
-  @action
-  registerMesh(mesh: Mesh) {
-    this.mesh = mesh
   }
 
   @action

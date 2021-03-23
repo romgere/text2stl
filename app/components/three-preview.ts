@@ -9,8 +9,7 @@ const {
 } = config
 
 interface ThreePreviewArgs {
-  geometry?: THREE.BufferGeometry;
-  registerMesh?: (mesh: THREE.Mesh) => void;
+  mesh?: THREE.Mesh;
 }
 
 export default class ThreePreview extends Component<ThreePreviewArgs> {
@@ -21,7 +20,6 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
   camera: THREE.PerspectiveCamera
   renderer: THREE.WebGLRenderer
   mesh?: THREE.Mesh
-  geometry?: THREE.ExtrudeGeometry
 
   controls?: OrbitControls
 
@@ -104,28 +102,21 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
     this.controls.minDistance = 50
     this.controls.maxDistance = 1000
 
-    this.updateGeometry()
+    this.updateMesh()
 
     this.active = true
   }
 
-  updateGeometry() {
+  updateMesh() {
 
     if (this.mesh) {
       this.scene.remove(this.mesh)
       this.mesh = undefined
     }
 
-    this.mesh = new THREE.Mesh(
-      this.args.geometry ?? new THREE.SphereGeometry(60, 8, 8),
-      new THREE.MeshLambertMaterial({
-        ...threePreviewSettings.meshParameters,
-        side: THREE.DoubleSide
-      })
-    )
-
-    // Register mesh before manipulate
-    this.args.registerMesh?.(this.mesh.clone() as THREE.Mesh)
+    this.mesh = this.args.mesh
+      ? this.args.mesh.clone() as THREE.Mesh
+      : new THREE.Mesh(new THREE.SphereGeometry(60, 8, 8))
 
     let { min, max } = new THREE.Box3().setFromObject(this.mesh)
     this.meshSize = {
@@ -180,6 +171,6 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
 
   @action
   didUpdateAction() {
-    this.updateGeometry()
+    this.updateMesh()
   }
 }
