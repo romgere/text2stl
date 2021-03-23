@@ -3,6 +3,10 @@ import { action } from '@ember/object'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { tracked } from '@glimmer/tracking'
+import config from 'text2stl/config/environment'
+const {
+  APP: { threePreviewSettings }
+} = config
 
 interface ThreePreviewArgs {
   geometry?: THREE.BufferGeometry;
@@ -32,7 +36,7 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
     super(owner, args)
 
     this.scene = new THREE.Scene()
-    this.scene.background = new THREE.Color(0xe1e8f5)
+    this.scene.background = new THREE.Color(threePreviewSettings.backgroundColor)
 
     // Lights
     ;[
@@ -69,13 +73,18 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
 
     let ground = new THREE.Mesh(
       new THREE.PlaneGeometry(2000, 2000),
-      new THREE.MeshPhongMaterial({ color: 0x999999, depthWrite: false })
+      new THREE.MeshPhongMaterial({ color: threePreviewSettings.groundColor, depthWrite: false })
     )
     ground.rotation.x = -Math.PI / 2
     ground.receiveShadow = true
     this.scene.add(ground)
 
-    let grid = new THREE.GridHelper(2000, 100, 0x3187f0, 0xf1f1f1)
+    let grid = new THREE.GridHelper(
+      threePreviewSettings.gridSize,
+      threePreviewSettings.gridDivisions,
+      threePreviewSettings.gridColor1,
+      threePreviewSettings.gridColor2
+    )
     this.scene.add(grid)
   }
 
@@ -109,9 +118,8 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
 
     this.mesh = new THREE.Mesh(
       this.args.geometry ?? new THREE.SphereGeometry(60, 8, 8),
-      new THREE.MeshPhongMaterial({
-        color: 0xfa7f01,
-        // emissive: 0x00ff00,
+      new THREE.MeshLambertMaterial({
+        ...threePreviewSettings.meshParameters,
         side: THREE.DoubleSide
       })
     )

@@ -17,6 +17,18 @@ declare const config: {
       size: number
       height: number
       spacing: number
+    },
+    threePreviewSettings: {
+      backgroundColor: number,
+      groundColor: number,
+      gridSize: number,
+      gridDivisions: number,
+      gridColor1: number,
+      gridColor2: number,
+      meshParameters: {
+        color: number,
+        emissive: number | undefined
+      }
     }
   };
 }

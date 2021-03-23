@@ -25,6 +25,18 @@ module.exports = function(environment) {
         size: 72,
         height: 20,
         spacing: 10
+      },
+
+      threePreviewSettings: {
+        backgroundColor: 0xe1e8f5,
+        groundColor: 0x999999,
+        gridSize: 2000,
+        gridDivisions: 100,
+        gridColor1: 0x3187f0,
+        gridColor2: 0xf1f1f1,
+        meshParameters: {
+          color: 0xfa7f01
+        }
       }
     }
   }
