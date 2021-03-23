@@ -20,7 +20,7 @@ module.exports = function(environment) {
 
     APP: {
       textMakerDefault: {
-        fontName: 'Parisienne',
+        fontName: 'Open Sans',
         text: 'Bienvenue !',
         size: 72,
         height: 20,
@@ -37,7 +37,10 @@ module.exports = function(environment) {
         meshParameters: {
           color: 0xfa7f01
         }
-      }
+      },
+
+      // TODO: use a prod key with restriction
+      googleFontApiKey: 'AIzaSyACwlQzJowWi7b58J0zglNQbKNXCx-DXFY'
     }
   }
 

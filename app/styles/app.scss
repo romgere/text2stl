@@ -1,1 +1,30 @@
 @import 'ember-uikit';
+
+.font-picker__container {
+  box-shadow: none !important;
+  color: #666;
+  border: 1px solid #e5e5e5;
+
+  .dropdown-button {
+    background-color: #FFF !important;
+    height: 40px !important;
+  }
+
+  .dropdown-icon.finished::before {
+    border-top: 6px solid #666 !important;
+  }
+
+  &.expanded {
+    outline: none;
+    border-color: #1e87f0;
+
+    .font-list {
+      border: 1px solid #e5e5e5;
+      box-shadow: none;
+      background: #FFF;
+      margin-top: 1px;
+      margin-left: -1px;
+      width: calc(100% + 2px);
+    }
+  }
+}

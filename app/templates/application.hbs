@@ -14,11 +14,9 @@
             @onChange={{fn (mut this.model.settings.text)}}
           />
 
-          <XSelect
-            @model={{this.model.fontNames}}
-            @value={{this.model.settings.fontName}}
-            @onSelect={{fn this.updateFont}}
-            @required={{true}}
+          <Ui::FontPicker
+            @value={{this.model.fontNames}}
+            @onChange={{fn this.updateFont}}
             class="uk-margin"
           />
 

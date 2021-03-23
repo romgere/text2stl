@@ -1,0 +1,15 @@
+{{#each this.availableFontCategories as |category|}}
+  <UkButton
+    @label={{category}}
+    @color={{if (eq this.fontCategory category) "primary"}}
+    @on-click={{fn this.changeFontCategory category}}
+  />
+
+{{/each}}
+<div 
+  id="font-picker-{{this.fontPickerID}}"
+  ...attributes
+  class="font-picker__container"
+  {{did-insert this.initFontPicker}}
+  {{did-update this.updateSelected @value}}
+/>

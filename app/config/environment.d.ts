@@ -29,6 +29,7 @@ declare const config: {
         color: number,
         emissive: number | undefined
       }
-    }
+    },
+    googleFontApiKey: string
   };
 }
