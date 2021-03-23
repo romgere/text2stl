@@ -4,7 +4,7 @@ import * as opentype from 'opentype.js'
 import fonts from 'google-fonts-complete'
 export type FontName = keyof typeof fonts
 
-export default class FontManager extends Service {
+export default class FontManagerService extends Service {
 
   fontCache: Record<string, opentype.Font> = {}
 

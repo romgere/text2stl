@@ -2,7 +2,7 @@ import Route from '@ember/routing/route'
 import { hash } from 'rsvp'
 import { inject as service } from '@ember/service'
 import TextMakerSettings from 'text2stl/models/text-maker-settings'
-import FontManager from 'text2stl/services/font-manager'
+import FontManagerService from 'text2stl/services/font-manager'
 import config from 'text2stl/config/environment'
 const {
   APP: { textMakerDefault }
@@ -13,7 +13,7 @@ export type ApplicationRouteModel = Resolved<ReturnType<ApplicationRoute['model'
 
 export default class ApplicationRoute extends Route {
 
-  @service declare fontManager: FontManager
+  @service declare fontManager: FontManagerService
 
   async model() {
     // Fetch default font

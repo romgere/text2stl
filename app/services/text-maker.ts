@@ -23,7 +23,7 @@ export interface TextMakerParameters {
 
 type Contour = ContourPoint[]
 
-export default class TextMaker extends Service {
+export default class TextMakerService extends Service {
 
   private glyphToShapes(glyph: opentype.Glyph): THREE.Shape[] {
     glyph.getMetrics()
