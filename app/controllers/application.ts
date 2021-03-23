@@ -3,6 +3,7 @@ import { action } from '@ember/object'
 import { inject as service } from '@ember/service'
 import FontManagerService from 'text2stl/services/font-manager'
 import TextMakerService from 'text2stl/services/text-maker'
+import STLExporterService from 'text2stl/services/stl-exporter'
 
 import type { FontName } from 'text2stl/services/font-manager'
 import type { Mesh } from 'three'
@@ -13,6 +14,8 @@ export default class ApplicationController extends Controller {
   @service declare textMaker: TextMakerService
 
   @service declare fontManager: FontManagerService
+
+  @service declare stlExporter: STLExporterService
 
   declare model: ApplicationRouteModel
 
@@ -47,16 +50,7 @@ export default class ApplicationController extends Controller {
       return
     }
 
-    let result = (new STLExporter()).parse(this.mesh, { binary: true })
-    let blob = new Blob([result], { type: 'application/octet-stream' })
-
-    let link = document.createElement('a')
-    link.style.display = 'none'
-    document.body.appendChild(link)
-
-    link.href = URL.createObjectURL(blob)
-    link.download = 'output.stl'
-    link.click()
+    this.stlExporter.downloadMeshAsSTL(this.mesh)
   }
 }
 
