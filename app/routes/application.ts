@@ -8,7 +8,10 @@ const {
   APP: { textMakerDefault }
 } = config
 
-export default class Application extends Route {
+type Resolved<P> = P extends Promise<infer T> ? T : P
+export type ApplicationRouteModel = Resolved<ReturnType<ApplicationRoute['model']>>
+
+export default class ApplicationRoute extends Route {
 
   @service declare fontManager: FontManager
 

@@ -1,5 +1,4 @@
 import Controller from '@ember/controller'
-import { tracked } from '@glimmer/tracking'
 import { action } from '@ember/object'
 import { inject as service } from '@ember/service'
 import FontManager from 'text2stl/services/font-manager'
@@ -8,22 +7,15 @@ import { STLExporter } from 'three/examples/jsm/exporters/STLExporter'
 
 import type { FontName } from 'text2stl/services/font-manager'
 import type { Mesh } from 'three'
+import type { ApplicationRouteModel } from 'text2stl/routes/application'
 
-export default class Application extends Controller {
+export default class ApplicationController extends Controller {
 
   @service declare textMaker: TextMaker
 
   @service declare fontManager: FontManager
 
-  @tracked font: string = 'Parisienne'
-
-  @tracked text: string = 'Romgere'
-
-  @tracked size: number = 72
-
-  @tracked height: number = 20
-
-  @tracked spacing: number = 10
+  declare model: ApplicationRouteModel
 
   get mesh(): Mesh {
     return this.textMaker.generateMesh(this.model.settings)
@@ -71,6 +63,6 @@ export default class Application extends Controller {
 
 declare module '@ember/controller' {
   interface Registry {
-    'application': Application;
+    'application': ApplicationController;
   }
 }

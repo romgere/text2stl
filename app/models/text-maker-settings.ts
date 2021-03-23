@@ -5,16 +5,18 @@ const {
   APP: { textMakerDefault }
 } = config
 
+import type { FontName } from 'text2stl/services/font-manager'
+
 export default class TextMakerSettings implements TextMakerParameters {
 
-  @tracked fontName: string
+  @tracked fontName: FontName
   @tracked font: opentype.Font
   @tracked text: string
-  @tracked size: number
-  @tracked height: number
-  @tracked spacing: number
+  @tracked size?: number
+  @tracked height?: number
+  @tracked spacing?: number
 
-  constructor(args: TextMakerParameters & { fontName: string }) {
+  constructor(args: TextMakerParameters & { fontName: FontName }) {
     this.font = args.font
     this.fontName = args.fontName
     this.text = args.text ?? textMakerDefault.text

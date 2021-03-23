@@ -20,7 +20,8 @@ export interface TextMakerParameters {
   height?: number
   spacing?: number
 }
-export type Contour = ContourPoint[]
+
+type Contour = ContourPoint[]
 
 export default class TextMaker extends Service {
 
