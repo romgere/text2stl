@@ -144,6 +144,6 @@ export default class TextMakerService extends Service {
 
 declare module '@ember/service' {
   interface Registry {
-    'text-maker': TextMaker
+    'text-maker': TextMakerService
   }
 }

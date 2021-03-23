@@ -41,6 +41,6 @@ export default class STLExporterService extends Service {
 // DO NOT DELETE: this is how TypeScript knows how to look up your services.
 declare module '@ember/service' {
   interface Registry {
-    'stl-exporter': StlExporter;
+    'stl-exporter': STLExporterService
   }
 }
