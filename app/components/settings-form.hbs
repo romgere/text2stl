@@ -1,0 +1,21 @@
+<UkSwitcher @animation="uk-animation-fade" as |switcher|>
+  <switcher.nav @type="tab" as |nav|>
+    <nav.component as |tab|>
+      <tab.item>
+        Settings
+      </tab.item>
+      <tab.item>
+        Font
+      </tab.item>
+    </nav.component>
+  </switcher.nav>
+
+  <switcher.content as |content|>
+    <content.item>
+      <SettingsForm::Settings @model={{@model}} />
+    </content.item>
+    <content.item>
+      <SettingsForm::Font @model={{@model}} @updateFont={{@updateFont}} />
+    </content.item>
+  </switcher.content>
+</UkSwitcher>

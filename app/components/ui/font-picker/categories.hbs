@@ -1,0 +1,13 @@
+{{#each @availableFontCategories as |category|}}
+  <label>
+    <input
+      class="uk-radio"
+      type="radio"
+      name="font_categories"
+      checked={{eq @fontCategory category}}
+      {{on "input" (fn @changeFontCategory category)}}
+    >
+    {{category}}
+  </label>
+  <br>
+{{/each}}

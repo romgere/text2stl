@@ -38,12 +38,6 @@ export default class ApplicationController extends Controller {
   }
 
   @action
-  setInt(props: 'size' | 'height' | 'spacing', value: string) {
-    let v = parseInt(value, 10)
-    this.model.settings[props] = isNaN(v) ? undefined : v
-  }
-
-  @action
   exportSTL() {
 
     if (!this.mesh) {
