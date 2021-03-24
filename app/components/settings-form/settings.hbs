@@ -14,13 +14,17 @@
     <label class="uk-form-label" for="text-size">
       Text size
     </label>
-    <Ui::Input
-      id="text-size"
-      class="uk-input"
-      @type="number"
-      @value={{@model.size}}
-      @onChange={{fn this.setInt 'size'}}
-    />
+    <UkFlex @direction="row">
+      <div class="uk-width-1-3">
+        <Ui::Input
+          id="text-size"
+          class="uk-input"
+          @type="number"
+          @value={{@model.size}}
+          @onChange={{fn this.setInt 'size'}}
+        />
+      </div>
+    </UkFlex>
   </div>
 
   <div class="uk-margin">
