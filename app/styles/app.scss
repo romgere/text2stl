@@ -36,6 +36,16 @@
   }
 }
 
+.es-open, .es-focus {
+  .es-control {
+    border-color: #1e87f0;
+  }
+}
+
+.es-options {
+  margin-top: 0px
+}
+
 .es-control {
 
   padding: 0 10px;
@@ -43,6 +53,7 @@
   border: 1px solid #e5e5e5;
   border-radius: 0;
   color: #666;
+  z-index: 0;
 
   .es-input {
     input {
