@@ -21,6 +21,8 @@ module.exports = function(environment) {
     APP: {
       textMakerDefault: {
         fontName: 'Open Sans',
+        variantName: 'normal',
+        fontSize: '400',
         text: 'Bienvenue !',
         size: 72,
         height: 20,

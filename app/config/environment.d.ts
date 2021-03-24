@@ -12,24 +12,26 @@ declare const config: {
   rootURL: string;
   APP: Record<string, unknown> & {
     textMakerDefault : {
-      fontName: string
-      text: string
-      size: number
-      height: number
-      spacing: number
-    },
+      fontName: string;
+      variantName: string;
+      fontSize: string;
+      text: string;
+      size: number;
+      height: number;
+      spacing: number;
+    };
     threePreviewSettings: {
-      backgroundColor: number,
-      groundColor: number,
-      gridSize: number,
-      gridDivisions: number,
-      gridColor1: number,
-      gridColor2: number,
+      backgroundColor: number;
+      groundColor: number;
+      gridSize: number;
+      gridDivisions: number;
+      gridColor1: number;
+      gridColor2: number;
       meshParameters: {
-        color: number,
-        emissive: number | undefined
-      }
-    },
-    googleFontApiKey: string
+        color: number;
+        emissive: number | undefined;
+      };
+    };
+    googleFontApiKey: string;
   };
 }

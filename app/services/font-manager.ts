@@ -23,13 +23,14 @@ export default class FontManagerService extends Service {
 
     let url = face.url.ttf!.replace('http:', ':')
 
-    if (!this.fontCache[fontName]) {
+    let cacheName = `${fontName}-${variantName}-${fontSize}`
+    if (!this.fontCache[cacheName]) {
       let res = await fetch(url)
       let fontData = await res.arrayBuffer()
-      this.fontCache[fontName] = opentype.parse(fontData)
+      this.fontCache[cacheName] = opentype.parse(fontData)
     }
 
-    return this.fontCache[fontName]
+    return this.fontCache[cacheName]
   }
 }
 

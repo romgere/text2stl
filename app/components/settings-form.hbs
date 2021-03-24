@@ -15,7 +15,10 @@
       <SettingsForm::Settings @model={{@model}} />
     </content.item>
     <content.item>
-      <SettingsForm::Font @model={{@model}} @updateFont={{@updateFont}} />
+      <SettingsForm::Font
+        @model={{@model}}
+        @onFontChange={{@onFontChange}}
+      />
     </content.item>
   </switcher.content>
 </UkSwitcher>

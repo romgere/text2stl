@@ -5996,6 +5996,14 @@ ember-router-generator@^2.0.0:
     "@babel/traverse" "^7.4.5"
     recast "^0.18.1"
 
+ember-select@^0.8.2:
+  version "0.8.2"
+  resolved "https://registry.yarnpkg.com/ember-select/-/ember-select-0.8.2.tgz#6823229cc42d4b1804f9de4b05e22e58fc705ccc"
+  integrity sha512-n2qse2+jAAE+vJ68ayLCYY1QoSMPWYlN4lj5UJI42B5Sj35RjDTDRRMAQKYdVs1dWgAhlB+hLRH2zhNNKAWN2w==
+  dependencies:
+    ember-cli-babel "^7.22.1"
+    ember-cli-htmlbars "^5.3.1"
+
 ember-source-channel-url@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/ember-source-channel-url/-/ember-source-channel-url-3.0.0.tgz#bcd5be72c63fa0b8c390b3121783b462063e2a1b"

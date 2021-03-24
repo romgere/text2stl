@@ -2,6 +2,7 @@
 
 .font-picker__container {
   box-shadow: none !important;
+  width: 100% !important;
   color: #666;
   border: 1px solid #e5e5e5;
 
@@ -25,6 +26,44 @@
       margin-top: 1px;
       margin-left: -1px;
       width: calc(100% + 2px);
+    }
+  }
+}
+
+.es-control--no-clear {
+  .es-clear-zone {
+    display: none;
+  }
+}
+
+.es-control {
+
+  padding: 0 10px;
+  height: 40px !important;
+  border: 1px solid #e5e5e5;
+  border-radius: 0;
+  color: #666;
+
+  .es-input {
+    input {
+      color: #666;
+      height: 36px;
+    }
+  }
+
+  .es-arrow-zone {
+    width: 12px;
+
+    .es-arrow {
+      display: block;
+      width: 0;
+      height: 0;
+      margin: 4px 2px 0 2px;
+      border-top: 6px solid #666;
+      border-right: 5px solid transparent;
+      border-left: 5px solid transparent;
+      transition: transform 0.3s;
+      content: "";
     }
   }
 }

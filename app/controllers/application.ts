@@ -28,12 +28,16 @@ export default class ApplicationController extends Controller {
   }
 
   get currentFont() {
-    return this.fontManager.fetchFont(this.model.settings.fontName)
+    let { settings } = this.model
+    return this.fontManager.fetchFont(
+      settings.fontName,
+      settings.variantName,
+      settings.fontSize
+    )
   }
 
   @action
-  async updateFont(fontName: FontName) {
-    this.model.settings.fontName = fontName
+  async onFontChange() {
     this.model.settings.font = await this.currentFont
   }
 

@@ -1,8 +1,13 @@
-<Ui::FontPicker @value={{@model.fontName}} @onChange={{fn @updateFont}} as |picker|>
+<Ui::FontPicker
+  @fontName={{@model.fontName}}
+  @variantName={{@model.variantName}}
+  @fontSize={{@model.fontSize}}
+  @onFontNameChange={{this.onFontNameChange}}
+  @onVariantNameChange={{this.onVariantNameChange}}
+  @onFontSizeChange={{this.onFontSizeChange}}
+as |picker|>
   
-  <label class="uk-form-label" for={{picker.fontPickerID}}>Font</label>
-  <br>
-  <picker.select />
+
 
   <div class="uk-margin">
     <label class="uk-form-label" for="font_categories">Font category</label>
@@ -11,6 +16,20 @@
     </div>
   </div>
 
-  ...Font variant etc ...
+
+  <label class="uk-form-label" for={{picker.fontPickerID}}>Font name</label>
+  <br>
+  <picker.fontNameSelect />
+
+  <div class="uk-margin">
+    <label class="uk-form-label">Font variant</label>
+    <picker.variantNameSelect class="es-control--no-clear" />
+  </div>
+
+
+  <div class="uk-margin">
+    <label class="uk-form-label">Font size</label>
+    <picker.fontSizeSelect class="es-control--no-clear" />
+  </div>
   
 </Ui::FontPicker>

@@ -2,7 +2,10 @@
 <div class="uk-container uk-padding">
   <div uk-grid="" class="uk-grid-divider uk-grid">
     <div class="uk-width-1-1 uk-width-1-4@m uk-first-column">
-      <SettingsForm @model={{this.model.settings}}  @updateFont={{this.updateFont}} />
+      <SettingsForm
+        @model={{this.model.settings}}
+        @onFontChange={{this.onFontChange}}
+      />
     
       <hr>
 

@@ -1,9 +1,9 @@
 {{yield (hash 
- select=(component "ui/font-picker/select" 
+ fontNameSelect=(component "ui/font-picker/select" 
   fontPickerID=this.fontPickerID
-  value=@value
+  value=@fontName
   sort=@sort
-  onChange=@onChange
+  onChange=this.onFontNameChange
   fontCategory=this.fontCategory
  )
 
@@ -14,4 +14,20 @@
   fontCategory=this.fontCategory
   changeFontCategory=(fn (mut this.fontCategory))
  )
+
+  variantNameSelect=(component "x-select"
+    model=this.fontVariantNames
+    value=@variantName
+    onSelect=this.onVariantNameChange
+    required=true
+  )
+
+  fontSizeSelect=(component "x-select"
+    model=this.fontSizes
+    value=@fontSize
+    onSelect=this.onFontSizeChange
+    valueKey="name"
+    labelKey="label"
+    required=true
+  )
 )}}
