@@ -7,7 +7,7 @@ import STLExporterService from 'text2stl/services/stl-exporter'
 
 import type { FontName } from 'text2stl/services/font-manager'
 import type { Mesh } from 'three'
-import type { ApplicationRouteModel } from 'text2stl/routes/application'
+import type ApplicationRoute from 'text2stl/routes/application'
 
 export default class ApplicationController extends Controller {
 
@@ -17,7 +17,7 @@ export default class ApplicationController extends Controller {
 
   @service declare stlExporter: STLExporterService
 
-  declare model: ApplicationRouteModel
+  declare model: RouteModel<ApplicationRoute>
 
   get mesh(): Mesh {
     return this.textMaker.generateMesh(this.model.settings)
