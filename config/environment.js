@@ -42,7 +42,9 @@ module.exports = function(environment) {
       },
 
       // TODO: use a prod key with restriction
-      googleFontApiKey: 'AIzaSyACwlQzJowWi7b58J0zglNQbKNXCx-DXFY'
+      googleFontApiKey: 'AIzaSyACwlQzJowWi7b58J0zglNQbKNXCx-DXFY',
+
+      availableLanguages: ['en-us', 'fr-fr']
     }
   }
 

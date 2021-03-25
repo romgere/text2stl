@@ -1,4 +1,8 @@
 app_name: Text2STL
+languages:
+  fr-fr: Français
+  en-us: English
+language: Language
 mm_unit: mm
 settings_form:
   tabs:

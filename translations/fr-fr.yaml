@@ -1,0 +1,23 @@
+app_name: Text2STL
+language: Langue
+mm_unit: mm
+settings_form:
+  tabs:
+    settings: Réglages
+    font: Police
+export_stl: Exporter STL
+footer:
+  made_by: Créer avec ♥ par {author} avec {ember} & {three}
+  github: Contribuez ou faite un fork sur GitHub
+font_picker:
+  category: Category de police
+  name: Nom de police
+  variant: Variante de police
+  size: Taill de police
+text_settings:
+  text: Texte
+  size: Taille du texte
+  height: Hauteur du texte
+  kerning: Espacement du texte
+three_preview:
+  size: "Taille d'impression : {x} x {y} x {z} mm"

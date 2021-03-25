@@ -1,0 +1,12 @@
+<div ...attributes class="uk-button-group" data-test-language-switcher>
+  {{#each this.availableLanguages as |language|}}
+    <button
+      {{on "click" (fn this.setLocale language)}}
+      data-test-language-button={{language}}
+      class="uk-button uk-button-small {{if (eq language this.intl.primaryLocale) "uk-button-secondary" "uk-button-default"}}"
+      type="button"
+    >
+      {{t (concat "languages." language)}}
+    </button>
+  {{/each}}
+</div>

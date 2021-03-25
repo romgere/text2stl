@@ -9,8 +9,6 @@
         @model={{this.model.settings}}
         @onFontChange={{this.onFontChange}}
       />
-    
-      <hr>
        
       <DeferredContent @promise={{this.currentFont}} as |p|>
         <UkButton
@@ -23,7 +21,13 @@
         >
           {{t "export_stl"}}
         </UkButton>
-      </DeferredContent>         
+      </DeferredContent>     
+
+      <hr>
+      <div class="uk-text-center">
+        {{t "language"}} :
+        <LangSwitcher class="uk-margin-small-top" />
+      </div>
     </div>
     <div class="uk-width-1-1 uk-width-3-4@m">
       <ThreePreview @mesh={{this.mesh}} as |preview|>

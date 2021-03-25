@@ -33,5 +33,6 @@ declare const config: {
       };
     };
     googleFontApiKey: string;
+    availableLanguages: string[];
   };
 }
