@@ -1,26 +1,26 @@
-import { module, test } from 'qunit';
-import { setupRenderingTest } from 'ember-qunit';
-import { render } from '@ember/test-helpers';
-import hbs from 'htmlbars-inline-precompile';
+import { module, test } from 'qunit'
+import { setupRenderingTest } from 'ember-qunit'
+import { render } from '@ember/test-helpers'
+import hbs from 'htmlbars-inline-precompile'
 
 module('Integration | Component | ui/font-picker/select', function(hooks) {
-  setupRenderingTest(hooks);
+  setupRenderingTest(hooks)
 
   test('it renders', async function(assert) {
     // Set any properties with this.set('myProperty', 'value');
     // Handle any actions with this.set('myAction', function(val) { ... });
 
-    await render(hbs`{{ui/font-picker/select}}`);
+    await render(hbs`{{ui/font-picker/select}}`)
 
-    assert.equal(this.element.textContent?.trim(), '');
+    assert.equal(this.element.textContent?.trim(), '')
 
     // Template block usage:
     await render(hbs`
       {{#ui/font-picker/select}}
         template block text
       {{/ui/font-picker/select}}
-    `);
+    `)
 
-    assert.equal(this.element.textContent?.trim(), 'template block text');
-  });
-});
+    assert.equal(this.element.textContent?.trim(), 'template block text')
+  })
+})
