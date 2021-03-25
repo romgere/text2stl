@@ -8,11 +8,11 @@ const {
   APP: { threePreviewSettings }
 } = config
 
-interface ThreePreviewArgs {
+interface TreePreviewRendererArgs {
   mesh?: THREE.Mesh;
 }
 
-export default class ThreePreview extends Component<ThreePreviewArgs> {
+export default class TreePreviewRenderer extends Component<TreePreviewRendererArgs> {
 
   active: boolean = false
 
@@ -30,7 +30,7 @@ export default class ThreePreview extends Component<ThreePreviewArgs> {
 
   rendererSize: { width: number, height: number } = { width: 0, height: 0 }
 
-  constructor(owner: unknown, args: ThreePreviewArgs) {
+  constructor(owner: unknown, args: TreePreviewRendererArgs) {
     super(owner, args)
 
     this.scene = new THREE.Scene()

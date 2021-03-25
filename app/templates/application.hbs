@@ -2,36 +2,44 @@
 <div class="uk-container uk-padding">
   <div uk-grid="" class="uk-grid-divider uk-grid">
     <div class="uk-width-1-1 uk-width-1-4@m uk-first-column">
+
+      <h1 class="uk-text-primary uk-text-center">{{t "app_name"}}</h1>
+
       <SettingsForm
         @model={{this.model.settings}}
         @onFontChange={{this.onFontChange}}
       />
     
       <hr>
-
-      <UkButton
-        @color="primary"  
-        @fill={{true}}
-        @disabled={{this.exportDisabled}}
-        @on-click={{fn this.exportSTL}}
-      >
-        Export STL
-      </UkButton>            
+       
+      <DeferredContent @promise={{this.currentFont}} as |p|>
+        <UkButton
+          @color="primary"  
+          @fill={{true}}
+          @disabled={{or this.exportDisabled p.isPending}}
+          @loading={{p.isPending}}
+          @on-click={{fn this.exportSTL}}
+          class="uk-align-center"
+        >
+          Export STL
+        </UkButton>
+      </DeferredContent>         
     </div>
     <div class="uk-width-1-1 uk-width-3-4@m">
-      {{this.model.settings.fontName}} - {{this.model.settings.text}} - {{this.model.settings.size}} - {{this.model.settings.height}} - {{this.model.settings.spacing}}
-      <hr>
-      <DeferredContent @promise={{this.currentFont}} as |p|>
-        <p.pending>
-          LOADING...
-        </p.pending>
-      </DeferredContent>
-      <ThreePreview @mesh={{this.mesh}} />
-    </div>
-  </div>
-  <div class="uk-text-center">
-    <p>
-      BOTTOM
-    </p>
+      <ThreePreview @mesh={{this.mesh}} as |preview|>
+        <UkCard class="uk-card-hover uk-card-small" as |card|>
+          <div class="uk-card-media-top">
+            <preview.renderer />
+          </div>
+          <card.footer>
+            <preview.size class="uk-text-small uk-text-muted uk-text-center"/>
+          </card.footer>
+        </UkCard>
+      </ThreePreview>
+
+      <div class="uk-margin uk-text-small uk-text-muted uk-text-center">
+        Made with ♥ By <a href="https://github.com/romgere" target="_blank" rel="noreferrer">Romgere</a> with <a href="https://emberjs.com/" target="_blank" rel="noreferrer">Ember.js</a> & <a href="https://threejs.org/"  target="_blank" rel="noreferrer">three.js</a> | <a href="https://github.com/romgere/text2stl" target="_blank" rel="noreferrer">Contribute or fork me on GitHub</a>
+      </div>
+    </div>    
   </div>
 </div>
