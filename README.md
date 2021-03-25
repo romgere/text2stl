@@ -9,11 +9,13 @@ Inspired from : https://github.com/mo22/textstl
 - [x] center 3D render
 - [x] move mesh rendering in textMaker service
 - [x] Add model size information
-- [ ] better UI
+- [x] better UI
 - [ ] handle resize
-- [ ] better font management (limit list, allow filtering, live preview)
+- [ ] QP to save current settings ?
+- [x] better font management (limit list, allow filtering, live preview)
 - [ ] add other type of shape (with support / negative text / badge)
 - [ ] fr/en translation
+- [ ] Language switcher
 - [ ] Add somes options
 - [ ] multi-line text ?
 - [ ] save/load text (via URL encoded / local storage ?)

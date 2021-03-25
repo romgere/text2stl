@@ -21,7 +21,7 @@
           @on-click={{fn this.exportSTL}}
           class="uk-align-center"
         >
-          Export STL
+          {{t "export_stl"}}
         </UkButton>
       </DeferredContent>         
     </div>
@@ -38,7 +38,16 @@
       </ThreePreview>
 
       <div class="uk-margin uk-text-small uk-text-muted uk-text-center">
-        Made with ♥ By <a href="https://github.com/romgere" target="_blank" rel="noreferrer">Romgere</a> with <a href="https://emberjs.com/" target="_blank" rel="noreferrer">Ember.js</a> & <a href="https://threejs.org/"  target="_blank" rel="noreferrer">three.js</a> | <a href="https://github.com/romgere/text2stl" target="_blank" rel="noreferrer">Contribute or fork me on GitHub</a>
+        {{t "footer.made_by"
+          author=this.authorLink
+          ember=this.emberLink
+          three=this.threeLink
+          htmlSafe=true
+        }}
+        |
+        <a href="https://github.com/romgere/text2stl" target="_blank" rel="noopener noreferrer">
+          {{t "footer.github"}}
+        </a>
       </div>
     </div>    
   </div>

@@ -1,1 +1,22 @@
 app_name: Text2STL
+mm_unit: mm
+settings_form:
+  tabs:
+    settings: Settings
+    font: Font
+export_stl: Export STL
+footer:
+  made_by: Made with ♥ By {author} with {ember} & {three}
+  github: Contribute or fork me on GitHub
+font_picker:
+  category: Font category
+  name: Font name
+  variant: Font variant
+  size: Font size
+text_settings:
+  text: Text
+  size: Text size
+  height: Text height
+  kerning: Text kerning
+three_preview:
+  size: "Print size : {x} x {y} x {z} mm"

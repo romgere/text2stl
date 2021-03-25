@@ -10,25 +10,25 @@ as |picker|>
 
 
   <div class="uk-margin">
-    <label class="uk-form-label" for="font_categories">Font category</label>
+    <label class="uk-form-label" for="font_categories">{{t "font_picker.category"}}</label>
     <div class="uk-form-controls">
       <picker.categories />    
     </div>
   </div>
 
 
-  <label class="uk-form-label" for={{picker.fontPickerID}}>Font name</label>
+  <label class="uk-form-label" for={{picker.fontPickerID}}>{{t "font_picker.name"}}</label>
   <br>
   <picker.fontNameSelect />
 
   <div class="uk-margin">
-    <label class="uk-form-label">Font variant</label>
+    <label class="uk-form-label">{{t "font_picker.variant"}}</label>
     <picker.variantNameSelect class="es-control--no-clear" />
   </div>
 
 
   <div class="uk-margin">
-    <label class="uk-form-label">Font size</label>
+    <label class="uk-form-label">{{t "font_picker.size"}}</label>
     <picker.fontSizeSelect class="es-control--no-clear" />
   </div>
   
