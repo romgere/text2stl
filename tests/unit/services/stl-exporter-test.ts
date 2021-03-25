@@ -4,10 +4,14 @@ import { setupTest } from 'ember-qunit'
 module('Unit | Service | stl-exporter', function(hooks) {
   setupTest(hooks)
 
-  // Replace this with your real tests.
-  test('it exists', function(assert) {
+  test('meshToBlob works', function(assert) {
     let service = this.owner.lookup('service:stl-exporter')
-    assert.ok(service)
+  })
+
+  test('downloadBlob works', function(assert) {
+  })
+
+  test('downloadMeshAsSTL works', function(assert) {
   })
 })
 

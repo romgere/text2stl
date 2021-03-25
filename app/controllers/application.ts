@@ -54,12 +54,13 @@ export default class ApplicationController extends Controller {
 
   @action
   exportSTL() {
+    let { mesh } = this
 
-    if (!this.mesh) {
+    if (!mesh) {
       return
     }
 
-    this.stlExporter.downloadMeshAsSTL(this.mesh)
+    this.stlExporter.downloadMeshAsSTL(mesh)
   }
 }
 

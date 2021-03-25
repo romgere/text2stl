@@ -4,10 +4,10 @@ import { setupTest } from 'ember-qunit'
 module('Unit | Service | text-maker', function(hooks) {
   setupTest(hooks)
 
-  // Replace this with your real tests.
-  test('it exists', function(assert) {
+  test('it generate mesh', function(assert) {
     let service = this.owner.lookup('service:text-maker')
-    assert.ok(service)
+    //service.generateMesh
+    // use fixtures ?
   })
 })
 

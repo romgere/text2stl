@@ -8,7 +8,7 @@ export default class STLExporterService extends Service {
   exporter: STLExporter
 
   constructor() {
-    super(...arguments)
+    super()
     this.exporter = new STLExporter()
   }
 

@@ -13,8 +13,13 @@ export default class ApplicationRoute extends Route {
   @service declare fontManager: FontManagerService
 
   async model() {
+
     // Fetch default font
-    let defaultFont = await this.fontManager.fetchFont(textMakerDefault.fontName)
+    let defaultFont = await this.fontManager.fetchFont(
+      textMakerDefault.fontName,
+      textMakerDefault.variantName,
+      textMakerDefault.fontSize
+    )
 
     return hash({
       fonts: this.fontManager.fonts,
