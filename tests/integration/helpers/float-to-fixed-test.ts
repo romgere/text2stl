@@ -12,6 +12,6 @@ module('Integration | Helper | float-to-fixed', function(hooks) {
 
     await render(hbs`{{float-to-fixed inputValue}}`)
 
-    assert.equal(this.element.textContent.trim(), '1234')
+    assert.equal(this.element.textContent?.trim(), '1234')
   })
 })

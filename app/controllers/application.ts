@@ -5,7 +5,6 @@ import FontManagerService from 'text2stl/services/font-manager'
 import TextMakerService from 'text2stl/services/text-maker'
 import STLExporterService from 'text2stl/services/stl-exporter'
 
-import type { FontName } from 'text2stl/services/font-manager'
 import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/application'
 

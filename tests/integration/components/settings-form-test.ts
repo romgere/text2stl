@@ -12,7 +12,7 @@ module('Integration | Component | settings-form', function(hooks) {
 
     await render(hbs`{{settings-form}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.equal(this.element.textContent?.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | settings-form', function(hooks) {
       {{/settings-form}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent?.trim(), 'template block text');
   });
 });

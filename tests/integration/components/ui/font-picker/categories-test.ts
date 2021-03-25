@@ -12,7 +12,7 @@ module('Integration | Component | ui/font-picker/categories', function(hooks) {
 
     await render(hbs`{{ui/font-picker/categories}}`);
 
-    assert.equal(this.element.textContent.trim(), '');
+    assert.equal(this.element.textContent?.trim(), '');
 
     // Template block usage:
     await render(hbs`
@@ -21,6 +21,6 @@ module('Integration | Component | ui/font-picker/categories', function(hooks) {
       {{/ui/font-picker/categories}}
     `);
 
-    assert.equal(this.element.textContent.trim(), 'template block text');
+    assert.equal(this.element.textContent?.trim(), 'template block text');
   });
 });
