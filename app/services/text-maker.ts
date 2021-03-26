@@ -96,9 +96,9 @@ export default class TextMakerService extends Service {
     let { font } = params
 
     let text = params.text || textMakerDefault.text
-    let size = params.size ?? textMakerDefault.size
-    let height = params.height ?? textMakerDefault.height
-    let spacing = params.spacing ?? textMakerDefault.spacing
+    let size = params.size ? params.size : textMakerDefault.size
+    let height = params.height ? params.height : textMakerDefault.height
+    let spacing = params.spacing ? params.spacing : textMakerDefault.spacing
 
     let geometries: THREE.ExtrudeGeometry[] = []
     let dx = 0
