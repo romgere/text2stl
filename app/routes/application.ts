@@ -15,11 +15,13 @@ export default class ApplicationRoute extends Route {
   async model() {
 
     // Fetch default font
+    debugger
     let defaultFont = await this.fontManager.fetchFont(
       textMakerDefault.fontName,
       textMakerDefault.variantName,
       textMakerDefault.fontSize
     )
+    debugger
 
     return hash({
       fonts: this.fontManager.fonts,
