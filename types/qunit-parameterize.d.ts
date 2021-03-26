@@ -11,4 +11,4 @@ declare module 'qunit-parameterize' {
   const cases: QunitParameters
 
   export default cases
-} 
+}

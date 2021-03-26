@@ -37,6 +37,10 @@ You will need the following things properly installed on your computer.
 * `cd text2stl`
 * `npm install`
 
+## Contribute
+
+To write...
+
 ## Running / Development
 
 * `ember serve`
@@ -52,6 +56,18 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember test`
 * `ember test --server`
 
+#### Mesh snapshots
+
+The [text-maker](https://github.com/romgere/text2stl/blob/master/app/services/text-maker.ts) service's unit tests use mesh snapshot to test the service works as expected.
+
+If the service is updated (aka. when the generated mesh changes) the test will break.
+
+To fix the tests, new mesh snapshots has to be generated. To generate the new snapshot use the command : 
+
+`yarn generate:snapshot`
+
+Warning: Don't run this command to fix tests if no modifications was made on `text-maker` service (or `three` deps update) or if you don't know why you run it (generating new snapshots will generate new UUID for mesh & create new useless file diffs)
+
 ### Linting
 
 * `npm run lint:hbs`
@@ -64,8 +80,9 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember build --environment production` (production)
 
 
-## 
+## Usefull links
 
+* [three.js](https://threejs.org/)
 * [ember.js](https://emberjs.com/)
 * [ember-cli](https://ember-cli.com/)
 * Development Browser Extensions
