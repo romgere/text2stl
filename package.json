@@ -1,11 +1,15 @@
 {
   "name": "text2stl",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
-  "description": "Small description for text2stl goes here",
-  "repository": "",
+  "description": "3D text generator for 3D printing",
+  "homepage" : "https://text2stl.mestres.fr/",
+  "repository": "https://github.com/romgere/text2stl",
   "license": "MIT",
-  "author": "",
+  "author": {
+    "name" : "Jérôme Mestres",
+    "url" : "https://github.com/romgere"
+  },
   "directories": {
     "doc": "doc",
     "test": "tests"
