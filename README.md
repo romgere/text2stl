@@ -31,6 +31,14 @@ You will need the following things properly installed on your computer.
 * [Ember CLI](https://ember-cli.com/)
 * [Google Chrome](https://google.com/chrome/)
 
+### Google font api key
+
+To be able to run the app, you'll need to generate a [Google Fonts API key](https://developers.google.com/fonts/docs/developer_api#APIKey).
+
+Then set the key as environment variable before running the `ember serve` command :
+* `export GOOGLE_FONT_API_KEY="your-key-here"`
+
+
 ## Installation
 
 * `git clone <repository-url>` this repository

@@ -41,8 +41,7 @@ module.exports = function(environment) {
         }
       },
 
-      // TODO: use a prod key with restriction
-      googleFontApiKey: 'AIzaSyACwlQzJowWi7b58J0zglNQbKNXCx-DXFY',
+      googleFontApiKey: process.env.GOOGLE_FONT_API_KEY,
 
       availableLanguages: ['en-us', 'fr-fr']
     }
