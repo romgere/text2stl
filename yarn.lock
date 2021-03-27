@@ -1255,6 +1255,37 @@
     resolve "^1.8.1"
     semver "^7.3.2"
 
+"@enable3d/ammo-physics@^0.22.0-dev.1":
+  version "0.22.0-dev.2"
+  resolved "https://registry.yarnpkg.com/@enable3d/ammo-physics/-/ammo-physics-0.22.0-dev.2.tgz#fce50977f51508cb10a7785168c14e63b2b0b55e"
+  integrity sha512-VgjLFHcm9gbgLt+s/503AXlTJb7Kc7RdFlAprRh49rYigWZOgJB0BsVKqRlOvYwcB74lED25/zrtnB0JCdneUQ==
+  dependencies:
+    "@enable3d/common" "^0.22.0-dev.2"
+    "@enable3d/three-wrapper" "^0.22.0-dev.2"
+    "@yandeu/events" "0.0.5"
+
+"@enable3d/common@^0.22.0-dev.1", "@enable3d/common@^0.22.0-dev.2":
+  version "0.22.0-dev.2"
+  resolved "https://registry.yarnpkg.com/@enable3d/common/-/common-0.22.0-dev.2.tgz#8c4a05cfd65f835e9274691f192fb535e17d354f"
+  integrity sha512-WBqJTJmxFdsVNbn7SK1U/Qy8Ck2m+Xw1NMT2zHrO7tHDWT4W+aZwouxlzmzCMxV1O4WamPf+maH4aRHAvk6xmQ==
+  dependencies:
+    "@enable3d/three-wrapper" "^0.22.0-dev.2"
+    "@yandeu/events" "0.0.5"
+
+"@enable3d/three-graphics@0.22.0-dev.1":
+  version "0.22.0-dev.1"
+  resolved "https://registry.yarnpkg.com/@enable3d/three-graphics/-/three-graphics-0.22.0-dev.1.tgz#6db33e7807d711c550114b5c012e68506ad4bd9d"
+  integrity sha512-OuG/ce3LccYxV8tA1Dkuoetni30QYpC7uytNyRw/PObcpWbdmblCKXXhcCWhIdwZjyAi1XGE9DVcagPhoU7sjw==
+  dependencies:
+    "@enable3d/ammo-physics" "^0.22.0-dev.1"
+    "@enable3d/common" "^0.22.0-dev.1"
+    "@enable3d/three-wrapper" "^0.22.0-dev.1"
+
+"@enable3d/three-wrapper@^0.22.0-dev.1", "@enable3d/three-wrapper@^0.22.0-dev.2":
+  version "0.22.0-dev.2"
+  resolved "https://registry.yarnpkg.com/@enable3d/three-wrapper/-/three-wrapper-0.22.0-dev.2.tgz#f2aa73ef25afd3c2f498d4fa44258d327ec9f226"
+  integrity sha512-kS4M3sY8rY0BLNajp17H3aUqdk1Wde9e0mROzcMOnh0wP9/IkRLrl0ZFlgqNlTBoAH6U2e+5TwlNG4tD/PhtiA==
+
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.0.tgz#99cc0a0584d72f1df38b900fb062ba995f395547"
@@ -2140,6 +2171,11 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+
+"@yandeu/events@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@yandeu/events/-/events-0.0.5.tgz#f8fb41cf4222186eca6a0a5d36f5393805484f19"
+  integrity sha512-TUkghSGu0ThcEyAP50WHU/vdQkpt9EZyotjZzG8KirR+VI5o7Rp5wabcGru62JNy+awMR8Voy+kFzhNkC/1E6A==
 
 abab@^2.0.0, abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"

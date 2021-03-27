@@ -1,6 +1,7 @@
 import Service from '@ember/service'
 import * as opentype from 'opentype.js'
 import * as THREE from 'three'
+import { CSG } from '@enable3d/three-graphics/jsm/csg'
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
 import config from 'text2stl/config/environment'
 const {
@@ -145,10 +146,10 @@ export default class TextMakerService extends Service {
   }
 
   generateMesh(params: TextMakerParameters): THREE.Mesh {
-    let type = params.type || ModelType.VerticalTextWithSupport // ModelType.TextOnly
+    let type = params.type || ModelType.TextOnly
 
-    let textGeometry = this.stringToGeometry(params).toNonIndexed()
-    // Generate mesh in order to get size ?
+    let textGeometry = this.stringToGeometry(params)
+    // Generate mesh in order to get size.
     // TODO: refactor if size can be calculate from geometry.
     let textMesh = new THREE.Mesh(
       textGeometry,
@@ -191,41 +192,77 @@ export default class TextMakerService extends Service {
         supportHeight / 2
       ))
 
+      // Center text in support
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
         -(size.x / 2) - min.x,
         -(size.y / 2) - min.y,
         supportHeight
       ))
 
+      // Merge
       finalGeometry = BufferGeometryUtils.mergeBufferGeometries([
         supportGeometry.toNonIndexed(),
         textGeometry
       ], true)
 
     } else if (type === ModelType.VerticalTextWithSupport) {
+      // Generate support
       let supportGeometry = new THREE.BoxGeometry(
         size.x + supportPadding * 2,
         size.z + supportPadding * 2,
         supportHeight
       )
-      textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
-        Math.PI / 2
-      ))
       supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
         0,
         0,
         supportHeight / 2
       ))
+      // Rotate & move text
+      textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
+        Math.PI / 2
+      ))
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
         -(size.x / 2) - min.x,
-        size.z / 2, //-(size.y / 2) - min.y,
+        size.z / 2,
         supportHeight
       ))
-
+      // Merge
       finalGeometry = BufferGeometryUtils.mergeBufferGeometries([
         supportGeometry.toNonIndexed(),
         textGeometry
       ], true)
+    } else if (type === ModelType.NegativeText) {
+      // Ensure support height is equal or greater than text height
+      if (supportHeight < size.z) {
+        supportHeight += size.z - supportHeight
+      }
+
+      // Generate support
+      let supportGeometry = new THREE.BoxGeometry(
+        size.x + supportPadding * 2,
+        size.y + supportPadding * 2,
+        supportHeight
+      )
+      supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+        0,
+        0,
+        supportHeight / 2
+      ))
+      // Move text
+      textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+        -(size.x / 2) - min.x,
+        -(size.y / 2) - min.y,
+        supportHeight - size.z
+      ))
+      // Substract text to support
+      let bspSupport = CSG.subtract(
+        new THREE.Mesh(
+          supportGeometry,
+          new THREE.MeshNormalMaterial()
+        ),
+        textMesh
+      )
+      finalGeometry = bspSupport.geometry
     }
 
     return new THREE.Mesh(
