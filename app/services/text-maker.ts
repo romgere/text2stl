@@ -145,7 +145,7 @@ export default class TextMakerService extends Service {
   }
 
   generateMesh(params: TextMakerParameters): THREE.Mesh {
-    let type = params.type || ModelType.TextWithSupport // ModelType.TextOnly
+    let type = params.type || ModelType.VerticalTextWithSupport // ModelType.TextOnly
 
     let textGeometry = this.stringToGeometry(params).toNonIndexed()
     // Generate mesh in order to get size ?
@@ -202,6 +202,30 @@ export default class TextMakerService extends Service {
         textGeometry
       ], true)
 
+    } else if (type === ModelType.VerticalTextWithSupport) {
+      let supportGeometry = new THREE.BoxGeometry(
+        size.x + supportPadding * 2,
+        size.z + supportPadding * 2,
+        supportHeight
+      )
+      textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
+        Math.PI / 2
+      ))
+      supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+        0,
+        0,
+        supportHeight / 2
+      ))
+      textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+        -(size.x / 2) - min.x,
+        size.z / 2, //-(size.y / 2) - min.y,
+        supportHeight
+      ))
+
+      finalGeometry = BufferGeometryUtils.mergeBufferGeometries([
+        supportGeometry.toNonIndexed(),
+        textGeometry
+      ], true)
     }
 
     return new THREE.Mesh(
