@@ -19,6 +19,9 @@ declare const config: {
       size: number;
       height: number;
       spacing: number;
+      type: number;
+      supportHeight: number;
+      supportPadding: number;
     };
     threePreviewSettings: {
       backgroundColor: number;

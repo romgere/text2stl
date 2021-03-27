@@ -26,7 +26,10 @@ module.exports = function(environment) {
         text: 'Bienvenue !',
         size: 72,
         height: 20,
-        spacing: 10
+        spacing: 10,
+        type: 1,
+        supportHeight: 20,
+        supportPadding: 5
       },
 
       threePreviewSettings: {
