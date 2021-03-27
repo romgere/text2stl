@@ -6,6 +6,7 @@ settings_form:
     settings: Réglages
     font: Police
 export_stl: Exporter STL
+stl_counter: "{count} fichiers STL ont été générés"
 footer:
   made_by: Créer avec ♥ par {author} avec {ember} & {three}
   github: Contribuez ou faite un fork sur GitHub

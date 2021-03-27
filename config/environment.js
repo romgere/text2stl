@@ -46,7 +46,14 @@ module.exports = function(environment) {
 
       googleFontApiKey: process.env.GOOGLE_FONT_API_KEY,
 
-      availableLanguages: ['en-us', 'fr-fr']
+      availableLanguages: ['en-us', 'fr-fr'],
+
+      countApi: {
+        namespace: 'text2stl',
+        key: environment === 'development' || environment === 'test'
+          ? 'test_stl'
+          : process.env.COUNTAPI_API_KEY
+      }
     }
   }
 

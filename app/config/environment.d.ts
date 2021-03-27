@@ -38,5 +38,9 @@ declare const config: {
     };
     googleFontApiKey: string;
     availableLanguages: string[];
+    countApi: {
+      namespace: string;
+      key: string;
+    }
   };
 }
