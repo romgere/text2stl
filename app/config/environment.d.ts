@@ -1,4 +1,5 @@
 export default config
+import { ModelType } from 'text2stl/services/text-maker'
 
 /**
  * Type declarations for
@@ -19,7 +20,7 @@ declare const config: {
       size: number;
       height: number;
       spacing: number;
-      type: number;
+      type: ModelType;
       supportHeight: number;
       supportPadding: number;
     };
