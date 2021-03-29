@@ -9,6 +9,7 @@ settings_form:
     settings: Settings
     font: Font
 export_stl: Export STL
+stl_counter: "{count} STL files has been generated"
 footer:
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub

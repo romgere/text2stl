@@ -13,6 +13,9 @@ Inspired from : https://github.com/mo22/textstl
 - [ ] QP to save current settings ?
 - [x] better font management (limit list, allow filtering, live preview)
 - [ ] add other type of shape (with support / negative text / badge)
+- [ ] ref ?
+- [ ] html loader
+- [x] counter of STL generated ?
 - [x] fr/en translation
 - [x] Language switcher
 - [ ] Add somes options

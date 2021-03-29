@@ -21,8 +21,13 @@
         >
           {{t "export_stl"}}
         </UkButton>
-      </DeferredContent>     
+      </DeferredContent>
 
+      {{#if this.counter}}
+        <div class="uk-text-small uk-text-muted uk-text-center">
+          {{t "stl_counter" count=this.counter}}  
+        </div>
+      {{/if}}
       <hr>
       <div class="uk-text-center">
         {{t "language"}} :

@@ -4,6 +4,7 @@ import { inject as service } from '@ember/service'
 import FontManagerService from 'text2stl/services/font-manager'
 import TextMakerService from 'text2stl/services/text-maker'
 import STLExporterService from 'text2stl/services/stl-exporter'
+import CounterService from 'text2stl/services/counter'
 import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/application'
 import { htmlSafe } from '@ember/template'
@@ -17,7 +18,13 @@ export default class ApplicationController extends Controller {
 
   @service declare stlExporter: STLExporterService
 
+  @service('counter') declare counterService: CounterService
+
   declare model: RouteModel<ApplicationRoute>
+
+  get counter() {
+    return this.counterService.counter
+  }
 
   get authorLink() {
     return htmlSafe('<a href="https://github.com/romgere" target="_blank" rel="noopener noreferrer">Romgere</a>')
@@ -62,6 +69,7 @@ export default class ApplicationController extends Controller {
       return
     }
 
+    this.counterService.updateCounter()
     this.stlExporter.downloadMeshAsSTL(mesh)
   }
 }
