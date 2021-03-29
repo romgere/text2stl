@@ -18,9 +18,17 @@ font_picker:
   variant: Font variant
   size: Font size
 text_settings:
+  type: Type of shape
   text: Text
   size: Text size
   height: Text height
   kerning: Text kerning
+  supportHeight: Support height
+  supportPadding: Support spacing
 three_preview:
   size: "Print size : {x} x {y} x {z} mm"
+text_type:
+  1: Text only
+  2: Text with support
+  3: Negative text on support
+  4: Vertical text with support

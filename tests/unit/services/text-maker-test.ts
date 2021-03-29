@@ -1,8 +1,6 @@
 import { module } from 'qunit'
 import { setupTest } from 'ember-qunit'
-import * as opentype from 'opentype.js'
-
-import fonts from 'text2stl/tests/fixtures/fonts'
+import loadFont from 'text2stl/tests/helpers/load-font'
 import meshTests from 'text2stl/tests/fixtures/meshs/tests'
 import meshFixture from 'text2stl/tests/fixtures/meshs/snapshots/index'
 import cases from 'qunit-parameterize'
@@ -33,14 +31,11 @@ module('Unit | Service | text-maker', function(hooks) {
     }))
   ).test('it generate mesh according to snapshots', async function({ settings, snapshot }, assert) {
 
-    let res = await fetch(fonts[settings.font])
-    let fontData = await res.arrayBuffer()
-
     let service = this.owner.lookup('service:text-maker') as TextMakerService
 
     let mesh = service.generateMesh({
       ...settings,
-      font: opentype.parse(fontData)
+      font: await loadFont(settings.font)
     })
 
     assert.equal(

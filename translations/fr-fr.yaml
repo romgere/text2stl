@@ -13,11 +13,19 @@ font_picker:
   category: Category de police
   name: Nom de police
   variant: Variante de police
-  size: Taill de police
+  size: Taille de police
 text_settings:
+  type: Type de forme
   text: Texte
   size: Taille du texte
   height: Hauteur du texte
   kerning: Espacement du texte
+  supportHeight: Hauteur du support
+  supportPadding: Espacement du support
 three_preview:
   size: "Taille d'impression : {x} x {y} x {z} mm"
+text_type:
+  1: Text seul
+  2: Text avec support
+  3: Text negatif sur support
+  4: Text vertical avec support
