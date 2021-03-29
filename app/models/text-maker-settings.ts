@@ -1,4 +1,4 @@
-import { TextMakerParameters } from 'text2stl/services/text-maker'
+import { TextMakerParameters, ModelType } from 'text2stl/services/text-maker'
 import { tracked } from '@glimmer/tracking'
 import config from 'text2stl/config/environment'
 const {
@@ -22,6 +22,9 @@ export default class TextMakerSettings implements TextMakerParameters {
   @tracked size?: number
   @tracked height?: number
   @tracked spacing?: number
+  @tracked type: ModelType
+  @tracked supportHeight?: number
+  @tracked supportPadding?: number
 
   constructor(args: TextMakerParameters & TextMakerAdditionnalSettings) {
     this.font = args.font
@@ -32,5 +35,8 @@ export default class TextMakerSettings implements TextMakerParameters {
     this.size = args.size ?? textMakerDefault.size
     this.height = args.height ?? textMakerDefault.height
     this.spacing = args.spacing ?? textMakerDefault.spacing
+    this.type = args.type ?? textMakerDefault.type
+    this.supportHeight = args.supportHeight ?? textMakerDefault.supportHeight
+    this.supportPadding = args.supportPadding ?? textMakerDefault.supportPadding
   }
 }

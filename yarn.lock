@@ -1255,6 +1255,37 @@
     resolve "^1.8.1"
     semver "^7.3.2"
 
+"@enable3d/ammo-physics@^0.22.0-dev.1":
+  version "0.22.0-dev.2"
+  resolved "https://registry.yarnpkg.com/@enable3d/ammo-physics/-/ammo-physics-0.22.0-dev.2.tgz#fce50977f51508cb10a7785168c14e63b2b0b55e"
+  integrity sha512-VgjLFHcm9gbgLt+s/503AXlTJb7Kc7RdFlAprRh49rYigWZOgJB0BsVKqRlOvYwcB74lED25/zrtnB0JCdneUQ==
+  dependencies:
+    "@enable3d/common" "^0.22.0-dev.2"
+    "@enable3d/three-wrapper" "^0.22.0-dev.2"
+    "@yandeu/events" "0.0.5"
+
+"@enable3d/common@^0.22.0-dev.1", "@enable3d/common@^0.22.0-dev.2":
+  version "0.22.0-dev.2"
+  resolved "https://registry.yarnpkg.com/@enable3d/common/-/common-0.22.0-dev.2.tgz#8c4a05cfd65f835e9274691f192fb535e17d354f"
+  integrity sha512-WBqJTJmxFdsVNbn7SK1U/Qy8Ck2m+Xw1NMT2zHrO7tHDWT4W+aZwouxlzmzCMxV1O4WamPf+maH4aRHAvk6xmQ==
+  dependencies:
+    "@enable3d/three-wrapper" "^0.22.0-dev.2"
+    "@yandeu/events" "0.0.5"
+
+"@enable3d/three-graphics@0.22.0-dev.1":
+  version "0.22.0-dev.1"
+  resolved "https://registry.yarnpkg.com/@enable3d/three-graphics/-/three-graphics-0.22.0-dev.1.tgz#6db33e7807d711c550114b5c012e68506ad4bd9d"
+  integrity sha512-OuG/ce3LccYxV8tA1Dkuoetni30QYpC7uytNyRw/PObcpWbdmblCKXXhcCWhIdwZjyAi1XGE9DVcagPhoU7sjw==
+  dependencies:
+    "@enable3d/ammo-physics" "^0.22.0-dev.1"
+    "@enable3d/common" "^0.22.0-dev.1"
+    "@enable3d/three-wrapper" "^0.22.0-dev.1"
+
+"@enable3d/three-wrapper@^0.22.0-dev.1", "@enable3d/three-wrapper@^0.22.0-dev.2":
+  version "0.22.0-dev.2"
+  resolved "https://registry.yarnpkg.com/@enable3d/three-wrapper/-/three-wrapper-0.22.0-dev.2.tgz#f2aa73ef25afd3c2f498d4fa44258d327ec9f226"
+  integrity sha512-kS4M3sY8rY0BLNajp17H3aUqdk1Wde9e0mROzcMOnh0wP9/IkRLrl0ZFlgqNlTBoAH6U2e+5TwlNG4tD/PhtiA==
+
 "@eslint/eslintrc@^0.4.0":
   version "0.4.0"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.0.tgz#99cc0a0584d72f1df38b900fb062ba995f395547"
@@ -1399,7 +1430,7 @@
     "@handlebars/parser" "^1.1.0"
     simple-html-tokenizer "^0.5.10"
 
-"@glimmer/tracking@^1.0.2", "@glimmer/tracking@^1.0.3":
+"@glimmer/tracking@^1.0.0", "@glimmer/tracking@^1.0.2", "@glimmer/tracking@^1.0.3":
   version "1.0.4"
   resolved "https://registry.yarnpkg.com/@glimmer/tracking/-/tracking-1.0.4.tgz#f1bc1412fe5e2236d0f8d502994a8f88af1bbb21"
   integrity sha512-F+oT8I55ba2puSGIzInmVrv/8QA2PcK1VD+GWgFMhF6WC97D+uZX7BFg+a3s/2N4FVBq5KHE+QxZzgazM151Yw==
@@ -2140,6 +2171,11 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
+
+"@yandeu/events@0.0.5":
+  version "0.0.5"
+  resolved "https://registry.yarnpkg.com/@yandeu/events/-/events-0.0.5.tgz#f8fb41cf4222186eca6a0a5d36f5393805484f19"
+  integrity sha512-TUkghSGu0ThcEyAP50WHU/vdQkpt9EZyotjZzG8KirR+VI5o7Rp5wabcGru62JNy+awMR8Voy+kFzhNkC/1E6A==
 
 abab@^2.0.0, abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
@@ -5423,6 +5459,16 @@ ember-auto-import@^1.10.1, ember-auto-import@^1.5.3, ember-auto-import@^1.6.0, e
     walk-sync "^0.3.3"
     webpack "^4.43.0"
 
+ember-cache-primitive-polyfill@^1.0.0:
+  version "1.0.1"
+  resolved "https://registry.yarnpkg.com/ember-cache-primitive-polyfill/-/ember-cache-primitive-polyfill-1.0.1.tgz#a27075443bd87e5af286c1cd8a7df24e3b9f6715"
+  integrity sha512-hSPcvIKarA8wad2/b6jDd/eU+OtKmi6uP+iYQbzi5TQpjsqV6b4QdRqrLk7ClSRRKBAtdTuutx+m+X+WlEd2lw==
+  dependencies:
+    ember-cli-babel "^7.22.1"
+    ember-cli-version-checker "^5.1.1"
+    ember-compatibility-helpers "^1.2.1"
+    silent-error "^1.1.1"
+
 ember-classic-decorator@^2.0.0:
   version "2.0.0"
   resolved "https://registry.yarnpkg.com/ember-classic-decorator/-/ember-classic-decorator-2.0.0.tgz#e781e0811a92524ad177b490f404f513794aee39"
@@ -5464,7 +5510,7 @@ ember-cli-babel@^6.0.0-beta.4, ember-cli-babel@^6.6.0:
     ember-cli-version-checker "^2.1.2"
     semver "^5.5.0"
 
-ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.3, ember-cli-babel@^7.10.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.18.0, ember-cli-babel@^7.20.5, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.2, ember-cli-babel@^7.4.0, ember-cli-babel@^7.7.3:
+ember-cli-babel@^7.0.0, ember-cli-babel@^7.1.3, ember-cli-babel@^7.10.0, ember-cli-babel@^7.11.1, ember-cli-babel@^7.13.0, ember-cli-babel@^7.13.2, ember-cli-babel@^7.17.2, ember-cli-babel@^7.18.0, ember-cli-babel@^7.20.5, ember-cli-babel@^7.21.0, ember-cli-babel@^7.22.1, ember-cli-babel@^7.23.0, ember-cli-babel@^7.23.1, ember-cli-babel@^7.26.2, ember-cli-babel@^7.4.0, ember-cli-babel@^7.7.3:
   version "7.26.3"
   resolved "https://registry.yarnpkg.com/ember-cli-babel/-/ember-cli-babel-7.26.3.tgz#e93ce7ec458208894d10844cf76e41cc06fdbeb6"
   integrity sha512-ZCs0g99d3kYaHs1+HT33oMY7/K+nLCAAv7dCLxsMzg7cQf55O6Pq4ZKnWEr3IHVs33xbJFnEb9prt1up36QVnw==
@@ -12688,6 +12734,24 @@ tr46@^2.0.2:
   integrity sha512-3n1qG+/5kg+jrbTzwAykB5yRYtQCTqOGKq5U5PE3b0a1/mzo6snDhjGS0zJVJunO0NrT3Dg1MLy5TjWP/UJppg==
   dependencies:
     punycode "^2.1.1"
+
+tracked-maps-and-sets@^2.0.0:
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/tracked-maps-and-sets/-/tracked-maps-and-sets-2.2.1.tgz#323dd40540c561e8b0ffdec8bf129c68ec5025f9"
+  integrity sha512-XYrXh6L/GpGmVmG3KcN/qoDyi4FxHh8eZY/BA/RuoxynskV+GZSfwrX3R+5DR2CIkzkCx4zi4kkDRg1AMDfDhg==
+  dependencies:
+    "@glimmer/tracking" "^1.0.0"
+    ember-cli-babel "^7.17.2"
+
+tracked-toolbox@^1.2.2:
+  version "1.2.2"
+  resolved "https://registry.yarnpkg.com/tracked-toolbox/-/tracked-toolbox-1.2.2.tgz#1669225a13371b66da8e98521258b51ce0c18909"
+  integrity sha512-lI7O4nyISRAznMloK/MalPXCANIGabfqFcnUxNuRctPfRT/G//RPQcjoSKQMkbiBjdrStfIssik23hyd/EtAWQ==
+  dependencies:
+    ember-cache-primitive-polyfill "^1.0.0"
+    ember-cli-babel "^7.21.0"
+    ember-cli-htmlbars "^5.3.1"
+    tracked-maps-and-sets "^2.0.0"
 
 tree-sync@^1.2.2:
   version "1.4.0"

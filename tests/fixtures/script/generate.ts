@@ -15,6 +15,9 @@ const opentype = require('opentype.js')
 const textMakerService = new TextMaker()
 
 async function generateReferenceMeshSnaphots(name: string) : Promise<void> {
+
+  console.log(`Start generating "${name}" snapshot...`)
+
   let meshSettings = meshTests[name]
 
   // Load font
@@ -28,11 +31,27 @@ async function generateReferenceMeshSnaphots(name: string) : Promise<void> {
 
   // Save to reference file
   fs.writeFileSync(`${__dirname}/../meshs/snapshots/${name}.ts`, `/* eslint-disable */
-    export default ${JSON.stringify(mesh.toJSON())}
-  `)
+  export default ${JSON.stringify(mesh.toJSON())}
+`)
+
+  console.log(`Snapshot "${name}" generated.`)
 }
 
-// TODO: add option to script (single snapshot update)
-for (let name in meshTests) {
+let snapshotNames = Object.keys(meshTests)
+let snapShotIndexImports = ''
+
+for (let name of snapshotNames) {
   generateReferenceMeshSnaphots(name)
+  snapShotIndexImports += `import ${name} from './${name}'\n`
 }
+
+let snapShotIndexFile = `${snapShotIndexImports}
+export default {
+  ${snapshotNames.join(', ')}
+} as Record<string, Object & { geometries: Object}>\n`
+
+fs.writeFileSync(`${__dirname}/../meshs/snapshots/index.ts`, snapShotIndexFile)
+
+console.log('Index file generated.')
+
+console.log('Done !')

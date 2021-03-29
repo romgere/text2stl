@@ -7,6 +7,7 @@ import STLExporterService from 'text2stl/services/stl-exporter'
 import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/application'
 import { htmlSafe } from '@ember/template'
+import { cached } from 'tracked-toolbox'
 
 export default class ApplicationController extends Controller {
 
@@ -30,6 +31,7 @@ export default class ApplicationController extends Controller {
     return htmlSafe('<a href="https://threejs.org/"  target="_blank" rel="noopener noreferrer">three.js</a>')
   }
 
+  @cached
   get mesh(): Mesh {
     return this.textMaker.generateMesh(this.model.settings)
   }

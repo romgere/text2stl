@@ -24,9 +24,12 @@ module.exports = function(environment) {
         variantName: 'normal',
         fontSize: '400',
         text: 'Bienvenue !',
-        size: 72,
-        height: 20,
-        spacing: 10
+        size: 45,
+        height: 10,
+        spacing: 2,
+        type: 2,
+        supportHeight: 5,
+        supportPadding: 10
       },
 
       threePreviewSettings: {

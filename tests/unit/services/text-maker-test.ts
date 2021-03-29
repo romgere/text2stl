@@ -1,14 +1,16 @@
 import { module } from 'qunit'
 import { setupTest } from 'ember-qunit'
-import * as opentype from 'opentype.js'
-
-import fonts from 'text2stl/tests/fixtures/fonts'
+import loadFont from 'text2stl/tests/helpers/load-font'
 import meshTests from 'text2stl/tests/fixtures/meshs/tests'
 import meshFixture from 'text2stl/tests/fixtures/meshs/snapshots/index'
 import cases from 'qunit-parameterize'
 import type TextMakerService from 'text2stl/services/text-maker'
 
-function objectToCompareString(mesh: Object) {
+function objectToCompareString(mesh: Object | undefined) {
+  if (!mesh) {
+    return ''
+  }
+
   let json = JSON.stringify(mesh)
 
   return json.replace(
@@ -24,24 +26,21 @@ module('Unit | Service | text-maker', function(hooks) {
   cases(
     Object.keys(meshTests).map((name: keyof typeof meshTests) => ({
       settings: meshTests[name],
-      outputMesh: meshFixture[name],
+      snapshot: meshFixture[name],
       title: `Mesh fixture "${name}"`
     }))
-  ).test('it generate mesh according to snapshots', async function({ settings, outputMesh }, assert) {
-
-    let res = await fetch(fonts[settings.font])
-    let fontData = await res.arrayBuffer()
+  ).test('it generate mesh according to snapshots', async function({ settings, snapshot }, assert) {
 
     let service = this.owner.lookup('service:text-maker') as TextMakerService
 
     let mesh = service.generateMesh({
       ...settings,
-      font: opentype.parse(fontData)
+      font: await loadFont(settings.font)
     })
 
     assert.equal(
-      objectToCompareString(mesh.toJSON().geometries),
-      objectToCompareString(outputMesh.geometries),
+      objectToCompareString(mesh?.toJSON()?.geometries),
+      objectToCompareString(snapshot?.geometries),
       'Mesh is conform to fixture'
     )
   })
