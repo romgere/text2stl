@@ -25,7 +25,8 @@
     "start": "ember serve",
     "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
-    "generate:snapshot": "ts-node -r esm tests/fixtures/script/generate.ts"
+    "generate:snapshot": "ts-node -r esm tests/fixtures/script/generate.ts",
+    "generate:type_img": "misc/text_type/generate_logo.sh"
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
