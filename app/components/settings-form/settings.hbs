@@ -19,6 +19,7 @@
       @type="text"
       @value={{@model.text}}
       @onChange={{fn (mut @model.text)}}
+      @debounce={{250}}
       data-test-settings-text
     />
   </div>
