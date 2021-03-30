@@ -9,7 +9,7 @@
         data-test-type-item={{type}}
         {{on "change" (fn @onChange type)}}
       >
-      <img src="img/type_{{type}}.png" alt={{t (concat "text_type." type)}} >
+      <img src={{get this.typeImages type}} alt={{t (concat "text_type." type)}} >
     </label>
   {{/each}}
 </div>
