@@ -1,4 +1,5 @@
 app_name: Text2STL
+app_subtitle: Generate 3D printable text in one click
 languages:
   fr-fr: Français
   en-us: English

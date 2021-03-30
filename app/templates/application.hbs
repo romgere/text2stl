@@ -1,10 +1,23 @@
 {{page-title (t "app_name")}}
-<div class="uk-container uk-padding">
-  <div uk-grid="" class="uk-grid-divider uk-grid">
+<div class="uk-container">
+  <div uk-grid="" margin="" class="uk-grid-divider uk-grid">
+    
     <div class="uk-width-1-1 uk-width-1-4@m uk-first-column">
-
       <h1 class="uk-text-primary uk-text-center">{{t "app_name"}}</h1>
+    </div>
 
+    <div class="uk-width-1-1 uk-width-3-4@m">
+      <div uk-grid="" class="uk-grid">
+        <div class="uk-width-1-1 uk-width-3-4@m uk-flex uk-flex-middle">
+          <h4 class="uk-text-muted uk-margin-remove-top">{{t "app_subtitle"}}</h4>
+        </div>
+        <div class="uk-width-1-1 uk-width-1-4@m uk-flex uk-flex-middle">
+          <LangSwitcher class="uk-margin-small-top" />
+        </div>
+      </div>
+    </div>
+
+    <div class="uk-width-1-1 uk-width-1-4@m">
       <SettingsForm
         @model={{this.model.settings}}
         @onFontChange={{this.onFontChange}}
@@ -28,12 +41,8 @@
           {{t "stl_counter" count=this.counter}}  
         </div>
       {{/if}}
-      <hr>
-      <div class="uk-text-center">
-        {{t "language"}} :
-        <LangSwitcher class="uk-margin-small-top" />
-      </div>
     </div>
+
     <div class="uk-width-1-1 uk-width-3-4@m">
       <ThreePreview @mesh={{this.mesh}} as |preview|>
         <UkCard class="uk-card-hover uk-card-small" as |card|>
