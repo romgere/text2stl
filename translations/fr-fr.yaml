@@ -1,4 +1,5 @@
 app_name: Text2STL
+app_subtitle: Generer du text 3D imprimable en un click
 language: Langue
 mm_unit: mm
 settings_form:
