@@ -8,7 +8,7 @@ const {
   APP: { textMakerDefault }
 } = config
 
-export default class ApplicationRoute extends Route {
+export default class AppGenerateRoute extends Route {
 
   @service declare fontManager: FontManagerService
 
