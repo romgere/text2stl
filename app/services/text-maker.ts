@@ -1,6 +1,7 @@
 import Service from '@ember/service'
 import * as opentype from 'opentype.js'
-import * as THREE from 'three'
+// import * as THREE from 'three'
+import { THREE, ExtendedMesh } from 'enable3d'
 import { CSG } from '@enable3d/three-graphics/jsm/csg'
 import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
 import config from 'text2stl/config/environment'
@@ -151,7 +152,7 @@ export default class TextMakerService extends Service {
     let textGeometry = this.stringToGeometry(params)
     // Generate mesh in order to get size.
     // TODO: refactor if size can be calculate from geometry.
-    let textMesh = new THREE.Mesh(
+    let textMesh = new ExtendedMesh(
       textGeometry,
       new THREE.MeshLambertMaterial({
         ...meshParameters,
@@ -256,7 +257,7 @@ export default class TextMakerService extends Service {
       ))
       // Substract text to support
       let bspSupport = CSG.subtract(
-        new THREE.Mesh(
+        new ExtendedMesh(
           supportGeometry,
           new THREE.MeshNormalMaterial()
         ),
@@ -265,7 +266,7 @@ export default class TextMakerService extends Service {
       finalGeometry = bspSupport.geometry
     }
 
-    return new THREE.Mesh(
+    return new ExtendedMesh(
       finalGeometry || textGeometry,
       new THREE.MeshLambertMaterial({
         ...meshParameters,
