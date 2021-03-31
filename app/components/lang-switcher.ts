@@ -1,6 +1,5 @@
 import Component from '@glimmer/component'
 import { inject as service } from '@ember/service'
-import { action } from '@ember/object'
 import config from 'text2stl/config/environment'
 const {
   APP: { availableLanguages }
@@ -9,15 +8,12 @@ const {
 interface LangSwitcherArgs {}
 
 import IntlService from 'ember-intl/services/intl'
+import { Registry as Services } from '@ember/service'
 
 export default class LangSwitcher extends Component<LangSwitcherArgs> {
 
   @service declare intl: IntlService
+  @service declare router:  Services['router']
 
   availableLanguages = availableLanguages
-
-  @action
-  setLocale(locale: string) {
-    this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us']
-  }
 }

@@ -1,14 +1,14 @@
 import { module, test } from 'qunit'
 import { setupTest } from 'ember-qunit'
 
-module('Unit | Controller | application', function(hooks) {
+module('Unit | Controller | app/generator', function(hooks) {
   setupTest(hooks)
 
   test('it handles font change & font loading', async function(assert) {
 
     assert.expect(4)
 
-    let controller = this.owner.lookup('controller:application')
+    let controller = this.owner.lookup('controller:app/generator')
 
     controller.model = {
       settings: {
@@ -36,7 +36,7 @@ module('Unit | Controller | application', function(hooks) {
 
     assert.expect(2)
 
-    let controller = this.owner.lookup('controller:application')
+    let controller = this.owner.lookup('controller:app/generator')
 
     controller.model = {
       settings: 'model-settings'

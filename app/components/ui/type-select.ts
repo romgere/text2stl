@@ -11,10 +11,10 @@ export default class UiTypeSelect extends Component<UiTypeSelectArgs> {
 
   // handle ember-cli finger printing
   typeImages = {
-    1: 'img/type_1.png',
-    2: 'img/type_2.png',
-    3: 'img/type_3.png',
-    4: 'img/type_4.png'
+    1: '/img/type_1.png',
+    2: '/img/type_2.png',
+    3: '/img/type_3.png',
+    4: '/img/type_4.png'
   }
 
   get numberValue() {
