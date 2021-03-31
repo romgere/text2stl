@@ -1,0 +1,34 @@
+<div class="uk-flex uk-flex-middle uk-flex-center" uk-height-viewport="expand: true">
+  <div>
+
+    <div class="uk-card uk-card-default uk-card-small" id="presentation-card">
+      <div class="uk-card-header">
+        <h3 class="uk-card-title">
+          {{t "index_page.title"}}
+        </h3>
+      </div>
+      <div class="uk-card-body">
+        <dl class="uk-description-list">
+          <dt class="uk-text-primary">{{t "index_page.list.font.dt"}}</dt>
+          <dd>{{t "index_page.list.font.dd"}}</dd>
+          <dt class="uk-text-primary">{{t "index_page.list.shape.dt"}}</dt>
+          <dd>{{t "index_page.list.shape.dd"}}</dd>
+          <dt class="uk-text-primary">{{t "index_page.list.text.dt"}}</dt>
+          <dd>{{t "index_page.list.text.dd"}}</dd>
+          <dt class="uk-text-primary">{{t "index_page.list.settings.dt"}}</dt>
+          <dd>{{t "index_page.list.settings.dd"}}</dd>
+          <dt class="uk-text-primary">{{t "index_page.list.stl.dt"}}</dt>
+          <dd>{{t "index_page.list.stl.dd"}}</dd>          
+        </dl>
+      </div>
+      <div class="uk-card-media-bottom">        
+        <img src="/img/your_own_text.png" alt={{t "index_page.image_alt"}} />
+      </div>
+      <div class="uk-card-footer">
+        <LinkTo @route="app.generator" class="uk-button uk-button-primary uk-align-center">
+          {{t "index_page.button"}}
+        </LinkTo>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,5 +1,25 @@
 app_name: Text2STL
-app_subtitle: Generer du text 3D imprimable en un click
+app_subtitle: Generer du text 3D imprimable en un clique
+index_page:
+  title: Generer du text 3D imprimable n'a jamais été aussi simple !
+  list:
+    font:
+      dt: Police personnalisée
+      dd: Choisissez une police parmis plus de 1000 polices Google
+    shape:
+      dt: Forme personnalisée
+      dd: Choisissez une forme (avec ou sans support, texte inversé).
+    text:
+      dt: Texte personnalisé
+      dd: Choisissez le text à imprimer.
+    settings:
+      dt: Réglages personnalisés
+      dd: Affinez les réglages, taille de police, hauteur du support et/ou du texte...
+    stl:
+      dt: Fichier STL
+      dd: Exportez votre fichier STL en un clique !
+  image_alt: Texte 3D imprimable
+  button: Commencez ...
 language: Langue
 mm_unit: mm
 settings_form:

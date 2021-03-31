@@ -99,3 +99,9 @@
     border-color: #1e87f0;
   }
 }
+
+#presentation-card {
+  .uk-card-media-bottom > img {
+    width: 100%;
+  }
+}

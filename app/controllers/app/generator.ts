@@ -6,7 +6,7 @@ import TextMakerService from 'text2stl/services/text-maker'
 import STLExporterService from 'text2stl/services/stl-exporter'
 import CounterService from 'text2stl/services/counter'
 import type { Mesh } from 'three'
-import type ApplicationRoute from 'text2stl/routes/application'
+import type ApplicationRoute from 'text2stl/routes/app/generator'
 import { htmlSafe } from '@ember/template'
 import { cached } from 'tracked-toolbox'
 
@@ -40,7 +40,7 @@ export default class ApplicationController extends Controller {
 
   @cached
   get mesh(): Mesh {
-    return this.textMaker.generateMesh(this.model.settings)
+    return this.textMaker.generateMesh(this.model)
   }
 
   get exportDisabled() {
@@ -48,17 +48,16 @@ export default class ApplicationController extends Controller {
   }
 
   get currentFont() {
-    let { settings } = this.model
     return this.fontManager.fetchFont(
-      settings.fontName,
-      settings.variantName,
-      settings.fontSize
+      this.model.fontName,
+      this.model.variantName,
+      this.model.fontSize
     )
   }
 
   @action
   async onFontChange() {
-    this.model.settings.font = await this.currentFont
+    this.model.font = await this.currentFont
   }
 
   @action

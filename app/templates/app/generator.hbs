@@ -1,0 +1,41 @@
+<div uk-grid="" margin="" class="uk-grid-divider uk-grid">
+ 
+  <div class="uk-width-1-1 uk-width-1-4@m">
+    <SettingsForm
+      @model={{this.model}}
+      @onFontChange={{this.onFontChange}}
+    />
+      
+    <DeferredContent @promise={{this.currentFont}} as |p|>
+      <UkButton
+        @color="primary"  
+        @fill={{true}}
+        @disabled={{or this.exportDisabled p.isPending}}
+        @loading={{p.isPending}}
+        @on-click={{fn this.exportSTL}}
+        class="uk-align-center"
+      >
+        {{t "export_stl"}}
+      </UkButton>
+    </DeferredContent>
+
+    {{#if this.counter}}
+      <div class="uk-text-small uk-text-muted uk-text-center">
+        {{t "stl_counter" count=this.counter}}  
+      </div>
+    {{/if}}
+  </div>
+
+  <div class="uk-width-1-1 uk-width-3-4@m">
+    <ThreePreview @mesh={{this.mesh}} as |preview|>
+      <UkCard class="uk-card-hover uk-card-small" as |card|>
+        <div class="uk-card-media-top">
+          <preview.renderer />
+        </div>
+        <card.footer>
+          <preview.size class="uk-text-small uk-text-muted uk-text-center"/>
+        </card.footer>
+      </UkCard>
+    </ThreePreview>
+  </div>    
+</div>

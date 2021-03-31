@@ -1,5 +1,25 @@
 app_name: Text2STL
 app_subtitle: Generate 3D printable text in one click
+index_page:
+  title: Generate 3D printable text has never been so easy !
+  list:
+    font:
+      dt: Custom font
+      dd: Choose a font from more than 1000 Google fonts.
+    shape:
+      dt: Custom shape
+      dd: Select a shape type (with or without support, negative text).
+    text:
+      dt: Custom text
+      dd: Choose the text you want to print.
+    settings:
+      dt: Custom settings
+      dd: Tune the settings, choose the font size, the support and/or text height...
+    stl:
+      dt: Export STL
+      dd: Export your STL file in one click !
+  image_alt: Printable 3D text
+  button: Let's start ...
 languages:
   fr-fr: Français
   en-us: English
