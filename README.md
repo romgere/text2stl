@@ -1,3 +1,6 @@
+[![Netlify Status](https://api.netlify.com/api/v1/badges/84ec36dc-4fef-4f8f-b482-b0b1d550baba/deploy-status)](https://app.netlify.com/sites/text2stl/deploys)
+
+
 # text2stl
 
 Generate STL with text easily !
