@@ -11,12 +11,10 @@ module('Unit | Controller | app/generator', function(hooks) {
     let controller = this.owner.lookup('controller:app/generator')
 
     controller.model = {
-      settings: {
-        fontName: 'my-font',
-        variantName: 'a-variant',
-        fontSize: 'very big',
-        font: undefined
-      }
+      fontName: 'my-font',
+      variantName: 'a-variant',
+      fontSize: 'very big',
+      font: undefined
     }
 
     this.owner.lookup('service:font-manager').fetchFont = async function(name: string, variant: string, size: string) {
@@ -29,7 +27,7 @@ module('Unit | Controller | app/generator', function(hooks) {
 
     await controller.onFontChange()
 
-    assert.equal(controller.model.settings.font, 'a_font', 'Font was update on model')
+    assert.equal(controller.model.font, 'a_font', 'Font was update on model')
   })
 
   test('it generate a STL with mesh', async function(assert) {
@@ -38,9 +36,7 @@ module('Unit | Controller | app/generator', function(hooks) {
 
     let controller = this.owner.lookup('controller:app/generator')
 
-    controller.model = {
-      settings: 'model-settings'
-    }
+    controller.model = 'model-settings'
 
     this.owner.lookup('service:stl-exporter').downloadMeshAsSTL = function(mesh: string) {
       assert.equal(mesh, 'mesh_de_cheveux', 'it generates STL from mesh')

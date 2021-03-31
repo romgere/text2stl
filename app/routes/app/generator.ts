@@ -1,5 +1,4 @@
 import Route from '@ember/routing/route'
-import { hash } from 'rsvp'
 import { inject as service } from '@ember/service'
 import TextMakerSettings from 'text2stl/models/text-maker-settings'
 import FontManagerService from 'text2stl/services/font-manager'
@@ -21,14 +20,10 @@ export default class ApplicationRoute extends Route {
       textMakerDefault.fontSize
     )
 
-    return hash({
-      fonts: this.fontManager.fonts,
-      fontNames: this.fontManager.fontNames,
-      // Create a default settings for first rendering
-      settings: new TextMakerSettings({
-        ...textMakerDefault,
-        font: defaultFont
-      })
+    // Create a default settings for first rendering
+    return new TextMakerSettings({
+      ...textMakerDefault,
+      font: defaultFont
     })
   }
 }

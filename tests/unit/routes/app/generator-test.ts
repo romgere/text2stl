@@ -33,11 +33,9 @@ module('Unit | Route | app/generator', function(hooks) {
     let route = this.owner.lookup('route:app/generator')
 
     let model = await route.model()
-    assert.equal(model.fonts, 'font_list', 'rouet model have fonts')
-    assert.equal(model.fontNames, 'font_names', 'rouet model have fontNames')
 
     assert.propEqual(
-      model.settings,
+      model,
       new TextMakerSettings({
         ...textMakerDefault,
         font: mockedFont
