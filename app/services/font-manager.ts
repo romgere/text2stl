@@ -8,6 +8,13 @@ export default class FontManagerService extends Service {
 
   fontCache: Record<string, opentype.Font> = {}
 
+  opentype = opentype // For easy mock
+
+  // For easy mock
+  fetch(input: RequestInfo, init?: RequestInit | undefined): Promise<Response> {
+    return fetch(input, init)
+  }
+
   get fontNames() {
     return Object.keys(fonts)
   }
@@ -16,18 +23,22 @@ export default class FontManagerService extends Service {
     return fonts
   }
 
-  async fetchFont(fontName: FontName, variantName: string = 'normal', fontSize: string = '400') : Promise<opentype.Font> {
+  async fetchFont(fontName: FontName, variantName?: string, fontSize?: string) : Promise<opentype.Font> {
     let { variants } = this.fonts[fontName]
-    let variant = variants[variantName] ?? variants[Object.keys(variants)[0]]
-    let face = variant[fontSize] ?? variant[Object.keys(variant)[0]]
+    let variant = variantName
+      ? variants[variantName] ?? variants[Object.keys(variants)[0]]
+      : variants[Object.keys(variants)[0]]
+    let face = fontSize
+      ? variant[fontSize] ?? variant[Object.keys(variant)[0]]
+      : variant[Object.keys(variant)[0]]
 
     let url = face.url.ttf!.replace('http:', ':')
 
     let cacheName = `${fontName}-${variantName}-${fontSize}`
     if (!this.fontCache[cacheName]) {
-      let res = await fetch(url)
+      let res = await this.fetch(url)
       let fontData = await res.arrayBuffer()
-      this.fontCache[cacheName] = opentype.parse(fontData)
+      this.fontCache[cacheName] = this.opentype.parse(fontData)
     }
 
     return this.fontCache[cacheName]
