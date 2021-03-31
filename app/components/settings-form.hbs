@@ -1,10 +1,10 @@
 <UkSwitcher @animation="uk-animation-fade" as |switcher|>
   <switcher.nav @type="tab" as |nav|>
     <nav.component as |tab|>
-      <tab.item>
+      <tab.item data-tab-item="settings">
         {{t "settings_form.tabs.settings"}}
       </tab.item>
-      <tab.item>
+      <tab.item data-tab-item="font">
         {{t "settings_form.tabs.font"}}
       </tab.item>
     </nav.component>
