@@ -28,14 +28,14 @@
 
   <div class="uk-width-1-1 uk-width-3-4@m">
     <ThreePreview @mesh={{this.mesh}} as |preview|>
-      <UkCard class="uk-card-hover uk-card-small" as |card|>
+      <div class="uk-card uk-card-hover uk-card-small">
         <div class="uk-card-media-top">
           <preview.renderer />
         </div>
-        <card.footer>
+        <div class="uk-card-footer">
           <preview.size class="uk-text-small uk-text-muted uk-text-center"/>
-        </card.footer>
-      </UkCard>
+        </div>
+      </div>
     </ThreePreview>
   </div>    
 </div>
