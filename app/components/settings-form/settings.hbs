@@ -28,7 +28,7 @@
     <label class="uk-form-label" for="text-size">
       {{t "text_settings.size"}}
     </label>
-    <UkFlex @direction="row">
+    <div class="uk-flex uk-flex-row">
       <div class="uk-width-1-3">
         <Ui::Input
           id="text-size"
@@ -39,7 +39,7 @@
           data-test-settings-size
         />
       </div>
-    </UkFlex>
+    </div>
   </div>
 
   <div class="uk-margin">
@@ -47,7 +47,7 @@
     <label class="uk-form-label" for="text-height">
       {{t "text_settings.height"}}
     </label>
-    <UkFlex @direction="row" class="uk-flex-middle">
+    <div class="uk-flex uk-flex-row uk-flex-middle">
       <div class="uk-width-1-3">
         <Ui::Input
           id="text-height"
@@ -64,23 +64,23 @@
           {{t "mm_unit"}}
         </label>
       </div>
-    </UkFlex>
+    </div>
   </div>
 
   <div class="uk-margin">
     <label class="uk-form-label" for="text-spacing">
       {{t "text_settings.kerning"}}
     </label>
-    <UkFlex @direction="row" class="uk-flex-middle">
+    <div class="uk-flex uk-flex-row uk-flex-middle">
       <div class="uk-width-1-3">
-    <Ui::Input
-      id="text-spacing"
-      class="uk-input"
-      @type="number"
-      @value={{@model.spacing}}
-      @onChange={{fn this.setInt 'spacing'}}
-      data-test-settings-spacing
-    />
+        <Ui::Input
+          id="text-spacing"
+          class="uk-input"
+          @type="number"
+          @value={{@model.spacing}}
+          @onChange={{fn this.setInt 'spacing'}}
+          data-test-settings-spacing
+        />
       </div>
       <div>&nbsp;</div>
       <div>
@@ -88,7 +88,7 @@
           {{t "mm_unit"}}
         </label>
       </div>
-    </UkFlex>
+    </div>
   </div>
 
   {{#if this.showSupportSettings}}
@@ -97,16 +97,16 @@
       <label class="uk-form-label" for="text-spacing">
         {{t "text_settings.supportHeight"}}
       </label>
-      <UkFlex @direction="row" class="uk-flex-middle">
+      <div class="uk-flex uk-flex-row uk-flex-middle">
         <div class="uk-width-1-3">
-      <Ui::Input
-        id="text-spacing"
-        class="uk-input"
-        @type="number"
-        @value={{@model.supportHeight}}
-        @onChange={{fn this.setInt 'supportHeight'}}
-        data-test-settings-supportHeight
-      />
+          <Ui::Input
+            id="text-spacing"
+            class="uk-input"
+            @type="number"
+            @value={{@model.supportHeight}}
+            @onChange={{fn this.setInt 'supportHeight'}}
+            data-test-settings-supportHeight
+          />
         </div>
         <div>&nbsp;</div>
         <div>
@@ -114,23 +114,23 @@
             {{t "mm_unit"}}
           </label>
         </div>
-      </UkFlex>
+      </div>
     </div>
 
     <div class="uk-margin">
       <label class="uk-form-label" for="text-spacing">
         {{t "text_settings.supportPadding"}}
       </label>
-      <UkFlex @direction="row" class="uk-flex-middle">
+      <div class="uk-flex uk-flex-row uk-flex-middle">
         <div class="uk-width-1-3">
-      <Ui::Input
-        id="text-spacing"
-        class="uk-input"
-        @type="number"
-        @value={{@model.supportPadding}}
-        @onChange={{fn this.setInt 'supportPadding'}}
-        data-test-settings-supportPadding
-      />
+          <Ui::Input
+            id="text-spacing"
+            class="uk-input"
+            @type="number"
+            @value={{@model.supportPadding}}
+            @onChange={{fn this.setInt 'supportPadding'}}
+            data-test-settings-supportPadding
+          />
         </div>
         <div>&nbsp;</div>
         <div>
@@ -138,7 +138,7 @@
             {{t "mm_unit"}}
           </label>
         </div>
-      </UkFlex>
+      </div>
     </div>
   {{/if}}
 </fieldset>

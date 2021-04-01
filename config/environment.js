@@ -18,6 +18,10 @@ module.exports = function(environment) {
       }
     },
 
+    'ember-toggle': {
+      includedThemes: ['default']
+    },
+
     APP: {
       textMakerDefault: {
         fontName: 'Open Sans',

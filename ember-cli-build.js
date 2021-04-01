@@ -4,7 +4,14 @@ const EmberApp = require('ember-cli/lib/broccoli/ember-app')
 
 module.exports = function(defaults) {
   let app = new EmberApp(defaults, {
-    // Add options here
+    inlineContent: {
+      'loader': 'app/loader.html'
+    },
+
+    'ember-uikit': {
+      importUIkitIcons: false,
+      whitelist: ['uk-button', 'uk-switcher', 'uk-spinner']
+    }
   })
 
   // Use `app.import` to add additional libraries to the generated
