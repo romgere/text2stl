@@ -9,8 +9,4 @@ export default class AppRoute extends Route {
   async model({ locale }: { locale: string }) {
     this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us']
   }
-
-  afterModel() {
-    document.querySelector('#app-loader')?.remove()
-  }
 }

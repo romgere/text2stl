@@ -23,4 +23,8 @@ export default class AppIndex extends Route {
       await loadJSONMesh('/mesh/4.json')
     ]
   }
+
+  afterModel() {
+    document.querySelector('#app-loader')?.remove()
+  }
 }
