@@ -1,4 +1,5 @@
 app_name: Text2STL
+app_title: Free 3D printable text generator
 app_subtitle: Generate 3D printable text in one click
 index_page:
   title: Generate 3D printable text has never been so easy !
@@ -54,3 +55,6 @@ text_type:
   2: Text with support
   3: Negative text on support
   4: Vertical text with support
+misc:
+  previous: Précédent
+  next: Suivant

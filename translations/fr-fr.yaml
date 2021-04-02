@@ -1,4 +1,5 @@
 app_name: Text2STL
+app_title: Générateur gratuit de text 3D imprimable
 app_subtitle: Generer du text 3D imprimable en un clique
 index_page:
   title: Generer du text 3D imprimable n'a jamais été aussi simple !
@@ -51,3 +52,6 @@ text_type:
   2: Text avec support
   3: Text negatif sur support
   4: Text vertical avec support
+misc:
+  previous: Previous
+  next: Next
