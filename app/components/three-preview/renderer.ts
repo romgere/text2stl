@@ -10,6 +10,8 @@ const {
 
 interface TreePreviewRendererArgs {
   mesh?: THREE.Mesh;
+  parentSize?: boolean;
+  nearCamera?: boolean;
 }
 
 export default class TreePreviewRenderer extends Component<TreePreviewRendererArgs> {
@@ -45,7 +47,11 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(75)
-    this.camera.position.set(0, 400, 300)
+    this.camera.position.set(
+      0,
+      this.args.nearCamera ? 50 : 400,
+      this.args.nearCamera ? 70 : 300
+    )
     this.scene.add(this.camera)
 
     // Decorators (grid, ground, ...)
@@ -56,9 +62,11 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
       antialias: true
     })
     this.renderer.setPixelRatio(window.devicePixelRatio)
-    this.renderer.setSize(1024, 768) // @TODO
+    this.renderer.setSize(
+      this.args.parentSize ? 1 : 1024,
+      this.args.parentSize ? 1 : 768
+    )
     this.renderer.setClearColor(0xffffff, 1)
-
   }
 
   private addLight(x: number, y: number, z: number) {
@@ -144,7 +152,10 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
 
     requestAnimationFrame(() => this.renderFrame())
 
-    let { offsetWidth: width, offsetHeight: height } = this.container
+    let { offsetWidth: width, offsetHeight: height } = this.args.parentSize
+      ? this.container?.parentElement ?? this.container
+      : this.container
+
     if (this.rendererSize.width !== width || this.rendererSize.height !== height) {
 
       this.renderer.setSize(width, height)
