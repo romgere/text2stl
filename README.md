@@ -13,20 +13,21 @@ Inspired from : https://github.com/mo22/textstl
 - [x] move mesh rendering in textMaker service
 - [x] Add model size information
 - [x] better UI
-- [ ] QP to save current settings ?
 - [x] better font management (limit list, allow filtering, live preview)
-- [ ] add other type of shape (with support / negative text / badge)
-- [ ] ref ?
-- [ ] html loader
+- [x] add other type of shape (with support / negative text / badge)
+- [x] html loader
 - [x] counter of STL generated ?
 - [x] fr/en translation
 - [x] Language switcher
-- [ ] Add somes options
+- [x] deploy
+- [ ] improve test coverage
+- [ ] Add somes options (multiple kerning, multiple suport spacing, round corner, hole in support ?)
 - [ ] multi-line text ?
 - [ ] save/load text (via URL encoded / local storage ?)
+- [ ] (or) QP to save current settings ?
 - [ ] handle custom font
-- [ ] improve test coverage & deploy
 - [ ] Any way to handle emoji or special char like '★' ?
+- [ ] Multiple object for vertical support to allow multi-color print ?
 
 ## Prerequisites
 
