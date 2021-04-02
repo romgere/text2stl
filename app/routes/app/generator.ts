@@ -26,4 +26,8 @@ export default class ApplicationRoute extends Route {
       font: defaultFont
     })
   }
+
+  afterModel() {
+    document.querySelector('#app-loader')?.remove()
+  }
 }
