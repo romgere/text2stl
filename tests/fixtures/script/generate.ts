@@ -6,6 +6,11 @@
 // "Mock/Hack" some imports
 import './_require'
 
+import jsdomGlobal from 'jsdom-global'
+
+// init browser env (needed by prosemirror)
+jsdomGlobal()
+
 const { default: meshTests } = require('../meshs/tests')
 const { default: TextMaker } = require('../../../app/services/text-maker')
 
