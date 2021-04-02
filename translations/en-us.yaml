@@ -55,3 +55,6 @@ text_type:
   2: Text with support
   3: Negative text on support
   4: Vertical text with support
+misc:
+  previous: Précédent
+  next: Suivant
