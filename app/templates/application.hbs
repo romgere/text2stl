@@ -13,10 +13,10 @@
 
         <div class="uk-width-1-1 uk-width-3-4@m uk-flex uk-flex-middle">
           <div uk-grid="" class="uk-grid uk-width-expand">
-            <div class="uk-width-1-1 uk-width-3-4@m uk-flex uk-flex-middle">
+            <div class="uk-width-1-1 uk-width-1-2@m uk-width-3-4@l uk-flex uk-flex-center uk-flex-middle">
               <h4 class="uk-text-muted uk-margin-remove-top">{{t "app_subtitle"}}</h4>
             </div>
-            <div class="uk-width-1-1 uk-width-1-4@m uk-flex uk-flex-middle">
+            <div class="uk-width-1-1 uk-width-1-2@m uk-width-1-4@l uk-flex uk-flex-center uk-flex-right@m uk-flex-middle">
               <LangSwitcher />
             </div>
           </div>
@@ -32,7 +32,7 @@
 
     {{!-- FOOTER --}}
     <div class="uk-flex-none">
-      <div class="uk-text-small uk-text-muted uk-text-center">
+      <div class="uk-text-small uk-text-muted uk-text-center app-footer">
         {{t "footer.made_by"
           author=this.authorLink
           ember=this.emberLink
@@ -43,6 +43,10 @@
         <a href="https://github.com/romgere/text2stl" target="_blank" rel="noopener noreferrer">
           {{t "footer.github"}}
         </a>
+        |
+        <a href="https://github.com/romgere/text2stl/issues/new" target="_blank" rel="noopener noreferrer">
+          {{t "footer.issue"}}
+        </a>        
       </div>
     </div>
   </div>

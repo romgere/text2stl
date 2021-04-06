@@ -32,6 +32,7 @@ stl_counter: "{count} fichiers STL ont été générés"
 footer:
   made_by: Créer avec ♥ par {author} avec {ember} & {three}
   github: Contribuez ou faite un fork sur GitHub
+  issue: Un bug ? Demander une nouvelle fonctionnalité ?
 font_picker:
   category: Category de police
   name: Nom de police
@@ -52,6 +53,3 @@ text_type:
   2: Text avec support
   3: Text negatif sur support
   4: Text vertical avec support
-misc:
-  previous: Previous
-  next: Next
