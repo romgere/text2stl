@@ -35,6 +35,7 @@ stl_counter: "{count} STL files has been generated"
 footer:
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub
+  issue: Find a bug ? Request a new feature ?
 font_picker:
   category: Font category
   name: Font name
@@ -55,6 +56,3 @@ text_type:
   2: Text with support
   3: Negative text on support
   4: Vertical text with support
-misc:
-  previous: Précédent
-  next: Suivant

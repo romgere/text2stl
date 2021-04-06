@@ -78,30 +78,27 @@
 }
 
 .text-type-select{
+  > label {
+    max-width: 5rem;
 
-  [type=radio] { 
-    position: absolute;
-    opacity: 0;
-    width: 0;
-    height: 0;
-  }
+    [type=radio] { 
+      position: absolute;
+      opacity: 0;
+      width: 0;
+      height: 0;
+    }
+    
+    [type=radio] + img {
+      cursor: pointer;
+      border: 2px solid #e5e5e5;
+    }
+    
+    [type=radio]:hover + img {
+      border-color: #b2b2b2;
+    }
   
-  [type=radio] + img {
-    cursor: pointer;
-    border: 2px solid #e5e5e5;
-  }
-  
-  [type=radio]:hover + img {
-    border-color: #b2b2b2;
-  }
-
-  [type=radio]:checked + img {
-    border-color: #1e87f0;
-  }
+    [type=radio]:checked + img {
+      border-color: #1e87f0;
+    }
+  }  
 }
-
-// #presentation-card {
-//   .uk-card-media-bottom > .three_viewer {
-//     height: 200px;
-//   }
-// }

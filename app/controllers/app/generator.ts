@@ -7,7 +7,6 @@ import STLExporterService from 'text2stl/services/stl-exporter'
 import CounterService from 'text2stl/services/counter'
 import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/app/generator'
-import { htmlSafe } from '@ember/template'
 import { cached } from 'tracked-toolbox'
 
 export default class ApplicationController extends Controller {
@@ -24,18 +23,6 @@ export default class ApplicationController extends Controller {
 
   get counter() {
     return this.counterService.counter
-  }
-
-  get authorLink() {
-    return htmlSafe('<a href="https://github.com/romgere" target="_blank" rel="noopener noreferrer">Romgere</a>')
-  }
-
-  get emberLink() {
-    return htmlSafe('<a href="https://emberjs.com/" target="_blank" rel="noopener noreferrer">Ember.js</a>')
-  }
-
-  get threeLink() {
-    return htmlSafe('<a href="https://threejs.org/"  target="_blank" rel="noopener noreferrer">three.js</a>')
   }
 
   @cached
@@ -75,6 +62,6 @@ export default class ApplicationController extends Controller {
 
 declare module '@ember/controller' {
   interface Registry {
-    'application': ApplicationController;
+    'app.generator': ApplicationController;
   }
 }
