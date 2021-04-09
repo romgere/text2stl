@@ -2,6 +2,7 @@ import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render, settled } from '@ember/test-helpers'
 import hbs from 'htmlbars-inline-precompile'
+// eslint-disable-next-line ember/no-classic-components
 import Component from '@ember/component'
 import Service from '@ember/service'
 
