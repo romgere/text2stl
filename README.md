@@ -20,7 +20,8 @@ Inspired from : https://github.com/mo22/textstl
 - [x] fr/en translation
 - [x] Language switcher
 - [x] deploy
-- [ ] improve test coverage
+- [x] improve test coverage
+- [ ] finalize font-picker tests
 - [ ] Add somes options (multiple kerning, multiple suport spacing, round corner, hole in support ?)
 - [ ] multi-line text ?
 - [ ] save/load text (via URL encoded / local storage ?)

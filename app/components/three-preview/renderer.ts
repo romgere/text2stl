@@ -59,7 +59,8 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
 
     // WebGL renderer
     this.renderer = new THREE.WebGLRenderer({
-      antialias: true
+      antialias: true,
+      preserveDrawingBuffer: true // use this to allow creation of image from canvas
     })
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(

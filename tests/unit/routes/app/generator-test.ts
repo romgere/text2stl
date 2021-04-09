@@ -13,7 +13,7 @@ module('Unit | Route | app/generator', function(hooks) {
 
   test('it creates a model with default values & fetch default font', async function(assert) {
 
-    assert.expect(6)
+    assert.expect(4)
 
     let mockedFont = new opentype.Font({
       familyName: '1', styleName: 'fake font', unitsPerEm: 1, ascender: 1, descender: -1, glyphs: []
