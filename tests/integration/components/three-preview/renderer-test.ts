@@ -3,7 +3,7 @@ import { setupRenderingTest } from 'ember-qunit'
 import { render, find } from '@ember/test-helpers'
 import hbs from 'htmlbars-inline-precompile'
 import cases from 'qunit-parameterize'
-import { Mesh, BoxGeometry, SphereGeometry } from 'three'
+import { Mesh, BoxGeometry } from 'three'
 import testCases from 'text2stl/tests/fixtures/meshs/renderer_tests'
 
 module('Integration | Component | three-preview/renderer', function(hooks) {
