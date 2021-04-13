@@ -15,7 +15,7 @@ index_page:
       dd: Choose the text you want to print.
     settings:
       dt: Custom settings
-      dd: Tune the settings, choose the font size, the support and/or text height...
+      dd: Adjust the settings, choose the font size, the support and/or text height...
     stl:
       dt: Export STL
       dd: Export your STL file in one click !
@@ -31,7 +31,7 @@ settings_form:
     settings: Settings
     font: Font
 export_stl: Export STL
-stl_counter: "{count} STL files has been generated"
+stl_counter: "{count} STL files have been generated"
 footer:
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub
