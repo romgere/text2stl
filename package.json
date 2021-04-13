@@ -21,9 +21,9 @@
     "lint:hbs": "ember-template-lint .",
     "lint:hbs:fix": "ember-template-lint . --fix",
     "lint:js": "eslint . --ext .js,.ts",
-    "lint:js:fix": "eslint . --fix",
+    "lint:js:fix": "eslint . --ext .js,.ts --fix",
     "start": "ember serve",
-    "test": "npm-run-all lint test:*",
+    "test": "npm-run-all test:*",
     "test:ember": "ember test",
     "generate:snapshot": "ts-node -r esm tests/fixtures/script/generate.ts",
     "generate:type_img": "misc/text_type/generate_logo.sh"
