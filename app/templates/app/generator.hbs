@@ -6,18 +6,16 @@
       @onFontChange={{this.onFontChange}}
     />
       
-    <DeferredContent @promise={{this.currentFont}} as |p|>
-      <UkButton
-        @color="primary"  
-        @fill={{true}}
-        @disabled={{or this.exportDisabled p.isPending}}
-        @loading={{p.isPending}}
-        @on-click={{fn this.exportSTL}}
-        class="uk-align-center"
-      >
-        {{t "export_stl"}}
-      </UkButton>
-    </DeferredContent>
+    <UkButton
+      @color="primary"  
+      @fill={{true}}
+      @disabled={{or this.exportDisabled this.isFontLoading}}
+      @loading={{this.isFontLoading}}
+      @on-click={{this.exportSTL}}
+      class="uk-align-center"
+    >
+      {{t "export_stl"}}
+    </UkButton>
 
     {{#if this.counter}}
       <div class="uk-text-small uk-text-muted uk-text-center">

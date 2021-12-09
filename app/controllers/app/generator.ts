@@ -8,6 +8,7 @@ import CounterService from 'text2stl/services/counter'
 import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/app/generator'
 import { cached } from 'tracked-toolbox'
+import { tracked } from '@glimmer/tracking'
 
 export default class ApplicationController extends Controller {
 
@@ -34,17 +35,22 @@ export default class ApplicationController extends Controller {
     return !this.mesh
   }
 
-  get currentFont() {
-    return this.fontManager.fetchFont(
+  @tracked isFontLoading = true
+
+  @action
+  async onFontChange() {
+
+    this.isFontLoading = true
+
+    let fontFetchPromise = this.fontManager.fetchFont(
       this.model.fontName,
       this.model.variantName,
       this.model.fontSize
     )
-  }
 
-  @action
-  async onFontChange() {
-    this.model.font = await this.currentFont
+    this.model.font = await fontFetchPromise
+
+    fontFetchPromise.then(() => this.isFontLoading = false)
   }
 
   @action
