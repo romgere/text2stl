@@ -6,22 +6,22 @@
 // "Mock/Hack" some imports
 import './_require'
 
-import jsdomGlobal from 'jsdom-global'
-
-// init browser env (needed by prosemirror)
-jsdomGlobal()
+// init browser env (window is needed by @enable3d)
+import 'jsdom-global/register'
 
 const { default: meshTests } = require('../meshs/tests')
 const { default: TextMaker } = require('../../../app/services/text-maker')
+
+type MeshKey = keyof typeof meshTests
 
 const fs = require('fs')
 const opentype = require('opentype.js')
 
 const textMakerService = new TextMaker()
 
-async function generateReferenceMeshSnaphots(name: string) : Promise<void> {
+async function generateReferenceMeshSnaphots(name: MeshKey) : Promise<void> {
 
-  console.log(`Start generating "${name}" snapshot...`)
+  console.log(`Start generating "${String(name)}" snapshot...`)
 
   let meshSettings = meshTests[name]
 
@@ -35,19 +35,19 @@ async function generateReferenceMeshSnaphots(name: string) : Promise<void> {
   })
 
   // Save to reference file
-  fs.writeFileSync(`${__dirname}/../meshs/snapshots/${name}.ts`, `/* eslint-disable */
+  fs.writeFileSync(`${__dirname}/../meshs/snapshots/${String(name)}.ts`, `/* eslint-disable */
   export default ${JSON.stringify(mesh.toJSON())}
 `)
 
-  console.log(`Snapshot "${name}" generated.`)
+  console.log(`Snapshot "${String(name)}" generated.`)
 }
 
-let snapshotNames = Object.keys(meshTests)
+let snapshotNames = Object.keys(meshTests) as MeshKey[]
 let snapShotIndexImports = ''
 
 for (let name of snapshotNames) {
   generateReferenceMeshSnaphots(name)
-  snapShotIndexImports += `import ${name} from './${name}'\n`
+  snapShotIndexImports += `import ${String(name)} from './${String(name)}'\n`
 }
 
 let snapShotIndexFile = `${snapShotIndexImports}

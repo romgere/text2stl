@@ -107,11 +107,11 @@
     "qunit-dom": "^1.6.0",
     "sass": "^1.32.8",
     "tracked-toolbox": "^1.2.2",
-    "ts-node": "^9.1.1",
+    "ts-node": "^10.4.0",
     "typescript": "^4.2.3"
   },
   "engines": {
-    "node": "12.* || 14.* || >= 16"
+    "node": "12.15.*"
   },
   "ember": {
     "edition": "octane"
