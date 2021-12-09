@@ -91,7 +91,7 @@
     "ember-source": "~3.28.0",
     "ember-template-lint": "^3.6.0",
     "ember-truth-helpers": "^3.0.0",
-    "ember-uikit": "^2.2.2",
+    "ember-uikit": "^4.0.0",
     "eslint": "^7.32.0",
     "eslint-config-peopledoc": "^2.0.2",
     "eslint-config-prettier": "^8.3.0",
@@ -112,6 +112,9 @@
     "ts-node": "^10.4.0",
     "typescript": "^4.2.3",
     "webpack": "5"
+  },
+  "resolutions": {
+    "ember-toggle": "8.0.0"
   },
   "engines": {
     "node": "12.15.*"
