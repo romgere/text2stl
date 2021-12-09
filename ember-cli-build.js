@@ -11,6 +11,10 @@ module.exports = function(defaults) {
     'ember-uikit': {
       importUIkitIcons: false,
       whitelist: ['uk-button', 'uk-switcher', 'uk-spinner']
+    },
+
+    autoImport: {
+      exclude: ['jsdom-global']
     }
   })
 
