@@ -86,9 +86,8 @@ Warning: Don't run this command to fix tests if no modifications was made on `te
 
 ### Linting
 
-* `npm run lint:hbs`
-* `npm run lint:js`
-* `npm run lint:js -- --fix`
+* `npm run lint`
+* `npm run lint:fix`
 
 ### Building
 
