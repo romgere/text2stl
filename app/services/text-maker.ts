@@ -3,7 +3,7 @@ import * as opentype from 'opentype.js'
 // import * as THREE from 'three'
 import { THREE, ExtendedMesh } from 'enable3d'
 import { CSG } from '@enable3d/three-graphics/jsm/csg'
-import { BufferGeometryUtils } from 'three/examples/jsm/utils/BufferGeometryUtils'
+import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
 import config from 'text2stl/config/environment'
 const {
   APP: { textMakerDefault, threePreviewSettings: { meshParameters } }
@@ -143,7 +143,7 @@ export default class TextMakerService extends Service {
       geometries.push(geometry)
     })
 
-    return BufferGeometryUtils.mergeBufferGeometries(geometries)
+    return mergeBufferGeometries(geometries)
   }
 
   generateMesh(params: TextMakerParameters): THREE.Mesh {
@@ -201,7 +201,7 @@ export default class TextMakerService extends Service {
       ))
 
       // Merge
-      finalGeometry = BufferGeometryUtils.mergeBufferGeometries([
+      finalGeometry = mergeBufferGeometries([
         supportGeometry.toNonIndexed(),
         textGeometry
       ], true)
@@ -228,7 +228,7 @@ export default class TextMakerService extends Service {
         supportHeight
       ))
       // Merge
-      finalGeometry = BufferGeometryUtils.mergeBufferGeometries([
+      finalGeometry = mergeBufferGeometries([
         supportGeometry.toNonIndexed(),
         textGeometry
       ], true)
