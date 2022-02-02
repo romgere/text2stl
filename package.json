@@ -117,7 +117,7 @@
     "ember-toggle": "8.0.0"
   },
   "engines": {
-    "node": "12.15.*"
+    "node": "14.* || >= 16"
   },
   "ember": {
     "edition": "octane"
