@@ -3,6 +3,7 @@ module.exports = {
   extends: ['peopledoc/ember'],
   rules: {},
   parser: '@typescript-eslint/parser',
+  ignorePatterns: ['tests/fixtures/meshs'],
   overrides: [
     {
       files: ['**/*.ts'],
