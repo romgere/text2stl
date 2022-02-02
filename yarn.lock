@@ -1133,38 +1133,38 @@
     semver "^7.3.2"
     typescript-memoize "^1.0.0-alpha.3"
 
-"@enable3d/ammo-physics@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/ammo-physics/-/ammo-physics-0.24.1.tgz#cfb6f4d83f811b536c34980ca6d1b824e3513ceb"
-  integrity sha512-DypwnWPbhH3Qrd9rSFu+W/V+2w+bgI481/LcRARysYkBA4gsmzIGVLniRl3OGUuOI49n2GlOzf5SxOWHLQ7CqQ==
+"@enable3d/ammo-physics@^0.25.1":
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/@enable3d/ammo-physics/-/ammo-physics-0.25.1.tgz#c97c63ae47183b4bf8d14d7b33744baa289dba04"
+  integrity sha512-7shki3p7ivIWNoM9SaFKOCxY0e46c1exvACeDXAeC63Rgm4OuK5SFEVBKjAPuBsFF0FYmJZOvOmNfLYKvWLBLA==
   dependencies:
-    "@enable3d/common" "^0.24.1"
-    "@enable3d/three-wrapper" "^0.24.1"
+    "@enable3d/common" "^0.25.1"
+    "@enable3d/three-wrapper" "^0.25.1"
     "@yandeu/events" "0.0.5"
 
-"@enable3d/common@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/common/-/common-0.24.1.tgz#cd12147f69f08677a0dd91a280d3c5e6cf27ad63"
-  integrity sha512-RawWoaiui+uQDG5+b0kgXH9krmK4OUKa2/qj1vEEAmkV9NnMZRhu2hMc2mNEpcnIAK6NKZSLKsHZ2i5wOUQCDQ==
+"@enable3d/common@^0.25.1":
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/@enable3d/common/-/common-0.25.1.tgz#2d809eded53a4b19610f92c84300d4f11de6433f"
+  integrity sha512-o+lkFxl5js1UICml01fBPYO5gc6A1KbCi2udTa8EGlRZPKgrX8Oo0SndgQe2yXwYE0nM64u5wYKnMQqeVIDdFQ==
   dependencies:
-    "@enable3d/three-wrapper" "^0.24.1"
+    "@enable3d/three-wrapper" "^0.25.1"
     "@yandeu/events" "0.0.5"
 
-"@enable3d/three-graphics@0.24.1", "@enable3d/three-graphics@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/three-graphics/-/three-graphics-0.24.1.tgz#b42c90bee61652bf974a8f3cbe359f2d504cfaca"
-  integrity sha512-oiZj0nYWIGhV3wwOusSK2pVtSX6zqBlTd217hkQg1MoWPay9AdMv8kaF3E1ElNmd18cOZN9CwyOHQn8TYc5Z/A==
+"@enable3d/three-graphics@0.25.1", "@enable3d/three-graphics@^0.25.1":
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/@enable3d/three-graphics/-/three-graphics-0.25.1.tgz#0e7bfe5441660ac61f333fe5b47f86039348cccc"
+  integrity sha512-++FV6aYcWlmDhwwVFGCBmTig8HdGyLxXkCYHiCI18gpP+IFa1SfpybWvyg3IPQB3ybt6GFG0/+KhmcZ+ojIknA==
   dependencies:
-    "@enable3d/ammo-physics" "^0.24.1"
-    "@enable3d/common" "^0.24.1"
-    "@enable3d/three-wrapper" "^0.24.1"
+    "@enable3d/ammo-physics" "^0.25.1"
+    "@enable3d/common" "^0.25.1"
+    "@enable3d/three-wrapper" "^0.25.1"
     "@yandeu/events" "0.0.5"
     "@yandeu/tap" "0.0.3"
 
-"@enable3d/three-wrapper@^0.24.1":
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/three-wrapper/-/three-wrapper-0.24.1.tgz#6a6299cd4772ec54fbfb39e5a8b3e70d0003944e"
-  integrity sha512-15jzS2Yy4/zYJq38kDbc6kk7f1IByk2M2qhSAzaRxoIGL9c1NJ+sWdxJa3mw9WHYz113YqGLF+myIP2SLHc8Ug==
+"@enable3d/three-wrapper@^0.25.1":
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/@enable3d/three-wrapper/-/three-wrapper-0.25.1.tgz#d0e39320411da4604771f3e64bfb58f44765711a"
+  integrity sha512-Q6ivU+chm9hFszFSPBzs9AAFnc91x6rs0uF1iv88Y02CgD9eZgFo1CcGtYzT7dMwC+OgcLeLjjkqCeUCv0jt8Q==
 
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
@@ -1935,10 +1935,10 @@
   resolved "https://registry.yarnpkg.com/@types/symlink-or-copy/-/symlink-or-copy-1.2.0.tgz#4151a81b4052c80bc2becbae09f3a9ec010a9c7a"
   integrity sha512-Lja2xYuuf2B3knEsga8ShbOdsfNOtzT73GyJmZyY7eGl2+ajOqrs8yM5ze0fsSoYwvA6bw7/Qr7OZ7PEEmYwWg==
 
-"@types/three@^0.133.1":
-  version "0.133.1"
-  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.133.1.tgz#6007faaf7f6b53339150a2a1fe57121e4c6607c1"
-  integrity sha512-XqBrP/+kbs+o0CYRhCVVE95v7FaL2bO5Z7+3VQJE0nEyjo+9LoLfeNgZITOnndKHxM+7ltEciAIR7uE0SZlsOg==
+"@types/three@~0.137.0":
+  version "0.137.0"
+  resolved "https://registry.yarnpkg.com/@types/three/-/three-0.137.0.tgz#6047e0658262b4de7c464a40288f9071ddd9a6d5"
+  integrity sha512-Xc5EAlfYmgrCLI/VlSVqiRJAtzhWF0Rw2jSq48nqJy+Hcb5sfDOXyfZn1+RNcHyi9l8CeCAXCZygO8IyeOJVEA==
 
 "@types/tough-cookie@*":
   version "4.0.1"
@@ -6401,15 +6401,15 @@ emojis-list@^3.0.0:
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-3.0.0.tgz#5570662046ad29e2e916e71aae260abdff4f6a78"
   integrity sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==
 
-enable3d@0.24.1:
-  version "0.24.1"
-  resolved "https://registry.yarnpkg.com/enable3d/-/enable3d-0.24.1.tgz#224a6c8659dae83a2b1d4a757ec40866e6ba235f"
-  integrity sha512-oaITTM39GqG0hxyejSzvi/eZnzWfUfPKE5jX/VfzzeGANkN/sJmlvpSvG+Y8FKiND8xTxjuEaxERyoJr+o90ag==
+enable3d@0.25.1:
+  version "0.25.1"
+  resolved "https://registry.yarnpkg.com/enable3d/-/enable3d-0.25.1.tgz#232a450980405013e6e3f5d30094964f6cc53dc9"
+  integrity sha512-0nMsJwmU1p36IUjKahtpgrCh3dCHb8AYSk1G8XGSUQ6BNe2BpxId9cMhRXwM+8F65MVP4MuOl6uS3wSuRsOrfg==
   dependencies:
-    "@enable3d/ammo-physics" "^0.24.1"
-    "@enable3d/common" "^0.24.1"
-    "@enable3d/three-graphics" "^0.24.1"
-    "@enable3d/three-wrapper" "^0.24.1"
+    "@enable3d/ammo-physics" "^0.25.1"
+    "@enable3d/common" "^0.25.1"
+    "@enable3d/three-graphics" "^0.25.1"
+    "@enable3d/three-wrapper" "^0.25.1"
 
 encodeurl@~1.0.2:
   version "1.0.2"
@@ -12696,10 +12696,10 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/textextensions/-/textextensions-2.6.0.tgz#d7e4ab13fe54e32e08873be40d51b74229b00fc4"
   integrity sha512-49WtAWS+tcsy93dRt6P0P3AMD2m5PvXRhuEA0kaXos5ZLlujtYmpmFsB+QvWUSxE1ZsstmYXfQ7L40+EcQgpAQ==
 
-three@^0.133.1:
-  version "0.133.1"
-  resolved "https://registry.yarnpkg.com/three/-/three-0.133.1.tgz#5606f4817d67a09d9212d4ccbd6826564774f8f4"
-  integrity sha512-WydohO8ll949B0FTD6MGz59Yv2Lwj8hvObg/0Heh2r42S6+tQC1WByfCNRdmG4D7+odfGod+n8JPV1I2xrboWw==
+three@^0.137.4:
+  version "0.137.5"
+  resolved "https://registry.yarnpkg.com/three/-/three-0.137.5.tgz#a1e34bedd0412f2d8797112973dfadac78022ce6"
+  integrity sha512-rTyr+HDFxjnN8+N/guZjDgfVxgHptZQpf6xfL/Mo7a5JYIFwK6tAq3bzxYYB4Ae0RosDZlDuP+X5aXDXz+XnHQ==
 
 through2@^2.0.0:
   version "2.0.5"
