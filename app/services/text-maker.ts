@@ -1,6 +1,5 @@
 import Service from '@ember/service'
 import * as opentype from 'opentype.js'
-// import * as THREE from 'three'
 import { THREE, ExtendedMesh } from 'enable3d'
 import { CSG } from '@enable3d/three-graphics/jsm/csg'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
@@ -21,6 +20,7 @@ export interface TextMakerParameters {
   size?: number
   height?: number
   spacing?: number
+  vSpacing?: number
   type?: ModelType
   supportHeight?: number
   supportPadding?: number
@@ -115,33 +115,44 @@ export default class TextMakerService extends Service {
       ? params.height
       : textMakerDefault.height
     let spacing = params.spacing !== undefined ? params.spacing : textMakerDefault.spacing
+    let vSpacing = params.vSpacing !== undefined ? params.vSpacing : textMakerDefault.vSpacing
 
     let geometries: THREE.ExtrudeGeometry[] = []
     let dx = 0
+    let dy = 0
 
-    // Iterate on text char to generate a Geometry for each
-    font.forEachGlyph(text, 0, 0, size, undefined, (glyph, x, y) => {
-      x += dx
-      dx += spacing
+    let lines = text.split('\n')
+    for (let lineText of lines) {
 
-      let shapes = this.glyphToShapes(glyph)
-      let geometry = new THREE.ExtrudeGeometry(shapes, {
-        depth: height,
-        bevelEnabled: true,
-        bevelThickness: 0,
-        bevelSize: 0,
-        bevelOffset: 0,
-        bevelSegments: 0
+      // Iterate on text char to generate a Geometry for each
+      font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
+
+        x += dx
+        dx += spacing
+
+        y += dy
+
+        let shapes = this.glyphToShapes(glyph)
+        let geometry = new THREE.ExtrudeGeometry(shapes, {
+          depth: height,
+          bevelEnabled: true,
+          bevelThickness: 0,
+          bevelSize: 0,
+          bevelOffset: 0,
+          bevelSegments: 0
+        })
+        geometry.applyMatrix4(new THREE.Matrix4().makeScale(
+          1 / font.unitsPerEm * size,
+          1 / font.unitsPerEm * size,
+          1
+        ))
+
+        geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(x, y, 0))
+        geometries.push(geometry)
       })
-      geometry.applyMatrix4(new THREE.Matrix4().makeScale(
-        1 / font.unitsPerEm * size,
-        1 / font.unitsPerEm * size,
-        1
-      ))
 
-      geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(x, y, 0))
-      geometries.push(geometry)
-    })
+      dy -= size + vSpacing
+    }
 
     return mergeBufferGeometries(geometries)
   }

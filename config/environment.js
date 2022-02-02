@@ -31,6 +31,7 @@ module.exports = function(environment) {
         size: 45,
         height: 10,
         spacing: 2,
+        vSpacing: 0,
         type: 2,
         supportHeight: 5,
         supportPadding: 10

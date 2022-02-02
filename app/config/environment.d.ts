@@ -20,6 +20,7 @@ declare const config: {
       size: number;
       height: number;
       spacing: number;
+      vSpacing: number;
       type: ModelType;
       supportHeight: number;
       supportPadding: number;
