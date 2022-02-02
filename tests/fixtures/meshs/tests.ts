@@ -113,5 +113,17 @@ export default {
     font: 'open_sans',
     text: 'multi\nline',
     vSpacing: 25
-  }
+  },
+
+  o: {
+    font: 'open_sans',
+    text: 'multi\nline',
+    align: 'left'
+  },
+
+  p: {
+    font: 'open_sans',
+    text: 'multi\nline',
+    align: 'right'
+  },
 }

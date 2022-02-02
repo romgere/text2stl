@@ -14,6 +14,8 @@ interface ContourPoint {
   onCurve: boolean
 }
 
+type TextMakerAlignment = 'left' | 'center' | 'right'
+
 export interface TextMakerParameters {
   font: opentype.Font
   text: string
@@ -21,6 +23,7 @@ export interface TextMakerParameters {
   height?: number
   spacing?: number
   vSpacing?: number
+  alignment: TextMakerAlignment
   type?: ModelType
   supportHeight?: number
   supportPadding?: number
@@ -116,13 +119,17 @@ export default class TextMakerService extends Service {
       : textMakerDefault.height
     let spacing = params.spacing !== undefined ? params.spacing : textMakerDefault.spacing
     let vSpacing = params.vSpacing !== undefined ? params.vSpacing : textMakerDefault.vSpacing
+    let alignment = params.alignment !== undefined ? params.alignment : textMakerDefault.alignment
 
-    let geometries: THREE.ExtrudeGeometry[] = []
-    let dx = 0
+    let geometries: THREE.ExtrudeGeometry[][] = []
     let dy = 0
-
+    let linesWidth: number[] = []
     let lines = text.split('\n')
     for (let lineText of lines) {
+
+      let dx = 0
+      let lineMaxX = 0
+      let lineGeometries: THREE.ExtrudeGeometry[] = []
 
       // Iterate on text char to generate a Geometry for each
       font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
@@ -148,13 +155,36 @@ export default class TextMakerService extends Service {
         ))
 
         geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(x, y, 0))
-        geometries.push(geometry)
+        lineGeometries.push(geometry)
+
+        // compute bound box to retrieve glyph size
+        geometry.computeBoundingBox()
+        lineMaxX = geometry.boundingBox?.max.x ?? 0
       })
 
+      geometries.push(lineGeometries)
+
       dy -= size + vSpacing
+
+      // Keep this for each line to handle alignment
+      linesWidth.push(lineMaxX)
     }
 
-    return mergeBufferGeometries(geometries)
+    // Handle alignment (now we know all line size)
+    if (alignment !== 'left') {
+      let maxWidth = Math.max(...linesWidth)
+
+      linesWidth.forEach(function(lineWidth, line) {
+        if (lineWidth !== maxWidth) {
+          let xOffset = (maxWidth - lineWidth) / (alignment === 'center' ? 2 : 1)
+          geometries[line].forEach(function(geometry) {
+            geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(xOffset, 0, 0))
+          })
+        }
+      })
+    }
+
+    return mergeBufferGeometries(geometries.flat())
   }
 
   generateMesh(params: TextMakerParameters): THREE.Mesh {
