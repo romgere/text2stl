@@ -27,9 +27,10 @@ module('Unit | Service | text-maker', function(hooks) {
     Object.keys(meshTests).map((name: keyof typeof meshTests) => ({
       settings: meshTests[name],
       snapshot: meshFixture[name],
-      title: `Mesh fixture "${name}"`
+      title: `Mesh fixture "${name}"`,
+      name
     }))
-  ).test('it generate mesh according to snapshots', async function({ settings, snapshot }, assert) {
+  ).test('it generate mesh according to snapshots', async function({ settings, snapshot, name }, assert) {
 
     let service = this.owner.lookup('service:text-maker') as TextMakerService
 
@@ -38,9 +39,23 @@ module('Unit | Service | text-maker', function(hooks) {
       font: await loadFont(settings.font)
     })
 
+    let generatedCompare = objectToCompareString(mesh?.toJSON()?.geometries)
+    let snapshotCompare = objectToCompareString(snapshot?.geometries)
+
+    if (generatedCompare !== snapshotCompare) {
+      console.warn(`New mesh snapshot needed for fixture "${name}" ?`)
+
+      let fileContent = `export default ${JSON.stringify(mesh?.toJSON())}`
+      let blob = new Blob([fileContent], {
+        type: 'text/plain'
+      })
+      let url = URL.createObjectURL(blob)
+      console.warn(`If needed, write the following content to tests/fixtures/meshs/snapshots/${name}.ts`, url)
+    }
+
     assert.equal(
-      objectToCompareString(mesh?.toJSON()?.geometries),
-      objectToCompareString(snapshot?.geometries),
+      generatedCompare,
+      snapshotCompare,
       'Mesh is conform to fixture'
     )
   })

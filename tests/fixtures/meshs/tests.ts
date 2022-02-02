@@ -102,5 +102,16 @@ export default {
     type: 4,
     supportHeight: 10,
     supportPadding: 0
+  },
+
+  m: {
+    font: 'open_sans',
+    text: 'multi\nline',
+  },
+
+  n: {
+    font: 'open_sans',
+    text: 'multi\nline',
+    vSpacing: 25
   }
 }
