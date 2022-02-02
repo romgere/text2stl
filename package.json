@@ -23,7 +23,7 @@
     "lint:js": "eslint . --ext .js,.ts",
     "lint:js:fix": "eslint . --ext .js,.ts --fix",
     "start": "ember serve",
-    "test": "npm-run-all test:*",
+    "test": "npm-run-all lint test:*",
     "test:ember": "ember test",
     "generate:snapshot": "ts-node -r esm tests/fixtures/script/generate.ts",
     "generate:type_img": "misc/text_type/generate_logo.sh"
@@ -117,7 +117,7 @@
     "ember-toggle": "8.0.0"
   },
   "engines": {
-    "node": "12.15.*"
+    "node": "14.* || >= 16"
   },
   "ember": {
     "edition": "octane"

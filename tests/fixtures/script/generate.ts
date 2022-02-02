@@ -35,9 +35,7 @@ async function generateReferenceMeshSnaphots(name: MeshKey) : Promise<void> {
   })
 
   // Save to reference file
-  fs.writeFileSync(`${__dirname}/../meshs/snapshots/${String(name)}.ts`, `/* eslint-disable */
-  export default ${JSON.stringify(mesh.toJSON())}
-`)
+  fs.writeFileSync(`${__dirname}/../meshs/snapshots/${String(name)}.ts`, `export default ${JSON.stringify(mesh.toJSON())}`)
 
   console.log(`Snapshot "${String(name)}" generated.`)
 }
