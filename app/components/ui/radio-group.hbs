@@ -1,0 +1,13 @@
+<div ...attributes>
+  {{#each @options as |option|}}
+    <label>
+      <input class="uk-radio" type="radio" 
+        value={{option}}
+        name={{this.radioName}}
+        checked={{eq option @checked}}
+        {{on "change" this.onChange}}
+      >
+      {{yield option}}
+    </label>
+  {{/each}}
+</div>
