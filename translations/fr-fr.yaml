@@ -44,8 +44,14 @@ text_settings:
   size: Taille du texte
   height: Hauteur du texte
   kerning: Espacement du texte
+  vkerning: Espacement des lignes
   supportHeight: Hauteur du support
   supportPadding: Espacement du support
+  alignment: Alignement du texte
+alignment:
+  left: Gauche
+  center: Centré
+  right: Droite
 three_preview:
   size: "Taille d'impression : {x} x {y} x {z} mm"
 text_type:
