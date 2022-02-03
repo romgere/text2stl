@@ -14,7 +14,7 @@ interface ContourPoint {
   onCurve: boolean
 }
 
-type TextMakerAlignment = 'left' | 'center' | 'right'
+export type TextMakerAlignment = 'left' | 'center' | 'right'
 
 export interface TextMakerParameters {
   font: opentype.Font
@@ -23,7 +23,7 @@ export interface TextMakerParameters {
   height?: number
   spacing?: number
   vSpacing?: number
-  alignment: TextMakerAlignment
+  alignment?: TextMakerAlignment
   type?: ModelType
   supportHeight?: number
   supportPadding?: number
