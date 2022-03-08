@@ -124,7 +124,7 @@ export default class TextMakerService extends Service {
     let geometries: THREE.ExtrudeGeometry[][] = []
     let dy = 0
     let linesWidth: number[] = []
-    let lines = text.split('\n')
+    let lines = text.split('\n').map((s) => s.trimEnd())
     for (let lineText of lines) {
 
       let dx = 0
@@ -133,7 +133,6 @@ export default class TextMakerService extends Service {
 
       // Iterate on text char to generate a Geometry for each
       font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
-
         x += dx
         dx += spacing
 
@@ -170,6 +169,8 @@ export default class TextMakerService extends Service {
       linesWidth.push(lineMaxX)
     }
 
+    console.log('linesWidth', linesWidth)
+
     // Handle alignment (now we know all line size)
     if (alignment !== 'left') {
       let maxWidth = Math.max(...linesWidth)
@@ -177,6 +178,9 @@ export default class TextMakerService extends Service {
       linesWidth.forEach(function(lineWidth, line) {
         if (lineWidth !== maxWidth) {
           let xOffset = (maxWidth - lineWidth) / (alignment === 'center' ? 2 : 1)
+
+          console.log('xOffset', xOffset)
+
           geometries[line].forEach(function(geometry) {
             geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(xOffset, 0, 0))
           })
