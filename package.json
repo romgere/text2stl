@@ -34,6 +34,7 @@
     "@ember/test-helpers": "^2.4.2",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
+    "@onehilltech/ember-cli-google-analytics": "^1.2.0",
     "@types/ember-qunit": "^3.4.13",
     "@types/ember-resolver": "^5.0.10",
     "@types/ember__application": "^3.16.2",

@@ -60,6 +60,13 @@ module.exports = function(environment) {
           ? 'test_stl'
           : process.env.COUNTAPI_API_KEY
       }
+    },
+
+    'ember-cli-google': {
+      analytics: {
+        version: 'v4',
+        measurementId: 'G-47QBQ5GB3Y'
+      }
     }
   }
 
