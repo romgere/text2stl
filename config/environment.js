@@ -92,6 +92,7 @@ module.exports = function(environment) {
 
   if (environment === 'production') {
     // here you can enable a production-specific feature
+    ENV.rootURL = 'https://text2stl.mestres.fr/'
   }
 
   return ENV
