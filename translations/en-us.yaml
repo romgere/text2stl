@@ -62,3 +62,5 @@ text_type:
   2: Text with support
   3: Negative text on support
   4: Vertical text with support
+seo:
+  description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts, different shape and settings & download an STL file to print.
