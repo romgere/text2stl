@@ -11,7 +11,7 @@ export default class AppRoute extends Route {
 
   @service declare intl: IntlService
   @service declare router:  Services['router']
-  
+
   constructor() {
     super(...arguments)
     this.router.on('routeDidChange', (transition: Transition) => this.updateMeta(transition))
@@ -22,7 +22,7 @@ export default class AppRoute extends Route {
   }
 
   updateMeta(transition: Transition) {
-        
+
     let metaDescription = document.head.querySelector<HTMLMetaElement>('meta[name="description"]')
     if (metaDescription) {
       metaDescription.content = this.intl.t('seo.description')
@@ -30,7 +30,7 @@ export default class AppRoute extends Route {
 
     let { name: toRouteName } = transition.to
     let canonicalHref = this.router.urlFor(toRouteName, { locale: this.intl.primaryLocale })
-    
+
     let canonicalLink = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]')
     if (canonicalLink) {
       canonicalLink.setAttribute('href', canonicalHref)
