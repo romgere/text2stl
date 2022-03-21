@@ -22,12 +22,18 @@ export default class ApplicationController extends Controller {
 
   declare model: RouteModel<ApplicationRoute>
 
+  _gtag = gtag
+
   get counter() {
     return this.counterService.counter
   }
 
   @cached
   get mesh(): Mesh {
+    this._gtag('event', 'stl_generation', {
+      event_category: 'stl', // eslint-disable-line camelcase
+      value: this.model.type
+    })
     return this.textMaker.generateMesh(this.model)
   }
 
@@ -60,6 +66,11 @@ export default class ApplicationController extends Controller {
     if (!mesh) {
       return
     }
+
+    this._gtag('event', 'stl_download', {
+      event_category: 'stl', // eslint-disable-line camelcase
+      value: this.model.type
+    })
 
     this.counterService.updateCounter()
     this.stlExporter.downloadMeshAsSTL(mesh)
