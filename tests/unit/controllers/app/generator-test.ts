@@ -32,21 +32,30 @@ module('Unit | Controller | app/generator', function(hooks) {
 
   test('it generate a STL with mesh', async function(assert) {
 
-    assert.expect(2)
+    assert.expect(5)
 
     let controller = this.owner.lookup('controller:app/generator')
 
-    controller.model = 'model-settings'
+    let model = { type: 'tipi' }
+    controller.model = model
 
     this.owner.lookup('service:stl-exporter').downloadMeshAsSTL = function(mesh: string) {
       assert.equal(mesh, 'mesh_de_cheveux', 'it generates STL from mesh')
     }
 
-    this.owner.lookup('service:text-maker').generateMesh = function(settings: string) {
-      assert.equal(settings, 'model-settings', 'it generate mesh with model settings')
+    this.owner.lookup('service:text-maker').generateMesh = function(settings: any) {
+      assert.strictEqual(settings, model, 'it generate mesh with model settings')
       return 'mesh_de_cheveux'
     }
 
+    controller._gtag = function(type: string, eventName: string, opts: any) {
+      assert.step(`gtag_${type}_${eventName}_${opts.value}`)
+    }
+
     controller.exportSTL()
+    assert.verifySteps([
+      'gtag_event_stl_generation_tipi',
+      'gtag_event_stl_download_tipi'
+    ])
   })
 })
