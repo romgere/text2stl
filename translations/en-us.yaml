@@ -6,7 +6,7 @@ index_page:
   list:
     font:
       dt: Custom font
-      dd: Choose a font from more than 1000 Google fonts.
+      dd: Choose a font from more than 1000 Google fonts or use your own.
     shape:
       dt: Custom shape
       dd: Select a shape type (with or without support, negative text).
@@ -73,4 +73,4 @@ custom_font:
 errors:
   font_load_generic: "Selected font can't be load"
 seo:
-  description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts, different shape and settings & download an STL file to print.
+  description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts or use your own, different shape and settings & download an STL file to print.

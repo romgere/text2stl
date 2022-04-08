@@ -125,7 +125,7 @@ module('Unit | Service | font-manager', function(hooks) {
       }
     } as typeof opentype
 
-    let font = await service.loadCustomFont(mockedBlob)
+    let font = await service.loadCustomFont(mockedBlob as unknown as Blob)
     assert.equal(font, 'a-parsed-font', 'Font is returned')
   })
 })
