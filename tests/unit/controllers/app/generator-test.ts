@@ -4,7 +4,7 @@ import { setupTest } from 'ember-qunit'
 module('Unit | Controller | app/generator', function(hooks) {
   setupTest(hooks)
 
-  test('it handles font change & font loading', async function(assert) {
+  test('it handles font change & font loading (google font)', async function(assert) {
 
     assert.expect(4)
 
@@ -28,6 +28,29 @@ module('Unit | Controller | app/generator', function(hooks) {
     await controller.onFontChange()
 
     assert.equal(controller.model.font, 'a_font', 'Font was update on model')
+  })
+
+  test('it handles font change & font loading (custom font)', async function(assert) {
+
+    assert.expect(2)
+
+    let controller = this.owner.lookup('controller:app/generator')
+
+    controller.model = {
+      customFont: 'my-font.file',
+      variantName: undefined,
+      fontSize: undefined,
+      font: undefined
+    }
+
+    this.owner.lookup('service:font-manager').loadCustomFont = async function(file: string) {
+      assert.equal(file, 'my-font.file', 'it loads correct font file')
+      return 'a_custom_font'
+    }
+
+    await controller.onFontChange()
+
+    assert.equal(controller.model.font, 'a_custom_font', 'Font was update on model')
   })
 
   test('it generate a STL with mesh', async function(assert) {

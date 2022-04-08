@@ -1,0 +1,23 @@
+<div
+  class="uk-placeholder uk-text-center {{if this.dropActive "uk-dragover"}}"
+  ...attributes
+  {{on "drop" this.onDropFile}}
+  {{on "dragover" this.onDragOver}}
+  {{on "dragleave" (fn (mut this.dropActive) false)}}
+>
+  <span uk-icon="icon: cloud-upload"></span>
+  <span class="uk-text-middle" data-test-drop-zone-label>
+    {{@dropZoneLabel}}
+  </span>
+  <div uk-form-custom>
+    <input
+      type="file"
+      id={{this.id}}
+      accept={{this.accept}}
+      {{on "change" this.fileChange}}
+    >
+    <label class="uk-link" for={{this.id}} data-test-input-label>
+      {{@inputZoneLabel}}
+    </label>
+  </div>
+</div>

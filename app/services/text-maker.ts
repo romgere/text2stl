@@ -169,8 +169,6 @@ export default class TextMakerService extends Service {
       linesWidth.push(lineMaxX)
     }
 
-    console.log('linesWidth', linesWidth)
-
     // Handle alignment (now we know all line size)
     if (alignment !== 'left') {
       let maxWidth = Math.max(...linesWidth)
@@ -178,9 +176,6 @@ export default class TextMakerService extends Service {
       linesWidth.forEach(function(lineWidth, line) {
         if (lineWidth !== maxWidth) {
           let xOffset = (maxWidth - lineWidth) / (alignment === 'center' ? 2 : 1)
-
-          console.log('xOffset', xOffset)
-
           geometries[line].forEach(function(geometry) {
             geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(xOffset, 0, 0))
           })

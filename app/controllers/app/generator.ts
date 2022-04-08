@@ -7,6 +7,7 @@ import STLExporterService from 'text2stl/services/stl-exporter'
 import CounterService from 'text2stl/services/counter'
 import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/app/generator'
+import type IntlService from 'ember-intl/services/intl'
 import { cached } from 'tracked-toolbox'
 import { tracked } from '@glimmer/tracking'
 
@@ -17,6 +18,8 @@ export default class ApplicationController extends Controller {
   @service declare fontManager: FontManagerService
 
   @service declare stlExporter: STLExporterService
+
+  @service declare intl: IntlService
 
   @service('counter') declare counterService: CounterService
 
@@ -47,16 +50,21 @@ export default class ApplicationController extends Controller {
   async onFontChange() {
 
     this.isFontLoading = true
+    try {
+      let fontFetchPromise = this.model.customFont
+        ? this.fontManager.loadCustomFont(this.model.customFont)
+        : this.fontManager.fetchFont(
+          this.model.fontName,
+          this.model.variantName,
+          this.model.fontSize
+        )
 
-    let fontFetchPromise = this.fontManager.fetchFont(
-      this.model.fontName,
-      this.model.variantName,
-      this.model.fontSize
-    )
+      this.model.font = await fontFetchPromise
 
-    this.model.font = await fontFetchPromise
-
-    fontFetchPromise.then(() => this.isFontLoading = false)
+      fontFetchPromise.then(() => this.isFontLoading = false)
+    } catch(e) {
+      alert(this.intl.t('errors.font_load_generic'))
+    }
   }
 
   @action

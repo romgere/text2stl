@@ -20,6 +20,7 @@ export default class TextMakerSettings implements TextMakerParameters {
   @tracked font: opentype.Font
   @tracked text: string
   @tracked size?: number
+  @tracked customFont?: Blob
   @tracked height?: number
   @tracked spacing?: number
   @tracked vSpacing?: number

@@ -59,5 +59,15 @@ text_type:
   2: Text avec support
   3: Text negatif sur support
   4: Text vertical avec support
+custom_font:
+  ck_label: Utiliser une police personnalisé
+  current_label: Fichier actuel
+  no_font: Aucune
+  upload:
+    drop_zone: Utiliser un fichier police personalisé en déposant un fichier (woff, otf, ttf) ici ou
+    input_label: parcourir votre ordinateur & selectionner un fichier
+    bad_file_type: Format de fichier non supporté, veuillez utiliser un fichier .woff, .otf ou .ttf
+errors:
+  font_load_generic: "Erreur de chargement de la police"
 seo:
   description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices, différentes formes et réglagles & téléchargez un fichier STL à imprimer.
