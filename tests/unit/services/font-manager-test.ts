@@ -8,9 +8,6 @@ import type FontManagerService from 'text2stl/services/font-manager'
 module('Unit | Service | font-manager', function(hooks) {
   setupTest(hooks)
 
-  // fontName: 'Open Sans',
-  //       variantName: 'normal',
-  //       fontSize: '400',
   cases([
     {
       fontName: 'Open Sans',
@@ -108,6 +105,27 @@ module('Unit | Service | font-manager', function(hooks) {
     assert.equal(font, 'a-parsed-font', 'Font is returned')
 
     font = await service.fetchFont('Open Sans')
+    assert.equal(font, 'a-parsed-font', 'Font is returned')
+  })
+
+  test('it can load custom font file', async function(assert) {
+    let service = this.owner.lookup('service:font-manager') as FontManagerService
+
+    let mockedBlob = {
+      async arrayBuffer() {
+        return 'a_great_boeuf-er'
+      }
+    }
+
+    service.opentype = {
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      parse(buffer: any): opentype.Font {
+        assert.equal(buffer, 'a_great_boeuf-er', 'blob buffer is passed to opentype.parse')
+        return 'a-parsed-font' as unknown as opentype.Font
+      }
+    } as typeof opentype
+
+    let font = await service.loadCustomFont(mockedBlob)
     assert.equal(font, 'a-parsed-font', 'Font is returned')
   })
 })

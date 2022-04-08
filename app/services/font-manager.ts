@@ -43,6 +43,11 @@ export default class FontManagerService extends Service {
 
     return this.fontCache[cacheName]
   }
+
+  async loadCustomFont(fontTTFFile: Blob): Promise<opentype.Font> {
+    let fontAsBuffer = await fontTTFFile.arrayBuffer()
+    return this.opentype.parse(fontAsBuffer)
+  }
 }
 
 // DO NOT DELETE: this is how TypeScript knows how to look up your services.
