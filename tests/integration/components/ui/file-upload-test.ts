@@ -11,10 +11,7 @@ async function triggerDropForFile(target: string | Element, file: Blob) {
     dataTransfer: {
       types: ['Files'],
       files: [file]
-    },
-
-    clientX: 0,
-    clientY: 0
+    }
   })
 }
 

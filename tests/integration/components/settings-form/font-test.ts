@@ -1,9 +1,10 @@
 import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
-import { render, click } from '@ember/test-helpers'
+import { render, click, triggerEvent, settled } from '@ember/test-helpers'
 import hbs from 'htmlbars-inline-precompile'
 // eslint-disable-next-line ember/no-classic-components
 import Component from '@ember/component'
+import { tracked } from '@glimmer/tracking'
 
 module('Integration | Component | settings-form/font', function(hooks) {
   setupRenderingTest(hooks)
@@ -54,20 +55,26 @@ module('Integration | Component | settings-form/font', function(hooks) {
       }
     )
 
-    let model = {
-      fontName: 'initial_fontName',
-      variantName: 'initial_variantName',
-      fontSize: 'initial_fontSize'
+    class Model {
+      fontName = 'initial_fontName'
+      variantName = 'initial_variantName'
+      fontSize = 'initial_fontSize'
+      @tracked customFont = undefined
     }
+    let model = new Model()
     this.set('model', model)
 
-    let onFontChangeDone = assert.async(3)
-    this.set('onFontChange', onFontChangeDone)
+    this.set('onFontChange', function() {
+      assert.step('onFontChange')
+    })
 
     await render(hbs`<SettingsForm::Font
       @model={{this.model}}
       @onFontChange={{this.onFontChange}}
     />`)
+
+    assert.dom('[data-test-custom-checkbox]').isNotChecked('custom font ck is unchecked by default')
+    assert.dom('[data-test-custom-font-upload]').doesNotExist('Custom font upload is not rendered')
 
     assert.dom('[data-mocked-categories]').exists('It renders "categories" component')
     assert.dom('[data-mocked-font-name-select]').exists('It renders "font-name-select" component')
@@ -86,6 +93,7 @@ module('Integration | Component | settings-form/font', function(hooks) {
       'new_fontName',
       'It handles fontName update'
     )
+    assert.verifySteps(['onFontChange'])
 
     await click('[data-mocked-variant-name-select]')
     assert.equal(
@@ -93,6 +101,7 @@ module('Integration | Component | settings-form/font', function(hooks) {
       'new_variantName',
       'It handles variantName update'
     )
+    assert.verifySteps(['onFontChange'])
 
     await click('[data-mocked-font-size-select]')
     assert.equal(
@@ -100,5 +109,54 @@ module('Integration | Component | settings-form/font', function(hooks) {
       'new_fontSize',
       'It handles fontNfontSizeame update'
     )
+    assert.verifySteps(['onFontChange'])
+
+    await click('[data-test-custom-checkbox]')
+    assert.verifySteps([])
+
+    assert.dom('[data-test-custom-font-upload]').exists('Custom font upload is now rendered')
+    assert.dom('[data-mocked-categories]').doesNotExist('It no longer renders "categories" component')
+    assert.dom('[data-mocked-font-name-select]').doesNotExist('It no longer renders "font-name-select" component')
+    assert.dom('[data-mocked-variant-name-select]').doesNotExist('It no longer renders "variant-name-select" component')
+    assert.dom('[data-mocked-font-size-select]').doesNotExist('It no longer renders "font-size-select" component')
+
+    assert.dom('[data-test-custom-font-name]').hasValue('None', 'custom font name input is "None"')
+
+    let fontFile = { type: 'font/otf', name: 'ainsi_font_font.otf' }
+
+    await triggerEvent('[data-test-custom-font-upload]', 'drop', {
+      dataTransfer: {
+        types: ['Files'],
+        files: [
+          fontFile
+        ]
+      }
+    })
+
+    // eslint-disable-next-line ember/no-settled-after-test-helper
+    await settled() // Needed to prevent an weird async release error
+
+    assert.verifySteps(['onFontChange'])
+    assert.strictEqual(model.customFont, fontFile, 'model.customFont was update with font file')
+    assert
+      .dom('[data-test-custom-font-name]')
+      .hasValue('ainsi_font_font.otf', 'custom font name input render custom font file name')
+
+    // Switch back to google font
+    await click('[data-test-custom-checkbox]')
+    assert.verifySteps(['onFontChange'])
+    assert.dom('[data-test-custom-font-upload]').doesNotExist('Custom font upload is no longer displayed')
+    assert.dom('[data-mocked-categories]').exists('It renders google font components')
+    assert.strictEqual(model.customFont, undefined, 'model.customFont was "reset" to undefined')
+
+    // Switch back to custom font
+    await click('[data-test-custom-checkbox]')
+    assert.verifySteps(['onFontChange'])
+    assert.dom('[data-test-custom-font-upload]').exists('Custom font upload is now rendered')
+    assert.dom('[data-mocked-categories]').doesNotExist('It no longer renders "categories" component')
+    assert.strictEqual(model.customFont, fontFile, 'model.customFont was update with font file')
+    assert
+      .dom('[data-test-custom-font-name]')
+      .hasValue('ainsi_font_font.otf', 'custom font name input render custom font file name')
   })
 })
