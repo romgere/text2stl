@@ -47,16 +47,20 @@ export default class ApplicationController extends Controller {
   async onFontChange() {
 
     this.isFontLoading = true
+    try {
+      let fontFetchPromise = this.model.customFont
+        ? this.fontManager.loadCustomFont(this.model.customFont)
+        : this.fontManager.fetchFont(
+          this.model.fontName,
+          this.model.variantName,
+          this.model.fontSize
+        )
 
-    let fontFetchPromise = this.fontManager.fetchFont(
-      this.model.fontName,
-      this.model.variantName,
-      this.model.fontSize
-    )
+      this.model.font = await fontFetchPromise
 
-    this.model.font = await fontFetchPromise
-
-    fontFetchPromise.then(() => this.isFontLoading = false)
+      fontFetchPromise.then(() => this.isFontLoading = false)
+    } catch(e) {
+    }
   }
 
   @action
