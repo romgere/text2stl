@@ -6,7 +6,7 @@ index_page:
   list:
     font:
       dt: Police personnalisée
-      dd: Choisissez une police parmis plus de 1000 polices Google
+      dd: Choisissez une police parmis plus de 1000 polices Google ou utilisez la vôtre
     shape:
       dt: Forme personnalisée
       dd: Choisissez une forme (avec ou sans support, texte inversé).
@@ -70,4 +70,4 @@ custom_font:
 errors:
   font_load_generic: "Erreur de chargement de la police"
 seo:
-  description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices, différentes formes et réglagles & téléchargez un fichier STL à imprimer.
+  description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices Google ou utilisez la vôtre, différentes formes et réglagles & téléchargez un fichier STL à imprimer.

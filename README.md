@@ -26,7 +26,7 @@ Inspired from : https://github.com/mo22/textstl
 - [x] multi-line text ? (#33)
 - [ ] save/load text (via URL encoded / local storage ?)
 - [ ] (or) QP to save current settings ?
-- [ ] handle custom font
+- [x] handle custom font
 - [ ] Any way to handle emoji or special char like '★' ?
 - [ ] Multiple object for vertical support to allow multi-color print ?
 
