@@ -14,7 +14,13 @@ import m from './m'
 import n from './n'
 import o from './o'
 import p from './p'
+import q from './q'
+import r from './r'
+import s from './s'
+import t from './t'
+import u from './u'
+import v from './v'
 
 export default {
-  a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p
+  a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v
 } as Record<string, Object & { geometries: Object}>

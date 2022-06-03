@@ -16,6 +16,13 @@ interface ContourPoint {
 
 export type TextMakerAlignment = 'left' | 'center' | 'right'
 
+export type SupportPadding = {
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
 export interface TextMakerParameters {
   font: opentype.Font
   text: string
@@ -26,7 +33,7 @@ export interface TextMakerParameters {
   alignment?: TextMakerAlignment
   type?: ModelType
   supportHeight?: number
-  supportPadding?: number
+  supportPadding?: SupportPadding
 }
 
 export enum ModelType {
@@ -207,9 +214,7 @@ export default class TextMakerService extends Service {
     let finalGeometry : THREE.BufferGeometry | undefined = undefined
 
     let supportHeight = params.supportHeight || textMakerDefault.supportHeight
-    let supportPadding = params.supportPadding !== undefined && params.supportPadding >= 0
-      ? params.supportPadding
-      : textMakerDefault.supportPadding
+    let supportPadding = params.supportPadding !== undefined ? params.supportPadding : textMakerDefault.supportPadding
 
     // Get
     let { min, max } = new THREE.Box3().setFromObject(textMesh)
@@ -223,8 +228,8 @@ export default class TextMakerService extends Service {
 
       // Generate support
       let supportGeometry = new THREE.BoxGeometry(
-        size.x + supportPadding * 2,
-        size.y + supportPadding * 2,
+        size.x + supportPadding.left + supportPadding.right,
+        size.y + supportPadding.top + supportPadding.bottom,
         supportHeight
       )
       supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
@@ -235,8 +240,8 @@ export default class TextMakerService extends Service {
 
       // Center text in support
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -(size.x / 2) - min.x,
-        -(size.y / 2) - min.y,
+        -(size.x / 2) - min.x - (supportPadding.right - supportPadding.left) / 2,
+        -(size.y / 2) - min.y - (supportPadding.top - supportPadding.bottom) / 2,
         supportHeight
       ))
 
@@ -249,8 +254,8 @@ export default class TextMakerService extends Service {
     } else if (type === ModelType.VerticalTextWithSupport) {
       // Generate support
       let supportGeometry = new THREE.BoxGeometry(
-        size.x + supportPadding * 2,
-        size.z + supportPadding * 2,
+        size.x + supportPadding.left + supportPadding.right,
+        size.z + supportPadding.top + supportPadding.bottom,
         supportHeight
       )
       supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
@@ -263,8 +268,8 @@ export default class TextMakerService extends Service {
         Math.PI / 2
       ))
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -(size.x / 2) - min.x,
-        size.z / 2,
+        -(size.x / 2) - min.x - (supportPadding.right - supportPadding.left) / 2,
+        size.z / 2 - (supportPadding.top - supportPadding.bottom) / 2,
         supportHeight
       ))
       // Merge
@@ -280,8 +285,8 @@ export default class TextMakerService extends Service {
 
       // Generate support
       let supportGeometry = new THREE.BoxGeometry(
-        size.x + supportPadding * 2,
-        size.y + supportPadding * 2,
+        size.x + supportPadding.left + supportPadding.right,
+        size.y + supportPadding.top + supportPadding.bottom,
         supportHeight
       )
       supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
@@ -291,10 +296,11 @@ export default class TextMakerService extends Service {
       ))
       // Move text
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -(size.x / 2) - min.x,
-        -(size.y / 2) - min.y,
+        -(size.x / 2) - min.x - (supportPadding.right - supportPadding.left) / 2,
+        -(size.y / 2) - min.y - (supportPadding.top - supportPadding.bottom) / 2,
         supportHeight - size.z
       ))
+
       // Substract text to support
       let bspSupport = CSG.subtract(
         new ExtendedMesh(
