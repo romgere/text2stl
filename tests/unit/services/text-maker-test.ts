@@ -50,6 +50,21 @@ module('Unit | Service | text-maker', function(hooks) {
         type: 'text/plain'
       })
       let url = URL.createObjectURL(blob)
+
+      if (window.location.hash.substr(1) === 'download_fixture') {
+        let link = document.createElement('a')
+        link.setAttribute('download', `${name}.ts`)
+        link.setAttribute('href', url)
+        link.setAttribute('target', '_blank')
+        link.setAttribute('rel', 'noopener noreferrer')
+
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+
+        URL.revokeObjectURL(url)
+      }
+
       console.warn(`If needed, write the following content to tests/fixtures/meshs/snapshots/${name}.ts`, url)
     }
 
