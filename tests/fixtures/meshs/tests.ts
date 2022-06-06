@@ -1,4 +1,5 @@
 export default {
+  // "Basic" text only
   a: {
     font: 'open_sans',
     text: '123',
@@ -20,6 +21,7 @@ export default {
     spacing: 10
   },
 
+  // "Basic" text with support
   d: {
     font: 'open_sans',
     text: '123',
@@ -48,6 +50,7 @@ export default {
     supportPadding: { top: 0, bottom: 0, left: 0, right: 0 }
   },
 
+  // "Basic" negative text
   g: {
     font: 'open_sans',
     text: '123',
@@ -76,6 +79,7 @@ export default {
     supportPadding: { top: 0, bottom: 0, left: 0, right: 0 }
   },
 
+  // "Basic" vertical text with support
   j: {
     font: 'open_sans',
     text: '123',
@@ -104,6 +108,7 @@ export default {
     supportPadding: { top: 0, bottom: 0, left: 0, right: 0 }
   },
 
+  // Multi-line
   m: {
     font: 'open_sans',
     text: 'multi\nline',
@@ -115,6 +120,7 @@ export default {
     vSpacing: 25
   },
 
+  // Alignment test
   o: {
     font: 'open_sans',
     text: 'multi\nline',
@@ -127,6 +133,7 @@ export default {
     align: 'right'
   },
 
+  // Various supportPadding
   q: {
     font: 'open_sans',
     text: '123',
@@ -169,6 +176,7 @@ export default {
     supportPadding: { top: 5, bottom: 50, left: 10, right: 100 }
   },
 
+  // Without supportBorderRadius
   w: {
     font: 'open_sans',
     text: 'No default',
@@ -189,7 +197,8 @@ export default {
     type: 4,
     supportBorderRadius: 0
   },
-
+  
+  // With supportBorderRadius > max possible radius
   z: {
     font: 'open_sans',
     text: 'No default',
@@ -209,5 +218,107 @@ export default {
     text: 'No default',
     type: 4,
     supportBorderRadius: 100
+  },
+
+  // With hole
+  _c: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 1,
+    handleSettings: {
+      type: 'hole',
+      position: 'top',
+      size: 10,      
+      offsetY: -20
+    }
+  },
+
+  _d: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 1,
+    handleSettings: {
+      type: 'hole',
+      position: 'left',
+      size: 10,      
+      offsetY: -20,
+      offsetX: 20
+    }
+  },
+
+  _e: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 2,
+    handleSettings: {
+      type: 'hole',
+      position: 'top',
+      size: 10,      
+      offsetY: -20
+    }
+  },
+
+  _f: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 2,
+    handleSettings: {
+      type: 'hole',
+      position: 'left',
+      size: 10,      
+      offsetY: -20,
+      offsetX: 20
+    }
+  },
+
+  _g: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 3,
+    handleSettings: {
+      type: 'hole',
+      position: 'bottom',
+      size: 10,
+      offsetY: -10,
+      offsetX: 15,
+    }
+  },
+
+  _h: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 3,
+    handleSettings: {
+      type: 'hole',
+      position: 'left',
+      size: 10,      
+      offsetY: -20,
+      offsetX: 20
+    }
+  },
+
+  _i: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 4,
+    handleSettings: {
+      type: 'hole',
+      position: 'top',
+      size: 10,      
+      offsetY: -20
+    }
+  },
+
+  _j: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 4,
+    handleSettings: {
+      type: 'hole',
+      position: 'left',
+      size: 10,      
+      offsetY: -20,
+      offsetX: 20
+    }
   }
 }

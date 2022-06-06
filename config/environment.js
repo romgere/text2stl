@@ -41,6 +41,15 @@ module.exports = function(environment) {
           bottom: 10,
           left: 10,
           right: 10
+        },
+
+        handleSettings: {
+          type: 'none',
+          position: 'top',
+          size: 5,
+          size2: 2,
+          offsetX: 0,
+          offsetY: -10
         }
       },
 

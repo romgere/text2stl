@@ -31,6 +31,14 @@ declare const config: {
         left: number;
         right: number;
       };
+      handleSettings: {
+        type: 'hole' | 'handle' | 'none'
+        position: 'left' | 'top' | 'right' | 'bottom'
+        size: number
+        size2: number
+        offsetX: number
+        offsetY: number
+      };
     };
     threePreviewSettings: {
       backgroundColor: number;
