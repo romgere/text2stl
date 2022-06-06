@@ -24,7 +24,12 @@ declare const config: {
       alignment: 'left' | 'center' | 'right'
       type: ModelType;
       supportHeight: number;
-      supportPadding: number;
+      supportPadding: {
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
+      };
     };
     threePreviewSettings: {
       backgroundColor: number;

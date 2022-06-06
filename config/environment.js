@@ -35,7 +35,12 @@ module.exports = function(environment) {
         alignment: 'center',
         type: 2,
         supportHeight: 5,
-        supportPadding: 10
+        supportPadding: {
+          top: 10,
+          bottom: 10,
+          left: 10,
+          right: 10
+        }
       },
 
       threePreviewSettings: {

@@ -30,6 +30,7 @@ settings_form:
   tabs:
     settings: Settings
     font: Font
+    advanced: More...
 export_stl: Export STL
 stl_counter: "{count} STL files have been generated"
 footer:
@@ -50,6 +51,11 @@ text_settings:
   vkerning: Line kerning
   supportHeight: Support height
   supportPadding: Support spacing
+  supportPaddingDir:
+    top: Top
+    bottom: Bottom
+    left: Left
+    right: Right
   alignment: Text alignment
 alignment:
   left: Left

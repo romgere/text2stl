@@ -180,8 +180,8 @@
             id="support-padding"
             class="uk-input"
             @type="number"
-            @value={{@model.supportPadding}}
-            @onChange={{fn this.setInt 'supportPadding'}}
+            @value={{this.supportPadding}}
+            @onChange={{fn (mut this.supportPadding)}}
             data-test-settings-supportPadding
           />
         </div>

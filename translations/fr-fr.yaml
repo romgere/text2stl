@@ -27,6 +27,7 @@ settings_form:
   tabs:
     settings: Réglages
     font: Police
+    advanced: Plus...
 export_stl: Exporter STL
 stl_counter: "{count} fichiers STL ont été générés"
 footer:
@@ -47,6 +48,11 @@ text_settings:
   vkerning: Espacement des lignes
   supportHeight: Hauteur du support
   supportPadding: Espacement du support
+  supportPaddingDir:
+    top: Haut
+    bottom: Bas
+    left: Gauche
+    right: Droite
   alignment: Alignement du texte
 alignment:
   left: Gauche

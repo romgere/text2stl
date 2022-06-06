@@ -21,6 +21,19 @@ export default class SettingsFormTextSettings extends Component<SettingsFormText
     return this.args.model.text.split('\n').length > 1
   }
 
+  get supportPadding() {
+    return `${this.args.model.supportPadding?.top ?? 0}`
+  }
+
+  set supportPadding(value: string) {
+    let v = parseInt(value, 10)
+    v = isNaN(v) ? 0 : Math.max(0, v)
+    this.args.model.supportPadding.top = v
+    this.args.model.supportPadding.bottom = v
+    this.args.model.supportPadding.left = v
+    this.args.model.supportPadding.right = v
+  }
+
   alignmentOptions = ['left', 'center', 'right']
 
   @action

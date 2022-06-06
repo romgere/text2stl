@@ -1,4 +1,4 @@
-import { TextMakerParameters, ModelType, TextMakerAlignment } from 'text2stl/services/text-maker'
+import { TextMakerParameters, SupportPadding, ModelType, TextMakerAlignment } from 'text2stl/services/text-maker'
 import { tracked } from '@glimmer/tracking'
 import config from 'text2stl/config/environment'
 const {
@@ -10,6 +10,20 @@ interface TextMakerAdditionnalSettings {
   fontName: FontName
   variantName: string;
   fontSize: string;
+}
+
+export class SupportPaddingSettings implements SupportPadding {
+  @tracked top: number
+  @tracked bottom: number
+  @tracked left: number
+  @tracked right: number
+
+  constructor(args: SupportPadding) {
+    this.top = args.top
+    this.bottom = args.bottom
+    this.left = args.left
+    this.right = args.right
+  }
 }
 
 export default class TextMakerSettings implements TextMakerParameters {
@@ -27,7 +41,7 @@ export default class TextMakerSettings implements TextMakerParameters {
   @tracked alignment: TextMakerAlignment
   @tracked type: ModelType
   @tracked supportHeight?: number
-  @tracked supportPadding?: number
+  @tracked supportPadding: SupportPaddingSettings
 
   constructor(args: TextMakerParameters & TextMakerAdditionnalSettings) {
     this.font = args.font
@@ -42,6 +56,6 @@ export default class TextMakerSettings implements TextMakerParameters {
     this.alignment = args.alignment ?? textMakerDefault.alignment
     this.type = args.type ?? textMakerDefault.type
     this.supportHeight = args.supportHeight ?? textMakerDefault.supportHeight
-    this.supportPadding = args.supportPadding ?? textMakerDefault.supportPadding
+    this.supportPadding = new SupportPaddingSettings(args.supportPadding ?? textMakerDefault.supportPadding)
   }
 }

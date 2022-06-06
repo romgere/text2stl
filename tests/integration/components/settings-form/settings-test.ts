@@ -69,9 +69,12 @@ module('Integration | Component | settings-form/settings', function(hooks) {
 
     assert
       .dom('[data-test-settings-supportPadding]')
-      .hasValue(`${model.supportPadding}`, 'It renders correct supportPadding value')
+      .hasValue(`${model.supportPadding.top}`, 'It renders correct supportPadding value')
     await fillIn('[data-test-settings-supportPadding]', '789')
-    assert.equal(model.supportPadding, 789, 'model.supportPadding was updated')
+    assert.strictEqual(model.supportPadding.top, 789, 'model.supportPadding.top was updated')
+    assert.strictEqual(model.supportPadding.bottom, 789, 'model.supportPadding.bottom was updated')
+    assert.strictEqual(model.supportPadding.left, 789, 'model.supportPadding.left was updated')
+    assert.strictEqual(model.supportPadding.right, 789, 'model.supportPadding.right was updated')
   })
 
   cases([
