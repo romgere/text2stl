@@ -20,4 +20,10 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
     let v = parseInt(value, 10)
     this.args.model.supportPadding[props] = isNaN(v) ? 0 : v
   }
+
+  @action
+  setInt(props: 'supportBorderRadius', value: string) {
+    let v = parseInt(value, 10)
+    this.args.model[props] = isNaN(v) ? undefined : v
+  }
 }

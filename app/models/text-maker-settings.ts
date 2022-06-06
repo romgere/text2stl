@@ -41,6 +41,7 @@ export default class TextMakerSettings implements TextMakerParameters {
   @tracked alignment: TextMakerAlignment
   @tracked type: ModelType
   @tracked supportHeight?: number
+  @tracked supportBorderRadius?: number
   @tracked supportPadding: SupportPaddingSettings
 
   constructor(args: TextMakerParameters & TextMakerAdditionnalSettings) {
@@ -56,6 +57,7 @@ export default class TextMakerSettings implements TextMakerParameters {
     this.alignment = args.alignment ?? textMakerDefault.alignment
     this.type = args.type ?? textMakerDefault.type
     this.supportHeight = args.supportHeight ?? textMakerDefault.supportHeight
+    this.supportBorderRadius = args.supportBorderRadius ?? textMakerDefault.supportBorderRadius
     this.supportPadding = new SupportPaddingSettings(args.supportPadding ?? textMakerDefault.supportPadding)
   }
 }

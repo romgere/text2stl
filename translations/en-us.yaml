@@ -57,6 +57,7 @@ text_settings:
     left: Left
     right: Right
   alignment: Text alignment
+  supportBorderRadius: Border radius
 alignment:
   left: Left
   center: Center

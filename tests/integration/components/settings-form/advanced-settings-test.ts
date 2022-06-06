@@ -25,12 +25,14 @@ module('Integration | Component | advanced-settings-form/settings', function(hoo
     await render(hbs`<SettingsForm::AdvancedSettings @model={{this.model}} />`)
 
     assert.dom('[data-test-settings-support-padding]').doesNotExist('it does not render advanced support padding options when model is text-only')
+    assert.dom('[data-test-settings-supportBorderRadius]').doesNotExist('it does not render border radius options when model is text-only')
 
     // Change type
     model.type = ModelType.TextWithSupport
     await settled()
 
     assert.dom('[data-test-settings-support-padding]').exists('it render advanced support padding options')
+    assert.dom('[data-test-settings-supportBorderRadius]').exists('it render border radius options when model is text-only')
 
     assert
       .dom('[data-test-settings-supportPadding="top"]')
@@ -55,5 +57,11 @@ module('Integration | Component | advanced-settings-form/settings', function(hoo
       .hasValue(`${model.supportPadding.right}`, 'It renders correct right supportPadding value')
     await fillIn('[data-test-settings-supportPadding="right"]', '987')
     assert.equal(model.supportPadding.right, 987, 'right supportPadding was updated')
+
+    assert
+      .dom('[data-test-settings-supportBorderRadius]')
+      .hasValue(`${model.supportBorderRadius}`, 'It renders correct supportBorderRadius value')
+    await fillIn('[data-test-settings-supportBorderRadius]', '789')
+    assert.equal(model.supportBorderRadius, 789, 'model.supportBorderRadius was updated')
   })
 })

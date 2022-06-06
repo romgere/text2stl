@@ -201,6 +201,8 @@ export default class TextMakerService extends Service {
     let maxRadius = Math.min(width / 2, height / 2)
     if (radius > maxRadius) {
       radius = maxRadius
+    } else if (radius < 0) {
+      radius = 0
     }
 
     let supportShape = new THREE.Shape()

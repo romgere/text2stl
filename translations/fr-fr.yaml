@@ -54,6 +54,7 @@ text_settings:
     left: Gauche
     right: Droite
   alignment: Alignement du texte
+  supportBorderRadius: Rayon des coins
 alignment:
   left: Gauche
   center: Centré
