@@ -24,6 +24,7 @@ declare const config: {
       alignment: 'left' | 'center' | 'right'
       type: ModelType;
       supportHeight: number;
+      supportBorderRadius: number;
       supportPadding: {
         top: number;
         bottom: number;

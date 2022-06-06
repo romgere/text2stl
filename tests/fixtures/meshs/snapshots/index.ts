@@ -20,7 +20,13 @@ import s from './s'
 import t from './t'
 import u from './u'
 import v from './v'
+import w from './w'
+import x from './x'
+import y from './y'
+import z from './z'
+import _a from './_a'
+import _b from './_b'
 
 export default {
-  a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v
+  a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w ,x ,y ,z ,_a ,_b
 } as Record<string, Object & { geometries: Object}>

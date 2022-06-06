@@ -35,6 +35,7 @@ module.exports = function(environment) {
         alignment: 'center',
         type: 2,
         supportHeight: 5,
+        supportBorderRadius: 5,
         supportPadding: {
           top: 10,
           bottom: 10,

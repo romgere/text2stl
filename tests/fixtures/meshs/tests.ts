@@ -167,5 +167,47 @@ export default {
     text: '123',
     type: 4,
     supportPadding: { top: 5, bottom: 50, left: 10, right: 100 }
+  },
+
+  w: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 2,
+    supportBorderRadius: 0
+  },
+  
+  x: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 3,
+    supportBorderRadius: 0
+  },
+
+  y: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 4,
+    supportBorderRadius: 0
+  },
+
+  z: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 2,
+    supportBorderRadius: 100
+  },
+  
+  _a: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 3,
+    supportBorderRadius: 100
+  },
+
+  _b: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 4,
+    supportBorderRadius: 100
   }
 }
