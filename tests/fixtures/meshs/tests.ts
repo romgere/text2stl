@@ -229,7 +229,9 @@ export default {
       type: 'hole',
       position: 'top',
       size: 10,      
-      offsetY: -20
+      size2: 0,
+      offsetY: -20,
+      offsetX: 0
     }
   },
 
@@ -240,7 +242,8 @@ export default {
     handleSettings: {
       type: 'hole',
       position: 'left',
-      size: 10,      
+      size: 10,
+      size2: 0,
       offsetY: -20,
       offsetX: 20
     }
@@ -253,8 +256,10 @@ export default {
     handleSettings: {
       type: 'hole',
       position: 'top',
-      size: 10,      
-      offsetY: -20
+      size: 10,  
+      size2: 0,    
+      offsetY: -20,
+      offsetX: 0
     }
   },
 
@@ -265,7 +270,8 @@ export default {
     handleSettings: {
       type: 'hole',
       position: 'left',
-      size: 10,      
+      size: 10,
+      size2: 0,
       offsetY: -20,
       offsetX: 20
     }
@@ -279,6 +285,7 @@ export default {
       type: 'hole',
       position: 'bottom',
       size: 10,
+      size2: 0,
       offsetY: -10,
       offsetX: 15,
     }
@@ -291,7 +298,8 @@ export default {
     handleSettings: {
       type: 'hole',
       position: 'left',
-      size: 10,      
+      size: 10,
+      size2: 0,
       offsetY: -20,
       offsetX: 20
     }
@@ -304,8 +312,10 @@ export default {
     handleSettings: {
       type: 'hole',
       position: 'top',
-      size: 10,      
-      offsetY: -20
+      size: 10,
+      size2: 0,      
+      offsetY: -20,
+      offsetX: 0
     }
   },
 
@@ -317,6 +327,7 @@ export default {
       type: 'hole',
       position: 'left',
       size: 10,      
+      size2: 0,
       offsetY: -20,
       offsetX: 20
     }

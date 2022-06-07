@@ -437,11 +437,10 @@ export default class TextMakerService extends Service {
 
       // Move text in support according to padding settings
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        supportPadding.left,
-        supportPadding.bottom,
+        -min.x + supportPadding.left,
+        -min.y + supportPadding.bottom,
         supportDepth
       ))
-
     } else if (type === ModelType.VerticalTextWithSupport) {
       // Generate support
       supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
@@ -467,8 +466,8 @@ export default class TextMakerService extends Service {
 
       // Move text in support according to padding settings
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        supportPadding.left,
-        supportPadding.bottom,
+        -min.x + supportPadding.left,
+        -min.y + supportPadding.bottom,
         supportDepth - size.z
       ))
     }
