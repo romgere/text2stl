@@ -206,8 +206,7 @@ export default class TextMakerService extends Service {
 
   private generateSupport(width: number, height: number, depth: number, radius: number): THREE.BufferGeometry {
 
-    // Support radius "stuff"
-    let supportRadiusOffset = 1 // Should be calculated ?
+    // Limit min/max radius
     let maxRadius = Math.min(width / 2, height / 2)
     if (radius > maxRadius) {
       radius = maxRadius
@@ -219,37 +218,57 @@ export default class TextMakerService extends Service {
     supportShape.moveTo(width - radius, 0)
     supportShape.lineTo(width - radius, 0)
     if (radius) {
-      supportShape.bezierCurveTo(
-        width - radius, 0,
-        width - supportRadiusOffset, supportRadiusOffset,
-        width, radius
+      supportShape.ellipse(
+        0,
+        radius,
+        radius,
+        radius,
+        Math.PI / 2,
+        Math.PI,
+        false,
+        Math.PI
       )
     }
 
     supportShape.lineTo(width, height - radius)
     if (radius) {
-      supportShape.bezierCurveTo(
-        width, height - radius,
-        width - supportRadiusOffset, height - supportRadiusOffset,
-        width - radius, height
+      supportShape.ellipse(
+        -radius,
+        0,
+        radius,
+        radius,
+        Math.PI,
+        Math.PI * 1.5,
+        false,
+        Math.PI
       )
     }
 
     supportShape.lineTo(radius, height)
     if (radius) {
-      supportShape.bezierCurveTo(
-        radius, height,
-        supportRadiusOffset, height - supportRadiusOffset,
-        0, height - radius
+      supportShape.ellipse(
+        0,
+        -radius,
+        radius,
+        radius,
+        Math.PI * 1.5,
+        0,
+        false,
+        Math.PI
       )
     }
 
     supportShape.lineTo(0, radius)
     if (radius) {
-      supportShape.bezierCurveTo(
-        0, radius,
-        supportRadiusOffset, supportRadiusOffset,
-        radius, 0
+      supportShape.ellipse(
+        radius,
+        0,
+        radius,
+        radius,
+        0,
+        Math.PI / 2,
+        false,
+        Math.PI
       )
     }
 
@@ -269,18 +288,28 @@ export default class TextMakerService extends Service {
     supportShape.moveTo(0, 0)
     supportShape.lineTo(handleSize2, 0)
 
-    supportShape.bezierCurveTo(
-      handleSize2, 0,
-      handleSize2 + handleSize / 2, handleSize * 1.2,
-      handleSize2 + handleSize, 0
+    supportShape.ellipse(
+      handleSize / 2,
+      0,
+      handleSize / 2,
+      handleSize / 2,
+      0,
+      Math.PI,
+      true,
+      Math.PI
     )
 
     supportShape.lineTo(handleSize + handleSize2 * 2, 0)
 
-    supportShape.bezierCurveTo(
-      handleSize + handleSize2 * 2, 0,
-      handleSize2 + handleSize / 2, handleSize + handleSize2 * 2.5,
-      0, 0
+    supportShape.ellipse(
+      -handleSize / 2 - handleSize2,
+      0,
+      handleSize / 2 + handleSize2,
+      handleSize / 2 + handleSize2,
+      0,
+      Math.PI,
+      false,
+      0
     )
 
     let extrudeSettings = {
@@ -428,7 +457,7 @@ export default class TextMakerService extends Service {
     let supportPadding = params.supportPadding !== undefined ? params.supportPadding : textMakerDefault.supportPadding
     let supportWidth = size.x + supportPadding.left + supportPadding.right
     let supportHeight = size.y + supportPadding.top + supportPadding.bottom
-    let supportBorderRadius = params.supportBorderRadius || textMakerDefault.supportBorderRadius
+    let supportBorderRadius = params.supportBorderRadius !== undefined ? params.supportBorderRadius : textMakerDefault.supportBorderRadius
 
     if (type === ModelType.TextWithSupport) {
 
