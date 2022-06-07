@@ -81,6 +81,7 @@ text_type:
   2: Text with support
   3: Negative text on support
   4: Vertical text with support
+  5: Text with handle
 custom_font:
   ck_label: Use custom font
   current_label: Current file

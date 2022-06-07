@@ -78,6 +78,7 @@ text_type:
   2: Text avec support
   3: Text negatif sur support
   4: Text vertical avec support
+  5: Text avec accroche
 custom_font:
   ck_label: Utiliser une police personnalisé
   current_label: Fichier actuel

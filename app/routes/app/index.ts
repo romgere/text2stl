@@ -20,7 +20,8 @@ export default class AppIndex extends Route {
       await loadJSONMesh('/mesh/1.json'),
       await loadJSONMesh('/mesh/2.json'),
       await loadJSONMesh('/mesh/3.json'),
-      await loadJSONMesh('/mesh/4.json')
+      await loadJSONMesh('/mesh/4.json'),
+      await loadJSONMesh('/mesh/5.json')
     ]
   }
 
