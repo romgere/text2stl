@@ -331,5 +331,118 @@ export default {
       offsetY: -20,
       offsetX: 20
     }
+  },
+
+  // With handle
+  _k: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 1,
+    handleSettings: {
+      type: 'handle',
+      position: 'top',
+      size: 5,      
+      size2: 2,
+      offsetY: -20,
+      offsetX: 0
+    }
+  },
+
+  _l: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 1,
+    handleSettings: {
+      type: 'handle',
+      position: 'left',
+      size: 10,      
+      size2: 5,
+      offsetY: -20,
+      offsetX: 20
+    }
+  },
+
+  _m: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 2,
+    handleSettings: {
+      type: 'handle',
+      position: 'top',
+      size: 5,      
+      size2: 2,
+      offsetY: -20,
+      offsetX: 0
+    }
+  },
+
+  _n: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 2,
+    handleSettings: {
+      type: 'handle',
+      position: 'left',
+      size: 10,      
+      size2: 5,
+      offsetY: -20,
+      offsetX: 20
+    }
+  },
+
+  _o: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 3,
+    handleSettings: {
+      type: 'handle',
+      position: 'bottom',
+      size: 5,      
+      size2: 2,
+      offsetY: -10,
+      offsetX: 15,
+    }
+  },
+
+  _p: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 3,
+    handleSettings: {
+      type: 'handle',
+      position: 'left',
+      size: 10,      
+      size2: 5,
+      offsetY: -20,
+      offsetX: 20
+    }
+  },
+
+  _q: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 4,
+    handleSettings: {
+      type: 'handle',
+      position: 'top',
+      size: 5,      
+      size2: 2,
+      offsetY: -20,
+      offsetX: 0
+    }
+  },
+
+  _r: {
+    font: 'open_sans',
+    text: 'No default',
+    type: 4,
+    handleSettings: {
+      type: 'handle',
+      position: 'left',
+      size: 10,      
+      size2: 5,
+      offsetY: -20,
+      offsetX: 20
+    }
   }
 }

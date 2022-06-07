@@ -34,8 +34,16 @@ import _g from './_g'
 import _h from './_h'
 import _i from './_i'
 import _j from './_j'
+import _k from './_k'
+import _l from './_l'
+import _m from './_m'
+import _n from './_n'
+import _o from './_o'
+import _p from './_p'
+import _q from './_q'
+import _r from './_r'
 
 export default {
   a, b, c, d, e, f, g, h, i, j, k, l, m, n, o, p, q, r, s, t, u, v, w ,x ,y ,z,
-  _a, _b, _c, _d, _e, _f, _g, _h, _i, _j
+  _a, _b, _c, _d, _e, _f, _g, _h, _i, _j, _k, _l, _m, _n, _o, _p, _q, _r
 } as Record<string, Object & { geometries: Object}>
