@@ -48,16 +48,28 @@ text_settings:
   vkerning: Espacement des lignes
   supportHeight: Hauteur du support
   supportPadding: Espacement du support
-  supportPaddingDir:
-    top: Haut
-    bottom: Bas
-    left: Gauche
-    right: Droite
   alignment: Alignement du texte
   supportBorderRadius: Rayon des coins
+  handleSettings:
+    label: Option d'accroche
+    type:
+      label: Type
+      none: Aucune
+      hole: Trou
+      handle: Poignée
+    position: Position
+    size: Taille
+    size2: Largeur
+    offsetX: Décalage X
+    offsetY: Décalage Y
 alignment:
   left: Gauche
   center: Centré
+  right: Droite
+directions:
+  top: Haut
+  bottom: Bas
+  left: Gauche
   right: Droite
 three_preview:
   size: "Taille d'impression : {x} x {y} x {z} mm"

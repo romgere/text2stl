@@ -22,13 +22,11 @@ Inspired from : https://github.com/mo22/textstl
 - [x] deploy
 - [x] improve test coverage
 - [ ] finalize font-picker tests
-- [ ] Add somes options (multiple kerning, multiple suport spacing, round corner, hole in support ?)
+- [x] Add somes options (~~multiple kerning~~, multiple suport spacing, round corner, hole in support)
 - [x] multi-line text ? (#33)
 - [ ] save/load text (via URL encoded / local storage ?)
 - [ ] (or) QP to save current settings ?
 - [x] handle custom font
-- [ ] Any way to handle emoji or special char like '★' ?
-- [ ] Multiple object for vertical support to allow multi-color print ?
 
 ## Prerequisites
 

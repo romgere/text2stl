@@ -51,16 +51,28 @@ text_settings:
   vkerning: Line kerning
   supportHeight: Support height
   supportPadding: Support spacing
-  supportPaddingDir:
-    top: Top
-    bottom: Bottom
-    left: Left
-    right: Right
   alignment: Text alignment
   supportBorderRadius: Border radius
+  handleSettings:
+    label: Handle settings
+    type:
+      label: Type
+      none: None
+      hole: Hole
+      handle: Handle
+    position: Position
+    size: Size
+    size2: Width
+    offsetX: Horizontal offset
+    offsetY: Vertical offset
 alignment:
   left: Left
   center: Center
+  right: Right
+directions:
+  top: Top
+  bottom: Bottom
+  left: Left
   right: Right
 three_preview:
   size: "Print size : {x} x {y} x {z} mm"

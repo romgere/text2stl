@@ -1,4 +1,4 @@
-import { TextMakerParameters, SupportPadding, ModelType, TextMakerAlignment } from 'text2stl/services/text-maker'
+import { TextMakerParameters, SupportPadding, Handle, ModelType, TextMakerAlignment } from 'text2stl/services/text-maker'
 import { tracked } from '@glimmer/tracking'
 import config from 'text2stl/config/environment'
 const {
@@ -26,6 +26,24 @@ export class SupportPaddingSettings implements SupportPadding {
   }
 }
 
+export class HandleSettings implements Handle {
+  @tracked type: 'hole' | 'handle' | 'none'
+  @tracked position: 'left' | 'top' | 'right' | 'bottom'
+  @tracked size: number
+  @tracked size2: number
+  @tracked offsetX: number
+  @tracked offsetY: number
+
+  constructor(args: Handle) {
+    this.type = args.type
+    this.position = args.position
+    this.size = args.size
+    this.size2 = args.size2
+    this.offsetX = args.offsetX
+    this.offsetY = args.offsetY
+  }
+}
+
 export default class TextMakerSettings implements TextMakerParameters {
 
   @tracked fontName: FontName
@@ -43,6 +61,7 @@ export default class TextMakerSettings implements TextMakerParameters {
   @tracked supportHeight?: number
   @tracked supportBorderRadius?: number
   @tracked supportPadding: SupportPaddingSettings
+  @tracked handleSettings: HandleSettings
 
   constructor(args: TextMakerParameters & TextMakerAdditionnalSettings) {
     this.font = args.font
@@ -59,5 +78,6 @@ export default class TextMakerSettings implements TextMakerParameters {
     this.supportHeight = args.supportHeight ?? textMakerDefault.supportHeight
     this.supportBorderRadius = args.supportBorderRadius ?? textMakerDefault.supportBorderRadius
     this.supportPadding = new SupportPaddingSettings(args.supportPadding ?? textMakerDefault.supportPadding)
+    this.handleSettings = new HandleSettings(args.handleSettings ?? textMakerDefault.handleSettings)
   }
 }
