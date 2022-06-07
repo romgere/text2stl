@@ -24,7 +24,21 @@ declare const config: {
       alignment: 'left' | 'center' | 'right'
       type: ModelType;
       supportHeight: number;
-      supportPadding: number;
+      supportBorderRadius: number;
+      supportPadding: {
+        top: number;
+        bottom: number;
+        left: number;
+        right: number;
+      };
+      handleSettings: {
+        type: 'hole' | 'handle' | 'none'
+        position: 'left' | 'top' | 'right' | 'bottom'
+        size: number
+        size2: number
+        offsetX: number
+        offsetY: number
+      };
     };
     threePreviewSettings: {
       backgroundColor: number;

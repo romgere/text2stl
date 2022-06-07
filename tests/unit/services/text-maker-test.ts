@@ -5,6 +5,7 @@ import meshTests from 'text2stl/tests/fixtures/meshs/tests'
 import meshFixture from 'text2stl/tests/fixtures/meshs/snapshots/index'
 import cases from 'qunit-parameterize'
 import type TextMakerService from 'text2stl/services/text-maker'
+import type { TextMakerParameters } from 'text2stl/services/text-maker'
 
 function objectToCompareString(mesh: Object | undefined) {
   if (!mesh) {
@@ -35,7 +36,7 @@ module('Unit | Service | text-maker', function(hooks) {
     let service = this.owner.lookup('service:text-maker') as TextMakerService
 
     let mesh = service.generateMesh({
-      ...settings,
+      ...settings as unknown as  TextMakerParameters,
       font: await loadFont(settings.font)
     })
 
@@ -50,6 +51,21 @@ module('Unit | Service | text-maker', function(hooks) {
         type: 'text/plain'
       })
       let url = URL.createObjectURL(blob)
+
+      if (window.location.hash.substr(1) === 'download_fixture') {
+        let link = document.createElement('a')
+        link.setAttribute('download', `${name}.ts`)
+        link.setAttribute('href', url)
+        link.setAttribute('target', '_blank')
+        link.setAttribute('rel', 'noopener noreferrer')
+
+        document.body.appendChild(link)
+        link.click()
+        document.body.removeChild(link)
+
+        URL.revokeObjectURL(url)
+      }
+
       console.warn(`If needed, write the following content to tests/fixtures/meshs/snapshots/${name}.ts`, url)
     }
 

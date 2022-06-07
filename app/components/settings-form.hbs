@@ -6,6 +6,9 @@
       </tab.item>
       <tab.item data-tab-item="font">
         {{t "settings_form.tabs.font"}}
+      </tab.item>      
+      <tab.item data-tab-item="advanced">
+        {{t "settings_form.tabs.advanced"}}
       </tab.item>
     </nav.component>
   </switcher.nav>
@@ -19,6 +22,9 @@
         @model={{@model}}
         @onFontChange={{@onFontChange}}
       />
-    </content.item>
+    </content.item>    
+    <content.item>
+      <SettingsForm::AdvancedSettings @model={{@model}}/>
+    </content.item>    
   </switcher.content>
 </UkSwitcher>

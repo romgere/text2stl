@@ -16,6 +16,22 @@ interface ContourPoint {
 
 export type TextMakerAlignment = 'left' | 'center' | 'right'
 
+export type SupportPadding = {
+  top: number
+  bottom: number
+  left: number
+  right: number
+}
+
+export type Handle = {
+  type: 'hole' | 'handle' | 'none'
+  position: 'left' | 'top' | 'right' | 'bottom'
+  size: number
+  size2: number
+  offsetX: number
+  offsetY: number
+}
+
 export interface TextMakerParameters {
   font: opentype.Font
   text: string
@@ -26,7 +42,9 @@ export interface TextMakerParameters {
   alignment?: TextMakerAlignment
   type?: ModelType
   supportHeight?: number
-  supportPadding?: number
+  supportPadding?: SupportPadding
+  supportBorderRadius?: number
+  handleSettings?: Handle
 }
 
 export enum ModelType {
@@ -186,10 +204,236 @@ export default class TextMakerService extends Service {
     return mergeBufferGeometries(geometries.flat())
   }
 
+  private generateSupport(width: number, height: number, depth: number, radius: number): THREE.BufferGeometry {
+
+    // Limit min/max radius
+    let maxRadius = Math.min(width / 2, height / 2)
+    if (radius > maxRadius) {
+      radius = maxRadius
+    } else if (radius < 0) {
+      radius = 0
+    }
+
+    let supportShape = new THREE.Shape()
+    supportShape.moveTo(width - radius, 0)
+    supportShape.lineTo(width - radius, 0)
+    if (radius) {
+      supportShape.ellipse(
+        0,
+        radius,
+        radius,
+        radius,
+        Math.PI / 2,
+        Math.PI,
+        false,
+        Math.PI
+      )
+    }
+
+    supportShape.lineTo(width, height - radius)
+    if (radius) {
+      supportShape.ellipse(
+        -radius,
+        0,
+        radius,
+        radius,
+        Math.PI,
+        Math.PI * 1.5,
+        false,
+        Math.PI
+      )
+    }
+
+    supportShape.lineTo(radius, height)
+    if (radius) {
+      supportShape.ellipse(
+        0,
+        -radius,
+        radius,
+        radius,
+        Math.PI * 1.5,
+        0,
+        false,
+        Math.PI
+      )
+    }
+
+    supportShape.lineTo(0, radius)
+    if (radius) {
+      supportShape.ellipse(
+        radius,
+        0,
+        radius,
+        radius,
+        0,
+        Math.PI / 2,
+        false,
+        Math.PI
+      )
+    }
+
+    let extrudeSettings = {
+      depth,
+      bevelEnabled: true,
+      bevelThickness: 0,
+      bevelSize: 0,
+      bevelOffset: 0,
+      bevelSegments: 0
+    }
+    return new THREE.ExtrudeGeometry(supportShape, extrudeSettings)
+  }
+
+  private generateHandle(handleSize: number, handleSize2: number, handleDepth: number): THREE.BufferGeometry {
+    let supportShape = new THREE.Shape()
+    supportShape.moveTo(0, 0)
+    supportShape.lineTo(handleSize2, 0)
+
+    supportShape.ellipse(
+      handleSize / 2,
+      0,
+      handleSize / 2,
+      handleSize / 2,
+      0,
+      Math.PI,
+      true,
+      Math.PI
+    )
+
+    supportShape.lineTo(handleSize + handleSize2 * 2, 0)
+
+    supportShape.ellipse(
+      -handleSize / 2 - handleSize2,
+      0,
+      handleSize / 2 + handleSize2,
+      handleSize / 2 + handleSize2,
+      0,
+      Math.PI,
+      false,
+      0
+    )
+
+    let extrudeSettings = {
+      depth: handleDepth,
+      bevelEnabled: true,
+      bevelThickness: 0,
+      bevelSize: 0,
+      bevelOffset: 0,
+      bevelSegments: 0
+    }
+    return new THREE.ExtrudeGeometry(supportShape, extrudeSettings)
+  }
+
+  // Compute (merge or substract) text, support handle & hole in a single geometry
+  private mixMeshComponents(type: ModelType, textGeometry: THREE.BufferGeometry, supportGeometry: THREE.BufferGeometry | undefined, holeGeometry: THREE.BufferGeometry | undefined, handleGeometry: THREE.BufferGeometry | undefined): THREE.BufferGeometry {
+
+    if (type === ModelType.NegativeText && supportGeometry) {
+
+      let intermediareSupport = supportGeometry
+      if (holeGeometry) {
+        let bspSupport = CSG.subtract(
+          new ExtendedMesh(
+            supportGeometry,
+            new THREE.MeshNormalMaterial()
+          ),
+          new ExtendedMesh(
+            holeGeometry,
+            new THREE.MeshNormalMaterial()
+          )
+        )
+        intermediareSupport = bspSupport.geometry
+      } else if (handleGeometry) {
+        intermediareSupport = mergeBufferGeometries([
+          supportGeometry,
+          handleGeometry
+        ])
+      }
+
+      // Substract text to support
+      let bspFinal = CSG.subtract(
+        new ExtendedMesh(
+          intermediareSupport,
+          new THREE.MeshNormalMaterial()
+        ),
+        new ExtendedMesh(
+          textGeometry,
+          new THREE.MeshNormalMaterial()
+        )
+      )
+
+      return bspFinal.geometry
+
+    } else if (type === ModelType.TextOnly) {
+
+      if (handleGeometry) {
+        // Merge support with text
+        return mergeBufferGeometries([
+          textGeometry,
+          handleGeometry
+        ], false)
+
+      } else if (holeGeometry) {
+        // Substract hole to text
+        let bspFinal = CSG.subtract(
+          new ExtendedMesh(
+            textGeometry,
+            new THREE.MeshNormalMaterial()
+          ),
+          new ExtendedMesh(
+            holeGeometry,
+            new THREE.MeshNormalMaterial()
+          )
+        )
+        return bspFinal.geometry
+      }
+    } else if (supportGeometry) {
+
+      if (handleGeometry) {
+
+        // Merge support with text & handle
+        return mergeBufferGeometries([
+          textGeometry,
+          handleGeometry,
+          supportGeometry
+        ], false)
+
+      } else if (holeGeometry) {
+
+        let intermediareGeometry = mergeBufferGeometries([
+          textGeometry,
+          supportGeometry
+        ], false)
+
+        let bspFinal = CSG.subtract(
+          new ExtendedMesh(
+            intermediareGeometry,
+            new THREE.MeshNormalMaterial()
+          ),
+          new ExtendedMesh(
+            holeGeometry,
+            new THREE.MeshNormalMaterial()
+          )
+        )
+        return bspFinal.geometry
+      } else {
+        return mergeBufferGeometries([
+          textGeometry,
+          supportGeometry
+        ], false)
+      }
+    }
+
+    return textGeometry
+  }
+
   generateMesh(params: TextMakerParameters): THREE.Mesh {
     let type = params.type || ModelType.TextOnly
 
+    // Mesh will be generate by combination of these Geometries
     let textGeometry = this.stringToGeometry(params)
+    let supportGeometry: THREE.BufferGeometry | undefined = undefined
+    let holeGeometry: THREE.BufferGeometry | undefined = undefined
+    let handleGeometry: THREE.BufferGeometry | undefined = undefined
+
     // Generate mesh in order to get size.
     // TODO: refactor if size can be calculate from geometry.
     let textMesh = new ExtendedMesh(
@@ -200,18 +444,7 @@ export default class TextMakerService extends Service {
       })
     )
 
-    if (type === ModelType.TextOnly) {
-      return textMesh
-    }
-
-    let finalGeometry : THREE.BufferGeometry | undefined = undefined
-
-    let supportHeight = params.supportHeight || textMakerDefault.supportHeight
-    let supportPadding = params.supportPadding !== undefined && params.supportPadding >= 0
-      ? params.supportPadding
-      : textMakerDefault.supportPadding
-
-    // Get
+    // Get size of text part
     let { min, max } = new THREE.Box3().setFromObject(textMesh)
     let size  = {
       x: max.x - min.x,
@@ -219,95 +452,153 @@ export default class TextMakerService extends Service {
       z: max.z - min.z
     }
 
+    // Support settings
+    let supportDepth = params.supportHeight || textMakerDefault.supportHeight
+    let supportPadding = params.supportPadding !== undefined ? params.supportPadding : textMakerDefault.supportPadding
+    let supportWidth = size.x + supportPadding.left + supportPadding.right
+    let supportHeight = size.y + supportPadding.top + supportPadding.bottom
+    let supportBorderRadius = params.supportBorderRadius !== undefined ? params.supportBorderRadius : textMakerDefault.supportBorderRadius
+
     if (type === ModelType.TextWithSupport) {
 
       // Generate support
-      let supportGeometry = new THREE.BoxGeometry(
-        size.x + supportPadding * 2,
-        size.y + supportPadding * 2,
-        supportHeight
-      )
-      supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        0,
-        0,
-        supportHeight / 2
-      ))
+      supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
 
-      // Center text in support
+      // Move text in support according to padding settings
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -(size.x / 2) - min.x,
-        -(size.y / 2) - min.y,
-        supportHeight
+        -min.x + supportPadding.left,
+        -min.y + supportPadding.bottom,
+        supportDepth
       ))
-
-      // Merge
-      finalGeometry = mergeBufferGeometries([
-        supportGeometry.toNonIndexed(),
-        textGeometry
-      ], true)
-
     } else if (type === ModelType.VerticalTextWithSupport) {
       // Generate support
-      let supportGeometry = new THREE.BoxGeometry(
-        size.x + supportPadding * 2,
-        size.z + supportPadding * 2,
-        supportHeight
-      )
-      supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        0,
-        0,
-        supportHeight / 2
-      ))
+      supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
+
       // Rotate & move text
       textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
         Math.PI / 2
       ))
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -(size.x / 2) - min.x,
-        size.z / 2,
-        supportHeight
+        supportPadding.left,
+        supportPadding.bottom + size.z * 2,
+        supportDepth
       ))
-      // Merge
-      finalGeometry = mergeBufferGeometries([
-        supportGeometry.toNonIndexed(),
-        textGeometry
-      ], true)
+
     } else if (type === ModelType.NegativeText) {
       // Ensure support height is equal or greater than text height
-      if (supportHeight < size.z) {
-        supportHeight += size.z - supportHeight
+      if (supportDepth < size.z) {
+        supportDepth += size.z - supportDepth
       }
 
       // Generate support
-      let supportGeometry = new THREE.BoxGeometry(
-        size.x + supportPadding * 2,
-        size.y + supportPadding * 2,
-        supportHeight
-      )
-      supportGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        0,
-        0,
-        supportHeight / 2
-      ))
-      // Move text
+      supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
+
+      // Move text in support according to padding settings
       textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -(size.x / 2) - min.x,
-        -(size.y / 2) - min.y,
-        supportHeight - size.z
+        -min.x + supportPadding.left,
+        -min.y + supportPadding.bottom,
+        supportDepth - size.z
       ))
-      // Substract text to support
-      let bspSupport = CSG.subtract(
-        new ExtendedMesh(
-          supportGeometry,
-          new THREE.MeshNormalMaterial()
-        ),
-        textMesh
-      )
-      finalGeometry = bspSupport.geometry
+    }
+
+    // Generate handle/hole if needed
+    if (params.handleSettings?.type && params.handleSettings.type !== 'none') {
+
+      let { offsetX, offsetY, size: handleSize, size2: handleSize2, position, type: handleType } = params.handleSettings
+
+      let handleX = 0
+      let handleY = 0
+
+      switch (position) {
+        case 'top':
+          handleX = (type === ModelType.TextOnly ? size.x : supportWidth) / 2
+          handleY = type === ModelType.TextOnly ? size.y : supportHeight
+          break
+        case 'bottom':
+          handleX = (type === ModelType.TextOnly ? size.x : supportWidth) / 2
+          break
+        case 'left':
+          handleY = (type === ModelType.TextOnly ? size.y : supportHeight) / 2
+          break
+        case 'right':
+          handleX = type === ModelType.TextOnly ? size.x : supportWidth
+          handleY = (type === ModelType.TextOnly ? size.y : supportHeight) / 2
+          break
+      }
+
+      if (handleType === 'hole') {
+
+        let holeHeight = 0
+        if (type === ModelType.TextOnly) {
+          holeHeight  = size.z
+        } else if (type === ModelType.NegativeText || type === ModelType.VerticalTextWithSupport) {
+          holeHeight = supportDepth
+        } else {
+          holeHeight = supportDepth + size.z
+        }
+
+        holeGeometry = new THREE.CylinderGeometry(
+          handleSize,
+          handleSize,
+          holeHeight,
+          32
+        )
+
+        holeGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
+          Math.PI / 2
+        ))
+
+        holeGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+          handleX + offsetX,
+          handleY + offsetY,
+          holeHeight / 2
+        ))
+      } else if (handleType === 'handle') {
+
+        handleGeometry = this.generateHandle(handleSize, handleSize2, supportDepth)
+
+        let handleRotation = undefined
+        switch (position) {
+          case 'top':
+            offsetX -= (handleSize + handleSize2 * 2) / 2
+            break
+          case 'bottom':
+            handleRotation = Math.PI
+            offsetX += (handleSize + handleSize2 * 2) / 2
+            break
+          case 'left':
+            handleRotation = Math.PI / 2
+            offsetY -= (handleSize + handleSize2 * 2) / 2
+            break
+          case 'right':
+            handleRotation = -Math.PI / 2
+            offsetY += (handleSize + handleSize2 * 2) / 2
+            break
+        }
+
+        if (handleRotation) {
+          handleGeometry.applyMatrix4(new THREE.Matrix4().makeRotationZ(
+            handleRotation
+          ))
+        }
+
+        handleGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+          handleX + offsetX,
+          handleY + offsetY,
+          0
+        ))
+      }
     }
 
     return new ExtendedMesh(
-      finalGeometry || textGeometry,
+      // "Combine" all geometries into one
+      this.mixMeshComponents(
+        type,
+        textGeometry,
+        supportGeometry,
+        holeGeometry,
+        handleGeometry
+      ),
       new THREE.MeshLambertMaterial({
         ...meshParameters,
         side: THREE.DoubleSide

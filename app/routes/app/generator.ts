@@ -27,6 +27,8 @@ export default class ApplicationRoute extends Route {
     // Create a default settings for first rendering
     return new TextMakerSettings({
       ...textMakerDefault,
+      supportPadding: { ...textMakerDefault.supportPadding },
+      handleSettings: { ...textMakerDefault.handleSettings },
       font: defaultFont
     })
   }

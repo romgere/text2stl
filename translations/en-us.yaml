@@ -30,6 +30,7 @@ settings_form:
   tabs:
     settings: Settings
     font: Font
+    advanced: More...
 export_stl: Export STL
 stl_counter: "{count} STL files have been generated"
 footer:
@@ -51,9 +52,27 @@ text_settings:
   supportHeight: Support height
   supportPadding: Support spacing
   alignment: Text alignment
+  supportBorderRadius: Border radius
+  handleSettings:
+    label: Handle settings
+    type:
+      label: Type
+      none: None
+      hole: Hole
+      handle: Handle
+    position: Position
+    size: Size
+    size2: Width
+    offsetX: Horizontal offset
+    offsetY: Vertical offset
 alignment:
   left: Left
   center: Center
+  right: Right
+directions:
+  top: Top
+  bottom: Bottom
+  left: Left
   right: Right
 three_preview:
   size: "Print size : {x} x {y} x {z} mm"
@@ -62,6 +81,7 @@ text_type:
   2: Text with support
   3: Negative text on support
   4: Vertical text with support
+  5: Text with handle
 custom_font:
   ck_label: Use custom font
   current_label: Current file
