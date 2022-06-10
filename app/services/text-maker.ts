@@ -3,7 +3,7 @@ import * as opentype from 'opentype.js'
 import * as THREE from 'three'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
 import config from 'text2stl/config/environment'
-import { generateSupportShape, generateHoleShape } from 'text2stl/misc/support-shape-generation'
+import { generateSupportShape } from 'text2stl/misc/support-shape-generation'
 
 const {
   APP: { textMakerDefault, threePreviewSettings: { meshParameters } }
