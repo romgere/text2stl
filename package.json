@@ -125,8 +125,6 @@
     "edition": "octane"
   },
   "dependencies": {
-    "@enable3d/three-graphics": "0.25.1",
-    "enable3d": "0.25.1",
     "font-picker": "^3.5.1",
     "google-fonts-complete": "^2.1.1",
     "matter-js": "^0.17.1",

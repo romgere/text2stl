@@ -1,5 +1,5 @@
 import Route from '@ember/routing/route'
-import { THREE } from 'enable3d'
+import * as THREE from 'three'
 
 let loader : THREE.ObjectLoader | undefined = undefined
 

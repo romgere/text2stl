@@ -1,6 +1,6 @@
 import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
-import { render, fillIn, settled } from '@ember/test-helpers'
+import { render, fillIn } from '@ember/test-helpers'
 import hbs from 'htmlbars-inline-precompile'
 import config from 'text2stl/config/environment'
 const {
@@ -19,21 +19,11 @@ module('Integration | Component | advanced-settings-form/settings', function(hoo
     let model = new TextMakerSettings({
       ...textMakerDefault,
       font: await loadFont('open_sans'),
-      type: ModelType.TextOnly
+      type: ModelType.TextWithSupport
     })
     this.set('model', model)
 
     await render(hbs`<SettingsForm::AdvancedSettings @model={{this.model}} />`)
-
-    assert.dom('[data-test-settings-support-padding]').doesNotExist('it does not render advanced support padding options when model is text-only')
-    assert.dom('[data-test-settings-supportBorderRadius]').doesNotExist('it does not render border radius options when model is text-only')
-
-    // Change type
-    model.type = ModelType.TextWithSupport
-    await settled()
-
-    assert.dom('[data-test-settings-support-padding]').exists('it render advanced support padding options')
-    assert.dom('[data-test-settings-supportBorderRadius]').exists('it render border radius options when model is text-only')
 
     assert
       .dom('[data-test-settings-supportPadding="top"]')
@@ -109,17 +99,41 @@ module('Integration | Component | advanced-settings-form/settings', function(hoo
 
     await click('[data-test-handle-position] [value="bottom"]')
     assert.strictEqual(model.handleSettings.position, 'bottom', 'handle position was updated')
-    assert.strictEqual(model.handleSettings.offsetX, 0, 'handle offsetX was reset to a default value')
-    assert.strictEqual(model.handleSettings.offsetY, 0, 'handle offsetY was reset to a default value')
+    assert.strictEqual(
+      model.handleSettings.offsetX,
+      textMakerDefault.handleSettings.offsetX,
+      'handle offsetX was reset to a default value'
+    )
+    assert.strictEqual(
+      model.handleSettings.offsetY,
+      textMakerDefault.handleSettings.offsetY,
+      'handle offsetY was reset to a default value'
+    )
 
     await click('[data-test-handle-type-item] [value="hole"]')
     assert.strictEqual(model.handleSettings.position, 'top', 'handle position was reset to a default value')
-    assert.strictEqual(model.handleSettings.offsetX, 0, 'handle offsetX was reset to a default value')
-    assert.strictEqual(model.handleSettings.offsetY, -10, 'handle offsetY was reset to a default value')
+    assert.strictEqual(
+      model.handleSettings.offsetX,
+      textMakerDefault.handleSettings.offsetX,
+      'handle offsetX was reset to a default value'
+    )
+    assert.strictEqual(
+      model.handleSettings.offsetY,
+      textMakerDefault.handleSettings.offsetY,
+      'handle offsetY was reset to a default value'
+    )
 
     await click('[data-test-handle-position] [value="left"]')
     assert.strictEqual(model.handleSettings.position, 'left', 'handle position was updated')
-    assert.strictEqual(model.handleSettings.offsetX, 10, 'handle offsetX was reset to a default value')
-    assert.strictEqual(model.handleSettings.offsetY, 0, 'handle offsetY was reset to a default value')
+    assert.strictEqual(
+      model.handleSettings.offsetX,
+      textMakerDefault.handleSettings.offsetX,
+      'handle offsetX was reset to a default value'
+    )
+    assert.strictEqual(
+      model.handleSettings.offsetY,
+      textMakerDefault.handleSettings.offsetY,
+      'handle offsetY was reset to a default value'
+    )
   })
 })
