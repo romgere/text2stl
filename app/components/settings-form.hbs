@@ -6,10 +6,12 @@
       </tab.item>
       <tab.item data-tab-item="font">
         {{t "settings_form.tabs.font"}}
-      </tab.item>      
-      <tab.item data-tab-item="advanced">
-        {{t "settings_form.tabs.advanced"}}
-      </tab.item>
+      </tab.item>    
+      {{#if this.showAdvancedSettings}}
+        <tab.item data-tab-item="advanced">
+          {{t "settings_form.tabs.advanced"}}
+        </tab.item>
+      {{/if}}
     </nav.component>
   </switcher.nav>
 
@@ -23,8 +25,10 @@
         @onFontChange={{@onFontChange}}
       />
     </content.item>    
-    <content.item>
-      <SettingsForm::AdvancedSettings @model={{@model}}/>
-    </content.item>    
+    {{#if this.showAdvancedSettings}}
+      <content.item>
+        <SettingsForm::AdvancedSettings @model={{@model}}/>
+      </content.item>    
+    {{/if}}
   </switcher.content>
 </UkSwitcher>

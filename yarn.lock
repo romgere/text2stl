@@ -1133,39 +1133,6 @@
     semver "^7.3.2"
     typescript-memoize "^1.0.0-alpha.3"
 
-"@enable3d/ammo-physics@^0.25.1":
-  version "0.25.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/ammo-physics/-/ammo-physics-0.25.1.tgz#c97c63ae47183b4bf8d14d7b33744baa289dba04"
-  integrity sha512-7shki3p7ivIWNoM9SaFKOCxY0e46c1exvACeDXAeC63Rgm4OuK5SFEVBKjAPuBsFF0FYmJZOvOmNfLYKvWLBLA==
-  dependencies:
-    "@enable3d/common" "^0.25.1"
-    "@enable3d/three-wrapper" "^0.25.1"
-    "@yandeu/events" "0.0.5"
-
-"@enable3d/common@^0.25.1":
-  version "0.25.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/common/-/common-0.25.1.tgz#2d809eded53a4b19610f92c84300d4f11de6433f"
-  integrity sha512-o+lkFxl5js1UICml01fBPYO5gc6A1KbCi2udTa8EGlRZPKgrX8Oo0SndgQe2yXwYE0nM64u5wYKnMQqeVIDdFQ==
-  dependencies:
-    "@enable3d/three-wrapper" "^0.25.1"
-    "@yandeu/events" "0.0.5"
-
-"@enable3d/three-graphics@0.25.1", "@enable3d/three-graphics@^0.25.1":
-  version "0.25.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/three-graphics/-/three-graphics-0.25.1.tgz#0e7bfe5441660ac61f333fe5b47f86039348cccc"
-  integrity sha512-++FV6aYcWlmDhwwVFGCBmTig8HdGyLxXkCYHiCI18gpP+IFa1SfpybWvyg3IPQB3ybt6GFG0/+KhmcZ+ojIknA==
-  dependencies:
-    "@enable3d/ammo-physics" "^0.25.1"
-    "@enable3d/common" "^0.25.1"
-    "@enable3d/three-wrapper" "^0.25.1"
-    "@yandeu/events" "0.0.5"
-    "@yandeu/tap" "0.0.3"
-
-"@enable3d/three-wrapper@^0.25.1":
-  version "0.25.1"
-  resolved "https://registry.yarnpkg.com/@enable3d/three-wrapper/-/three-wrapper-0.25.1.tgz#d0e39320411da4604771f3e64bfb58f44765711a"
-  integrity sha512-Q6ivU+chm9hFszFSPBzs9AAFnc91x6rs0uF1iv88Y02CgD9eZgFo1CcGtYzT7dMwC+OgcLeLjjkqCeUCv0jt8Q==
-
 "@eslint/eslintrc@^0.4.3":
   version "0.4.3"
   resolved "https://registry.yarnpkg.com/@eslint/eslintrc/-/eslintrc-0.4.3.tgz#9e42981ef035beb3dd49add17acb96e8ff6f394c"
@@ -2335,18 +2302,6 @@
   version "4.2.2"
   resolved "https://registry.yarnpkg.com/@xtuc/long/-/long-4.2.2.tgz#d291c6a4e97989b5c61d9acf396ae4fe133a718d"
   integrity sha512-NuHqBY1PB/D8xU6s/thBgOAiAP7HOYDQ32+BFZILJ8ivkUkAHQnWfn6WhL79Owj1qmUnoN/YPhktdIoucipkAQ==
-
-"@yandeu/events@0.0.5":
-  version "0.0.5"
-  resolved "https://registry.yarnpkg.com/@yandeu/events/-/events-0.0.5.tgz#f8fb41cf4222186eca6a0a5d36f5393805484f19"
-  integrity sha512-TUkghSGu0ThcEyAP50WHU/vdQkpt9EZyotjZzG8KirR+VI5o7Rp5wabcGru62JNy+awMR8Voy+kFzhNkC/1E6A==
-
-"@yandeu/tap@0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@yandeu/tap/-/tap-0.0.3.tgz#36109cb23a02a4808407fb7f9811fcb6cfec8521"
-  integrity sha512-GIStEHmboHVbs6ghcRxkO5NVdZtRCsf1mkKI0gvzc21uj5qGlGSCD/Eaax98/c6Mu9+n2lkTYbTwuBbg2vzuQw==
-  dependencies:
-    "@yandeu/events" "0.0.5"
 
 abab@^2.0.3, abab@^2.0.5:
   version "2.0.5"
@@ -6458,16 +6413,6 @@ emojis-list@^3.0.0:
   version "3.0.0"
   resolved "https://registry.yarnpkg.com/emojis-list/-/emojis-list-3.0.0.tgz#5570662046ad29e2e916e71aae260abdff4f6a78"
   integrity sha512-/kyM18EfinwXZbno9FyUGeFh87KC8HRQBQGildHZbEuRyWFOmv1U10o9BBp8XVZDVNNuQKyIGIu5ZYAAXJ0V2Q==
-
-enable3d@0.25.1:
-  version "0.25.1"
-  resolved "https://registry.yarnpkg.com/enable3d/-/enable3d-0.25.1.tgz#232a450980405013e6e3f5d30094964f6cc53dc9"
-  integrity sha512-0nMsJwmU1p36IUjKahtpgrCh3dCHb8AYSk1G8XGSUQ6BNe2BpxId9cMhRXwM+8F65MVP4MuOl6uS3wSuRsOrfg==
-  dependencies:
-    "@enable3d/ammo-physics" "^0.25.1"
-    "@enable3d/common" "^0.25.1"
-    "@enable3d/three-graphics" "^0.25.1"
-    "@enable3d/three-wrapper" "^0.25.1"
 
 encodeurl@~1.0.2:
   version "1.0.2"

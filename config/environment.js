@@ -46,10 +46,10 @@ module.exports = function(environment) {
         handleSettings: {
           type: 'none',
           position: 'top',
-          size: 5,
+          size: 10,
           size2: 2,
           offsetX: 0,
-          offsetY: -10
+          offsetY: 0
         }
       },
 

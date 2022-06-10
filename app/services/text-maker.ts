@@ -1,9 +1,10 @@
 import Service from '@ember/service'
 import * as opentype from 'opentype.js'
-import { THREE, ExtendedMesh } from 'enable3d'
-import { CSG } from '@enable3d/three-graphics/jsm/csg'
+import * as THREE from 'three'
 import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils'
 import config from 'text2stl/config/environment'
+import { generateSupportShape, generateHoleShape } from 'text2stl/misc/support-shape-generation'
+
 const {
   APP: { textMakerDefault, threePreviewSettings: { meshParameters } }
 } = config
@@ -56,11 +57,52 @@ export enum ModelType {
 
 type Contour = ContourPoint[]
 
+/*
+ Idea to get RID of CGS to substract:
+
+ convert stringToGeometry & generateSupport to return Path...
+ handle hole through "shape.holes" props (https://stackoverflow.com/questions/28532878/three-js-punch-hole-in-shape-with-another-shape)
+
+Then, for negative text :
+  - if text height >= support height
+    add "stringShape" (return of stringToGeometry) use holes in support shape
+    extrude !
+  - else
+    "duplicate" support shape
+    extrude one for support height
+    add "stringShape" (return of stringToGeometry) as holes in second support shape
+      (take into account initial "holes", should be extrude & merge to support )
+    extrude !
+    merge
+*/
+
+type SingleGlyphDef = {
+  paths: THREE.Path[]
+  holes: THREE.Path[]
+}
+
+type MultipleGlyphDef= {
+  glyphs: SingleGlyphDef[]
+  bounds: {
+    min: { x: number, y: number },
+    max: { x: number, y: number }
+  }
+}
+
 export default class TextMakerService extends Service {
 
-  private glyphToShapes(glyph: opentype.Glyph): THREE.Shape[] {
+  private glyphToShapes(glyph: opentype.Glyph, scale: number, xOffset: number, yOffset: number): SingleGlyphDef {
+
+    // Easy scale & move each point of the glyph according to args
+    let coord = function(x: number, y: number): [number, number] {
+      return [
+        x * scale + xOffset,
+        y * scale + yOffset
+      ]
+    }
+
     glyph.getMetrics()
-    let shapes: THREE.Shape[] = []
+    let paths: THREE.Path[] = []
     let holes: THREE.Path[] = []
     for (let contour of (glyph.getContours() as Contour[])) {
       let path = new THREE.Path()
@@ -68,13 +110,13 @@ export default class TextMakerService extends Service {
       let curr = contour[contour.length - 1]
       let next = contour[0]
       if (curr.onCurve) {
-        path.moveTo(curr.x, curr.y)
+        path.moveTo(...coord(curr.x, curr.y))
       } else {
         if (next.onCurve) {
-          path.moveTo(next.x, next.y)
+          path.moveTo(...coord(next.x, next.y))
         } else {
           let start = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5 }
-          path.moveTo(start.x, start.y)
+          path.moveTo(...coord(start.x, start.y))
         }
       }
 
@@ -83,21 +125,24 @@ export default class TextMakerService extends Service {
         curr = next
         next = contour[(i + 1) % contour.length]
         if (curr.onCurve) {
-          path.lineTo(curr.x, curr.y)
+          path.lineTo(...coord(curr.x, curr.y))
         } else {
           let prev2 = prev
           let next2 = next
           if (!prev.onCurve) {
             prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5, onCurve: false }
-            path.lineTo(prev2.x, prev2.y)
+            path.lineTo(...coord(prev2.x, prev2.y))
           }
 
           if (!next.onCurve) {
             next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5, onCurve: false }
           }
 
-          path.lineTo(prev2.x, prev2.y)
-          path.quadraticCurveTo(curr.x, curr.y, next2.x, next2.y)
+          path.lineTo(...coord(prev2.x, prev2.y))
+          path.quadraticCurveTo(
+            ...coord(curr.x, curr.y),
+            ...coord(next2.x, next2.y)
+          )
         }
       }
 
@@ -112,80 +157,98 @@ export default class TextMakerService extends Service {
       if (sum > 0) {
         holes.push(path)
       } else {
-        let shape = new THREE.Shape()
-        shape.add(path)
-        shapes.push(shape)
+        paths.push(path)
       }
     }
 
-    for (let shape of shapes) {
-      shape.holes = holes
-    }
+    // for (let shape of shapes) {
+    //   shape.holes = holes
+    // }
 
-    return shapes
+    return {
+      paths,
+      holes
+    }
   }
 
-  private stringToGeometry(params: TextMakerParameters): THREE.BufferGeometry {
+  private glyphsDefToGeometry(depth: number, glyphsDef: MultipleGlyphDef): THREE.BufferGeometry {
+
+    let geometries: THREE.ExtrudeGeometry[] = []
+
+    for (let glyphDef of glyphsDef.glyphs) {
+
+      let shapes = glyphDef.paths.map(function(path) {
+        let shape = new THREE.Shape()
+        shape.add(path)
+        shape.holes = glyphDef.holes
+        return shape
+      })
+
+      let geometry = new THREE.ExtrudeGeometry(shapes, {
+        depth,
+        bevelEnabled: true,
+        bevelThickness: 0,
+        bevelSize: 0,
+        bevelOffset: 0,
+        bevelSegments: 0
+      })
+
+      geometries.push(geometry)
+    }
+
+    return mergeBufferGeometries(geometries.flat())
+  }
+
+  private stringToGlyhpsDef(params: TextMakerParameters): MultipleGlyphDef {
     let { font } = params
 
     let text = params.text || textMakerDefault.text
     let size = params.size !== undefined && params.size >= 0
       ? params.size
       : textMakerDefault.size
-    let height = params.height !== undefined && params.height >= 0
-      ? params.height
-      : textMakerDefault.height
     let spacing = params.spacing !== undefined ? params.spacing : textMakerDefault.spacing
     let vSpacing = params.vSpacing !== undefined ? params.vSpacing : textMakerDefault.vSpacing
     let alignment = params.alignment !== undefined ? params.alignment : textMakerDefault.alignment
 
-    let geometries: THREE.ExtrudeGeometry[][] = []
-    let dy = 0
+    let scale = 1 / font.unitsPerEm * size
+
+    let glyphShapes: SingleGlyphDef[] = []
+    // to handle alignment
     let linesWidth: number[] = []
+    let bounds = {
+      min: { x: Number.MAX_SAFE_INTEGER, y: Number.MAX_SAFE_INTEGER },
+      max: { x: 0, y: 0 }
+    }
+
     let lines = text.split('\n').map((s) => s.trimEnd())
+    let dy = 0
+
+    // Iterate a first time on all lines to calculate line width (text align)
     for (let lineText of lines) {
 
       let dx = 0
       let lineMaxX = 0
-      let lineGeometries: THREE.ExtrudeGeometry[] = []
-
-      // Iterate on text char to generate a Geometry for each
       font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
         x += dx
         dx += spacing
+        let glyphBounds = glyph.getBoundingBox()
 
-        y += dy
+        lineMaxX = x + glyphBounds.x2 * scale
 
-        let shapes = this.glyphToShapes(glyph)
-        let geometry = new THREE.ExtrudeGeometry(shapes, {
-          depth: height,
-          bevelEnabled: true,
-          bevelThickness: 0,
-          bevelSize: 0,
-          bevelOffset: 0,
-          bevelSegments: 0
-        })
-        geometry.applyMatrix4(new THREE.Matrix4().makeScale(
-          1 / font.unitsPerEm * size,
-          1 / font.unitsPerEm * size,
-          1
-        ))
+        bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1 * scale)
+        bounds.min.y = Math.min(bounds.min.y, y + dy + glyphBounds.y1 * scale)
+        bounds.max.x = Math.max(bounds.max.x, x + glyphBounds.x2 * scale)
+        bounds.max.y = Math.max(bounds.max.y, y + dy + glyphBounds.y2 * scale)
 
-        geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(x, y, 0))
-        lineGeometries.push(geometry)
-
-        // compute bound box to retrieve glyph size
-        geometry.computeBoundingBox()
-        lineMaxX = geometry.boundingBox?.max.x ?? 0
       })
 
-      geometries.push(lineGeometries)
-
-      dy -= size + vSpacing
+      dy += size + vSpacing
 
       // Keep this for each line to handle alignment
       linesWidth.push(lineMaxX)
     }
+
+    let linesAlignOffset = linesWidth.map(() => 0)
 
     // Handle alignment (now we know all line size)
     if (alignment !== 'left') {
@@ -194,262 +257,68 @@ export default class TextMakerService extends Service {
       linesWidth.forEach(function(lineWidth, line) {
         if (lineWidth !== maxWidth) {
           let xOffset = (maxWidth - lineWidth) / (alignment === 'center' ? 2 : 1)
-          geometries[line].forEach(function(geometry) {
-            geometry.applyMatrix4(new THREE.Matrix4().makeTranslation(xOffset, 0, 0))
-          })
+          linesAlignOffset[line] = xOffset
         }
       })
     }
 
-    return mergeBufferGeometries(geometries.flat())
-  }
+    dy = 0
+    for (let lineIndex in lines) {
 
-  private generateSupport(width: number, height: number, depth: number, radius: number): THREE.BufferGeometry {
+      let lineText = lines[lineIndex]
+      let dx = 0
 
-    // Limit min/max radius
-    let maxRadius = Math.min(width / 2, height / 2)
-    if (radius > maxRadius) {
-      radius = maxRadius
-    } else if (radius < 0) {
-      radius = 0
-    }
+      // Iterate on text char to generate a Geometry for each
+      font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
+        x += dx + linesAlignOffset[lineIndex]
 
-    let supportShape = new THREE.Shape()
-    supportShape.moveTo(width - radius, 0)
-    supportShape.lineTo(width - radius, 0)
-    if (radius) {
-      supportShape.ellipse(
-        0,
-        radius,
-        radius,
-        radius,
-        Math.PI / 2,
-        Math.PI,
-        false,
-        Math.PI
-      )
-    }
-
-    supportShape.lineTo(width, height - radius)
-    if (radius) {
-      supportShape.ellipse(
-        -radius,
-        0,
-        radius,
-        radius,
-        Math.PI,
-        Math.PI * 1.5,
-        false,
-        Math.PI
-      )
-    }
-
-    supportShape.lineTo(radius, height)
-    if (radius) {
-      supportShape.ellipse(
-        0,
-        -radius,
-        radius,
-        radius,
-        Math.PI * 1.5,
-        0,
-        false,
-        Math.PI
-      )
-    }
-
-    supportShape.lineTo(0, radius)
-    if (radius) {
-      supportShape.ellipse(
-        radius,
-        0,
-        radius,
-        radius,
-        0,
-        Math.PI / 2,
-        false,
-        Math.PI
-      )
-    }
-
-    let extrudeSettings = {
-      depth,
-      bevelEnabled: true,
-      bevelThickness: 0,
-      bevelSize: 0,
-      bevelOffset: 0,
-      bevelSegments: 0
-    }
-    return new THREE.ExtrudeGeometry(supportShape, extrudeSettings)
-  }
-
-  private generateHandle(handleSize: number, handleSize2: number, handleDepth: number): THREE.BufferGeometry {
-    let supportShape = new THREE.Shape()
-    supportShape.moveTo(0, 0)
-    supportShape.lineTo(handleSize2, 0)
-
-    supportShape.ellipse(
-      handleSize / 2,
-      0,
-      handleSize / 2,
-      handleSize / 2,
-      0,
-      Math.PI,
-      true,
-      Math.PI
-    )
-
-    supportShape.lineTo(handleSize + handleSize2 * 2, 0)
-
-    supportShape.ellipse(
-      -handleSize / 2 - handleSize2,
-      0,
-      handleSize / 2 + handleSize2,
-      handleSize / 2 + handleSize2,
-      0,
-      Math.PI,
-      false,
-      0
-    )
-
-    let extrudeSettings = {
-      depth: handleDepth,
-      bevelEnabled: true,
-      bevelThickness: 0,
-      bevelSize: 0,
-      bevelOffset: 0,
-      bevelSegments: 0
-    }
-    return new THREE.ExtrudeGeometry(supportShape, extrudeSettings)
-  }
-
-  // Compute (merge or substract) text, support handle & hole in a single geometry
-  private mixMeshComponents(type: ModelType, textGeometry: THREE.BufferGeometry, supportGeometry: THREE.BufferGeometry | undefined, holeGeometry: THREE.BufferGeometry | undefined, handleGeometry: THREE.BufferGeometry | undefined): THREE.BufferGeometry {
-
-    if (type === ModelType.NegativeText && supportGeometry) {
-
-      let intermediareSupport = supportGeometry
-      if (holeGeometry) {
-        let bspSupport = CSG.subtract(
-          new ExtendedMesh(
-            supportGeometry,
-            new THREE.MeshNormalMaterial()
-          ),
-          new ExtendedMesh(
-            holeGeometry,
-            new THREE.MeshNormalMaterial()
+        glyphShapes.push(
+          this.glyphToShapes(
+            glyph,
+            scale, // scale
+            x, // x offset
+            y - dy // y offset
           )
         )
-        intermediareSupport = bspSupport.geometry
-      } else if (handleGeometry) {
-        intermediareSupport = mergeBufferGeometries([
-          supportGeometry,
-          handleGeometry
-        ])
-      }
+        dx += spacing
+      })
 
-      // Substract text to support
-      let bspFinal = CSG.subtract(
-        new ExtendedMesh(
-          intermediareSupport,
-          new THREE.MeshNormalMaterial()
-        ),
-        new ExtendedMesh(
-          textGeometry,
-          new THREE.MeshNormalMaterial()
-        )
-      )
-
-      return bspFinal.geometry
-
-    } else if (type === ModelType.TextOnly) {
-
-      if (handleGeometry) {
-        // Merge support with text
-        return mergeBufferGeometries([
-          textGeometry,
-          handleGeometry
-        ], false)
-
-      } else if (holeGeometry) {
-        // Substract hole to text
-        let bspFinal = CSG.subtract(
-          new ExtendedMesh(
-            textGeometry,
-            new THREE.MeshNormalMaterial()
-          ),
-          new ExtendedMesh(
-            holeGeometry,
-            new THREE.MeshNormalMaterial()
-          )
-        )
-        return bspFinal.geometry
-      }
-    } else if (supportGeometry) {
-
-      if (handleGeometry) {
-
-        // Merge support with text & handle
-        return mergeBufferGeometries([
-          textGeometry,
-          handleGeometry,
-          supportGeometry
-        ], false)
-
-      } else if (holeGeometry) {
-
-        let intermediareGeometry = mergeBufferGeometries([
-          textGeometry,
-          supportGeometry
-        ], false)
-
-        let bspFinal = CSG.subtract(
-          new ExtendedMesh(
-            intermediareGeometry,
-            new THREE.MeshNormalMaterial()
-          ),
-          new ExtendedMesh(
-            holeGeometry,
-            new THREE.MeshNormalMaterial()
-          )
-        )
-        return bspFinal.geometry
-      } else {
-        return mergeBufferGeometries([
-          textGeometry,
-          supportGeometry
-        ], false)
-      }
+      dy += size + vSpacing
     }
 
-    return textGeometry
+    return {
+      glyphs: glyphShapes,
+      bounds
+    }
+  }
+
+  private generateSupportShape(width: number, height: number, radius: number, handleSettings: Handle | undefined): THREE.Shape {
+    return generateSupportShape(width, height, radius, handleSettings)
+  }
+
+  private translatePath(path: THREE.Path, x: number, y :number) {
+    return new THREE.Path(path.getPoints().map((p) => {
+      return new THREE.Vector2(p.x + x, p.y + y)
+    }))
   }
 
   generateMesh(params: TextMakerParameters): THREE.Mesh {
     let type = params.type || ModelType.TextOnly
 
-    // Mesh will be generate by combination of these Geometries
-    let textGeometry = this.stringToGeometry(params)
-    let supportGeometry: THREE.BufferGeometry | undefined = undefined
-    let holeGeometry: THREE.BufferGeometry | undefined = undefined
-    let handleGeometry: THREE.BufferGeometry | undefined = undefined
+    let textDepth = params.height !== undefined && params.height >= 0
+      ? params.height
+      : textMakerDefault.height
 
-    // Generate mesh in order to get size.
-    // TODO: refactor if size can be calculate from geometry.
-    let textMesh = new ExtendedMesh(
-      textGeometry,
-      new THREE.MeshLambertMaterial({
-        ...meshParameters,
-        side: THREE.DoubleSide
-      })
-    )
+    let plyghsDef = this.stringToGlyhpsDef(params)
+    let supportShape: THREE.Shape | undefined = undefined
 
-    // Get size of text part
-    let { min, max } = new THREE.Box3().setFromObject(textMesh)
+    let finalGeometry: THREE.BufferGeometry
+
+    let { min, max } = plyghsDef.bounds
     let size  = {
       x: max.x - min.x,
       y: max.y - min.y,
-      z: max.z - min.z
+      z: textDepth
     }
 
     // Support settings
@@ -459,146 +328,139 @@ export default class TextMakerService extends Service {
     let supportHeight = size.y + supportPadding.top + supportPadding.bottom
     let supportBorderRadius = params.supportBorderRadius !== undefined ? params.supportBorderRadius : textMakerDefault.supportBorderRadius
 
-    if (type === ModelType.TextWithSupport) {
-
+    if (type !== ModelType.TextOnly) {
       // Generate support
-      supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
+      supportShape = this.generateSupportShape(
+        supportWidth,
+        supportHeight,
+        supportBorderRadius,
+        params.handleSettings
+      )
+    }
 
-      // Move text in support according to padding settings
-      textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -min.x + supportPadding.left,
-        -min.y + supportPadding.bottom,
-        supportDepth
-      ))
-    } else if (type === ModelType.VerticalTextWithSupport) {
-      // Generate support
-      supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
+    if (type === ModelType.NegativeText) {
 
-      // Rotate & move text
-      textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
-        Math.PI / 2
-      ))
-      textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        supportPadding.left,
-        supportPadding.bottom + size.z * 2,
-        supportDepth
-      ))
-
-    } else if (type === ModelType.NegativeText) {
       // Ensure support height is equal or greater than text height
       if (supportDepth < size.z) {
         supportDepth += size.z - supportDepth
       }
 
-      // Generate support
-      supportGeometry = this.generateSupport(supportWidth, supportHeight, supportDepth, supportBorderRadius)
+      let moveTextX = -min.x + supportPadding.left
+      let moveTextY = -min.y + supportPadding.bottom
 
-      // Move text in support according to padding settings
-      textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-        -min.x + supportPadding.left,
-        -min.y + supportPadding.bottom,
-        supportDepth - size.z
-      ))
-    }
+      let supportGeometry: THREE.ExtrudeBufferGeometry | undefined
 
-    // Generate handle/hole if needed
-    if (params.handleSettings?.type && params.handleSettings.type !== 'none') {
+      if (supportDepth > textDepth) {
+        let plainSupportDepth = supportDepth - textDepth
 
-      let { offsetX, offsetY, size: handleSize, size2: handleSize2, position, type: handleType } = params.handleSettings
-
-      let handleX = 0
-      let handleY = 0
-
-      switch (position) {
-        case 'top':
-          handleX = (type === ModelType.TextOnly ? size.x : supportWidth) / 2
-          handleY = type === ModelType.TextOnly ? size.y : supportHeight
-          break
-        case 'bottom':
-          handleX = (type === ModelType.TextOnly ? size.x : supportWidth) / 2
-          break
-        case 'left':
-          handleY = (type === ModelType.TextOnly ? size.y : supportHeight) / 2
-          break
-        case 'right':
-          handleX = type === ModelType.TextOnly ? size.x : supportWidth
-          handleY = (type === ModelType.TextOnly ? size.y : supportHeight) / 2
-          break
+        supportGeometry = new THREE.ExtrudeGeometry(supportShape, {
+          depth: plainSupportDepth,
+          bevelEnabled: true,
+          bevelThickness: 0,
+          bevelSize: 0,
+          bevelOffset: 0,
+          bevelSegments: 0
+        })
       }
 
-      if (handleType === 'hole') {
+      // extract glyph path & move them according to support padding
+      let glyphsPaths = plyghsDef.glyphs.map((g) => g.paths).flat().map((p) => this.translatePath(p, moveTextX, moveTextY))
+      let glyphsHolesPaths = plyghsDef.glyphs.map((g) => g.holes).flat().map((p) => this.translatePath(p, moveTextX, moveTextY))
 
-        let holeHeight = 0
-        if (type === ModelType.TextOnly) {
-          holeHeight  = size.z
-        } else if (type === ModelType.NegativeText || type === ModelType.VerticalTextWithSupport) {
-          holeHeight = supportDepth
-        } else {
-          holeHeight = supportDepth + size.z
-        }
+      // Add Glyph paths as hole in support & extrude
+      supportShape?.holes.push(...glyphsPaths)
+      let negativeTextGeometry = new THREE.ExtrudeGeometry(supportShape, {
+        depth: textDepth,
+        bevelEnabled: true,
+        bevelThickness: 0,
+        bevelSize: 0,
+        bevelOffset: 0,
+        bevelSegments: 0
+      })
 
-        holeGeometry = new THREE.CylinderGeometry(
-          handleSize,
-          handleSize,
-          holeHeight,
-          32
-        )
+      // Extrude glyph holes as geometry
+      let glyphsHolesShapes = glyphsHolesPaths.map(function(path) {
+        let s = new THREE.Shape()
+        s.add(path)
+        return s
+      })
+      let negativeTextHoleGeometry = new THREE.ExtrudeGeometry(glyphsHolesShapes, {
+        depth: textDepth,
+        bevelEnabled: true,
+        bevelThickness: 0,
+        bevelSize: 0,
+        bevelOffset: 0,
+        bevelSegments: 0
+      })
 
-        holeGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
-          Math.PI / 2
+      if (supportDepth > textDepth) {
+        // Move negative text
+        negativeTextGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+          0,
+          0,
+          supportDepth - textDepth
         ))
-
-        holeGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-          handleX + offsetX,
-          handleY + offsetY,
-          holeHeight / 2
+        negativeTextHoleGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+          0,
+          0,
+          supportDepth - textDepth
         ))
-      } else if (handleType === 'handle') {
+      }
 
-        handleGeometry = this.generateHandle(handleSize, handleSize2, supportDepth)
+      let geometries = [
+        negativeTextGeometry,
+        negativeTextHoleGeometry
+      ]
+      if (supportGeometry) {
+        geometries.push(supportGeometry)
+      }
 
-        let handleRotation = undefined
-        switch (position) {
-          case 'top':
-            offsetX -= (handleSize + handleSize2 * 2) / 2
-            break
-          case 'bottom':
-            handleRotation = Math.PI
-            offsetX += (handleSize + handleSize2 * 2) / 2
-            break
-          case 'left':
-            handleRotation = Math.PI / 2
-            offsetY -= (handleSize + handleSize2 * 2) / 2
-            break
-          case 'right':
-            handleRotation = -Math.PI / 2
-            offsetY += (handleSize + handleSize2 * 2) / 2
-            break
-        }
+      finalGeometry = mergeBufferGeometries(geometries)
+    } else {
 
-        if (handleRotation) {
-          handleGeometry.applyMatrix4(new THREE.Matrix4().makeRotationZ(
-            handleRotation
+      let textGeometry = this.glyphsDefToGeometry(textDepth, plyghsDef)
+
+      if (type !== ModelType.TextOnly) {
+        let supportGeometry = new THREE.ExtrudeGeometry(supportShape, {
+          depth: supportDepth,
+          bevelEnabled: true,
+          bevelThickness: 0,
+          bevelSize: 0,
+          bevelOffset: 0,
+          bevelSegments: 0
+        })
+
+        if (type === ModelType.TextWithSupport) {
+          // Move text in support according to padding settings
+          textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+            -min.x + supportPadding.left,
+            -min.y + supportPadding.bottom,
+            supportDepth
+          ))
+        } else if (type === ModelType.VerticalTextWithSupport) {
+
+          // Rotate & move text
+          textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(
+            Math.PI / 2
+          ))
+          textGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
+            supportPadding.left,
+            supportPadding.bottom + size.z * 2,
+            supportDepth
           ))
         }
 
-        handleGeometry.applyMatrix4(new THREE.Matrix4().makeTranslation(
-          handleX + offsetX,
-          handleY + offsetY,
-          0
-        ))
+        finalGeometry = mergeBufferGeometries([
+          supportGeometry,
+          textGeometry
+        ])
+      } else {
+        finalGeometry = textGeometry
       }
     }
 
-    return new ExtendedMesh(
-      // "Combine" all geometries into one
-      this.mixMeshComponents(
-        type,
-        textGeometry,
-        supportGeometry,
-        holeGeometry,
-        handleGeometry
-      ),
+    return new THREE.Mesh(
+      finalGeometry,
       new THREE.MeshLambertMaterial({
         ...meshParameters,
         side: THREE.DoubleSide

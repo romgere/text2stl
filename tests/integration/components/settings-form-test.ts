@@ -4,6 +4,7 @@ import { render, click } from '@ember/test-helpers'
 import hbs from 'htmlbars-inline-precompile'
 // eslint-disable-next-line ember/no-classic-components
 import Component from '@ember/component'
+import { ModelType } from 'text2stl/services/text-maker'
 
 module('Integration | Component | settings-form', function(hooks) {
   setupRenderingTest(hooks)
@@ -13,28 +14,30 @@ module('Integration | Component | settings-form', function(hooks) {
     this.owner.register(
       'component:settings-form/settings',
       class extends Component {
-        layout = hbs`<div data-mocked-settings data-model={{@model}} />`
+        layout = hbs`<div data-mocked-settings data-model={{@model.name}} />`
       }
     )
 
     this.owner.register(
       'component:settings-form/font',
       class extends Component {
-        layout = hbs`<div data-mocked-font data-model={{@model}} data-on-font-change={{@onFontChange}} />`
+        layout = hbs`<div data-mocked-font data-model={{@model.name}} data-on-font-change={{@onFontChange}} />`
       }
     )
 
     this.owner.register(
       'component:settings-form/advanced-settings',
       class extends Component {
-        layout = hbs`<div data-mocked-advanced-settings data-model={{@model}} />`
+        layout = hbs`<div data-mocked-advanced-settings data-model={{@model.name}} />`
       }
     )
 
-    await render(hbs`<SettingsForm @model="the_model" @onFontChange="on_font_change" />`)
+    this.set('model', { type: ModelType.TextOnly, name: 'the_model' })
+    await render(hbs`<SettingsForm @model={{this.model}} @onFontChange="on_font_change" />`)
 
     assert.dom('[uk-tab]').exists('It render tab')
-    assert.dom('[uk-tab] li').exists({ count: 3 }, 'It render 3 tabs')
+    assert.dom('[uk-tab] li').exists({ count: 2 }, 'It render 2 tabs')
+    assert.dom('[data-tab-item=advanced]').doesNotExist('advanced tab is not rendered')
 
     assert.dom('[data-mocked-font]').isNotVisible('Font tab is not visible')
     assert.dom('[data-mocked-advanced-settings]').isNotVisible('Advanced settings tab is not visible')
@@ -54,6 +57,11 @@ module('Integration | Component | settings-form', function(hooks) {
       .exists('font tab is rendered')
       .hasAttribute('data-model', 'the_model', 'Model is passed to font component')
       .hasAttribute('data-on-font-change', 'on_font_change', 'Model is passed to font component')
+
+    this.set('model', { type: ModelType.TextWithSupport, name: 'the_model' })
+    assert.dom('[uk-tab]').exists('It render tab')
+    assert.dom('[uk-tab] li').exists({ count: 3 }, 'It render 3 tabs')
+    assert.dom('[data-tab-item=advanced]').exists('advanced tab not rendered')
 
     // Change tab
     await click('[data-tab-item=advanced] a')
