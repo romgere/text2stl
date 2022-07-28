@@ -57,25 +57,6 @@ export enum ModelType {
 
 type Contour = ContourPoint[]
 
-/*
- Idea to get RID of CGS to substract:
-
- convert stringToGeometry & generateSupport to return Path...
- handle hole through "shape.holes" props (https://stackoverflow.com/questions/28532878/three-js-punch-hole-in-shape-with-another-shape)
-
-Then, for negative text :
-  - if text height >= support height
-    add "stringShape" (return of stringToGeometry) use holes in support shape
-    extrude !
-  - else
-    "duplicate" support shape
-    extrude one for support height
-    add "stringShape" (return of stringToGeometry) as holes in second support shape
-      (take into account initial "holes", should be extrude & merge to support )
-    extrude !
-    merge
-*/
-
 type SingleGlyphDef = {
   paths: THREE.Path[]
   holes: THREE.Path[]
@@ -161,10 +142,6 @@ export default class TextMakerService extends Service {
       }
     }
 
-    // for (let shape of shapes) {
-    //   shape.holes = holes
-    // }
-
     return {
       paths,
       holes
@@ -236,9 +213,9 @@ export default class TextMakerService extends Service {
         lineMaxX = x + glyphBounds.x2 * scale
 
         bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1 * scale)
-        bounds.min.y = Math.min(bounds.min.y, y + dy + glyphBounds.y1 * scale)
+        bounds.min.y = Math.min(bounds.min.y, y - dy + glyphBounds.y1 * scale)
         bounds.max.x = Math.max(bounds.max.x, x + glyphBounds.x2 * scale)
-        bounds.max.y = Math.max(bounds.max.y, y + dy + glyphBounds.y2 * scale)
+        bounds.max.y = Math.max(bounds.max.y, y - dy + glyphBounds.y2 * scale)
 
       })
 
