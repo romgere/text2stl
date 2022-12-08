@@ -106,8 +106,10 @@ module.exports = function(environment) {
   }
 
   if (environment === 'production') {
-    // here you can enable a production-specific feature
-    ENV.rootURL = 'https://text2stl.mestres.fr/'
+    // Use the preview URL if it's a netlify preview deploy, production URL otherwise
+    ENV.rootURL = process.env.CONTEXT === 'deploy-preview'
+      ? process.env.DEPLOY_PRIME_URL
+      : 'https://text2stl.mestres.fr/'
   }
 
   return ENV
