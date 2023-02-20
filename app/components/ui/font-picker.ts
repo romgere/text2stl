@@ -6,6 +6,8 @@ import FontManagerService from 'text2stl/services/font-manager'
 import { inject as service } from '@ember/service'
 import { action } from '@ember/object'
 
+import type IntlService from 'ember-intl/services/intl'
+
 const availableFontCategories: Category[] = ['sans-serif', 'serif', 'display', 'handwriting', 'monospace']
 
 interface UiFontPickerArgs {
@@ -27,6 +29,8 @@ type SizeNames = SizeName[]
 export default class UiFontPicker extends Component<UiFontPickerArgs> {
 
   @service declare fontManager: FontManagerService
+
+  @service declare intl: IntlService
 
   fontPickerID: string
 
@@ -66,13 +70,17 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
 
   @action
   onFontNameChange(fontName: string) {
-    this.args.onFontNameChange(fontName)
-    // Reset variant & size
-    let variantName = Object.keys(this.fontManager.fonts[fontName].variants)[0]
-    this.args.onVariantNameChange(variantName)
-    this.args.onFontSizeChange(
-      Object.keys(this.fontVariants[variantName])[0]
-    )
+    if (this.fontManager.fonts[fontName]) {
+      this.args.onFontNameChange(fontName)
+      // Reset variant & size
+      let variantName = Object.keys(this.fontManager.fonts[fontName].variants)[0]
+      this.args.onVariantNameChange(variantName)
+      this.args.onFontSizeChange(
+        Object.keys(this.fontVariants[variantName])[0]
+      )
+    } else {
+      alert(this.intl.t('errors.font_load_generic'))
+    }
   }
 
   @action
