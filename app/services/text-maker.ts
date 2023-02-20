@@ -9,12 +9,6 @@ const {
   APP: { textMakerDefault, threePreviewSettings: { meshParameters } }
 } = config
 
-interface ContourPoint {
-  x: number
-  y: number
-  onCurve: boolean
-}
-
 export type TextMakerAlignment = 'left' | 'center' | 'right'
 
 export type SupportPadding = {
@@ -55,8 +49,6 @@ export enum ModelType {
   VerticalTextWithSupport = 4
 }
 
-type Contour = ContourPoint[]
-
 type SingleGlyphDef = {
   paths: THREE.Path[]
   holes: THREE.Path[]
@@ -72,74 +64,110 @@ type MultipleGlyphDef= {
 
 export default class TextMakerService extends Service {
 
-  private glyphToShapes(glyph: opentype.Glyph, scale: number, xOffset: number, yOffset: number): SingleGlyphDef {
-
-    // Easy scale & move each point of the glyph according to args
+  private glyphToShapes(outlinesFormat: string, glyph: opentype.Glyph, size: number, xOffset: number, yOffset: number): SingleGlyphDef {
+    // Font x/y origin to Three x/y origin
     let coord = function(x: number, y: number): [number, number] {
-      return [
-        x * scale + xOffset,
-        y * scale + yOffset
-      ]
+      return [x, 0 - y]
     }
 
-    glyph.getMetrics()
     let paths: THREE.Path[] = []
     let holes: THREE.Path[] = []
-    for (let contour of (glyph.getContours() as Contour[])) {
-      let path = new THREE.Path()
-      let prev: ContourPoint|null = null
-      let curr = contour[contour.length - 1]
-      let next = contour[0]
-      if (curr.onCurve) {
-        path.moveTo(...coord(curr.x, curr.y))
-      } else {
-        if (next.onCurve) {
-          path.moveTo(...coord(next.x, next.y))
-        } else {
-          let start = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5 }
-          path.moveTo(...coord(start.x, start.y))
-        }
-      }
 
-      for (let i = 0; i < contour.length; ++i) {
-        prev = curr
-        curr = next
-        next = contour[(i + 1) % contour.length]
-        if (curr.onCurve) {
-          path.lineTo(...coord(curr.x, curr.y))
-        } else {
-          let prev2 = prev
-          let next2 = next
-          if (!prev.onCurve) {
-            prev2 = { x: (curr.x + prev.x) * 0.5, y: (curr.y + prev.y) * 0.5, onCurve: false }
-            path.lineTo(...coord(prev2.x, prev2.y))
+    let path = new THREE.Path()
+
+    let pathCommands = glyph.getPath(xOffset, 0 - yOffset, size).commands
+
+    // Following is only to manage "cff" font & detect hole shape
+    let paths2D: Path2D[] = []
+    let path2D = new Path2D()
+
+    // https://github.com/opentypejs/opentype.js#path-commands
+    for (let i = 0; i < pathCommands.length; i++) {
+      let command = pathCommands[i]
+
+      switch (command.type) {
+        case 'M' :
+          path = new THREE.Path()
+          path2D = new Path2D()
+          path.moveTo(...coord(command.x, command.y))
+          path2D.moveTo(...coord(command.x, command.y))
+          break
+        case 'Z':
+          path.closePath()
+          path2D.closePath()
+
+          // With CCF font Detect path/hole can be done only at the end with all path...
+          if (outlinesFormat === 'cff') {
+
+            paths.push(path)
+            paths2D.push(path2D)
+          } else {
+            if (THREE.ShapeUtils.isClockWise(path.getPoints())) {
+              paths.push(path)
+            } else {
+              holes.push(path)
+            }
           }
 
-          if (!next.onCurve) {
-            next2 = { x: (curr.x + next.x) * 0.5, y: (curr.y + next.y) * 0.5, onCurve: false }
-          }
-
-          path.lineTo(...coord(prev2.x, prev2.y))
-          path.quadraticCurveTo(
-            ...coord(curr.x, curr.y),
-            ...coord(next2.x, next2.y)
+          break
+        case 'L':
+          path.lineTo(...coord(command.x, command.y))
+          path2D.lineTo(...coord(command.x, command.y))
+          break
+        case 'C':
+          path.bezierCurveTo(
+            ...coord(command.x1, command.y1),
+            ...coord(command.x2, command.y2),
+            ...coord(command.x, command.y)
           )
+          path2D.bezierCurveTo(
+            ...coord(command.x1, command.y1),
+            ...coord(command.x2, command.y2),
+            ...coord(command.x, command.y)
+          )
+          break
+        case 'Q':
+          path.quadraticCurveTo(
+            ...coord(command.x1, command.y1),
+            ...coord(command.x, command.y)
+          )
+          path2D.quadraticCurveTo(
+            ...coord(command.x1, command.y1),
+            ...coord(command.x, command.y)
+          )
+          break
+      }
+    }
+
+    // https://github.com/opentypejs/opentype.js/issues/347
+    // if "cff" : subpath B contained by outermost subpath A is a cutout ...
+    // if "truetype" : solid shapes are defined clockwise (CW) and holes are defined counterclockwise (CCW)
+    if (outlinesFormat === 'cff') {
+
+      let canvas = document.createElement('canvas')
+      let ctx = canvas.getContext('2d')
+
+      for (let i = 0; i < paths.length; i++) {
+        path = paths[i]
+
+        let isHole = false
+        for (let otherPath of paths2D.filter((_, idx) => idx !== i)) {
+          // Iterate on path point & check if they are inside any existing paths
+          isHole = path.getPoints().every(function(point) {
+            return ctx?.isPointInPath(otherPath, point.x, point.y)
+          })
+
+          if (isHole) {
+            break
+          }
+        }
+
+        if (isHole) {
+          holes.push(path)
         }
       }
 
-      path.closePath()
-      let sum = 0
-      let lastPoint = contour[contour.length - 1]
-      for (let point of contour) {
-        sum += (lastPoint.x - point.x) * (point.y + lastPoint.y)
-        lastPoint = point
-      }
-
-      if (sum > 0) {
-        holes.push(path)
-      } else {
-        paths.push(path)
-      }
+      paths = paths.filter((p) => holes.indexOf(p) === -1)
     }
 
     return {
@@ -251,8 +279,9 @@ export default class TextMakerService extends Service {
 
         glyphShapes.push(
           this.glyphToShapes(
+            font.outlinesFormat,
             glyph,
-            scale, // scale
+            size,
             x, // x offset
             y - dy // y offset
           )
