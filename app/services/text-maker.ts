@@ -96,35 +96,11 @@ export default class TextMakerService extends Service {
           path.closePath()
           path2D.closePath()
 
-          // https://github.com/opentypejs/opentype.js/issues/347
-          // if "cff" : subpath B contained by outermost subpath A is a cutout ...
-          // if "truetype" : solid shapes are defined clockwise (CW) and holes are defined counterclockwise (CCW)
+          // With CCF font Detect path/hole can be done only at the end with all path...
           if (outlinesFormat === 'cff') {
 
-            // Considering first path as not a hole (can't compare to existing)
-            if (!paths.length) {
-              paths.push(path)
-              paths2D.push(path2D)
-            } else {
-
-              let canvas = document.createElement('canvas')
-              let ctx = canvas.getContext('2d')
-              let isHole = false
-
-              // Iterate on each path point & check if they are inside any existing paths
-              for (let previousPath of paths2D) {
-                isHole = path.getPoints().every(function(point) {
-                  return ctx?.isPointInPath(previousPath, point.x, point.y)
-                })
-              }
-
-              if (!isHole) {
-                paths.push(path)
-                paths2D.push(path2D)
-              } else {
-                holes.push(path)
-              }
-            }
+            paths.push(path)
+            paths2D.push(path2D)
           } else {
             if (THREE.ShapeUtils.isClockWise(path.getPoints())) {
               paths.push(path)
@@ -161,6 +137,37 @@ export default class TextMakerService extends Service {
           )
           break
       }
+    }
+
+    // https://github.com/opentypejs/opentype.js/issues/347
+    // if "cff" : subpath B contained by outermost subpath A is a cutout ...
+    // if "truetype" : solid shapes are defined clockwise (CW) and holes are defined counterclockwise (CCW)
+    if (outlinesFormat === 'cff') {
+
+      let canvas = document.createElement('canvas')
+      let ctx = canvas.getContext('2d')
+
+      for (let i = 0; i < paths.length; i++) {
+        path = paths[i]
+
+        let isHole = false
+        for (let otherPath of paths2D.filter((_, idx) => idx !== i)) {
+          // Iterate on path point & check if they are inside any existing paths
+          isHole = path.getPoints().every(function(point) {
+            return ctx?.isPointInPath(otherPath, point.x, point.y)
+          })
+
+          if (isHole) {
+            break
+          }
+        }
+
+        if (isHole) {
+          holes.push(path)
+        }
+      }
+
+      paths = paths.filter((p) => holes.indexOf(p) === -1)
     }
 
     return {
