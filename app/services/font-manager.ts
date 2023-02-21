@@ -59,11 +59,9 @@ export default class FontManagerService extends Service {
       throw `Unable to find font url for ${fontName} / ${variantName}`
     }
 
-    url = url.replace('http:', ':').replace('https:', ':')
-
     let cacheName = `${fontName}-${variantName}`
     if (!this.fontCache[cacheName]) {
-      let res = await this.fetch(url)
+      let res = await this.fetch(url.replace('http:', 'https:'))
       let fontData = await res.arrayBuffer()
       this.fontCache[cacheName] = this.opentype.parse(fontData)
     }
