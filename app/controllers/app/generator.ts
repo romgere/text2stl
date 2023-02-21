@@ -46,6 +46,7 @@ export default class ApplicationController extends Controller {
 
   @tracked isFontLoading = true
 
+  // Use ember-resource here !
   @action
   async onFontChange() {
 
@@ -55,8 +56,7 @@ export default class ApplicationController extends Controller {
         ? this.fontManager.loadCustomFont(this.model.customFont)
         : this.fontManager.fetchFont(
           this.model.fontName,
-          this.model.variantName,
-          this.model.fontSize
+          this.model.variantName
         )
 
       this.model.font = await fontFetchPromise

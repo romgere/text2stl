@@ -1,5 +1,6 @@
 export default config
 import { ModelType } from 'text2stl/services/text-maker'
+import type { Variant } from '@samuelmeuli/font-manager'
 
 /**
  * Type declarations for
@@ -14,8 +15,7 @@ declare const config: {
   APP: Record<string, unknown> & {
     textMakerDefault : {
       fontName: string;
-      variantName: string;
-      fontSize: string;
+      variantName: Variant;
       text: string;
       size: number;
       height: number;

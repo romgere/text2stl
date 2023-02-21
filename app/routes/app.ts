@@ -1,6 +1,7 @@
 import Route from '@ember/routing/route'
 import { inject as service } from '@ember/service'
 import IntlService from 'ember-intl/services/intl'
+import FontManagerService from 'text2stl/services/font-manager'
 
 import { Registry as Services } from '@ember/service'
 
@@ -11,6 +12,7 @@ export default class AppRoute extends Route {
 
   @service declare intl: IntlService
   @service declare router:  Services['router']
+  @service declare fontManager: FontManagerService
 
   constructor() {
     super(...arguments)
@@ -19,6 +21,7 @@ export default class AppRoute extends Route {
 
   async model({ locale }: { locale: string }) {
     this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us']
+    await this.fontManager.loadFontList()
   }
 
   updateMeta(transition: Transition) {

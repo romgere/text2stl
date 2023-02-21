@@ -1,10 +1,17 @@
 import Service from '@ember/service'
 import * as opentype from 'opentype.js'
+import config from 'text2stl/config/environment'
+import { FontManager, OPTIONS_DEFAULTS, FONT_FAMILY_DEFAULT } from '@samuelmeuli/font-manager'
+import type { Category, FontList, Variant } from '@samuelmeuli/font-manager'
 
-import fonts from 'google-fonts-complete'
-export type FontName = keyof typeof fonts
+const {
+  APP: { googleFontApiKey }
+} = config
 
 export default class FontManagerService extends Service {
+
+  availableFontCategories: Category[] = ['sans-serif', 'serif', 'display', 'handwriting', 'monospace']
+  fontList: FontList = new Map();
 
   fontCache: Record<string, opentype.Font> = {}
 
@@ -15,26 +22,44 @@ export default class FontManagerService extends Service {
     return fetch(input, init)
   }
 
-  get fontNames() {
-    return Object.keys(fonts)
+  async loadFontList() {
+    for (let category of this.availableFontCategories) {
+
+      let fontManager = new FontManager(googleFontApiKey, FONT_FAMILY_DEFAULT, {
+        ...OPTIONS_DEFAULTS,
+        categories: [category],
+        sort: 'alphabet',
+        limit: Number.MAX_SAFE_INTEGER,
+        filter: (font) => Boolean(font?.files)
+      })
+
+      this.fontList = new Map([
+        ...this.fontList,
+        // eslint-disable-next-line no-await-in-loop
+        ...await fontManager.init()
+      ])
+    }
   }
 
-  get fonts() {
-    return fonts
-  }
+  async fetchFont(fontName: string, variantName?: Variant) : Promise<opentype.Font> {
+    let font = this.fontList.get(fontName)
+    if (!font) {
+      throw `Unknown font name ${fontName}`
+    }
 
-  async fetchFont(fontName: FontName, variantName?: string, fontSize?: string) : Promise<opentype.Font> {
-    let { variants } = this.fonts[fontName]
-    let variant = variantName
-      ? variants[variantName] ?? variants[Object.keys(variants)[0]]
-      : variants[Object.keys(variants)[0]]
-    let face = fontSize
-      ? variant[fontSize] ?? variant[Object.keys(variant)[0]]
-      : variant[Object.keys(variant)[0]]
+    let { variants } = font
+    let variant = variantName && variants.indexOf(variantName) >= 0 ? variantName : variants[0]
 
-    let url = face.url.ttf!.replace('http:', ':')
+    let url = font.files?.[variant]
+    if (!url) {
+      url = font.files?.[Object.keys(font.files)[0] as Variant]
+    }
 
-    let cacheName = `${fontName}-${variantName}-${fontSize}`
+    if (!url) {
+      throw `Unable to find font url for ${fontName} / ${variantName}`
+    }
+
+    let cacheName = `${fontName}-${variantName}`
     if (!this.fontCache[cacheName]) {
       let res = await this.fetch(url)
       let fontData = await res.arrayBuffer()

@@ -13,7 +13,7 @@ module('Unit | Route | app/generator', function(hooks) {
 
   test('it creates a model with default values & fetch default font', async function(assert) {
 
-    assert.expect(4)
+    assert.expect(3)
 
     let mockedFont = new opentype.Font({
       familyName: '1', styleName: 'fake font', unitsPerEm: 1, ascender: 1, descender: -1, glyphs: []
@@ -22,10 +22,9 @@ module('Unit | Route | app/generator', function(hooks) {
     this.owner.register('service:font-manager', class extends Service {
       fonts = 'font_list'
       fontNames = 'font_names'
-      async fetchFont(fontName: string, variantName: string, fontSize: string) {
+      async fetchFont(fontName: string, variantName: string) {
         assert.equal(fontName, textMakerDefault.fontName, 'Font is fetch with default fontName')
         assert.equal(variantName, textMakerDefault.variantName, 'Font is fetch with default variantName')
-        assert.equal(fontSize, textMakerDefault.fontSize, 'Font is fetch with default fontSize')
         return mockedFont
       }
     })

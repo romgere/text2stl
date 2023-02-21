@@ -31,25 +31,17 @@ module('Integration | Component | settings-form/font', function(hooks) {
       }
     )
     this.owner.register(
-      'component:ui/font-picker/font-size-select',
-      class extends Component {
-        layout = hbs`<div data-mocked-font-size-select {{on "click" (fn @onChange "new_fontSize")}} />`
-      }
-    )
-    this.owner.register(
       'component:ui/font-picker',
       class extends Component {
         layout = hbs`<div
           data-mocked-font-picker
           data-test-fontName="{{@fontName}}"
           data-test-variantName={{@variantName}}
-          data-test-fontSize={{@fontSize}}
         >
           {{yield (hash
             categories=(component 'ui/font-picker/categories')
-            fontNameSelect=(component 'ui/font-picker/font-name-select' onChange=@onFontNameChange)
-            variantNameSelect=(component 'ui/font-picker/variant-name-select' onChange=@onVariantNameChange)
-            fontSizeSelect=(component 'ui/font-picker/font-size-select' onChange=@onFontSizeChange)
+            fontNameSelect=(component 'ui/font-picker/font-name-select' onChange=@onFontSettingsChange)
+            variantNameSelect=(component 'ui/font-picker/variant-name-select' onChange=(fn @onFontSettingsChange @fontName))
           )}}
         </div>`
       }
@@ -58,7 +50,6 @@ module('Integration | Component | settings-form/font', function(hooks) {
     class Model {
       fontName = 'initial_fontName'
       variantName = 'initial_variantName'
-      fontSize = 'initial_fontSize'
       @tracked customFont = undefined
     }
     let model = new Model()
@@ -79,13 +70,11 @@ module('Integration | Component | settings-form/font', function(hooks) {
     assert.dom('[data-mocked-categories]').exists('It renders "categories" component')
     assert.dom('[data-mocked-font-name-select]').exists('It renders "font-name-select" component')
     assert.dom('[data-mocked-variant-name-select]').exists('It renders "variant-name-select" component')
-    assert.dom('[data-mocked-font-size-select]').exists('It renders "font-size-select" component')
 
     assert
       .dom('[data-mocked-font-picker]')
       .hasAttribute('data-test-fontName', 'initial_fontName', 'Inital values are passed to font-picker component')
       .hasAttribute('data-test-variantName', 'initial_variantName', 'Inital values are passed to font-picker component')
-      .hasAttribute('data-test-fontSize', 'initial_fontSize', 'Inital values are passed to font-picker component')
 
     await click('[data-mocked-font-name-select]')
     assert.equal(
@@ -103,14 +92,6 @@ module('Integration | Component | settings-form/font', function(hooks) {
     )
     assert.verifySteps(['onFontChange'])
 
-    await click('[data-mocked-font-size-select]')
-    assert.equal(
-      model.fontSize,
-      'new_fontSize',
-      'It handles fontNfontSizeame update'
-    )
-    assert.verifySteps(['onFontChange'])
-
     await click('[data-test-custom-checkbox]')
     assert.verifySteps([])
 
@@ -118,7 +99,6 @@ module('Integration | Component | settings-form/font', function(hooks) {
     assert.dom('[data-mocked-categories]').doesNotExist('It no longer renders "categories" component')
     assert.dom('[data-mocked-font-name-select]').doesNotExist('It no longer renders "font-name-select" component')
     assert.dom('[data-mocked-variant-name-select]').doesNotExist('It no longer renders "variant-name-select" component')
-    assert.dom('[data-mocked-font-size-select]').doesNotExist('It no longer renders "font-size-select" component')
 
     assert.dom('[data-test-custom-font-name]').hasValue('None', 'custom font name input is "None"')
 
