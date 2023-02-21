@@ -1,36 +1,40 @@
 <label>
   <input
-    class="uk-checkbox"
-    type="checkbox"
-    name="custom_font"
+    class='uk-checkbox'
+    type='checkbox'
+    name='custom_font'
     checked={{this.useCustomFont}}
-    {{on "input" (fn this.toggleCustomFont (not this.useCustomFont))}}
+    {{on 'input' (fn this.toggleCustomFont (not this.useCustomFont))}}
     data-test-custom-checkbox
-  >
-  {{t "custom_font.ck_label"}}
+  />
+  {{t 'custom_font.ck_label'}}
 </label>
 
-<hr>
+<hr />
 {{#if this.useCustomFont}}
 
   <Ui::FileUpload
     @onFileChange={{this.setCustomFontFile}}
     @mimeTypes={{this.acceptedMimeTypes}}
-    @dropZoneLabel={{t "custom_font.upload.drop_zone"}}
-    @inputZoneLabel={{t "custom_font.upload.input_label"}}
-    @mimeTypeError={{t "custom_font.upload.bad_file_type"}}
+    @dropZoneLabel={{t 'custom_font.upload.drop_zone'}}
+    @inputZoneLabel={{t 'custom_font.upload.input_label'}}
+    @mimeTypeError={{t 'custom_font.upload.bad_file_type'}}
     data-test-custom-font-upload
   />
 
-  <div class="uk-margin">
-    <label class="uk-form-label" for="custom-font-name">
-      {{t "custom_font.current_label"}}
+  <div class='uk-margin'>
+    <label class='uk-form-label' for='custom-font-name'>
+      {{t 'custom_font.current_label'}}
     </label>
     <Ui::Input
-      id="custom-font-name"
-      class="uk-input"
-      @type="text"        
-      @value={{if @model.customFont @model.customFont.name (t "custom_font.no_font")}}
+      id='custom-font-name'
+      class='uk-input'
+      @type='text'
+      @value={{if
+        @model.customFont
+        @model.customFont.name
+        (t 'custom_font.no_font')
+      }}
       disabled
       data-test-custom-font-name
     />
@@ -40,35 +44,29 @@
     @fontName={{@model.fontName}}
     @variantName={{@model.variantName}}
     @fontSize={{@model.fontSize}}
-    @onFontNameChange={{this.onFontNameChange}}
-    @onVariantNameChange={{this.onVariantNameChange}}
-    @onFontSizeChange={{this.onFontSizeChange}}
-  as |picker|>
-    
+    @onFontSettingsChange={{this.onFontSettingsChange}}
+    as |picker|
+  >
 
-
-    <div class="uk-margin">
-      <label class="uk-form-label" for="font_categories">{{t "font_picker.category"}}</label>
-      <div class="uk-form-controls">
+    <div class='uk-margin'>
+      <label class='uk-form-label' for='font_categories'>{{t
+          'font_picker.category'
+        }}</label>
+      <div class='uk-form-controls'>
         <picker.categories />
       </div>
     </div>
 
-
-    <label class="uk-form-label" for={{picker.fontPickerID}}>{{t "font_picker.name"}}</label>
-    <br>
+    <label class='uk-form-label' for={{picker.fontPickerID}}>{{t
+        'font_picker.name'
+      }}</label>
+    <br />
     <picker.fontNameSelect />
 
-    <div class="uk-margin">
-      <label class="uk-form-label">{{t "font_picker.variant"}}</label>
-      <picker.variantNameSelect class="es-control--no-clear" />
+    <div class='uk-margin'>
+      <label class='uk-form-label'>{{t 'font_picker.variant'}}</label>
+      <picker.variantNameSelect class='es-control--no-clear' />
     </div>
 
-
-    <div class="uk-margin">
-      <label class="uk-form-label">{{t "font_picker.size"}}</label>
-      <picker.fontSizeSelect class="es-control--no-clear" />
-    </div>
-    
   </Ui::FontPicker>
-  {{/if}}
+{{/if}}

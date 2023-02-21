@@ -2,6 +2,7 @@ import Component from '@glimmer/component'
 import TextMakerSettings from 'text2stl/models/text-maker-settings'
 import { action } from '@ember/object'
 import { tracked } from '@glimmer/tracking'
+import type { Variant } from '@samuelmeuli/font-manager'
 
 interface FontFormTextSettingsArgs {
   model: TextMakerSettings;
@@ -43,20 +44,9 @@ export default class FontFormTextSettings extends Component<FontFormTextSettings
   }
 
   @action
-  onFontNameChange(fontName: string) {
+  onFontSettingsChange(fontName: string, variantName: Variant) {
     this.args.model.fontName = fontName
-    this.args.onFontChange()
-  }
-
-  @action
-  onVariantNameChange(variantName: string) {
     this.args.model.variantName = variantName
-    this.args.onFontChange()
-  }
-
-  @action
-  onFontSizeChange(fontSize: string) {
-    this.args.model.fontSize = fontSize
     this.args.onFontChange()
   }
 }

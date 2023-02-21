@@ -1,66 +1,61 @@
 import { module, test } from 'qunit'
 import { setupTest } from 'ember-qunit'
 import * as opentype from 'opentype.js'
-import fonts from 'google-fonts-complete'
 import cases from 'qunit-parameterize'
 import type FontManagerService from 'text2stl/services/font-manager'
+import type { Variant } from '@samuelmeuli/font-manager'
+
+const mockedFontList = new Map()
+
+mockedFontList.set('font1', {
+  files: {
+    regular: 'font1_regular.ttf'
+  },
+
+  variants: ['regular']
+})
+mockedFontList.set('font2', {
+  files: {
+    italic: 'font2_italic.ttf',
+    regular: 'font2_regular.ttf'
+  },
+
+  variants: ['regular', 'italic']
+})
+mockedFontList.set('font3', {
+  files: {
+    italic: 'font2_italic.ttf'
+  },
+
+  variants: ['regular']
+})
 
 module('Unit | Service | font-manager', function(hooks) {
   setupTest(hooks)
 
   cases([
     {
-      fontName: 'Open Sans',
+      fontName: 'font2',
       variantName: undefined,
-      fontSize: undefined,
-      expectedFontUrl: fonts['Open Sans'].variants.italic['300'].url.ttf,
-      title: 'Font name without variant & size'
+      expectedFontUrl: 'font2_regular.ttf',
+      title: 'Font name without variant'
     },
     {
-      fontName: 'Open Sans',
-      variantName: 'normal',
-      fontSize: undefined,
-      expectedFontUrl: fonts['Open Sans'].variants.normal['300'].url.ttf,
-      title: 'Font name with variant & whitout size'
+      fontName: 'font2',
+      variantName: '800' as Variant,
+      expectedFontUrl: 'font2_regular.ttf',
+      title: 'Font name with unknow variant'
     },
     {
-      fontName: 'Open Sans',
-      variantName: 'unknown',
-      fontSize: undefined,
-      expectedFontUrl: fonts['Open Sans'].variants.italic['300'].url.ttf,
-      title: 'Font name with unknow variant & whitout size'
-    },
-    {
-      fontName: 'Open Sans',
-      variantName: 'normal',
-      fontSize: '400',
-      expectedFontUrl: fonts['Open Sans'].variants.normal['400'].url.ttf,
-      title: 'Font name with variant & size'
-    },
-    {
-      fontName: 'Open Sans',
-      variantName: 'normal',
-      fontSize: '2307',
-      expectedFontUrl: fonts['Open Sans'].variants.normal['300'].url.ttf,
-      title: 'Font name with variant & unknow size'
-    },
-    {
-      fontName: 'Open Sans',
-      variantName: 'unknown',
-      fontSize: '2307',
-      expectedFontUrl: fonts['Open Sans'].variants.italic['300'].url.ttf,
-      title: 'Font name with unknow variant & unknow size'
-    },
-    {
-      fontName: 'Open Sans',
-      variantName: 'unknown',
-      fontSize: '400',
-      expectedFontUrl: fonts['Open Sans'].variants.italic['400'].url.ttf,
-      title: 'Font name with unknow variant & known size'
+      fontName: 'font2',
+      variantName: 'italic' as Variant,
+      expectedFontUrl: 'font2_italic.ttf',
+      title: 'Font name with variant'
     }
-  ]).test('it fetch font', async function({ expectedFontUrl, fontName, variantName, fontSize }, assert) {
+  ]).test('it fetch font', async function({ expectedFontUrl, fontName, variantName }, assert) {
 
     let service = this.owner.lookup('service:font-manager') as FontManagerService
+    service.fontList = mockedFontList
 
     service.fetch = async function(input: RequestInfo): Promise<Response> {
       assert.equal(input, expectedFontUrl, 'It fetch the correct font')
@@ -76,8 +71,32 @@ module('Unit | Service | font-manager', function(hooks) {
       }
     } as typeof opentype
 
-    let font = await service.fetchFont(fontName, variantName, fontSize)
+    let font = await service.fetchFont(fontName, variantName)
     assert.equal(font, 'parsed-font', 'correct font is returned')
+  })
+
+  cases([
+    {
+      fontName: 'Something',
+      variantName: 'regular' as Variant,
+      title: 'Unknown font name'
+    },
+    {
+      fontName: 'font3',
+      variantName: 'regular' as Variant,
+      title: 'Font name with variant + unexisting files'
+    }
+  ]).test('it throw error when font can\'t be load', async function({ fontName, variantName }, assert) {
+
+    let service = this.owner.lookup('service:font-manager') as FontManagerService
+    service.fontList = mockedFontList
+
+    try {
+      await service.fetchFont(fontName, variantName)
+      assert.true(false)
+    } catch(e) {
+      assert.true(true)
+    }
   })
 
   test('it cache font', async function(assert) {
@@ -85,6 +104,7 @@ module('Unit | Service | font-manager', function(hooks) {
     let parseDone = assert.async()
 
     let service = this.owner.lookup('service:font-manager') as FontManagerService
+    service.fontList = mockedFontList
 
     service.fetch = async function(): Promise<Response> {
       fetchDone()
@@ -101,10 +121,10 @@ module('Unit | Service | font-manager', function(hooks) {
       }
     } as typeof opentype
 
-    let font = await service.fetchFont('Open Sans')
+    let font = await service.fetchFont('font1')
     assert.equal(font, 'a-parsed-font', 'Font is returned')
 
-    font = await service.fetchFont('Open Sans')
+    font = await service.fetchFont('font1')
     assert.equal(font, 'a-parsed-font', 'Font is returned')
   })
 

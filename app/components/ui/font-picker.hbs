@@ -1,33 +1,26 @@
-{{yield (hash 
- fontNameSelect=(component "ui/font-picker/select" 
-  fontPickerID=this.fontPickerID
-  value=@fontName
-  sort=@sort
-  onChange=this.onFontNameChange
-  fontCategory=this.fontCategory
- )
-
- fontPickerID=this.fontPickerID
-
- categories=(component "ui/font-picker/categories" 
-  availableFontCategories=this.availableFontCategories
-  fontCategory=this.fontCategory
-  changeFontCategory=(fn (mut this.fontCategory))
- )
-
-  variantNameSelect=(component "x-select"
-    model=this.fontVariantNames
-    value=@variantName
-    onSelect=this.onVariantNameChange
-    required=true
+{{yield
+  (hash
+    fontNameSelect=(component
+      'ui/font-picker/select'
+      fontPickerID=this.fontPickerID
+      value=@fontName
+      sort=@sort
+      onChange=this.onFontNameChange
+      fontCategory=this.fontCategory
+    )
+    fontPickerID=this.fontPickerID
+    categories=(component
+      'ui/font-picker/categories'
+      availableFontCategories=this.fontManager.availableFontCategories
+      fontCategory=this.fontCategory
+      changeFontCategory=(fn (mut this.fontCategory))
+    )
+    variantNameSelect=(component
+      'x-select'
+      model=this.fontVariants
+      value=@variantName
+      onSelect=this.onVariantNameChange
+      required=true
+    )
   )
-
-  fontSizeSelect=(component "x-select"
-    model=this.fontSizes
-    value=@fontSize
-    onSelect=@onFontSizeChange
-    valueKey="name"
-    labelKey="label"
-    required=true
-  )
-)}}
+}}

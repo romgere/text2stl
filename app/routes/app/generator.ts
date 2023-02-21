@@ -20,8 +20,7 @@ export default class ApplicationRoute extends Route {
     // Fetch default font
     let defaultFont = await this.fontManager.fetchFont(
       textMakerDefault.fontName,
-      textMakerDefault.variantName,
-      textMakerDefault.fontSize
+      textMakerDefault.variantName
     )
 
     // Create a default settings for first rendering

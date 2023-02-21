@@ -6,21 +6,19 @@ module('Unit | Controller | app/generator', function(hooks) {
 
   test('it handles font change & font loading (google font)', async function(assert) {
 
-    assert.expect(4)
+    assert.expect(3)
 
     let controller = this.owner.lookup('controller:app/generator')
 
     controller.model = {
       fontName: 'my-font',
       variantName: 'a-variant',
-      fontSize: 'very big',
       font: undefined
     }
 
-    this.owner.lookup('service:font-manager').fetchFont = async function(name: string, variant: string, size: string) {
+    this.owner.lookup('service:font-manager').fetchFont = async function(name: string, variant: string) {
       assert.equal(name, 'my-font', 'it requires correct fontName')
       assert.equal(variant, 'a-variant', 'it requires correct variantName')
-      assert.equal(size, 'very big', 'it requires correct fontSize')
 
       return 'a_font'
     }
@@ -39,7 +37,6 @@ module('Unit | Controller | app/generator', function(hooks) {
     controller.model = {
       customFont: 'my-font.file',
       variantName: undefined,
-      fontSize: undefined,
       font: undefined
     }
 

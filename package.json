@@ -125,8 +125,8 @@
     "edition": "octane"
   },
   "dependencies": {
+    "@samuelmeuli/font-manager": "^1.4.0",
     "font-picker": "^3.5.1",
-    "google-fonts-complete": "^2.1.1",
     "matter-js": "^0.17.1",
     "opentype.js": "^1.3.3",
     "poly-decomp": "^0.3.0",
