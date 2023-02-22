@@ -32,7 +32,7 @@ settings_form:
     font: Font
     advanced: More...
 export_stl: Export STL
-stl_counter: "{count} STL files have been generated"
+stl_counter: '{count} STL files have been generated'
 footer:
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub
@@ -42,6 +42,12 @@ font_picker:
   name: Font name
   variant: Font variant
   size: Font size
+  script_filter:
+    label: Languages
+    placeholder: All languages
+  sort: Font sort
+  more: Show more settings
+  less: Show less settings
 text_settings:
   type: Type of shape
   text: Text
@@ -75,7 +81,7 @@ directions:
   left: Left
   right: Right
 three_preview:
-  size: "Print size : {x} x {y} x {z} mm"
+  size: 'Print size : {x} x {y} x {z} mm'
 text_type:
   1: Text only
   2: Text with support

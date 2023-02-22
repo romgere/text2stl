@@ -49,13 +49,29 @@
   >
 
     <div class='uk-margin'>
-      <label class='uk-form-label' for='font_categories'>{{t
-          'font_picker.category'
-        }}</label>
+      <label class='uk-form-label'>{{t 'font_picker.category'}}</label>
       <div class='uk-form-controls'>
         <picker.categories />
       </div>
     </div>
+
+    <div class='uk-margin'>
+      <label class='uk-form-label'>{{t
+          'font_picker.script_filter.label'
+        }}</label>
+      <div class='uk-form-controls'>
+        <picker.scriptFilterSelect />
+      </div>
+    </div>
+
+    <div class='uk-margin'>
+      <label class='uk-form-label'>{{t 'font_picker.sort'}}</label>
+      <div class='uk-form-controls'>
+        <picker.sort />
+      </div>
+    </div>
+
+    <hr />
 
     <label class='uk-form-label' for={{picker.fontPickerID}}>{{t
         'font_picker.name'

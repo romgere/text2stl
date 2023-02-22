@@ -2,7 +2,7 @@ import Service from '@ember/service'
 import * as opentype from 'opentype.js'
 import config from 'text2stl/config/environment'
 import { FontManager, OPTIONS_DEFAULTS, FONT_FAMILY_DEFAULT } from '@samuelmeuli/font-manager'
-import type { Category, FontList, Variant } from '@samuelmeuli/font-manager'
+import type { Category, FontList, Variant, Script } from '@samuelmeuli/font-manager'
 
 const {
   APP: { googleFontApiKey }
@@ -10,6 +10,7 @@ const {
 
 export default class FontManagerService extends Service {
 
+  availableFontScript: Script[] = ['arabic', 'bengali', 'chinese-simplified', 'chinese-traditional', 'cyrillic', 'cyrillic-ext', 'devanagari', 'greek', 'greek-ext', 'gujarati', 'gurmukhi', 'hebrew', 'japanese', 'kannada', 'khmer', 'korean', 'latin', 'latin-ext', 'malayalam', 'myanmar', 'oriya', 'sinhala', 'tamil', '​telugu', 'thai', 'vietnamese']
   availableFontCategories: Category[] = ['sans-serif', 'serif', 'display', 'handwriting', 'monospace']
   fontList: FontList = new Map();
 

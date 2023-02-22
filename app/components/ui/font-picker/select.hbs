@@ -1,8 +1,8 @@
-<div 
-  id="font-picker-{{@fontPickerID}}"
+<div
+  id='font-picker-{{@fontPickerID}}'
   ...attributes
-  class="font-picker__container"
+  class='font-picker__container'
   {{did-insert this.initFontPicker}}
   {{did-update this.updateSelected @value}}
-  {{did-update this.changeFontCategory @fontCategory}}
-/>
+  {{did-update this.initFontPicker @fontCategory @fontScript @sort}}
+></div>

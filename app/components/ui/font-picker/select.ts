@@ -1,7 +1,7 @@
 import Component from '@glimmer/component'
 import FontPicker from 'font-picker'
 import { action } from '@ember/object'
-import { Font, Category } from '@samuelmeuli/font-manager'
+import { Font, Category, Script } from '@samuelmeuli/font-manager'
 
 import config from 'text2stl/config/environment'
 const {
@@ -12,6 +12,7 @@ interface FontPickerSelectArgs {
   fontPickerID: string
   sort?: 'alphabet' | 'popularity';
   fontCategory: Category
+  fontScript?: Script;
   value: string;
   onChange: (value: string) => void;
 }
@@ -40,6 +41,7 @@ export default class FontPickerSelect extends Component<FontPickerSelectArgs> {
       {
         categories: [this.args.fontCategory],
         pickerId: this.args.fontPickerID,
+        scripts: this.args.fontScript ? [this.args.fontScript] : undefined,
         sort: this.args.sort ?? 'alphabet',
         limit: Number.MAX_SAFE_INTEGER
       },

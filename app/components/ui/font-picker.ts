@@ -5,7 +5,7 @@ import FontManagerService from 'text2stl/services/font-manager'
 import { inject as service } from '@ember/service'
 import { action } from '@ember/object'
 
-import type { Variant } from '@samuelmeuli/font-manager'
+import type { Script, Variant } from '@samuelmeuli/font-manager'
 import type IntlService from 'ember-intl/services/intl'
 
 interface UiFontPickerArgs {
@@ -23,6 +23,8 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
   fontPickerID: string
 
   @tracked fontCategory
+  @tracked fontScript?: Script;
+  @tracked sort: 'alphabet' | 'popularity' = 'alphabet';
 
   get fontVariants() {
     return this.fontManager.fontList.get(this.args.fontName)?.variants ?? []
@@ -47,5 +49,10 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
   @action
   onVariantNameChange(variantName: Variant) {
     this.args.onFontSettingsChange(this.args.fontName, variantName)
+  }
+
+  @action
+  onScriptChange(value?: Script) {
+    this.fontScript = value
   }
 }
