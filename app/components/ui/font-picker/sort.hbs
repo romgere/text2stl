@@ -1,0 +1,13 @@
+{{#each (array 'alphabet' 'popularity') as |sort|}}
+  <label>
+    <input
+      class='uk-radio'
+      type='radio'
+      name='font_sort'
+      checked={{eq @sort sort}}
+      {{on 'input' (fn @changeSort sort)}}
+    />
+    {{sort}}
+  </label>
+  <br />
+{{/each}}

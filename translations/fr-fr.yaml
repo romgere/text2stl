@@ -29,7 +29,7 @@ settings_form:
     font: Police
     advanced: Plus...
 export_stl: Exporter STL
-stl_counter: "{count} fichiers STL ont été générés"
+stl_counter: '{count} fichiers STL ont été générés'
 footer:
   made_by: Créer avec ♥ par {author} avec {ember} & {three}
   github: Contribuez ou faite un fork sur GitHub
@@ -39,6 +39,12 @@ font_picker:
   name: Nom de police
   variant: Variante de police
   size: Taille de police
+  script_filter:
+    label: Langues
+    placeholder: Toutes langues
+  sort: Tri des polices
+  more: Afficher plus d'option
+  less: Afficher mons d'option
 text_settings:
   type: Type de forme
   text: Texte
@@ -88,6 +94,6 @@ custom_font:
     input_label: parcourir votre ordinateur & selectionner un fichier
     bad_file_type: Format de fichier non supporté, veuillez utiliser un fichier .woff, .otf ou .ttf
 errors:
-  font_load_generic: "Erreur de chargement de la police"
+  font_load_generic: 'Erreur de chargement de la police'
 seo:
   description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices Google ou utilisez la vôtre, différentes formes et réglagles & téléchargez un fichier STL à imprimer.

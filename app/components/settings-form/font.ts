@@ -20,6 +20,9 @@ export default class FontFormTextSettings extends Component<FontFormTextSettings
   @tracked
   useCustomFont = false
 
+  @tracked
+  showMore = false
+
   customFont?: Blob
 
   acceptedMimeTypes = acceptedMimeTypes

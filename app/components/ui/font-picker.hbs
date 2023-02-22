@@ -4,7 +4,8 @@
       'ui/font-picker/select'
       fontPickerID=this.fontPickerID
       value=@fontName
-      sort=@sort
+      sort=this.sort
+      fontScript=this.fontScript
       onChange=this.onFontNameChange
       fontCategory=this.fontCategory
     )
@@ -15,12 +16,22 @@
       fontCategory=this.fontCategory
       changeFontCategory=(fn (mut this.fontCategory))
     )
+    sort=(component
+      'ui/font-picker/sort' sort=this.sort changeSort=(fn (mut this.sort))
+    )
     variantNameSelect=(component
       'x-select'
       model=this.fontVariants
       value=@variantName
       onSelect=this.onVariantNameChange
       required=true
+    )
+    scriptFilterSelect=(component
+      'x-select'
+      model=this.fontManager.availableFontScript
+      value=this.fontScript
+      onSelect=this.onScriptChange
+      placeholder=(t 'font_picker.script_filter.placeholder')
     )
   )
 }}
