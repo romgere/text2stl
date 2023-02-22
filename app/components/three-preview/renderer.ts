@@ -123,9 +123,11 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
       this.mesh = undefined
     }
 
-    this.mesh = this.args.mesh
-      ? this.args.mesh.clone() as THREE.Mesh
-      : new THREE.Mesh(new THREE.SphereGeometry(60, 8, 8))
+    if (!this.args.mesh) {
+      return
+    }
+
+    this.mesh =  this.args.mesh.clone() as THREE.Mesh
 
     let { min, max } = new THREE.Box3().setFromObject(this.mesh)
     this.meshSize = {

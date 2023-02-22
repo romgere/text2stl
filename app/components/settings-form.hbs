@@ -1,15 +1,15 @@
-<UkSwitcher @animation="uk-animation-fade" as |switcher|>
-  <switcher.nav @type="tab" as |nav|>
+<UkSwitcher @animation='uk-animation-fade' as |switcher|>
+  <switcher.nav @type='tab' as |nav|>
     <nav.component as |tab|>
-      <tab.item data-tab-item="settings">
-        {{t "settings_form.tabs.settings"}}
+      <tab.item data-tab-item='settings'>
+        {{t 'settings_form.tabs.settings'}}
       </tab.item>
-      <tab.item data-tab-item="font">
-        {{t "settings_form.tabs.font"}}
-      </tab.item>    
+      <tab.item data-tab-item='font'>
+        {{t 'settings_form.tabs.font'}}
+      </tab.item>
       {{#if this.showAdvancedSettings}}
-        <tab.item data-tab-item="advanced">
-          {{t "settings_form.tabs.advanced"}}
+        <tab.item data-tab-item='advanced'>
+          {{t 'settings_form.tabs.advanced'}}
         </tab.item>
       {{/if}}
     </nav.component>
@@ -20,15 +20,12 @@
       <SettingsForm::Settings @model={{@model}} />
     </content.item>
     <content.item>
-      <SettingsForm::Font
-        @model={{@model}}
-        @onFontChange={{@onFontChange}}
-      />
-    </content.item>    
+      <SettingsForm::Font @model={{@model}} />
+    </content.item>
     {{#if this.showAdvancedSettings}}
       <content.item>
-        <SettingsForm::AdvancedSettings @model={{@model}}/>
-      </content.item>    
+        <SettingsForm::AdvancedSettings @model={{@model}} />
+      </content.item>
     {{/if}}
   </switcher.content>
 </UkSwitcher>
