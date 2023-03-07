@@ -42,7 +42,7 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
     if (font) {
       this.args.onFontSettingsChange(fontName, font.variants[0])
     } else {
-      alert(this.intl.t('errors.font_load_generic'))
+      alert(`${this.intl.t('errors.font_load_generic')} (${this.intl.t('errors.unknown_font')})`)
     }
   }
 

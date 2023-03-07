@@ -94,6 +94,7 @@ custom_font:
     input_label: parcourir votre ordinateur & selectionner un fichier
     bad_file_type: Format de fichier non supporté, veuillez utiliser un fichier .woff, .otf ou .ttf
 errors:
-  font_load_generic: 'Erreur de chargement de la police'
+  font_load_generic: Erreur de chargement de la police
+  unknown_font: Police non trouvée dans la liste
 seo:
   description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices Google ou utilisez la vôtre, différentes formes et réglagles & téléchargez un fichier STL à imprimer.
