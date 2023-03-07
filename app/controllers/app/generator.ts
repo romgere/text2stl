@@ -63,7 +63,8 @@ export default class ApplicationController extends Controller {
 
       fontFetchPromise.then(() => this.isFontLoading = false)
     } catch(e) {
-      alert(this.intl.t('errors.font_load_generic'))
+      console.log(e)
+      alert(`${this.intl.t('errors.font_load_generic')}\n\n(${e})`)
     }
   }
 

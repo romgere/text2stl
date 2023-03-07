@@ -98,5 +98,6 @@ custom_font:
     bad_file_type: Unsupported font file type, please use .woff, .otf or .ttf file
 errors:
   font_load_generic: "Selected font can't be load"
+  unknown_font: 'The font is not in font list'
 seo:
   description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts or use your own, different shape and settings & download an STL file to print.
