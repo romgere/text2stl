@@ -2,7 +2,12 @@
   id='font-picker-{{@fontPickerID}}'
   ...attributes
   class='font-picker__container'
-  {{did-insert this.initFontPicker}}
-  {{did-update this.updateSelected @value}}
-  {{did-update this.initFontPicker @fontCategory @fontScript @sort}}
+  {{font-select
+    @value
+    @fontCategory
+    fontPickerID=@fontPickerID
+    onChange=@onChange
+    sort=@sort
+    fontScript=@fontScript
+  }}
 ></div>
