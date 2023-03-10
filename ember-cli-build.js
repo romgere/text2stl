@@ -8,11 +8,6 @@ module.exports = function(defaults) {
       'loader': 'app/loader.html'
     },
 
-    'ember-uikit': {
-      importUIkitIcons: false,
-      whitelist: ['uk-button', 'uk-switcher', 'uk-spinner']
-    },
-
     autoImport: {
       exclude: ['jsdom-global']
     }

@@ -1,31 +1,18 @@
-<UkSwitcher @animation='uk-animation-fade' as |switcher|>
-  <switcher.nav @type='tab' as |nav|>
-    <nav.component as |tab|>
-      <tab.item data-tab-item='settings'>
-        {{t 'settings_form.tabs.settings'}}
-      </tab.item>
-      <tab.item data-tab-item='font'>
-        {{t 'settings_form.tabs.font'}}
-      </tab.item>
-      {{#if this.showAdvancedSettings}}
-        <tab.item data-tab-item='advanced'>
-          {{t 'settings_form.tabs.advanced'}}
-        </tab.item>
-      {{/if}}
-    </nav.component>
-  </switcher.nav>
-
-  <switcher.content as |content|>
-    <content.item>
-      <SettingsForm::Settings @model={{@model}} />
-    </content.item>
-    <content.item>
-      <SettingsForm::Font @model={{@model}} />
-    </content.item>
-    {{#if this.showAdvancedSettings}}
-      <content.item>
-        <SettingsForm::AdvancedSettings @model={{@model}} />
-      </content.item>
-    {{/if}}
-  </switcher.content>
-</UkSwitcher>
+<ul uk-tab animation='uk-animation-fade'>
+  {{#each this.tabs as |tab|}}
+    <li class={{if (eq this.activeTab tab) 'uk-active'}} data-tab-item={{tab}}>
+      <a href='#' {{on 'click' (fn (mut this.currentTab) tab)}}>
+        {{t (concat 'settings_form.tabs.' tab)}}
+      </a>
+    </li>
+  {{/each}}
+</ul>
+<div>
+  {{#if (eq this.activeTab 'settings')}}
+    <SettingsForm::Settings @model={{@model}} />
+  {{else if (eq this.activeTab 'font')}}
+    <SettingsForm::Font @model={{@model}} />
+  {{else if (eq this.activeTab 'advanced')}}
+    <SettingsForm::AdvancedSettings @model={{@model}} />
+  {{/if}}
+</div>

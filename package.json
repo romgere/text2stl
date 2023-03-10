@@ -30,7 +30,6 @@
   },
   "devDependencies": {
     "@ember/optional-features": "^2.0.0",
-    "@ember/render-modifiers": "^1.0.2",
     "@ember/test-helpers": "^2.4.2",
     "@glimmer/component": "^1.0.4",
     "@glimmer/tracking": "^1.0.4",
@@ -95,7 +94,6 @@
     "ember-source": "~3.28.0",
     "ember-template-lint": "^3.6.0",
     "ember-truth-helpers": "^3.0.0",
-    "ember-uikit": "^4.0.0",
     "eslint": "^7.32.0",
     "eslint-config-peopledoc": "^2.0.2",
     "eslint-config-prettier": "^8.3.0",
@@ -115,11 +113,8 @@
     "tracked-toolbox": "^1.2.2",
     "ts-node": "^10.4.0",
     "typescript": "^4.2.3",
+    "uikit": "^3.16.4",
     "webpack": "5"
-  },
-  "resolutions": {
-    "ember-toggle": "8.0.0",
-    "ember-modifier": "^3.2.7"
   },
   "engines": {
     "node": "14.* || >= 16"
