@@ -22,7 +22,7 @@ export default class UiFileUpload extends Component<UiFileUploadArgs> {
   }
 
   processFile(file: File) {
-    if (this.args.mimeTypes && !this.args.mimeTypes.includes(file.type)) {
+    if (file.type && this.args.mimeTypes && !this.args.mimeTypes.includes(file.type)) {
       if (this.args.mimeTypeError) {
         alert(this.args.mimeTypeError)
       }
