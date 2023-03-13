@@ -55,13 +55,8 @@ module('Integration | Component | settings-form/font', function(hooks) {
     let model = new Model()
     this.set('model', model)
 
-    this.set('onFontChange', function() {
-      assert.step('onFontChange')
-    })
-
     await render(hbs`<SettingsForm::Font
       @model={{this.model}}
-      @onFontChange={{this.onFontChange}}
     />`)
 
     assert.dom('[data-test-custom-checkbox]').isNotChecked('custom font ck is unchecked by default')
@@ -82,7 +77,6 @@ module('Integration | Component | settings-form/font', function(hooks) {
       'new_fontName',
       'It handles fontName update'
     )
-    assert.verifySteps(['onFontChange'])
 
     await click('[data-mocked-variant-name-select]')
     assert.equal(
@@ -90,7 +84,6 @@ module('Integration | Component | settings-form/font', function(hooks) {
       'new_variantName',
       'It handles variantName update'
     )
-    assert.verifySteps(['onFontChange'])
 
     await click('[data-test-custom-checkbox]')
     assert.verifySteps([])
@@ -116,7 +109,6 @@ module('Integration | Component | settings-form/font', function(hooks) {
     // eslint-disable-next-line ember/no-settled-after-test-helper
     await settled() // Needed to prevent an weird async release error
 
-    assert.verifySteps(['onFontChange'])
     assert.strictEqual(model.customFont, fontFile, 'model.customFont was update with font file')
     assert
       .dom('[data-test-custom-font-name]')
@@ -124,14 +116,12 @@ module('Integration | Component | settings-form/font', function(hooks) {
 
     // Switch back to google font
     await click('[data-test-custom-checkbox]')
-    assert.verifySteps(['onFontChange'])
     assert.dom('[data-test-custom-font-upload]').doesNotExist('Custom font upload is no longer displayed')
     assert.dom('[data-mocked-categories]').exists('It renders google font components')
     assert.strictEqual(model.customFont, undefined, 'model.customFont was "reset" to undefined')
 
     // Switch back to custom font
     await click('[data-test-custom-checkbox]')
-    assert.verifySteps(['onFontChange'])
     assert.dom('[data-test-custom-font-upload]').exists('Custom font upload is now rendered')
     assert.dom('[data-mocked-categories]').doesNotExist('It no longer renders "categories" component')
     assert.strictEqual(model.customFont, fontFile, 'model.customFont was update with font file')

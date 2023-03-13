@@ -5,11 +5,10 @@ import FontManagerService from 'text2stl/services/font-manager'
 import TextMakerService from 'text2stl/services/text-maker'
 import STLExporterService from 'text2stl/services/stl-exporter'
 import CounterService from 'text2stl/services/counter'
-import type { Mesh } from 'three'
 import type ApplicationRoute from 'text2stl/routes/app/generator'
 import type IntlService from 'ember-intl/services/intl'
-import { cached } from 'tracked-toolbox'
 import { tracked } from '@glimmer/tracking'
+import { trackedFunction } from 'ember-resources/util/function'
 
 export default class ApplicationController extends Controller {
 
@@ -31,46 +30,42 @@ export default class ApplicationController extends Controller {
     return this.counterService.counter
   }
 
-  @cached
-  get mesh(): Mesh {
-    this._gtag('event', 'stl_generation', {
-      event_category: 'stl', // eslint-disable-line camelcase
-      value: this.model.type
-    })
-    return this.textMaker.generateMesh(this.model)
+  font = trackedFunction(this, async() => {
+    return this.model.customFont
+      ? this.fontManager.loadCustomFont(this.model.customFont)
+      : this.fontManager.fetchFont(
+        this.model.fontName,
+        this.model.variantName
+      )
+  })
+
+  mesh = trackedFunction(this, () => {
+    if (this.font.isResolved && this.font.value) {
+
+      this._gtag('event', 'stl_generation', {
+        event_category: 'stl', // eslint-disable-line camelcase
+        value: this.model.type
+      })
+
+      return this.textMaker.generateMesh(this.model, this.font.value)
+    }
+
+    return null
+  })
+
+  get meshGenerating() {
+    return this.mesh.isLoading
   }
 
   get exportDisabled() {
-    return !this.mesh
+    return !this.mesh.value
   }
 
   @tracked isFontLoading = true
 
-  // Use ember-resource here !
   @action
-  async onFontChange() {
-
-    this.isFontLoading = true
-    try {
-      let fontFetchPromise = this.model.customFont
-        ? this.fontManager.loadCustomFont(this.model.customFont)
-        : this.fontManager.fetchFont(
-          this.model.fontName,
-          this.model.variantName
-        )
-
-      this.model.font = await fontFetchPromise
-
-      fontFetchPromise.then(() => this.isFontLoading = false)
-    } catch(e) {
-      console.log(e)
-      alert(`${this.intl.t('errors.font_load_generic')}\n\n(${e})`)
-    }
-  }
-
-  @action
-  exportSTL() {
-    let { mesh } = this
+  async exportSTL() {
+    let { value: mesh } = await this.mesh
 
     if (!mesh) {
       return

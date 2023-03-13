@@ -35,10 +35,10 @@ module('Unit | Service | text-maker', function(hooks) {
 
     let service = this.owner.lookup('service:text-maker') as TextMakerService
 
-    let mesh = service.generateMesh({
-      ...settings as unknown as  TextMakerParameters,
-      font: await loadFont(settings.font)
-    })
+    let mesh = service.generateMesh(
+      settings as unknown as  TextMakerParameters,
+      await loadFont(settings.font)
+    )
 
     let generatedCompare = objectToCompareString(mesh?.toJSON()?.geometries)
     let snapshotCompare = objectToCompareString(snapshot?.geometries)

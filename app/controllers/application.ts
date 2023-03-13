@@ -1,6 +1,10 @@
 import Controller from '@ember/controller'
 import { htmlSafe } from '@ember/template'
 
+// Import UIKit css & js globally
+import 'uikit/dist/js/uikit'
+import 'uikit/dist/css/uikit.css'
+
 export default class AppController extends Controller {
 
   get authorLink() {

@@ -21,7 +21,7 @@ module('Integration | Component | settings-form', function(hooks) {
     this.owner.register(
       'component:settings-form/font',
       class extends Component {
-        layout = hbs`<div data-mocked-font data-model={{@model.name}} data-on-font-change={{@onFontChange}} />`
+        layout = hbs`<div data-mocked-font data-model={{@model.name}} />`
       }
     )
 
@@ -56,7 +56,6 @@ module('Integration | Component | settings-form', function(hooks) {
       .dom('[data-mocked-font]')
       .exists('font tab is rendered')
       .hasAttribute('data-model', 'the_model', 'Model is passed to font component')
-      .hasAttribute('data-on-font-change', 'on_font_change', 'Model is passed to font component')
 
     this.set('model', { type: ModelType.TextWithSupport, name: 'the_model' })
     assert.dom('[uk-tab]').exists('It render tab')

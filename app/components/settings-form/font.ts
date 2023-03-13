@@ -6,7 +6,6 @@ import type { Variant } from '@samuelmeuli/font-manager'
 
 interface FontFormTextSettingsArgs {
   model: TextMakerSettings;
-  onFontChange: () => void
 }
 
 const acceptedMimeTypes = [
@@ -32,10 +31,8 @@ export default class FontFormTextSettings extends Component<FontFormTextSettings
     this.useCustomFont = useCustomFont
     if (useCustomFont && this.customFont) {
       this.args.model.customFont = this.customFont
-      this.args.onFontChange()
     } else if (!useCustomFont) {
       this.args.model.customFont = undefined
-      this.args.onFontChange()
     }
   }
 
@@ -43,13 +40,11 @@ export default class FontFormTextSettings extends Component<FontFormTextSettings
   setCustomFontFile(file: File) {
     this.customFont = file
     this.args.model.customFont = file
-    this.args.onFontChange()
   }
 
   @action
   onFontSettingsChange(fontName: string, variantName: Variant) {
     this.args.model.fontName = fontName
     this.args.model.variantName = variantName
-    this.args.onFontChange()
   }
 }

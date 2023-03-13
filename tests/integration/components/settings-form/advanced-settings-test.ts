@@ -7,7 +7,6 @@ const {
   APP: { textMakerDefault }
 } = config
 import TextMakerSettings from 'text2stl/models/text-maker-settings'
-import loadFont from 'text2stl/tests/helpers/load-font'
 import { ModelType } from 'text2stl/services/text-maker'
 import click from '@ember/test-helpers/dom/click'
 
@@ -18,7 +17,6 @@ module('Integration | Component | advanced-settings-form/settings', function(hoo
 
     let model = new TextMakerSettings({
       ...textMakerDefault,
-      font: await loadFont('open_sans'),
       type: ModelType.TextWithSupport
     })
     this.set('model', model)

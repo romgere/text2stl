@@ -1,39 +1,39 @@
-<div uk-grid="" margin="" class="uk-grid-divider uk-grid">
- 
-  <div class="uk-width-1-1 uk-width-1-3@m">
-    <SettingsForm
-      @model={{this.model}}
-      @onFontChange={{this.onFontChange}}
-    />
-      
-    <UkButton
-      @color="primary"  
-      @fill={{true}}
-      @disabled={{or this.exportDisabled this.isFontLoading}}
-      @loading={{this.isFontLoading}}
-      @on-click={{this.exportSTL}}
-      class="uk-align-center"
+<div uk-grid='' margin='' class='uk-grid-divider uk-grid'>
+
+  <div class='uk-width-1-1 uk-width-1-3@m'>
+    <SettingsForm @model={{this.model}} />
+
+    {{! TODO: move this into basic button component ? }}
+    <button
+      type='button'
+      class='uk-button uk-button-primary uk-align-center'
+      disabled={{this.exportDisabled}}
+      {{on 'click' this.exportSTL}}
     >
-      {{t "export_stl"}}
-    </UkButton>
+      {{#if this.meshGenerating}}
+        <div uk-spinner></div>
+      {{else}}
+        {{t 'export_stl'}}
+      {{/if}}
+    </button>
 
     {{#if this.counter}}
-      <div class="uk-text-small uk-text-muted uk-text-center">
-        {{t "stl_counter" count=this.counter}}  
+      <div class='uk-text-small uk-text-muted uk-text-center'>
+        {{t 'stl_counter' count=this.counter}}
       </div>
     {{/if}}
   </div>
 
-  <div class="uk-width-1-1 uk-width-2-3@m">
-    <ThreePreview @mesh={{this.mesh}} as |preview|>
-      <div class="uk-card uk-card-hover uk-card-small">
-        <div class="uk-card-media-top">
+  <div class='uk-width-1-1 uk-width-2-3@m'>
+    <ThreePreview @mesh={{this.mesh.value}} as |preview|>
+      <div class='uk-card uk-card-hover uk-card-small'>
+        <div class='uk-card-media-top'>
           <preview.renderer />
         </div>
-        <div class="uk-card-footer">
-          <preview.size class="uk-text-small uk-text-muted uk-text-center"/>
+        <div class='uk-card-footer'>
+          <preview.size class='uk-text-small uk-text-muted uk-text-center' />
         </div>
       </div>
     </ThreePreview>
-  </div>    
+  </div>
 </div>

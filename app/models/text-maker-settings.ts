@@ -49,7 +49,6 @@ export default class TextMakerSettings implements TextMakerParameters {
 
   @tracked fontName: string
   @tracked variantName?: Variant
-  @tracked font: opentype.Font
   @tracked text: string
   @tracked size?: number
   @tracked customFont?: Blob
@@ -64,7 +63,6 @@ export default class TextMakerSettings implements TextMakerParameters {
   @tracked handleSettings: HandleSettings
 
   constructor(args: TextMakerParameters & TextMakerAdditionnalSettings) {
-    this.font = args.font
     this.variantName = args.variantName
     this.fontName = args.fontName
     this.text = args.text ?? textMakerDefault.text

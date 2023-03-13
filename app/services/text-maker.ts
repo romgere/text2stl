@@ -28,7 +28,6 @@ export type Handle = {
 }
 
 export interface TextMakerParameters {
-  font: opentype.Font
   text: string
   size?: number
   height?: number
@@ -204,8 +203,7 @@ export default class TextMakerService extends Service {
     return mergeBufferGeometries(geometries.flat())
   }
 
-  private stringToGlyhpsDef(params: TextMakerParameters): MultipleGlyphDef {
-    let { font } = params
+  private stringToGlyhpsDef(params: TextMakerParameters, font: opentype.Font): MultipleGlyphDef {
 
     let text = params.text || textMakerDefault.text
     let size = params.size !== undefined && params.size >= 0
@@ -308,14 +306,14 @@ export default class TextMakerService extends Service {
     }))
   }
 
-  generateMesh(params: TextMakerParameters): THREE.Mesh {
+  generateMesh(params: TextMakerParameters, font: opentype.Font): THREE.Mesh {
     let type = params.type || ModelType.TextOnly
 
     let textDepth = params.height !== undefined && params.height >= 0
       ? params.height
       : textMakerDefault.height
 
-    let plyghsDef = this.stringToGlyhpsDef(params)
+    let plyghsDef = this.stringToGlyhpsDef(params, font)
     let supportShape: THREE.Shape | undefined = undefined
 
     let finalGeometry: THREE.BufferGeometry

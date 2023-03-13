@@ -20,17 +20,17 @@
       'ui/font-picker/sort' sort=this.sort changeSort=(fn (mut this.sort))
     )
     variantNameSelect=(component
-      'x-select'
-      model=this.fontVariants
+      'ui/select'
+      options=this.fontVariants
       value=@variantName
-      onSelect=this.onVariantNameChange
+      onChange=this.onVariantNameChange
       required=true
     )
     scriptFilterSelect=(component
-      'x-select'
-      model=this.fontManager.availableFontScript
+      'ui/select'
+      options=this.fontManager.availableFontScript
       value=this.fontScript
-      onSelect=this.onScriptChange
+      onChange=this.onScriptChange
       placeholder=(t 'font_picker.script_filter.placeholder')
     )
   )

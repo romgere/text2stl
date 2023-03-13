@@ -1,22 +1,28 @@
-import Component from '@glimmer/component'
-import { action } from '@ember/object'
+import Modifier, { ArgsFor } from 'ember-modifier'
 import * as THREE from 'three'
 import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls'
 import { tracked } from '@glimmer/tracking'
 import config from 'text2stl/config/environment'
+import { registerDestructor } from '@ember/destroyable'
+import { action } from '@ember/object'
+
 const {
   APP: { threePreviewSettings }
 } = config
 
-interface TreePreviewRendererArgs {
-  mesh?: THREE.Mesh;
-  parentSize?: boolean;
-  nearCamera?: boolean;
+type namedArgs = {
+  parentSize?: boolean,
+  nearCamera?:boolean
 }
 
-export default class TreePreviewRenderer extends Component<TreePreviewRendererArgs> {
+interface ThreeRendererModifierSignature {
+  Args: {
+    Positional: [THREE.Mesh | undefined];
+    Named: namedArgs;
+  };
+}
 
-  active: boolean = false
+export default class ThreeRendererModifier extends Modifier<ThreeRendererModifierSignature> {
 
   scene: THREE.Scene
   camera: THREE.PerspectiveCamera
@@ -25,16 +31,19 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
 
   controls?: OrbitControls
 
-  container?: HTMLDivElement
-
   @tracked
   meshSize?: { x: number, y: number, z: number }
 
   rendererSize: { width: number, height: number } = { width: 0, height: 0 }
 
-  constructor(owner: unknown, args: TreePreviewRendererArgs) {
+  container?: HTMLDivElement
+  namedArgs: namedArgs;
+  animationFrameRequestID ?: number;
+
+  constructor(owner: unknown, args: ArgsFor<ThreeRendererModifierSignature>) {
     super(owner, args)
 
+    this.namedArgs = args.named
     this.scene = new THREE.Scene()
     this.scene.background = new THREE.Color(threePreviewSettings.backgroundColor)
 
@@ -49,8 +58,8 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
     this.camera = new THREE.PerspectiveCamera(75)
     this.camera.position.set(
       0,
-      this.args.nearCamera ? 50 : 400,
-      this.args.nearCamera ? 70 : 300
+      this.namedArgs.nearCamera ? 50 : 400,
+      this.namedArgs.nearCamera ? 70 : 300
     )
     this.scene.add(this.camera)
 
@@ -64,10 +73,21 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
     })
     this.renderer.setPixelRatio(window.devicePixelRatio)
     this.renderer.setSize(
-      this.args.parentSize ? 1 : 1024,
-      this.args.parentSize ? 1 : 768
+      this.namedArgs.parentSize ? 1 : 1024,
+      this.namedArgs.parentSize ? 1 : 768
     )
     this.renderer.setClearColor(0xffffff, 1)
+
+    registerDestructor(this, this.cleanup)
+  }
+
+  @action
+  cleanup() {
+    if (this.animationFrameRequestID) {
+      cancelAnimationFrame(this.animationFrameRequestID)
+    }
+
+    this.container = undefined
   }
 
   private addLight(x: number, y: number, z: number) {
@@ -110,22 +130,20 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
     this.controls.maxPolarAngle = Math.PI * 1
     this.controls.minDistance = 50
     this.controls.maxDistance = 1000
-
-    this.updateMesh()
-
-    this.active = true
   }
 
-  updateMesh() {
+  private updateMesh(mesh?: THREE.Mesh) {
 
     if (this.mesh) {
       this.scene.remove(this.mesh)
       this.mesh = undefined
     }
 
-    this.mesh = this.args.mesh
-      ? this.args.mesh.clone() as THREE.Mesh
-      : new THREE.Mesh(new THREE.SphereGeometry(60, 8, 8))
+    if (!mesh) {
+      return
+    }
+
+    this.mesh =  mesh.clone() as THREE.Mesh
 
     let { min, max } = new THREE.Box3().setFromObject(this.mesh)
     this.meshSize = {
@@ -146,14 +164,14 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
     this.scene.add(this.mesh)
   }
 
-  renderFrame() {
-    if (!this.active || !this.container) {
+  private renderFrame() {
+    if (!this.container) {
       return
     }
 
-    requestAnimationFrame(() => this.renderFrame())
+    this.animationFrameRequestID = requestAnimationFrame(() => this.renderFrame())
 
-    let { offsetWidth: width, offsetHeight: height } = this.args.parentSize
+    let { offsetWidth: width, offsetHeight: height } = this.namedArgs.parentSize
       ? this.container?.parentElement ?? this.container
       : this.container
 
@@ -173,16 +191,15 @@ export default class TreePreviewRenderer extends Component<TreePreviewRendererAr
     this.renderer.render(this.scene, this.camera)
   }
 
-  @action
-  didInsertAction(element: HTMLDivElement) {
-    this.container = element
-    this.initContainer()
+  modify(element: HTMLDivElement, [mesh]: [THREE.Mesh | undefined], { parentSize, nearCamera } : namedArgs) {
+    this.namedArgs = { parentSize, nearCamera }
 
-    this.renderFrame()
-  }
+    if (!this.container) {
+      this.container = element
+      this.initContainer()
+      this.renderFrame()
+    }
 
-  @action
-  didUpdateAction() {
-    this.updateMesh()
+    this.updateMesh(mesh)
   }
 }
