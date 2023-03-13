@@ -8,7 +8,6 @@ const {
   APP: { textMakerDefault }
 } = config
 import TextMakerSettings from 'text2stl/models/text-maker-settings'
-import loadFont from 'text2stl/tests/helpers/load-font'
 import { ModelType } from 'text2stl/services/text-maker'
 
 module('Integration | Component | settings-form/settings', function(hooks) {
@@ -18,7 +17,6 @@ module('Integration | Component | settings-form/settings', function(hooks) {
 
     let model = new TextMakerSettings({
       ...textMakerDefault,
-      font: await loadFont('open_sans'),
       type: ModelType.TextOnly
     })
     this.set('model', model)
@@ -86,7 +84,6 @@ module('Integration | Component | settings-form/settings', function(hooks) {
 
     let model = new TextMakerSettings({
       ...textMakerDefault,
-      font: await loadFont('open_sans'),
       type
     })
     this.set('model', model)
@@ -99,7 +96,6 @@ module('Integration | Component | settings-form/settings', function(hooks) {
 
     let model = new TextMakerSettings({
       ...textMakerDefault,
-      font: await loadFont('open_sans'),
       type: ModelType.TextOnly
     })
     this.set('model', model)
@@ -128,7 +124,6 @@ module('Integration | Component | settings-form/settings', function(hooks) {
 
     let model = new TextMakerSettings({
       ...textMakerDefault,
-      font: await loadFont('open_sans'),
       type: ModelType.TextOnly,
       text: 'some\nmultiline\ntext'
     })

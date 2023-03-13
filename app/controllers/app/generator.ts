@@ -40,7 +40,6 @@ export default class ApplicationController extends Controller {
   })
 
   mesh = trackedFunction(this, () => {
-
     if (this.font.isResolved && this.font.value) {
 
       this._gtag('event', 'stl_generation', {
@@ -65,8 +64,8 @@ export default class ApplicationController extends Controller {
   @tracked isFontLoading = true
 
   @action
-  exportSTL() {
-    let { value: mesh } = this.mesh
+  async exportSTL() {
+    let { value: mesh } = await this.mesh
 
     if (!mesh) {
       return

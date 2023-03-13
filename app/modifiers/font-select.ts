@@ -43,15 +43,15 @@ export default class FontSelectModifier extends Modifier<FontSelectModifierSigna
     return !this.fontPicker
       || this.fontCategory !== fontCategory
       || this.fontScript !== fontScript
-      || this.sort !== sort;
+      || this.sort !== sort
   }
 
-  modify(element: HTMLDivElement, [value, fontCategory]: [string, Category], args : ArgsFor<FontSelectModifierSignature>["named"]) {
+  modify(element: HTMLDivElement, [value, fontCategory]: [string, Category], args : ArgsFor<FontSelectModifierSignature>['named']) {
 
-    const needReload = this.needReload(fontCategory, args.fontScript, args.sort);
+    let needReload = this.needReload(fontCategory, args.fontScript, args.sort)
 
     if (needReload) {
-      element.innerHTML = '';
+      element.innerHTML = ''
       this.fontPicker = new FontPicker(
         googleFontApiKey,
         value,
