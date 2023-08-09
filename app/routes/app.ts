@@ -1,7 +1,7 @@
 import Route from '@ember/routing/route'
 import { inject as service } from '@ember/service'
-import IntlService from 'ember-intl/services/intl'
-import FontManagerService from 'text2stl/services/font-manager'
+import type IntlService from 'ember-intl/services/intl'
+import type FontManagerService from 'text2stl/services/font-manager'
 
 import { Registry as Services } from '@ember/service'
 

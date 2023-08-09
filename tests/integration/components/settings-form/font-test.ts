@@ -1,9 +1,9 @@
 import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render, click, triggerEvent, settled } from '@ember/test-helpers'
-import hbs from 'htmlbars-inline-precompile'
-// eslint-disable-next-line ember/no-classic-components
-import Component from '@ember/component'
+import { hbs } from 'ember-cli-htmlbars';
+import { setComponentTemplate } from '@ember/component';
+import Component from '@glimmer/component'
 import { tracked } from '@glimmer/tracking'
 
 module('Integration | Component | settings-form/font', function(hooks) {
@@ -12,28 +12,46 @@ module('Integration | Component | settings-form/font', function(hooks) {
   test('it renders', async function(assert) {
 
     // mock the FontPicker child component
+    class FontPickerCategories extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`<div data-mocked-categories />`),
+      FontPickerCategories
+    );
     this.owner.register(
       'component:ui/font-picker/categories',
-      class extends Component {
-        layout = hbs`<div data-mocked-categories />`
-      }
+      FontPickerCategories
     )
+
+    class FontPickerfontNameSelect extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`<div data-mocked-font-name-select {{on "click" (fn @onChange "new_fontName")}} />`),
+      FontPickerfontNameSelect
+    );
     this.owner.register(
       'component:ui/font-picker/font-name-select',
-      class extends Component {
-        layout = hbs`<div data-mocked-font-name-select {{on "click" (fn @onChange "new_fontName")}} />`
-      }
+      FontPickerfontNameSelect
     )
+
+
+    class FontPickerFontVariantSelect extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`<div data-mocked-variant-name-select {{on "click" (fn @onChange "new_variantName")}} />`),
+      FontPickerFontVariantSelect
+    );
     this.owner.register(
       'component:ui/font-picker/variant-name-select',
-      class extends Component {
-        layout = hbs`<div data-mocked-variant-name-select {{on "click" (fn @onChange "new_variantName")}} />`
-      }
+      FontPickerFontVariantSelect
     )
-    this.owner.register(
-      'component:ui/font-picker',
-      class extends Component {
-        layout = hbs`<div
+
+
+    class FontPicker extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`
+        <div
           data-mocked-font-picker
           data-test-fontName="{{@fontName}}"
           data-test-variantName={{@variantName}}
@@ -43,8 +61,13 @@ module('Integration | Component | settings-form/font', function(hooks) {
             fontNameSelect=(component 'ui/font-picker/font-name-select' onChange=@onFontSettingsChange)
             variantNameSelect=(component 'ui/font-picker/variant-name-select' onChange=(fn @onFontSettingsChange @fontName))
           )}}
-        </div>`
-      }
+        </div>
+      `),
+      FontPicker
+    );
+    this.owner.register(
+      'component:ui/font-picker',
+      FontPicker
     )
 
     class Model {

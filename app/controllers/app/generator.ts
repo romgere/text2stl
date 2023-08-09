@@ -10,7 +10,7 @@ import type IntlService from 'ember-intl/services/intl'
 import { tracked } from '@glimmer/tracking'
 import { trackedFunction } from 'ember-resources/util/function'
 
-export default class ApplicationController extends Controller {
+export default class GeneratorController extends Controller {
 
   @service declare textMaker: TextMakerService
 
@@ -83,6 +83,6 @@ export default class ApplicationController extends Controller {
 
 declare module '@ember/controller' {
   interface Registry {
-    'app.generator': ApplicationController;
+    'app.generator': GeneratorController;
   }
 }

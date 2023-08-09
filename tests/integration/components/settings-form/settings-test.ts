@@ -2,7 +2,7 @@ import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render, fillIn, click } from '@ember/test-helpers'
 import cases from 'qunit-parameterize'
-import hbs from 'htmlbars-inline-precompile'
+import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment'
 const {
   APP: { textMakerDefault }

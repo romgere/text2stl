@@ -18,7 +18,7 @@ module('Unit | Service | counter', function(hooks) {
       return {
         json: async() => fetchReturn
       }
-    }
+    } as unknown as typeof fetch
 
     expectedUrl = 'https://api.countapi.xyz/get/text2stl/test_stl'
     fetchReturn = { value: 123 }

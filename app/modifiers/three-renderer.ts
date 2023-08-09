@@ -6,6 +6,8 @@ import config from 'text2stl/config/environment'
 import { registerDestructor } from '@ember/destroyable'
 import { action } from '@ember/object'
 
+import type Owner from "@ember/owner";
+
 const {
   APP: { threePreviewSettings }
 } = config
@@ -40,7 +42,7 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
   namedArgs: namedArgs;
   animationFrameRequestID ?: number;
 
-  constructor(owner: unknown, args: ArgsFor<ThreeRendererModifierSignature>) {
+  constructor(owner: Owner, args: ArgsFor<ThreeRendererModifierSignature>) {
     super(owner, args)
 
     this.namedArgs = args.named

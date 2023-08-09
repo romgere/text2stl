@@ -1,25 +1,35 @@
 import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render } from '@ember/test-helpers'
-import hbs from 'htmlbars-inline-precompile'
-// eslint-disable-next-line ember/no-classic-components
-import Component from '@ember/component'
+import { hbs } from 'ember-cli-htmlbars';
+import { setComponentTemplate } from '@ember/component';
+import Component from '@glimmer/component'
 
 module('Integration | Component | three-preview', function(hooks) {
   setupRenderingTest(hooks)
 
   test('it renders', async function(assert) {
+
+    class ThreePreviewRenderer extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`<div three-preview-renderer data-mesh={{@mesh}} />`),
+      ThreePreviewRenderer
+    );
     this.owner.register(
       'component:three-preview/renderer',
-      class extends Component {
-        layout = hbs`<div three-preview-renderer data-mesh={{@mesh}} />`
-      }
+      ThreePreviewRenderer
     )
+
+    class ThreePreviewSize extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`<div three-preview-size data-mesh={{@mesh}} />`),
+      ThreePreviewSize
+    );
     this.owner.register(
       'component:three-preview/size',
-      class extends Component {
-        layout = hbs`<div three-preview-size data-mesh={{@mesh}} />`
-      }
+      ThreePreviewSize
     )
 
     await render(hbs`<ThreePreview @mesh="my_mesh" as |preview|>

@@ -3,6 +3,7 @@ import FontPicker from 'font-picker'
 import config from 'text2stl/config/environment'
 
 import type { Font, Category, Script } from '@samuelmeuli/font-manager'
+import type Owner from "@ember/owner";
 
 const {
   APP: { googleFontApiKey }
@@ -31,7 +32,7 @@ export default class FontSelectModifier extends Modifier<FontSelectModifierSigna
   fontScript ?:Script;
   sort ?: 'alphabet' | 'popularity';
 
-  constructor(owner: unknown, args: ArgsFor<FontSelectModifierSignature>) {
+  constructor(owner: Owner, args: ArgsFor<FontSelectModifierSignature>) {
     super(owner, args)
     this.value = args.positional[0]
     this.fontCategory = args.positional[1]

@@ -1,21 +1,22 @@
+import Component from '@glimmer/component'
+import Service from '@ember/service'
 import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render, settled } from '@ember/test-helpers'
-import hbs from 'htmlbars-inline-precompile'
-// eslint-disable-next-line ember/no-classic-components
-import Component from '@ember/component'
-import Service from '@ember/service'
-
+import { hbs } from 'ember-cli-htmlbars';
+import { setComponentTemplate } from '@ember/component';
 import config from 'text2stl/config/environment'
 const {
   APP: { availableLanguages }
 } = config
 
+import type IntlService from 'ember-intl/services/intl'
+
 module('Integration | Component | lang-switcher', function(hooks) {
   setupRenderingTest(hooks)
 
   hooks.afterEach(function() {
-    this.owner.lookup('service:intl').locale = 'en-us'
+    (this.owner.lookup('service:intl') as IntlService).locale = 'en-us'
   })
 
   test('it renders', async function(assert) {
@@ -23,11 +24,16 @@ module('Integration | Component | lang-switcher', function(hooks) {
       currentRouteName = 'the.current.route'
     })
 
+    class MyLinkTo extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error
+      hbs(`<a ...attributes href="#" data-route={{@route}} data-model={{@model}}>{{yield}}</a>`),
+      MyLinkTo
+    );
+
     this.owner.register(
       'component:link-to',
-      class extends Component {
-        layout = hbs`<a ...attributes href="#" data-route={{@route}} data-model={{@model}}>{{yield}}</a>`
-      }
+      MyLinkTo
     )
 
     await render(hbs`<LangSwitcher class="my-custom-class" />`)
@@ -52,9 +58,9 @@ module('Integration | Component | lang-switcher', function(hooks) {
       .hasText('English', 'Current locale is "selected“')
     assert
       .dom('[data-test-language-item="fr-fr"]')
-      .doesNotHaveClass('uk-active', 'Other button is not  "selected“')
+      .doesNotHaveClass('uk-active', 'Other button is not  "selected“');
 
-    this.owner.lookup('service:intl').locale = ['fr-fr']
+    (this.owner.lookup('service:intl') as IntlService).locale = ['fr-fr']
     await settled()
 
     assert
@@ -62,9 +68,9 @@ module('Integration | Component | lang-switcher', function(hooks) {
       .hasClass('uk-active', 'Current locale is "selected“')
     assert
       .dom('[data-test-language-item="en-us"]')
-      .doesNotHaveClass('uk-active', 'Other button is not  "selected“')
+      .doesNotHaveClass('uk-active', 'Other button is not  "selected“');
 
-    this.owner.lookup('service:intl').locale = ['en-us']
+    (this.owner.lookup('service:intl') as IntlService).locale = ['en-us']
     await settled()
 
     assert

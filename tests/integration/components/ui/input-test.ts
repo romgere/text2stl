@@ -1,7 +1,7 @@
 import { module, test } from 'qunit'
 import { setupRenderingTest } from 'ember-qunit'
 import { render, fillIn } from '@ember/test-helpers'
-import hbs from 'htmlbars-inline-precompile'
+import { hbs } from 'ember-cli-htmlbars';
 
 module('Integration | Component | ui/input', function(hooks) {
   setupRenderingTest(hooks)
@@ -11,7 +11,7 @@ module('Integration | Component | ui/input', function(hooks) {
     this.set('value', 'initial')
     this.set('type', undefined)
 
-    await render(hbs`<Ui::Input data-test-custom-attr 
+    await render(hbs`<Ui::Input data-test-custom-attr
       @value={{this.value}}
       @onChange={{fn (mut this.value)}}
       @placeholder="Enter text"

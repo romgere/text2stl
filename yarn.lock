@@ -1851,7 +1851,7 @@
     debug "^4.1.0"
     globals "^11.1.0"
 
-"@babel/types@^7.1.6", "@babel/types@^7.12.1", "@babel/types@^7.16.0", "@babel/types@^7.4.4", "@babel/types@^7.7.2", "@babel/types@^7.22.10", "@babel/types@^7.22.5":
+"@babel/types@^7.1.6", "@babel/types@^7.12.1", "@babel/types@^7.16.0", "@babel/types@^7.22.10", "@babel/types@^7.22.5", "@babel/types@^7.4.4", "@babel/types@^7.7.2":
   version "7.22.10"
   resolved "https://registry.npmjs.org/@babel/types/-/types-7.22.10.tgz#4a9e76446048f2c66982d1a989dd12b8a2d2dc03"
   integrity sha512-obaoigiLrlDZ7TUQln/8m4mSqIW2QFeOrCQc9r+xsaHGNoplVNYlRVpsfE8Vj35GEm2ZH4ZhrNYogs/3fj85kg==
@@ -2636,6 +2636,11 @@
     "@types/ember__debug" "*"
     "@types/ember__object" "*"
     "@types/ember__owner" "*"
+
+"@types/ember__destroyable@^4.0.2":
+  version "4.0.2"
+  resolved "https://registry.npmjs.org/@types/ember__destroyable/-/ember__destroyable-4.0.2.tgz#54ae318dea3e86a87e11cfd923ddf9581ca6d47f"
+  integrity sha512-1aBorZlXN06iAo51qE04xF5VH+KiULLVIfCu4bV7cW/bgGaV5myTS7C38xrtua1sPSpZDMMvHeqFOzmFnVJZEw==
 
 "@types/ember__engine@*", "@types/ember__engine@~4.0":
   version "4.0.5"
