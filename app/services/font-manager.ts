@@ -11,8 +11,8 @@ const {
 export default class FontManagerService extends Service {
 
   availableFontScript: Script[] = ['arabic', 'bengali', 'chinese-simplified', 'chinese-traditional', 'cyrillic', 'cyrillic-ext', 'devanagari', 'greek', 'greek-ext', 'gujarati', 'gurmukhi', 'hebrew', 'japanese', 'kannada', 'khmer', 'korean', 'latin', 'latin-ext', 'malayalam', 'myanmar', 'oriya', 'sinhala', 'tamil', '​telugu', 'thai', 'vietnamese']
-  availableFontCategories: Category[] = ['sans-serif', 'serif', 'display', 'handwriting', 'monospace']
-  fontList: FontList = new Map();
+  availableFontCategories: Category[] = ["sans-serif", 'serif', 'display', 'handwriting', 'monospace']
+  fontList: FontList = new Map()
 
   fontCache: Record<string, opentype.Font> = {}
 
