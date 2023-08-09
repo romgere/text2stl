@@ -1,7 +1,7 @@
-import { helper } from '@ember/component/helper'
+import { helper } from '@ember/component/helper';
 
 export function floatToFixed([value, count = 2]: [any, number]) {
-  return Number.parseFloat(value).toFixed(count)
+  return Number.parseFloat(value).toFixed(count);
 }
 
-export default helper(floatToFixed)
+export default helper(floatToFixed);

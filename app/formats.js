@@ -3,28 +3,28 @@ export default {
     hhmmss: {
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric'
-    }
+      second: 'numeric',
+    },
   },
 
   date: {
     hhmmss: {
       hour: 'numeric',
       minute: 'numeric',
-      second: 'numeric'
-    }
+      second: 'numeric',
+    },
   },
 
   number: {
     compact: { notation: 'compact' },
     EUR: {
       style: 'currency',
-      currency: 'EUR'
+      currency: 'EUR',
     },
 
     USD: {
       style: 'currency',
-      currency: 'USD'
-    }
-  }
-}
+      currency: 'USD',
+    },
+  },
+};

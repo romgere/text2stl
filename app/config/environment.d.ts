@@ -1,6 +1,6 @@
-export default config
-import { ModelType } from 'text2stl/services/text-maker'
-import type { Variant } from '@samuelmeuli/font-manager'
+export default config;
+import { ModelType } from 'text2stl/services/text-maker';
+import type { Variant } from '@samuelmeuli/font-manager';
 
 /**
  * Type declarations for
@@ -13,7 +13,7 @@ declare const config: {
   locationType: string;
   rootURL: string;
   APP: Record<string, unknown> & {
-    textMakerDefault : {
+    textMakerDefault: {
       fontName: string;
       variantName: Variant;
       text: string;
@@ -21,7 +21,7 @@ declare const config: {
       height: number;
       spacing: number;
       vSpacing: number;
-      alignment: 'left' | 'center' | 'right'
+      alignment: 'left' | 'center' | 'right';
       type: ModelType;
       supportHeight: number;
       supportBorderRadius: number;
@@ -32,12 +32,12 @@ declare const config: {
         right: number;
       };
       handleSettings: {
-        type: 'hole' | 'handle' | 'none'
-        position: 'left' | 'top' | 'right' | 'bottom'
-        size: number
-        size2: number
-        offsetX: number
-        offsetY: number
+        type: 'hole' | 'handle' | 'none';
+        position: 'left' | 'top' | 'right' | 'bottom';
+        size: number;
+        size2: number;
+        offsetX: number;
+        offsetY: number;
       };
     };
     threePreviewSettings: {
@@ -57,6 +57,6 @@ declare const config: {
     countApi: {
       namespace: string;
       key: string;
-    }
+    };
   };
-}
+};

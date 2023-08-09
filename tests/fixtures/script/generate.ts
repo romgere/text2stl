@@ -4,57 +4,59 @@
  */
 
 // "Mock/Hack" some imports
-import './_require'
+import './_require';
 
 // init browser env (window is needed by @enable3d)
-import 'jsdom-global/register'
+import 'jsdom-global/register';
 
-const { default: meshTests } = require('../meshs/tests')
-const { default: TextMaker } = require('../../../app/services/text-maker')
+const { default: meshTests } = require('../meshs/tests');
+const { default: TextMaker } = require('../../../app/services/text-maker');
 
-type MeshKey = keyof typeof meshTests
+type MeshKey = keyof typeof meshTests;
 
-const fs = require('fs')
-const opentype = require('opentype.js')
+const fs = require('fs');
+const opentype = require('opentype.js');
 
-const textMakerService = new TextMaker()
+const textMakerService = new TextMaker();
 
-async function generateReferenceMeshSnaphots(name: MeshKey) : Promise<void> {
+async function generateReferenceMeshSnaphots(name: MeshKey): Promise<void> {
+  console.log(`Start generating "${String(name)}" snapshot...`);
 
-  console.log(`Start generating "${String(name)}" snapshot...`)
-
-  let meshSettings = meshTests[name]
+  let meshSettings = meshTests[name];
 
   // Load font
-  let fontData = fs.readFileSync(`${__dirname}/../fonts/${meshSettings.font}.ttf`, null).buffer
+  let fontData = fs.readFileSync(`${__dirname}/../fonts/${meshSettings.font}.ttf`, null).buffer;
 
   // Generate Mesh
   let mesh = textMakerService.generateMesh({
     ...meshSettings,
-    font: opentype.parse(fontData)
-  })
+    font: opentype.parse(fontData),
+  });
 
   // Save to reference file
-  fs.writeFileSync(`${__dirname}/../meshs/snapshots/${String(name)}.ts`, `export default ${JSON.stringify(mesh.toJSON())}`)
+  fs.writeFileSync(
+    `${__dirname}/../meshs/snapshots/${String(name)}.ts`,
+    `export default ${JSON.stringify(mesh.toJSON())}`,
+  );
 
-  console.log(`Snapshot "${String(name)}" generated.`)
+  console.log(`Snapshot "${String(name)}" generated.`);
 }
 
-let snapshotNames = Object.keys(meshTests) as MeshKey[]
-let snapShotIndexImports = ''
+let snapshotNames = Object.keys(meshTests) as MeshKey[];
+let snapShotIndexImports = '';
 
 for (let name of snapshotNames) {
-  generateReferenceMeshSnaphots(name)
-  snapShotIndexImports += `import ${String(name)} from './${String(name)}'\n`
+  generateReferenceMeshSnaphots(name);
+  snapShotIndexImports += `import ${String(name)} from './${String(name)}'\n`;
 }
 
 let snapShotIndexFile = `${snapShotIndexImports}
 export default {
   ${snapshotNames.join(', ')}
-} as Record<string, Object & { geometries: Object}>\n`
+} as Record<string, Object & { geometries: Object}>\n`;
 
-fs.writeFileSync(`${__dirname}/../meshs/snapshots/index.ts`, snapShotIndexFile)
+fs.writeFileSync(`${__dirname}/../meshs/snapshots/index.ts`, snapShotIndexFile);
 
-console.log('Index file generated.')
+console.log('Index file generated.');
 
-console.log('Done !')
+console.log('Done !');

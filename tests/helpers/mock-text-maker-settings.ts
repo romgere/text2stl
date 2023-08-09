@@ -1,16 +1,15 @@
-
-import TextMakerSettings from 'text2stl/models/text-maker-settings'
-import config from 'text2stl/config/environment'
+import TextMakerSettings from 'text2stl/models/text-maker-settings';
+import config from 'text2stl/config/environment';
 
 const {
-  APP: { textMakerDefault }
-} = config
+  APP: { textMakerDefault },
+} = config;
 
-export default function(props: Partial<TextMakerSettings>): TextMakerSettings {
+export default function (props: Partial<TextMakerSettings>): TextMakerSettings {
   return new TextMakerSettings({
     ...textMakerDefault,
     ...props,
-    supportPadding: { ...textMakerDefault.supportPadding, ...props.supportPadding ?? {} },
-    handleSettings: { ...textMakerDefault.handleSettings, ...props.handleSettings ?? {} }
-  })
+    supportPadding: { ...textMakerDefault.supportPadding, ...(props.supportPadding ?? {}) },
+    handleSettings: { ...textMakerDefault.handleSettings, ...(props.handleSettings ?? {}) },
+  });
 }

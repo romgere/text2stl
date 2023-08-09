@@ -1,8 +1,8 @@
-import Component from '@glimmer/component'
-import TextMakerSettings from 'text2stl/models/text-maker-settings'
-import { action } from '@ember/object'
-import { tracked } from '@glimmer/tracking'
-import type { Variant } from '@samuelmeuli/font-manager'
+import Component from '@glimmer/component';
+import TextMakerSettings from 'text2stl/models/text-maker-settings';
+import { action } from '@ember/object';
+import { tracked } from '@glimmer/tracking';
+import type { Variant } from '@samuelmeuli/font-manager';
 
 interface FontFormTextSettingsArgs {
   model: TextMakerSettings;
@@ -12,39 +12,38 @@ const acceptedMimeTypes = [
   'font/ttf',
   'font/woff',
   'font/otf',
-  'application/vnd.oasis.opendocument.formula-template' // .otf file mimetype ??
-]
+  'application/vnd.oasis.opendocument.formula-template', // .otf file mimetype ??
+];
 export default class FontFormTextSettings extends Component<FontFormTextSettingsArgs> {
+  @tracked
+  useCustomFont = false;
 
   @tracked
-  useCustomFont = false
+  showMore = false;
 
-  @tracked
-  showMore = false
+  customFont?: Blob;
 
-  customFont?: Blob
-
-  acceptedMimeTypes = acceptedMimeTypes
+  acceptedMimeTypes = acceptedMimeTypes;
 
   @action
   toggleCustomFont(useCustomFont: boolean) {
-    this.useCustomFont = useCustomFont
+    this.useCustomFont = useCustomFont;
     if (useCustomFont && this.customFont) {
-      this.args.model.customFont = this.customFont
+      this.args.model.customFont = this.customFont;
     } else if (!useCustomFont) {
-      this.args.model.customFont = undefined
+      this.args.model.customFont = undefined;
     }
   }
 
   @action
   setCustomFontFile(file: File) {
-    this.customFont = file
-    this.args.model.customFont = file
+    this.customFont = file;
+    this.args.model.customFont = file;
   }
 
   @action
   onFontSettingsChange(fontName: string, variantName: Variant) {
-    this.args.model.fontName = fontName
-    this.args.model.variantName = variantName
+    this.args.model.fontName = fontName;
+    this.args.model.variantName = variantName;
   }
 }

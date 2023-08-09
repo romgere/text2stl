@@ -1,14 +1,9 @@
 /* eslint-env node */
-'use strict'
+'use strict';
 
 module.exports = {
-  // overrides: [
-  //   {
-  //     files: '*.{js,ts}',
-  //     options: {
-  //       singleQuote: true,
-  //     },
-  //   },
-  // ],
+  arrowParens: 'always',
+  printWidth: 100,
   singleQuote: true,
+  trailingComma: 'all',
 };

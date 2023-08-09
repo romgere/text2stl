@@ -1,83 +1,78 @@
-import Controller from '@ember/controller'
-import { action } from '@ember/object'
-import { inject as service } from '@ember/service'
-import FontManagerService from 'text2stl/services/font-manager'
-import TextMakerService from 'text2stl/services/text-maker'
-import STLExporterService from 'text2stl/services/stl-exporter'
-import CounterService from 'text2stl/services/counter'
-import type ApplicationRoute from 'text2stl/routes/app/generator'
-import type IntlService from 'ember-intl/services/intl'
-import { tracked } from '@glimmer/tracking'
-import { trackedFunction } from 'ember-resources/util/function'
+import Controller from '@ember/controller';
+import { action } from '@ember/object';
+import { inject as service } from '@ember/service';
+import FontManagerService from 'text2stl/services/font-manager';
+import TextMakerService from 'text2stl/services/text-maker';
+import STLExporterService from 'text2stl/services/stl-exporter';
+import CounterService from 'text2stl/services/counter';
+import type ApplicationRoute from 'text2stl/routes/app/generator';
+import type IntlService from 'ember-intl/services/intl';
+import { tracked } from '@glimmer/tracking';
+import { trackedFunction } from 'ember-resources/util/function';
 
 export default class GeneratorController extends Controller {
+  @service declare textMaker: TextMakerService;
 
-  @service declare textMaker: TextMakerService
+  @service declare fontManager: FontManagerService;
 
-  @service declare fontManager: FontManagerService
+  @service declare stlExporter: STLExporterService;
 
-  @service declare stlExporter: STLExporterService
+  @service declare intl: IntlService;
 
-  @service declare intl: IntlService
+  @service('counter') declare counterService: CounterService;
 
-  @service('counter') declare counterService: CounterService
+  declare model: RouteModel<ApplicationRoute>;
 
-  declare model: RouteModel<ApplicationRoute>
-
-  _gtag = gtag
+  _gtag = gtag;
 
   get counter() {
-    return this.counterService.counter
+    return this.counterService.counter;
   }
 
-  font = trackedFunction(this, async() => {
+  font = trackedFunction(this, async () => {
     return this.model.customFont
       ? this.fontManager.loadCustomFont(this.model.customFont)
-      : this.fontManager.fetchFont(
-        this.model.fontName,
-        this.model.variantName
-      )
-  })
+      : this.fontManager.fetchFont(this.model.fontName, this.model.variantName);
+  });
 
   mesh = trackedFunction(this, () => {
     if (this.font.isResolved && this.font.value) {
-
       this._gtag('event', 'stl_generation', {
         event_category: 'stl', // eslint-disable-line camelcase
-        value: this.model.type
-      })
+        value: this.model.type,
+      });
 
-      return this.textMaker.generateMesh(this.model, this.font.value)
+      return this.textMaker.generateMesh(this.model, this.font.value);
     }
 
-    return null
-  })
+    return null;
+  });
 
   get meshGenerating() {
-    return this.mesh.isLoading
+    return this.mesh.isLoading;
   }
 
   get exportDisabled() {
-    return !this.mesh.value
+    return !this.mesh.value;
   }
 
-  @tracked isFontLoading = true
+  @tracked isFontLoading = true;
 
   @action
   async exportSTL() {
-    let { value: mesh } = await this.mesh
+    let { value: mesh } = await this.mesh;
 
     if (!mesh) {
-      return
+      return;
     }
 
     this._gtag('event', 'stl_download', {
       event_category: 'stl', // eslint-disable-line camelcase
-      value: this.model.type
-    })
+      value: this.model.type,
+    });
 
-    this.counterService.updateCounter()
-    this.stlExporter.downloadMeshAsSTL(mesh)
+    this.counterService.updateCounter();
+    this.stlExporter.downloadMeshAsSTL(mesh);
   }
 }
 

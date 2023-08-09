@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 module.exports = {
   test_page: 'tests/index.html?hidepassed',
@@ -16,8 +16,8 @@ module.exports = {
         '--disable-software-rasterizer',
         '--mute-audio',
         '--remote-debugging-port=0',
-        '--window-size=1440,900'
-      ].filter(Boolean)
-    }
-  }
-}
+        '--window-size=1440,900',
+      ].filter(Boolean),
+    },
+  },
+};
