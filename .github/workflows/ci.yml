@@ -12,7 +12,7 @@ jobs:
         fetch-depth: 1
     - uses: actions/setup-node@v2-beta
       with:
-        node-version: '14'
+        node-version: '18'
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
     - name: Test
