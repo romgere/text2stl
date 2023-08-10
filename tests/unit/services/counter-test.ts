@@ -5,7 +5,7 @@ module('Unit | Service | counter', function (hooks) {
   setupTest(hooks);
 
   test('it exists', async function (assert) {
-    assert.expect(7);
+    assert.expect(6);
 
     const fetchCall = assert.async(2);
 
