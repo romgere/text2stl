@@ -5,7 +5,7 @@
   border: 1px solid #e5e5e5;
 
   .dropdown-button {
-    background-color: #FFF !important;
+    background-color: #fff !important;
     height: 40px !important;
   }
 
@@ -20,7 +20,7 @@
     .font-list {
       border: 1px solid #e5e5e5;
       box-shadow: none;
-      background: #FFF;
+      background: #fff;
       margin-top: 1px;
       margin-left: -1px;
       width: calc(100% + 2px);
@@ -34,18 +34,12 @@
   }
 }
 
-.es-open, .es-focus {
-  .es-control {
-    border-color: #1e87f0;
-  }
-}
 
 .es-options {
-  margin-top: 0px
+  margin-top: 0,
 }
 
 .es-control {
-
   padding: 0 10px;
   height: 40px !important;
   border: 1px solid #e5e5e5;
@@ -70,32 +64,39 @@
       border-right: 5px solid transparent;
       border-left: 5px solid transparent;
       transition: transform 0.3s;
-      content: "";
+      content: '';
     }
   }
 }
 
-.text-type-select{
-  > label {
+.es-open,
+.es-focus {
+  .es-control {
+    border-color: #1e87f0;
+  }
+}
+
+.text-type-select {
+  >label {
     max-width: 5rem;
 
-    [type=radio] {
+    [type='radio'] {
       position: absolute;
       opacity: 0;
       width: 0;
       height: 0;
     }
 
-    [type=radio] + img {
+    [type='radio']+img {
       cursor: pointer;
       border: 2px solid #e5e5e5;
     }
 
-    [type=radio]:hover + img {
+    [type='radio']:hover+img {
       border-color: #b2b2b2;
     }
 
-    [type=radio]:checked + img {
+    [type='radio']:checked+img {
       border-color: #1e87f0;
     }
   }

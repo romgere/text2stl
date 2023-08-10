@@ -1,5 +1,4 @@
 declare module 'google-fonts-complete' {
-
   interface FontData {
     local: string[];
     url: {
@@ -25,7 +24,7 @@ declare module 'google-fonts-complete' {
     version: string;
   }
 
-  const fonts: { [name: string]: Font }
+  const fonts: { [name: string]: Font };
 
-  export default fonts
+  export default fonts;
 }

@@ -1,5 +1,5 @@
-import Component from '@glimmer/component'
-import { action } from '@ember/object'
+import Component from '@glimmer/component';
+import { action } from '@ember/object';
 
 interface UiSelectArgs {
   options: string[];
@@ -11,7 +11,7 @@ interface UiSelectArgs {
 
 export default class UiSelect extends Component<UiSelectArgs> {
   @action
-  onChange({ target: { value } } : { target: { value: string } }) {
-    this.args.onChange(value)
+  onChange({ target: { value } }: { target: { value: string } }) {
+    this.args.onChange(value);
   }
 }

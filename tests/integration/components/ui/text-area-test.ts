@@ -1,54 +1,55 @@
-import { module, test } from 'qunit'
-import { setupRenderingTest } from 'ember-qunit'
-import { render, fillIn } from '@ember/test-helpers'
-import hbs from 'htmlbars-inline-precompile'
+import { module, test } from 'qunit';
+import { setupRenderingTest } from 'ember-qunit';
+import { render, fillIn } from '@ember/test-helpers';
+import { hbs } from 'ember-cli-htmlbars';
 
-module('Integration | Component | ui/text-area', function(hooks) {
-  setupRenderingTest(hooks)
+module('Integration | Component | ui/text-area', function (hooks) {
+  setupRenderingTest(hooks);
 
-  test('it renders', async function(assert) {
+  test('it renders', async function (assert) {
+    this.set('value', 'initial');
+    this.set('type', undefined);
 
-    this.set('value', 'initial')
-    this.set('type', undefined)
-
-    await render(hbs`<Ui::TextArea data-test-custom-attr 
+    await render(hbs`<Ui::TextArea data-test-custom-attr
       @value={{this.value}}
       @onChange={{fn (mut this.value)}}
       @placeholder="Enter text"
-    />`)
+    />`);
 
     assert
       .dom('textarea')
       .exists('It renders a textarea')
       .hasAttribute('data-test-custom-attr', '', 'Custom attributes are handled')
       .hasValue('initial', 'input has correct value')
-      .hasAttribute('placeholder', 'Enter text', 'Placeholder attribute is correct')
+      .hasAttribute('placeholder', 'Enter text', 'Placeholder attribute is correct');
 
-    await fillIn('textarea', '1234')
+    await fillIn('textarea', '1234');
 
-    assert.equal(
+    assert.strictEqual(
       this.get('value'), // eslint-disable-line ember/no-get
       '1234',
-      'It handles value update'
-    )
-  })
+      'It handles value update',
+    );
+  });
 
-  test('it can be debounced', async function(assert) {
-    assert.expect(1)
-    let onChangeDone = assert.async()
+  test('it can be debounced', async function (assert) {
+    assert.expect(1);
+    const onChangeDone = assert.async();
 
-    this.set('value', 'initial')
+    this.set('value', 'initial');
     this.set('onChange', (value: string) => {
-      assert.equal(value, '1234')
-      this.set('value', value)
-      onChangeDone()
-    })
+      assert.strictEqual(value, '1234');
+      this.set('value', value);
+      onChangeDone();
+    });
 
-    await render(hbs`<Ui::TextArea @debounce={{250}} @value={{this.value}} @onChange={{this.onChange}} />`)
+    await render(
+      hbs`<Ui::TextArea @debounce={{250}} @value={{this.value}} @onChange={{this.onChange}} />`,
+    );
 
-    fillIn('textarea', '1')
-    fillIn('textarea', '12')
-    fillIn('textarea', '123')
-    fillIn('textarea', '1234')
-  })
-})
+    fillIn('textarea', '1');
+    fillIn('textarea', '12');
+    fillIn('textarea', '123');
+    fillIn('textarea', '1234');
+  });
+});

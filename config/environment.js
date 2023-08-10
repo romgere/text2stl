@@ -1,25 +1,21 @@
-'use strict'
+'use strict';
 
-module.exports = function(environment) {
-  let ENV = {
+module.exports = function (environment) {
+  const ENV = {
     modulePrefix: 'text2stl',
     environment,
     rootURL: '/',
-    locationType: 'auto',
+    locationType: 'history',
     EmberENV: {
+      EXTEND_PROTOTYPES: false,
       FEATURES: {
         // Here you can enable experimental features on an ember canary build
         // e.g. EMBER_NATIVE_DECORATOR_SUPPORT: true
       },
-
-      EXTEND_PROTOTYPES: {
-        // Prevent Ember Data from overriding Date.parse.
-        Date: false
-      }
     },
 
     'ember-toggle': {
-      includedThemes: ['default']
+      includedThemes: ['default'],
     },
 
     APP: {
@@ -39,7 +35,7 @@ module.exports = function(environment) {
           top: 10,
           bottom: 10,
           left: 10,
-          right: 10
+          right: 10,
         },
 
         handleSettings: {
@@ -48,8 +44,8 @@ module.exports = function(environment) {
           size: 10,
           size2: 2,
           offsetX: 0,
-          offsetY: 0
-        }
+          offsetY: 0,
+        },
       },
 
       threePreviewSettings: {
@@ -60,8 +56,8 @@ module.exports = function(environment) {
         gridColor1: 0x3187f0,
         gridColor2: 0xf1f1f1,
         meshParameters: {
-          color: 0xfa7f01
-        }
+          color: 0xfa7f01,
+        },
       },
 
       googleFontApiKey: process.env.GOOGLE_FONT_API_KEY,
@@ -70,19 +66,20 @@ module.exports = function(environment) {
 
       countApi: {
         namespace: 'text2stl',
-        key: environment === 'development' || environment === 'test'
-          ? 'test_stl'
-          : process.env.COUNTAPI_API_KEY
-      }
+        key:
+          environment === 'development' || environment === 'test'
+            ? 'test_stl'
+            : process.env.COUNTAPI_API_KEY,
+      },
     },
 
     'ember-cli-google': {
       analytics: {
         version: 'v4',
-        measurementId: 'G-47QBQ5GB3Y'
-      }
-    }
-  }
+        measurementId: 'G-47QBQ5GB3Y',
+      },
+    },
+  };
 
   if (environment === 'development') {
     // ENV.APP.LOG_RESOLVER = true;
@@ -94,22 +91,23 @@ module.exports = function(environment) {
 
   if (environment === 'test') {
     // Testem prefers this...
-    ENV.locationType = 'none'
+    ENV.locationType = 'none';
 
     // keep test console output quieter
-    ENV.APP.LOG_ACTIVE_GENERATION = false
-    ENV.APP.LOG_VIEW_LOOKUPS = false
+    ENV.APP.LOG_ACTIVE_GENERATION = false;
+    ENV.APP.LOG_VIEW_LOOKUPS = false;
 
-    ENV.APP.rootElement = '#ember-testing'
-    ENV.APP.autoboot = false
+    ENV.APP.rootElement = '#ember-testing';
+    ENV.APP.autoboot = false;
   }
 
   if (environment === 'production') {
     // Use the preview URL if it's a netlify preview deploy, production URL otherwise
-    ENV.rootURL = process.env.CONTEXT === 'deploy-preview'
-      ? process.env.DEPLOY_PRIME_URL
-      : 'https://text2stl.mestres.fr/'
+    ENV.rootURL =
+      process.env.CONTEXT === 'deploy-preview'
+        ? process.env.DEPLOY_PRIME_URL
+        : 'https://text2stl.mestres.fr/';
   }
 
-  return ENV
-}
+  return ENV;
+};

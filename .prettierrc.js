@@ -1,6 +1,9 @@
 /* eslint-env node */
-'use strict'
+'use strict';
 
 module.exports = {
-  singleQuote: true
-}
+  arrowParens: 'always',
+  printWidth: 100,
+  singleQuote: true,
+  trailingComma: 'all',
+};

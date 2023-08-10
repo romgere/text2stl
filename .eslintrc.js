@@ -1,28 +1,58 @@
 module.exports = {
   root: true,
-  extends: ['peopledoc/ember'],
-  rules: {},
   parser: '@typescript-eslint/parser',
+  parserOptions: {
+    ecmaVersion: 'latest',
+    sourceType: 'module',
+    requireConfigFile: false,
+    babelOptions: {
+      plugins: [['@babel/plugin-proposal-decorators', { decoratorsBeforeExport: true }]],
+    },
+  },
+  plugins: ['ember'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:ember/recommended',
+    'plugin:prettier/recommended',
+  ],
+  env: {
+    browser: true,
+  },
+  rules: {},
   ignorePatterns: ['tests/fixtures/meshs'],
   overrides: [
     {
-      files: ['**/*.ts'],
-      plugins: [
-        '@typescript-eslint'
+      files: [
+        './.eslintrc.js',
+        './.prettierrc.js',
+        './.stylelintrc.js',
+        './.template-lintrc.js',
+        './ember-cli-build.js',
+        './testem.js',
+        './blueprints/*/index.js',
+        './config/**/*.js',
+        './lib/*/index.js',
+        './server/**/*.js',
       ],
-
+      parserOptions: {
+        sourceType: 'script',
+      },
+      env: {
+        browser: false,
+        node: true,
+      },
+      plugins: ['node'],
+      extends: ['plugin:n/recommended'],
       rules: {
-        'no-undef': 'off',
-        'no-unused-vars': 'off',
-        '@typescript-eslint/no-unused-vars': ['error'],
-        'no-duplicate-imports': 'off'
-      }
+        '@typescript-eslint/no-var-requires': 'off',
+      },
     },
     {
-      files: ['**.d.ts'],
-      rules: {
-        'ember-suave/no-const-outside-module-scope': 'off'
-      }
-    }
-  ]
-}
+      // test files
+      files: ['tests/**/*-test.{js,ts}'],
+      extends: ['plugin:qunit/recommended'],
+    },
+  ],
+};

@@ -1,24 +1,21 @@
-import { module, test } from 'qunit'
-import { setupTest } from 'ember-qunit'
-import TextMakerSettings from 'text2stl/models/text-maker-settings'
-import config from 'text2stl/config/environment'
+import { module, test } from 'qunit';
+import { setupTest } from 'ember-qunit';
+import TextMakerSettings from 'text2stl/models/text-maker-settings';
+import config from 'text2stl/config/environment';
+
+import type ApplicationRoute from 'text2stl/routes/index';
 const {
-  APP: { textMakerDefault }
-} = config
+  APP: { textMakerDefault },
+} = config;
 
-module('Unit | Route | app/generator', function(hooks) {
-  setupTest(hooks)
+module('Unit | Route | app/generator', function (hooks) {
+  setupTest(hooks);
 
-  test('it creates a model with default values & fetch default font', async function(assert) {
+  test('it creates a model with default values & fetch default font', async function (assert) {
+    const route = this.owner.lookup('route:app/generator') as ApplicationRoute;
 
-    let route = this.owner.lookup('route:app/generator')
+    const model = await route.model();
 
-    let model = await route.model()
-
-    assert.propEqual(
-      model,
-      new TextMakerSettings(textMakerDefault),
-      'settings model is conform'
-    )
-  })
-})
+    assert.propEqual(model, new TextMakerSettings(textMakerDefault), 'settings model is conform');
+  });
+});

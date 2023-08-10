@@ -1,3 +1,3 @@
 declare module 'tracked-toolbox' {
-  export let cached: PropertyDecorator
+  export let cached: PropertyDecorator;
 }
