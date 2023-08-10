@@ -1,6 +1,6 @@
 module.exports = {
   root: true,
-  parser: '@babel/eslint-parser',
+  parser: '@typescript-eslint/parser',
   parserOptions: {
     ecmaVersion: 'latest',
     sourceType: 'module',
@@ -10,12 +10,17 @@ module.exports = {
     },
   },
   plugins: ['ember'],
-  extends: ['eslint:recommended', 'plugin:ember/recommended', 'plugin:prettier/recommended'],
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/eslint-recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:ember/recommended',
+    'plugin:prettier/recommended',
+  ],
   env: {
     browser: true,
   },
   rules: {},
-  parser: '@typescript-eslint/parser',
   ignorePatterns: ['tests/fixtures/meshs'],
   overrides: [
     {
@@ -38,7 +43,11 @@ module.exports = {
         browser: false,
         node: true,
       },
+      plugins: ['node'],
       extends: ['plugin:n/recommended'],
+      rules: {
+        '@typescript-eslint/no-var-requires': 'off',
+      },
     },
     {
       // test files

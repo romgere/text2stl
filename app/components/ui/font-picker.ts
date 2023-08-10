@@ -37,7 +37,7 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
 
   @action
   onFontNameChange(fontName: string) {
-    let font = this.fontManager.fontList.get(fontName);
+    const font = this.fontManager.fontList.get(fontName);
     if (font) {
       this.args.onFontSettingsChange(fontName, font.variants[0]);
     } else {

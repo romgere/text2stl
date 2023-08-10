@@ -53,7 +53,7 @@ export default class FontSelectModifier extends Modifier<FontSelectModifierSigna
     [value, fontCategory]: [string, Category],
     args: ArgsFor<FontSelectModifierSignature>['named'],
   ) {
-    let needReload = this.needReload(fontCategory, args.fontScript, args.sort);
+    const needReload = this.needReload(fontCategory, args.fontScript, args.sort);
 
     if (needReload) {
       element.innerHTML = '';

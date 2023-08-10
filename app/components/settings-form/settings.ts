@@ -37,7 +37,7 @@ export default class SettingsFormTextSettings extends Component<SettingsFormText
 
   @action
   setInt(props: 'size' | 'height' | 'spacing' | 'vSpacing', value: string) {
-    let v = parseInt(value, 10);
+    const v = parseInt(value, 10);
     this.args.model[props] = isNaN(v) ? undefined : v;
   }
 

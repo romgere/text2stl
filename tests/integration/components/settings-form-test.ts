@@ -12,7 +12,7 @@ module('Integration | Component | settings-form', function (hooks) {
   test('it renders', async function (assert) {
     class SettingsFormSettings extends Component {}
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div data-mocked-settings data-model={{@model.name}} />`),
       SettingsFormSettings,
     );
@@ -20,7 +20,7 @@ module('Integration | Component | settings-form', function (hooks) {
 
     class SettingsFormFont extends Component {}
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div data-mocked-font data-model={{@model.name}} />`),
       SettingsFormFont,
     );
@@ -28,7 +28,7 @@ module('Integration | Component | settings-form', function (hooks) {
 
     class SettingsFormAdvancedSettings extends Component {}
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div data-mocked-advanced-settings data-model={{@model.name}} />`),
       SettingsFormAdvancedSettings,
     );

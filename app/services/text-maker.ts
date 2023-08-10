@@ -73,24 +73,24 @@ export default class TextMakerService extends Service {
     yOffset: number,
   ): SingleGlyphDef {
     // Font x/y origin to Three x/y origin
-    let coord = function (x: number, y: number): [number, number] {
+    const coord = function (x: number, y: number): [number, number] {
       return [x, 0 - y];
     };
 
     let paths: THREE.Path[] = [];
-    let holes: THREE.Path[] = [];
+    const holes: THREE.Path[] = [];
 
     let path = new THREE.Path();
 
-    let pathCommands = glyph.getPath(xOffset, 0 - yOffset, size).commands;
+    const pathCommands = glyph.getPath(xOffset, 0 - yOffset, size).commands;
 
     // Following is only to manage "cff" font & detect hole shape
-    let paths2D: Path2D[] = [];
+    const paths2D: Path2D[] = [];
     let path2D = new Path2D();
 
     // https://github.com/opentypejs/opentype.js#path-commands
     for (let i = 0; i < pathCommands.length; i++) {
-      let command = pathCommands[i];
+      const command = pathCommands[i];
 
       switch (command.type) {
         case 'M':
@@ -143,14 +143,14 @@ export default class TextMakerService extends Service {
     // if "cff" : subpath B contained by outermost subpath A is a cutout ...
     // if "truetype" : solid shapes are defined clockwise (CW) and holes are defined counterclockwise (CCW)
     if (outlinesFormat === 'cff') {
-      let canvas = document.createElement('canvas');
-      let ctx = canvas.getContext('2d');
+      const canvas = document.createElement('canvas');
+      const ctx = canvas.getContext('2d');
 
       for (let i = 0; i < paths.length; i++) {
         path = paths[i];
 
         let isHole = false;
-        for (let otherPath of paths2D.filter((_, idx) => idx !== i)) {
+        for (const otherPath of paths2D.filter((_, idx) => idx !== i)) {
           // Iterate on path point & check if they are inside any existing paths
           isHole = path.getPoints().every(function (point) {
             return ctx?.isPointInPath(otherPath, point.x, point.y);
@@ -176,17 +176,17 @@ export default class TextMakerService extends Service {
   }
 
   private glyphsDefToGeometry(depth: number, glyphsDef: MultipleGlyphDef): THREE.BufferGeometry {
-    let geometries: THREE.ExtrudeGeometry[] = [];
+    const geometries: THREE.ExtrudeGeometry[] = [];
 
-    for (let glyphDef of glyphsDef.glyphs) {
-      let shapes = glyphDef.paths.map(function (path) {
-        let shape = new THREE.Shape();
+    for (const glyphDef of glyphsDef.glyphs) {
+      const shapes = glyphDef.paths.map(function (path) {
+        const shape = new THREE.Shape();
         shape.add(path);
         shape.holes = glyphDef.holes;
         return shape;
       });
 
-      let geometry = new THREE.ExtrudeGeometry(shapes, {
+      const geometry = new THREE.ExtrudeGeometry(shapes, {
         depth,
         bevelEnabled: true,
         bevelThickness: 0,
@@ -202,33 +202,35 @@ export default class TextMakerService extends Service {
   }
 
   private stringToGlyhpsDef(params: TextMakerParameters, font: opentype.Font): MultipleGlyphDef {
-    let text = params.text || textMakerDefault.text;
-    let size = params.size !== undefined && params.size >= 0 ? params.size : textMakerDefault.size;
-    let spacing = params.spacing !== undefined ? params.spacing : textMakerDefault.spacing;
-    let vSpacing = params.vSpacing !== undefined ? params.vSpacing : textMakerDefault.vSpacing;
-    let alignment = params.alignment !== undefined ? params.alignment : textMakerDefault.alignment;
+    const text = params.text || textMakerDefault.text;
+    const size =
+      params.size !== undefined && params.size >= 0 ? params.size : textMakerDefault.size;
+    const spacing = params.spacing !== undefined ? params.spacing : textMakerDefault.spacing;
+    const vSpacing = params.vSpacing !== undefined ? params.vSpacing : textMakerDefault.vSpacing;
+    const alignment =
+      params.alignment !== undefined ? params.alignment : textMakerDefault.alignment;
 
-    let scale = (1 / font.unitsPerEm) * size;
+    const scale = (1 / font.unitsPerEm) * size;
 
-    let glyphShapes: SingleGlyphDef[] = [];
+    const glyphShapes: SingleGlyphDef[] = [];
     // to handle alignment
-    let linesWidth: number[] = [];
-    let bounds = {
+    const linesWidth: number[] = [];
+    const bounds = {
       min: { x: Number.MAX_SAFE_INTEGER, y: Number.MAX_SAFE_INTEGER },
       max: { x: 0, y: 0 },
     };
 
-    let lines = text.split('\n').map((s) => s.trimEnd());
+    const lines = text.split('\n').map((s) => s.trimEnd());
     let dy = 0;
 
     // Iterate a first time on all lines to calculate line width (text align)
-    for (let lineText of lines) {
+    for (const lineText of lines) {
       let dx = 0;
       let lineMaxX = 0;
       font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
         x += dx;
         dx += spacing;
-        let glyphBounds = glyph.getBoundingBox();
+        const glyphBounds = glyph.getBoundingBox();
 
         lineMaxX = x + glyphBounds.x2 * scale;
 
@@ -244,23 +246,23 @@ export default class TextMakerService extends Service {
       linesWidth.push(lineMaxX);
     }
 
-    let linesAlignOffset = linesWidth.map(() => 0);
+    const linesAlignOffset = linesWidth.map(() => 0);
 
     // Handle alignment (now we know all line size)
     if (alignment !== 'left') {
-      let maxWidth = Math.max(...linesWidth);
+      const maxWidth = Math.max(...linesWidth);
 
       linesWidth.forEach(function (lineWidth, line) {
         if (lineWidth !== maxWidth) {
-          let xOffset = (maxWidth - lineWidth) / (alignment === 'center' ? 2 : 1);
+          const xOffset = (maxWidth - lineWidth) / (alignment === 'center' ? 2 : 1);
           linesAlignOffset[line] = xOffset;
         }
       });
     }
 
     dy = 0;
-    for (let lineIndex in lines) {
-      let lineText = lines[lineIndex];
+    for (const lineIndex in lines) {
+      const lineText = lines[lineIndex];
       let dx = 0;
 
       // Iterate on text char to generate a Geometry for each
@@ -306,18 +308,18 @@ export default class TextMakerService extends Service {
   }
 
   generateMesh(params: TextMakerParameters, font: opentype.Font): THREE.Mesh {
-    let type = params.type || ModelType.TextOnly;
+    const type = params.type || ModelType.TextOnly;
 
-    let textDepth =
+    const textDepth =
       params.height !== undefined && params.height >= 0 ? params.height : textMakerDefault.height;
 
-    let plyghsDef = this.stringToGlyhpsDef(params, font);
+    const plyghsDef = this.stringToGlyhpsDef(params, font);
     let supportShape: THREE.Shape | undefined = undefined;
 
     let finalGeometry: THREE.BufferGeometry;
 
-    let { min, max } = plyghsDef.bounds;
-    let size = {
+    const { min, max } = plyghsDef.bounds;
+    const size = {
       x: max.x - min.x,
       y: max.y - min.y,
       z: textDepth,
@@ -325,11 +327,11 @@ export default class TextMakerService extends Service {
 
     // Support settings
     let supportDepth = params.supportHeight || textMakerDefault.supportHeight;
-    let supportPadding =
+    const supportPadding =
       params.supportPadding !== undefined ? params.supportPadding : textMakerDefault.supportPadding;
-    let supportWidth = size.x + supportPadding.left + supportPadding.right;
-    let supportHeight = size.y + supportPadding.top + supportPadding.bottom;
-    let supportBorderRadius =
+    const supportWidth = size.x + supportPadding.left + supportPadding.right;
+    const supportHeight = size.y + supportPadding.top + supportPadding.bottom;
+    const supportBorderRadius =
       params.supportBorderRadius !== undefined
         ? params.supportBorderRadius
         : textMakerDefault.supportBorderRadius;
@@ -350,13 +352,13 @@ export default class TextMakerService extends Service {
         supportDepth += size.z - supportDepth;
       }
 
-      let moveTextX = -min.x + supportPadding.left;
-      let moveTextY = -min.y + supportPadding.bottom;
+      const moveTextX = -min.x + supportPadding.left;
+      const moveTextY = -min.y + supportPadding.bottom;
 
       let supportGeometry: THREE.ExtrudeBufferGeometry | undefined;
 
       if (supportDepth > textDepth) {
-        let plainSupportDepth = supportDepth - textDepth;
+        const plainSupportDepth = supportDepth - textDepth;
 
         supportGeometry = new THREE.ExtrudeGeometry(supportShape, {
           depth: plainSupportDepth,
@@ -369,18 +371,18 @@ export default class TextMakerService extends Service {
       }
 
       // extract glyph path & move them according to support padding
-      let glyphsPaths = plyghsDef.glyphs
+      const glyphsPaths = plyghsDef.glyphs
         .map((g) => g.paths)
         .flat()
         .map((p) => this.translatePath(p, moveTextX, moveTextY));
-      let glyphsHolesPaths = plyghsDef.glyphs
+      const glyphsHolesPaths = plyghsDef.glyphs
         .map((g) => g.holes)
         .flat()
         .map((p) => this.translatePath(p, moveTextX, moveTextY));
 
       // Add Glyph paths as hole in support & extrude
       supportShape?.holes.push(...glyphsPaths);
-      let negativeTextGeometry = new THREE.ExtrudeGeometry(supportShape, {
+      const negativeTextGeometry = new THREE.ExtrudeGeometry(supportShape, {
         depth: textDepth,
         bevelEnabled: true,
         bevelThickness: 0,
@@ -390,12 +392,12 @@ export default class TextMakerService extends Service {
       });
 
       // Extrude glyph holes as geometry
-      let glyphsHolesShapes = glyphsHolesPaths.map(function (path) {
-        let s = new THREE.Shape();
+      const glyphsHolesShapes = glyphsHolesPaths.map(function (path) {
+        const s = new THREE.Shape();
         s.add(path);
         return s;
       });
-      let negativeTextHoleGeometry = new THREE.ExtrudeGeometry(glyphsHolesShapes, {
+      const negativeTextHoleGeometry = new THREE.ExtrudeGeometry(glyphsHolesShapes, {
         depth: textDepth,
         bevelEnabled: true,
         bevelThickness: 0,
@@ -414,17 +416,17 @@ export default class TextMakerService extends Service {
         );
       }
 
-      let geometries = [negativeTextGeometry, negativeTextHoleGeometry];
+      const geometries = [negativeTextGeometry, negativeTextHoleGeometry];
       if (supportGeometry) {
         geometries.push(supportGeometry);
       }
 
       finalGeometry = mergeBufferGeometries(geometries);
     } else {
-      let textGeometry = this.glyphsDefToGeometry(textDepth, plyghsDef);
+      const textGeometry = this.glyphsDefToGeometry(textDepth, plyghsDef);
 
       if (type !== ModelType.TextOnly) {
-        let supportGeometry = new THREE.ExtrudeGeometry(supportShape, {
+        const supportGeometry = new THREE.ExtrudeGeometry(supportShape, {
           depth: supportDepth,
           bevelEnabled: true,
           bevelThickness: 0,

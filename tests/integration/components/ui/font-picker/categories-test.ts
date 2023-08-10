@@ -8,6 +8,6 @@ module('Integration | Component | ui/font-picker/categories', function (hooks) {
 
   skip('it renders', async function (assert) {
     await render(hbs`<Ui::FontPicker::Categories />`);
-    assert.equal('', '');
+    assert.strictEqual('', '');
   });
 });

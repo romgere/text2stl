@@ -30,7 +30,7 @@ module('Integration | Component | ui/input', function (hooks) {
 
     await fillIn('input', '1234');
 
-    assert.equal(
+    assert.strictEqual(
       this.get('value'), // eslint-disable-line ember/no-get
       '1234',
       'It handles value update',
@@ -39,11 +39,11 @@ module('Integration | Component | ui/input', function (hooks) {
 
   test('it can be debounced', async function (assert) {
     assert.expect(1);
-    let onChangeDone = assert.async();
+    const onChangeDone = assert.async();
 
     this.set('value', 'initial');
     this.set('onChange', (value: string) => {
-      assert.equal(value, '1234');
+      assert.strictEqual(value, '1234');
       this.set('value', value);
       onChangeDone();
     });

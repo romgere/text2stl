@@ -12,14 +12,14 @@ export default class STLExporterService extends Service {
   }
 
   meshToBlob(mesh: Mesh, binary: boolean): Blob {
-    let result = this.exporter.parse(mesh, { binary });
+    const result = this.exporter.parse(mesh, { binary });
     return new Blob([result], {
       type: binary ? 'application/octet-stream' : 'text/plain',
     });
   }
 
   downloadBlob(blob: Blob, name: string) {
-    let link = document.createElement('a');
+    const link = document.createElement('a');
     link.style.display = 'none';
     document.body.appendChild(link);
 

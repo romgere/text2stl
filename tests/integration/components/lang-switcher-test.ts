@@ -29,7 +29,7 @@ module('Integration | Component | lang-switcher', function (hooks) {
 
     class MyLinkTo extends Component {}
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<a ...attributes href="#" data-route={{@route}} data-model={{@model}}>{{yield}}</a>`),
       MyLinkTo,
     );

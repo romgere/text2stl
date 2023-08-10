@@ -26,14 +26,14 @@ module('Unit | Controller | app/generator', function (hooks) {
   test('it handles font change & font loading (google font)', async function (assert) {
     assert.expect(3);
 
-    let controller = this.owner.lookup('controller:app/generator') as GeneratorController;
+    const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
 
     this.owner.lookup('service:font-manager').fetchFont = async function (
       name: string,
       variant: Variant,
     ) {
-      assert.equal(name, controller.model.fontName, 'it requires correct fontName');
-      assert.equal(variant, controller.model.variantName, 'it requires correct variantName');
+      assert.strictEqual(name, controller.model.fontName, 'it requires correct fontName');
+      assert.strictEqual(variant, controller.model.variantName, 'it requires correct variantName');
       return mockFont(name, variant);
     };
 
@@ -44,7 +44,7 @@ module('Unit | Controller | app/generator', function (hooks) {
 
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);
-    assert.equal(
+    assert.strictEqual(
       controller.font.value?.names.fontFamily['en'],
       'mocked_my-font_500italic',
       'Font was load on model',
@@ -59,7 +59,7 @@ module('Unit | Controller | app/generator', function (hooks) {
       return mockFont(filename, '100');
     };
 
-    let controller = this.owner.lookup('controller:app/generator') as GeneratorController;
+    const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
 
     const model = mockTextSettings({});
     model.customFont = new Blob(['my-font.file'], {
@@ -69,7 +69,7 @@ module('Unit | Controller | app/generator', function (hooks) {
 
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);
-    assert.equal(
+    assert.strictEqual(
       controller.font.value?.names.fontFamily['en'],
       'mocked_my-font.file_100',
       'Font was load on model',
@@ -79,9 +79,9 @@ module('Unit | Controller | app/generator', function (hooks) {
   test('it generate a STL with mesh', async function (assert) {
     assert.expect(6);
 
-    let controller = this.owner.lookup('controller:app/generator') as GeneratorController;
+    const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
 
-    let model = mockTextSettings({
+    const model = mockTextSettings({
       fontName: 'the_font',
       variantName: '100',
     });
@@ -91,7 +91,7 @@ module('Unit | Controller | app/generator', function (hooks) {
     const mockedFont = mockFont('a_font', '100');
     const mockedMesh = new Mesh();
 
-    this.owner.lookup('service:font-manager').fetchFont = async function (_: string, __: Variant) {
+    this.owner.lookup('service:font-manager').fetchFont = async function () {
       return mockedFont;
     };
 
@@ -100,15 +100,15 @@ module('Unit | Controller | app/generator', function (hooks) {
       font: Font,
     ) {
       assert.strictEqual(settings, model, 'it generate mesh with model settings');
-      assert.equal(font, mockedFont, 'it generate mesh with fetched font');
+      assert.strictEqual(font, mockedFont, 'it generate mesh with fetched font');
       return mockedMesh;
     };
 
     this.owner.lookup('service:stl-exporter').downloadMeshAsSTL = function (mesh: Mesh) {
-      assert.equal(mesh, mockedMesh, 'it generates STL from mesh');
+      assert.strictEqual(mesh, mockedMesh, 'it generates STL from mesh');
     };
 
-    controller._gtag = function (type: string, eventName: string, opts: any, _: any) {
+    controller._gtag = function (type: string, eventName: string, opts: { value: string }) {
       assert.step(`gtag_${type}_${eventName}_${opts.value}`);
     } as unknown as typeof gtag;
 

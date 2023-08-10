@@ -92,13 +92,13 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
   }
 
   private addLight(x: number, y: number, z: number) {
-    let l = new THREE.PointLight(0xffffff, 0.7, 0);
+    const l = new THREE.PointLight(0xffffff, 0.7, 0);
     l.position.set(x, y, z);
     this.scene.add(l);
   }
 
   private addDecorators() {
-    let ground = new THREE.Mesh(
+    const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(2000, 2000),
       new THREE.MeshPhongMaterial({ color: threePreviewSettings.groundColor, depthWrite: false }),
     );
@@ -106,7 +106,7 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
     ground.receiveShadow = true;
     this.scene.add(ground);
 
-    let grid = new THREE.GridHelper(
+    const grid = new THREE.GridHelper(
       threePreviewSettings.gridSize,
       threePreviewSettings.gridDivisions,
       threePreviewSettings.gridColor1,
@@ -141,7 +141,7 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
 
     this.mesh = mesh.clone() as THREE.Mesh;
 
-    let { min, max } = new THREE.Box3().setFromObject(this.mesh);
+    const { min, max } = new THREE.Box3().setFromObject(this.mesh);
     this.meshSize = {
       x: max.x - min.x,
       y: max.y - min.y,
@@ -151,10 +151,10 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
     // Rotate & Center mesh
     this.mesh.rotation.x = -Math.PI / 2;
 
-    let xCenter = min.x + this.meshSize.x / 2;
+    const xCenter = min.x + this.meshSize.x / 2;
     this.mesh.position.x = -xCenter;
 
-    let zCenter = min.y + this.meshSize.y / 2; // Use y size here as mesh is rotate
+    const zCenter = min.y + this.meshSize.y / 2; // Use y size here as mesh is rotate
     this.mesh.position.z = zCenter;
 
     this.scene.add(this.mesh);
@@ -167,7 +167,7 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
 
     this.animationFrameRequestID = requestAnimationFrame(() => this.renderFrame());
 
-    let { offsetWidth: width, offsetHeight: height } = this.namedArgs.parentSize
+    const { offsetWidth: width, offsetHeight: height } = this.namedArgs.parentSize
       ? this.container?.parentElement ?? this.container
       : this.container;
 

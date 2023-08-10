@@ -24,13 +24,13 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
 
   @action
   setSupportPaddingInt(props: 'top' | 'bottom' | 'right' | 'left', value: string) {
-    let v = parseInt(value, 10);
+    const v = parseInt(value, 10);
     this.args.model.supportPadding[props] = isNaN(v) ? 0 : v;
   }
 
   @action
   setInt(props: 'supportBorderRadius', value: string) {
-    let v = parseInt(value, 10);
+    const v = parseInt(value, 10);
     this.args.model[props] = isNaN(v) ? undefined : v;
   }
 
@@ -54,7 +54,7 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
 
   @action
   setHandleSettingsInt(props: 'size' | 'size2' | 'offsetX' | 'offsetY', value: string) {
-    let v = parseInt(value, 10);
+    const v = parseInt(value, 10);
     this.args.model.handleSettings[props] = isNaN(v) ? 0 : v;
   }
 }

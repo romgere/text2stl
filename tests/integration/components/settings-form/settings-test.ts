@@ -14,7 +14,7 @@ module('Integration | Component | settings-form/settings', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    let model = new TextMakerSettings({
+    const model = new TextMakerSettings({
       ...textMakerDefault,
       type: ModelType.TextOnly,
     });
@@ -26,25 +26,25 @@ module('Integration | Component | settings-form/settings', function (hooks) {
 
     assert.dom('[data-test-settings-text]').hasValue(model.text, 'It renders correct text value');
     await fillIn('[data-test-settings-text]', 'Updated');
-    assert.equal(model.text, 'Updated', 'model.text was updated');
+    assert.strictEqual(model.text, 'Updated', 'model.text was updated');
 
     assert
       .dom('[data-test-settings-size]')
       .hasValue(`${model.size}`, 'It renders correct size value');
     await fillIn('[data-test-settings-size]', '123');
-    assert.equal(model.size, 123, 'model.size was updated');
+    assert.strictEqual(model.size, 123, 'model.size was updated');
 
     assert
       .dom('[data-test-settings-height]')
       .hasValue(`${model.height}`, 'It renders correct height value');
     await fillIn('[data-test-settings-height]', '456');
-    assert.equal(model.height, 456, 'model.height was updated');
+    assert.strictEqual(model.height, 456, 'model.height was updated');
 
     assert
       .dom('[data-test-settings-spacing]')
       .hasValue(`${model.spacing}`, 'It renders correct spacing value');
     await fillIn('[data-test-settings-spacing]', '789');
-    assert.equal(model.spacing, 789, 'model.spacing was updated');
+    assert.strictEqual(model.spacing, 789, 'model.spacing was updated');
 
     assert
       .dom('[data-test-settings-supportHeight]')
@@ -54,13 +54,13 @@ module('Integration | Component | settings-form/settings', function (hooks) {
       .doesNotExist('supportPadding field is not displayed when model.type is text only');
 
     await click(`[data-test-settings-type] [data-test-type-item="${ModelType.NegativeText}"]`);
-    assert.equal(model.type, ModelType.NegativeText, 'model.type was updated');
+    assert.strictEqual(model.type, ModelType.NegativeText, 'model.type was updated');
 
     assert
       .dom('[data-test-settings-supportHeight]')
       .hasValue(`${model.supportHeight}`, 'It renders correct supportHeight value');
     await fillIn('[data-test-settings-supportHeight]', '456');
-    assert.equal(model.supportHeight, 456, 'model.supportHeight was updated');
+    assert.strictEqual(model.supportHeight, 456, 'model.supportHeight was updated');
 
     assert
       .dom('[data-test-settings-supportPadding]')
@@ -82,7 +82,7 @@ module('Integration | Component | settings-form/settings', function (hooks) {
       title: 'VerticalTextWithSupport',
     },
   ]).test('Text input type depends on model Type', async function ({ type, inputType }, assert) {
-    let model = new TextMakerSettings({
+    const model = new TextMakerSettings({
       ...textMakerDefault,
       type,
     });
@@ -93,7 +93,7 @@ module('Integration | Component | settings-form/settings', function (hooks) {
   });
 
   test('Text alignment & vertical spacing are shown when text is multiline', async function (assert) {
-    let model = new TextMakerSettings({
+    const model = new TextMakerSettings({
       ...textMakerDefault,
       type: ModelType.TextOnly,
     });
@@ -110,17 +110,17 @@ module('Integration | Component | settings-form/settings', function (hooks) {
       .dom(`[data-test-settings-text-alignment] input[type="radio"][value="${model.alignment}"]`)
       .hasValue('center', 'current textAlignment radio is checked');
     await click('[data-test-settings-text-alignment] input[type="radio"][value="right"]');
-    assert.equal(model.alignment, 'right', 'model.alignment was updated');
+    assert.strictEqual(model.alignment, 'right', 'model.alignment was updated');
 
     assert
       .dom('[data-test-settings-vspacing]')
       .hasValue(`${model.vSpacing}`, 'It renders correct vspacing value');
     await fillIn('[data-test-settings-vspacing]', '237');
-    assert.equal(model.vSpacing, 237, 'model.vspacing was updated');
+    assert.strictEqual(model.vSpacing, 237, 'model.vspacing was updated');
   });
 
   test('multi-line text is flatten when switch model type to vertical', async function (assert) {
-    let model = new TextMakerSettings({
+    const model = new TextMakerSettings({
       ...textMakerDefault,
       type: ModelType.TextOnly,
       text: 'some\nmultiline\ntext',
@@ -131,6 +131,6 @@ module('Integration | Component | settings-form/settings', function (hooks) {
     await click(
       `[data-test-settings-type] [data-test-type-item="${ModelType.VerticalTextWithSupport}"]`,
     );
-    assert.equal(model.text, 'some multiline text', 'text was updated');
+    assert.strictEqual(model.text, 'some multiline text', 'text was updated');
   });
 });

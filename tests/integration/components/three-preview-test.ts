@@ -11,7 +11,7 @@ module('Integration | Component | three-preview', function (hooks) {
   test('it renders', async function (assert) {
     class ThreePreviewRenderer extends Component {}
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div three-preview-renderer data-mesh={{@mesh}} />`),
       ThreePreviewRenderer,
     );
@@ -19,7 +19,7 @@ module('Integration | Component | three-preview', function (hooks) {
 
     class ThreePreviewSize extends Component {}
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div three-preview-size data-mesh={{@mesh}} />`),
       ThreePreviewSize,
     );

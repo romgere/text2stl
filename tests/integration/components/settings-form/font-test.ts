@@ -3,33 +3,33 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render, click, triggerEvent, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setComponentTemplate } from '@ember/component';
-import Component from '@glimmer/component';
 import { tracked } from '@glimmer/tracking';
+import templateOnly from '@ember/component/template-only';
 
 module('Integration | Component | settings-form/font', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
     // mock the FontPicker child component
-    class FontPickerCategories extends Component {}
+    const FontPickerCategories = templateOnly();
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div data-mocked-categories />`),
       FontPickerCategories,
     );
     this.owner.register('component:ui/font-picker/categories', FontPickerCategories);
 
-    class FontPickerfontNameSelect extends Component {}
+    const FontPickerfontNameSelect = templateOnly();
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`<div data-mocked-font-name-select {{on "click" (fn @onChange "new_fontName")}} />`),
       FontPickerfontNameSelect,
     );
     this.owner.register('component:ui/font-picker/font-name-select', FontPickerfontNameSelect);
 
-    class FontPickerFontVariantSelect extends Component {}
+    const FontPickerFontVariantSelect = templateOnly();
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(
         `<div data-mocked-variant-name-select {{on "click" (fn @onChange "new_variantName")}} />`,
       ),
@@ -40,9 +40,9 @@ module('Integration | Component | settings-form/font', function (hooks) {
       FontPickerFontVariantSelect,
     );
 
-    class FontPicker extends Component {}
+    const FontPicker = templateOnly();
     setComponentTemplate(
-      // @ts-expect-error
+      // @ts-expect-error Type error ?
       hbs(`
         <div
           data-mocked-font-picker
@@ -65,7 +65,7 @@ module('Integration | Component | settings-form/font', function (hooks) {
       variantName = 'initial_variantName';
       @tracked customFont = undefined;
     }
-    let model = new Model();
+    const model = new Model();
     this.set('model', model);
 
     await render(hbs`<SettingsForm::Font
@@ -97,10 +97,10 @@ module('Integration | Component | settings-form/font', function (hooks) {
       );
 
     await click('[data-mocked-font-name-select]');
-    assert.equal(model.fontName, 'new_fontName', 'It handles fontName update');
+    assert.strictEqual(model.fontName, 'new_fontName', 'It handles fontName update');
 
     await click('[data-mocked-variant-name-select]');
-    assert.equal(model.variantName, 'new_variantName', 'It handles variantName update');
+    assert.strictEqual(model.variantName, 'new_variantName', 'It handles variantName update');
 
     await click('[data-test-custom-checkbox]');
     assert.verifySteps([]);
@@ -118,7 +118,7 @@ module('Integration | Component | settings-form/font', function (hooks) {
 
     assert.dom('[data-test-custom-font-name]').hasValue('None', 'custom font name input is "None"');
 
-    let fontFile = { type: 'font/otf', name: 'ainsi_font_font.otf' };
+    const fontFile = { type: 'font/otf', name: 'ainsi_font_font.otf' };
 
     await triggerEvent('[data-test-custom-font-upload]', 'drop', {
       dataTransfer: {

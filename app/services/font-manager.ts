@@ -56,8 +56,8 @@ export default class FontManagerService extends Service {
   }
 
   async loadFontList() {
-    for (let category of this.availableFontCategories) {
-      let fontManager = new FontManager(googleFontApiKey, FONT_FAMILY_DEFAULT, {
+    for (const category of this.availableFontCategories) {
+      const fontManager = new FontManager(googleFontApiKey, FONT_FAMILY_DEFAULT, {
         ...OPTIONS_DEFAULTS,
         categories: [category],
         sort: 'alphabet',
@@ -74,13 +74,13 @@ export default class FontManagerService extends Service {
   }
 
   async fetchFont(fontName: string, variantName?: Variant): Promise<opentype.Font> {
-    let font = this.fontList.get(fontName);
+    const font = this.fontList.get(fontName);
     if (!font) {
       throw `Unknown font name ${fontName}`;
     }
 
-    let { variants } = font;
-    let variant = variantName && variants.indexOf(variantName) >= 0 ? variantName : variants[0];
+    const { variants } = font;
+    const variant = variantName && variants.indexOf(variantName) >= 0 ? variantName : variants[0];
 
     let url = font.files?.[variant];
     if (!url) {
@@ -91,10 +91,10 @@ export default class FontManagerService extends Service {
       throw `Unable to find font url for ${fontName} / ${variantName}`;
     }
 
-    let cacheName = `${fontName}-${variantName}`;
+    const cacheName = `${fontName}-${variantName}`;
     if (!this.fontCache[cacheName]) {
-      let res = await this.fetch(url.replace('http:', 'https:'));
-      let fontData = await res.arrayBuffer();
+      const res = await this.fetch(url.replace('http:', 'https:'));
+      const fontData = await res.arrayBuffer();
       this.fontCache[cacheName] = this.opentype.parse(fontData);
     }
 
@@ -102,7 +102,7 @@ export default class FontManagerService extends Service {
   }
 
   async loadCustomFont(fontTTFFile: Blob): Promise<opentype.Font> {
-    let fontAsBuffer = await fontTTFFile.arrayBuffer();
+    const fontAsBuffer = await fontTTFFile.arrayBuffer();
     return this.opentype.parse(fontAsBuffer);
   }
 }

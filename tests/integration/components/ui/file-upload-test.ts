@@ -28,7 +28,7 @@ module('Integration | Component | ui/file-upload', function (hooks) {
       data-test-main
     />`);
 
-    let input = find('input[type=file]') as HTMLInputElement;
+    const input = find('input[type=file]') as HTMLInputElement;
 
     assert.dom('[data-test-drop-zone-label]').hasText('Drop here');
     assert.dom('[data-test-input-label]').hasText('or click here').hasAttribute('for', input.id);
@@ -53,7 +53,7 @@ module('Integration | Component | ui/file-upload', function (hooks) {
       @onFileChange={{this.onFileChange}}
     />`);
 
-    let input = find('input[type=file]') as any;
+    const input = find('input[type=file]') as HTMLInputElement & { mockedFiles: [Blob] };
 
     input.mockedFiles = [validFile];
     await triggerEvent('input[type="file"]', 'change');

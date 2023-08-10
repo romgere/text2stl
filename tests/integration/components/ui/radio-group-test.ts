@@ -39,7 +39,7 @@ module('Integration | Component | ui/radio-group', function (hooks) {
 
     await click('input[value="c"]');
 
-    assert.equal(
+    assert.strictEqual(
       this.get('checked'), // eslint-disable-line ember/no-get
       'c',
       'It handles value update',

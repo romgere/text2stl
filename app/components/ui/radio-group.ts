@@ -3,7 +3,7 @@ import { guidFor } from '@ember/object/internals';
 import { action } from '@ember/object';
 
 interface UiRadioGroupArgs {
-  options: any[];
+  options: unknown[];
   checked: string;
   radioName?: string;
   onChange: (value: string) => void;

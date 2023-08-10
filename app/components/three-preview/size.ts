@@ -17,7 +17,7 @@ export default class TreePreviewSize extends Component<TreePreviewSizeArgs> {
       return undefined;
     }
 
-    let { min, max } = new THREE.Box3().setFromObject(this.args.mesh as THREE.Object3D);
+    const { min, max } = new THREE.Box3().setFromObject(this.args.mesh as THREE.Object3D);
     return {
       x: max.x - min.x,
       y: max.y - min.y,

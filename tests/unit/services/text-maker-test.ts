@@ -7,12 +7,12 @@ import cases from 'qunit-parameterize';
 import type TextMakerService from 'text2stl/services/text-maker';
 import type { TextMakerParameters } from 'text2stl/services/text-maker';
 
-function objectToCompareString(mesh: Object | undefined) {
+function objectToCompareString(mesh: unknown | undefined) {
   if (!mesh) {
     return '';
   }
 
-  let json = JSON.stringify(mesh);
+  const json = JSON.stringify(mesh);
 
   return json.replace(
     /"uuid":"[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}"/g,
@@ -33,27 +33,27 @@ module('Unit | Service | text-maker', function (hooks) {
   ).test(
     'it generate mesh according to snapshots',
     async function ({ settings, snapshot, name }, assert) {
-      let service = this.owner.lookup('service:text-maker') as TextMakerService;
+      const service = this.owner.lookup('service:text-maker') as TextMakerService;
 
-      let mesh = service.generateMesh(
+      const mesh = service.generateMesh(
         settings as unknown as TextMakerParameters,
         await loadFont(settings.font),
       );
 
-      let generatedCompare = objectToCompareString(mesh?.toJSON()?.geometries);
-      let snapshotCompare = objectToCompareString(snapshot?.geometries);
+      const generatedCompare = objectToCompareString(mesh?.toJSON()?.geometries);
+      const snapshotCompare = objectToCompareString(snapshot?.geometries);
 
       if (generatedCompare !== snapshotCompare) {
         console.warn(`New mesh snapshot needed for fixture "${name}" ?`);
 
-        let fileContent = `export default ${JSON.stringify(mesh?.toJSON())}`;
-        let blob = new Blob([fileContent], {
+        const fileContent = `export default ${JSON.stringify(mesh?.toJSON())}`;
+        const blob = new Blob([fileContent], {
           type: 'text/plain',
         });
-        let url = URL.createObjectURL(blob);
+        const url = URL.createObjectURL(blob);
 
         if (window.location.hash.substr(1) === 'download_fixture') {
-          let link = document.createElement('a');
+          const link = document.createElement('a');
           link.setAttribute('download', `${name}.ts`);
           link.setAttribute('href', url);
           link.setAttribute('target', '_blank');
@@ -72,7 +72,7 @@ module('Unit | Service | text-maker', function (hooks) {
         );
       }
 
-      assert.equal(generatedCompare, snapshotCompare, 'Mesh is conform to fixture');
+      assert.strictEqual(generatedCompare, snapshotCompare, 'Mesh is conform to fixture');
     },
   );
 });

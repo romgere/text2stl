@@ -28,18 +28,18 @@ export default class CounterService extends Service {
   }
 
   private async initCounter(): Promise<void> {
-    let res = await this.fetch(
+    const res = await this.fetch(
       `https://api.countapi.xyz/get/${countApi.namespace}/${countApi.key}`,
     );
-    let data = await res.json();
+    const data = await res.json();
     this._counter = data.value;
   }
 
   async updateCounter() {
-    let res = await this.fetch(
+    const res = await this.fetch(
       `https://api.countapi.xyz/hit/${countApi.namespace}/${countApi.key}`,
     );
-    let data = await res.json();
+    const data = await res.json();
     this._counter = data.value;
   }
 }

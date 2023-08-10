@@ -12,22 +12,22 @@ module('Unit | Service | stl-exporter', function (hooks) {
     { binary: true, title: 'binary' },
     { binary: false, title: 'not binary' },
   ]).test('downloadMeshAsSTL works (binary)', function ({ binary }, assert) {
-    let service = this.owner.lookup('service:stl-exporter') as STLExporterService;
+    const service = this.owner.lookup('service:stl-exporter') as STLExporterService;
 
     service.downloadBlob = async function (blob: Blob, name: string) {
-      assert.equal(
+      assert.strictEqual(
         blob.type,
         binary ? 'application/octet-stream' : 'text/plain',
         'blob has correct type',
       );
-      assert.equal(name, 'custom-name.stl', 'blob has correct name');
-      assert.equal(await blob.text(), 'stl_content', 'blob contains STL');
+      assert.strictEqual(name, 'custom-name.stl', 'blob has correct name');
+      assert.strictEqual(await blob.text(), 'stl_content', 'blob contains STL');
     };
 
     service.exporter = {
-      parse(mesh: string, args: any) {
-        assert.equal(mesh, 'a_mesh', 'IT calls STLExporter with mesh');
-        assert.equal(args.binary, binary, 'It calls STLExporter with correct binary option');
+      parse(mesh: string, args: { binary: boolean }) {
+        assert.strictEqual(mesh, 'a_mesh', 'IT calls STLExporter with mesh');
+        assert.strictEqual(args.binary, binary, 'It calls STLExporter with correct binary option');
         return 'stl_content';
       },
     } as unknown as STLExporter;

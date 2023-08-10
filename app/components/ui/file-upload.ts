@@ -45,7 +45,7 @@ export default class UiFileUpload extends Component<UiFileUploadArgs> {
     if (e.dataTransfer?.items) {
       for (let i = 0; i < e.dataTransfer.items.length; i++) {
         if (e.dataTransfer.items[i].kind === 'file') {
-          let file = e.dataTransfer.items[i].getAsFile();
+          const file = e.dataTransfer.items[i].getAsFile();
           if (file) {
             this.processFile(file);
           }
@@ -62,8 +62,10 @@ export default class UiFileUpload extends Component<UiFileUploadArgs> {
 
   @action
   fileChange(e: InputEvent) {
-    let target = e.target as HTMLInputElement;
-    let file = target.files?.[0] || (target as any).mockedFiles?.[0]; // for test
+    const target = e.target as HTMLInputElement;
+    const file =
+      target.files?.[0] || (target as HTMLInputElement & { mockedFiles: [File] }).mockedFiles?.[0]; // for test
+
     if (file) {
       this.processFile(file);
     }

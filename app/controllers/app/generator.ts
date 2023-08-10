@@ -60,7 +60,7 @@ export default class GeneratorController extends Controller {
 
   @action
   async exportSTL() {
-    let { value: mesh } = await this.mesh;
+    const { value: mesh } = await this.mesh;
 
     if (!mesh) {
       return;

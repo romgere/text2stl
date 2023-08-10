@@ -14,7 +14,7 @@ module('Integration | Component | advanced-settings-form/settings', function (ho
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    let model = new TextMakerSettings({
+    const model = new TextMakerSettings({
       ...textMakerDefault,
       type: ModelType.TextWithSupport,
     });
@@ -26,31 +26,31 @@ module('Integration | Component | advanced-settings-form/settings', function (ho
       .dom('[data-test-settings-supportPadding="top"]')
       .hasValue(`${model.supportPadding.top}`, 'It renders top supportPadding value');
     await fillIn('[data-test-settings-supportPadding="top"]', '123');
-    assert.equal(model.supportPadding.top, 123, 'top supportPadding was updated');
+    assert.strictEqual(model.supportPadding.top, 123, 'top supportPadding was updated');
 
     assert
       .dom('[data-test-settings-supportPadding="bottom"]')
       .hasValue(`${model.supportPadding.bottom}`, 'It renders correct bottom supportPadding value');
     await fillIn('[data-test-settings-supportPadding="bottom"]', '321');
-    assert.equal(model.supportPadding.bottom, 321, 'bottom supportPadding was updated');
+    assert.strictEqual(model.supportPadding.bottom, 321, 'bottom supportPadding was updated');
 
     assert
       .dom('[data-test-settings-supportPadding="left"]')
       .hasValue(`${model.supportPadding.left}`, 'It renders correct left supportPadding value');
     await fillIn('[data-test-settings-supportPadding="left"]', '456');
-    assert.equal(model.supportPadding.left, 456, 'left supportPadding was updated');
+    assert.strictEqual(model.supportPadding.left, 456, 'left supportPadding was updated');
 
     assert
       .dom('[data-test-settings-supportPadding="right"]')
       .hasValue(`${model.supportPadding.right}`, 'It renders correct right supportPadding value');
     await fillIn('[data-test-settings-supportPadding="right"]', '987');
-    assert.equal(model.supportPadding.right, 987, 'right supportPadding was updated');
+    assert.strictEqual(model.supportPadding.right, 987, 'right supportPadding was updated');
 
     assert
       .dom('[data-test-settings-supportBorderRadius]')
       .hasValue(`${model.supportBorderRadius}`, 'It renders correct supportBorderRadius value');
     await fillIn('[data-test-settings-supportBorderRadius]', '789');
-    assert.equal(model.supportBorderRadius, 789, 'model.supportBorderRadius was updated');
+    assert.strictEqual(model.supportBorderRadius, 789, 'model.supportBorderRadius was updated');
 
     assert.dom('[data-test-handle-type-item]').exists('it render handle type radio group');
 
@@ -62,7 +62,7 @@ module('Integration | Component | advanced-settings-form/settings', function (ho
     assert
       .dom('[data-test-handle-settings]')
       .exists('it shows handle settings when handle type is "hole"');
-    assert.equal(model.handleSettings.type, 'hole', 'handle type was updated');
+    assert.strictEqual(model.handleSettings.type, 'hole', 'handle type was updated');
     assert
       .dom('[data-test-settings-handle-size2]')
       .doesNotExist('it does not render handle size 2 when handle type is "hole"');
@@ -71,7 +71,7 @@ module('Integration | Component | advanced-settings-form/settings', function (ho
     assert
       .dom('[data-test-handle-settings]')
       .exists('it shows handle settings when handle type is "handle"');
-    assert.equal(model.handleSettings.type, 'handle', 'handle type was updated');
+    assert.strictEqual(model.handleSettings.type, 'handle', 'handle type was updated');
     assert
       .dom('[data-test-settings-handle-size2]')
       .exists('it renders handle size 2 when handle type is "handle"');

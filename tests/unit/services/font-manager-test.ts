@@ -53,25 +53,25 @@ module('Unit | Service | font-manager', function (hooks) {
       title: 'Font name with variant',
     },
   ]).test('it fetch font', async function ({ expectedFontUrl, fontName, variantName }, assert) {
-    let service = this.owner.lookup('service:font-manager') as FontManagerService;
+    const service = this.owner.lookup('service:font-manager') as FontManagerService;
     service.fontList = mockedFontList;
 
     service.fetch = async function (input: RequestInfo): Promise<Response> {
-      assert.equal(input, expectedFontUrl, 'It fetch the correct font');
+      assert.strictEqual(input, expectedFontUrl, 'It fetch the correct font');
       return {
         arrayBuffer: () => 'fetched-array-buffer',
       } as unknown as Response;
     };
 
     service.opentype = {
-      parse(buffer: any): opentype.Font {
-        assert.equal(buffer, 'fetched-array-buffer', 'font is parsed with fetch result');
+      parse(buffer: Response): opentype.Font {
+        assert.strictEqual(`${buffer}`, 'fetched-array-buffer', 'font is parsed with fetch result');
         return 'parsed-font' as unknown as opentype.Font;
       },
     } as typeof opentype;
 
-    let font = await service.fetchFont(fontName, variantName);
-    assert.equal(font, 'parsed-font', 'correct font is returned');
+    const font = await service.fetchFont(fontName, variantName);
+    assert.strictEqual(`${font}`, 'parsed-font', 'correct font is returned');
   });
 
   cases([
@@ -88,7 +88,7 @@ module('Unit | Service | font-manager', function (hooks) {
   ]).test(
     "it throw error when font can't be load",
     async function ({ fontName, variantName }, assert) {
-      let service = this.owner.lookup('service:font-manager') as FontManagerService;
+      const service = this.owner.lookup('service:font-manager') as FontManagerService;
       service.fontList = mockedFontList;
 
       try {
@@ -101,10 +101,10 @@ module('Unit | Service | font-manager', function (hooks) {
   );
 
   test('it cache font', async function (assert) {
-    let fetchDone = assert.async();
-    let parseDone = assert.async();
+    const fetchDone = assert.async();
+    const parseDone = assert.async();
 
-    let service = this.owner.lookup('service:font-manager') as FontManagerService;
+    const service = this.owner.lookup('service:font-manager') as FontManagerService;
     service.fontList = mockedFontList;
 
     service.fetch = async function (): Promise<Response> {
@@ -116,23 +116,25 @@ module('Unit | Service | font-manager', function (hooks) {
 
     service.opentype = {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      parse(_: any): opentype.Font {
+      parse(_: unknown): opentype.Font {
         parseDone();
         return 'a-parsed-font' as unknown as opentype.Font;
       },
     } as typeof opentype;
 
     let font = await service.fetchFont('font1');
-    assert.equal(font, 'a-parsed-font', 'Font is returned');
+    assert.strictEqual(`${font}`, 'a-parsed-font', 'Font is returned');
 
     font = await service.fetchFont('font1');
-    assert.equal(font, 'a-parsed-font', 'Font is returned');
+    assert.strictEqual(`${font}`, 'a-parsed-font', 'Font is returned');
   });
 
   test('it can load custom font file', async function (assert) {
-    let service = this.owner.lookup('service:font-manager') as FontManagerService;
+    assert.expect(2);
 
-    let mockedBlob = {
+    const service = this.owner.lookup('service:font-manager') as FontManagerService;
+
+    const mockedBlob = {
       async arrayBuffer() {
         return 'a_great_boeuf-er';
       },
@@ -140,13 +142,13 @@ module('Unit | Service | font-manager', function (hooks) {
 
     service.opentype = {
       // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      parse(buffer: any): opentype.Font {
-        assert.equal(buffer, 'a_great_boeuf-er', 'blob buffer is passed to opentype.parse');
+      parse(buffer: unknown): opentype.Font {
+        assert.strictEqual(buffer, 'a_great_boeuf-er', 'blob buffer is passed to opentype.parse');
         return 'a-parsed-font' as unknown as opentype.Font;
       },
     } as typeof opentype;
 
-    let font = await service.loadCustomFont(mockedBlob as unknown as Blob);
-    assert.equal(font, 'a-parsed-font', 'Font is returned');
+    const font = await service.loadCustomFont(mockedBlob as unknown as Blob);
+    assert.strictEqual(`${font}`, 'a-parsed-font', 'Font is returned');
   });
 });

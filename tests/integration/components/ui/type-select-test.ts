@@ -7,12 +7,14 @@ module('Integration | Component | ui/type-select', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    let onChangeDone = assert.async();
+    assert.expect(7);
+
+    const onChangeDone = assert.async();
     this.set('current', 3);
     this.set('onChange', (value: number) => {
       onChangeDone();
       this.set('current', value);
-      assert.equal(value, 1, 'onChange is called with new value');
+      assert.strictEqual(value, 1, 'onChange is called with new value');
     });
 
     await render(

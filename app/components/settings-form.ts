@@ -19,7 +19,7 @@ export default class SettingsFormSettings extends Component<SettingsFormTextSett
   }
 
   get tabs(): Tab[] {
-    let tabs: Tab[] = ['settings', 'font'];
+    const tabs: Tab[] = ['settings', 'font'];
 
     return this.showAdvancedSettings ? [...tabs, 'advanced'] : tabs;
   }

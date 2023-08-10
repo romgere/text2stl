@@ -12,9 +12,9 @@ module('Unit | Route | app/generator', function (hooks) {
   setupTest(hooks);
 
   test('it creates a model with default values & fetch default font', async function (assert) {
-    let route = this.owner.lookup('route:app/generator') as ApplicationRoute;
+    const route = this.owner.lookup('route:app/generator') as ApplicationRoute;
 
-    let model = await route.model();
+    const model = await route.model();
 
     assert.propEqual(model, new TextMakerSettings(textMakerDefault), 'settings model is conform');
   });

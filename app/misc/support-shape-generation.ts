@@ -8,7 +8,7 @@ export function generateSupportShape(
   handleSettings: Handle | undefined,
 ): THREE.Shape {
   // Limit min/max radius
-  let maxRadius = Math.min(width / 2, height / 2);
+  const maxRadius = Math.min(width / 2, height / 2);
   if (radius > maxRadius) {
     radius = maxRadius;
   } else if (radius < 0) {
@@ -16,17 +16,17 @@ export function generateSupportShape(
   }
 
   // Compute some handle settings
-  let maxHandleSize =
+  const maxHandleSize =
     handleSettings?.position === 'bottom' || handleSettings?.position === 'top'
       ? width - 2 * radius
       : height - 2 * radius;
-  let hasHandle = handleSettings?.type === 'handle';
-  let handleSize = Math.min(handleSettings?.size ?? 0, maxHandleSize);
-  let handleMaxOffset =
+  const hasHandle = handleSettings?.type === 'handle';
+  const handleSize = Math.min(handleSettings?.size ?? 0, maxHandleSize);
+  const handleMaxOffset =
     handleSettings?.position === 'bottom' || handleSettings?.position === 'top'
       ? (width - 2 * radius - handleSize) / 2
       : (height - 2 * radius - handleSize) / 2;
-  let handleOffset =
+  const handleOffset =
     handleSettings?.offsetX && handleSettings?.offsetX > 0
       ? Math.min(handleSettings?.offsetX ?? 0, handleMaxOffset)
       : Math.max(handleSettings?.offsetX ?? 0, -handleMaxOffset);
@@ -40,10 +40,10 @@ export function generateSupportShape(
 
   let hole: THREE.Path | undefined;
 
-  let supportShape = new THREE.Shape();
+  const supportShape = new THREE.Shape();
   supportShape.moveTo(radius, 0);
   if (hasHandle && handleSettings?.position === 'bottom') {
-    let handleStartX =
+    const handleStartX =
       width - radius - handleSize - handleOffset - (maxHandleSize - handleSize) / 2;
     supportShape.lineTo(handleStartX, 0);
     supportShape.ellipse(
@@ -57,7 +57,7 @@ export function generateSupportShape(
       Math.PI,
     );
 
-    let holeRadius = (handleSize - handleWidth * 2) / 2;
+    const holeRadius = (handleSize - handleWidth * 2) / 2;
     hole = new THREE.Path();
     hole.moveTo(handleStartX + handleWidth, 0);
     hole.lineTo(handleStartX + handleSize - handleWidth, 0);
@@ -72,7 +72,7 @@ export function generateSupportShape(
   }
 
   if (hasHandle && handleSettings?.position === 'right') {
-    let handleStartY = radius + handleOffset + (maxHandleSize - handleSize) / 2;
+    const handleStartY = radius + handleOffset + (maxHandleSize - handleSize) / 2;
     supportShape.lineTo(width, handleStartY);
     supportShape.ellipse(
       0,
@@ -85,7 +85,7 @@ export function generateSupportShape(
       Math.PI,
     );
 
-    let holeRadius = (handleSize - handleWidth * 2) / 2;
+    const holeRadius = (handleSize - handleWidth * 2) / 2;
     hole = new THREE.Path();
     hole.moveTo(width, handleStartY + handleWidth);
     hole.lineTo(width, handleStartY + handleSize - handleWidth);
@@ -109,7 +109,7 @@ export function generateSupportShape(
   }
 
   if (hasHandle && handleSettings?.position === 'top') {
-    let handleStartX = radius + handleSize + handleOffset + (maxHandleSize - handleSize) / 2;
+    const handleStartX = radius + handleSize + handleOffset + (maxHandleSize - handleSize) / 2;
     supportShape.lineTo(handleStartX, height);
     supportShape.ellipse(
       -handleSize / 2,
@@ -122,7 +122,7 @@ export function generateSupportShape(
       Math.PI,
     );
 
-    let holeRadius = (handleSize - handleWidth * 2) / 2;
+    const holeRadius = (handleSize - handleWidth * 2) / 2;
     hole = new THREE.Path();
     hole.moveTo(handleStartX - handleWidth, height);
     hole.lineTo(handleStartX - handleSize + handleWidth, height);
@@ -137,7 +137,7 @@ export function generateSupportShape(
   }
 
   if (hasHandle && handleSettings?.position === 'left') {
-    let handleStartY = radius + handleOffset + handleSize + (maxHandleSize - handleSize) / 2;
+    const handleStartY = radius + handleOffset + handleSize + (maxHandleSize - handleSize) / 2;
     supportShape.lineTo(0, handleStartY);
     supportShape.ellipse(
       0,
@@ -150,7 +150,7 @@ export function generateSupportShape(
       Math.PI,
     );
 
-    let holeRadius = (handleSize - handleWidth * 2) / 2;
+    const holeRadius = (handleSize - handleWidth * 2) / 2;
     hole = new THREE.Path();
     hole.moveTo(0, handleStartY - handleWidth);
     hole.lineTo(0, handleStartY - handleSize + handleWidth);
@@ -190,9 +190,10 @@ export function generateHoleShape(
   height: number,
   handleSettings: Handle,
 ): THREE.Path {
-  let hole = new THREE.Path();
+  const hole = new THREE.Path();
 
-  let { offsetX, offsetY, size: holeSize, position } = handleSettings;
+  const { offsetX, offsetY, position } = handleSettings;
+  let { size: holeSize } = handleSettings;
   holeSize = Math.max(1, holeSize);
 
   let holeX = 0;
@@ -220,11 +221,11 @@ export function generateHoleShape(
   holeX += offsetX;
   holeY += offsetY;
 
-  let maxY = height - holeSize / 2 - 1;
-  let minY = holeSize / 2 + 1;
+  const maxY = height - holeSize / 2 - 1;
+  const minY = holeSize / 2 + 1;
 
-  let maxX = width - holeSize / 2 - 1;
-  let minX = holeSize / 2 + 1;
+  const maxX = width - holeSize / 2 - 1;
+  const minX = holeSize / 2 + 1;
 
   hole.moveTo(Math.max(Math.min(holeX, maxX), minX), Math.max(Math.min(holeY, maxY), minY));
   hole.ellipse(0, 0, holeSize / 2, holeSize / 2, Math.PI, 3 * Math.PI, false, Math.PI);
