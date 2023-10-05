@@ -22,6 +22,7 @@ declare const config: {
       spacing: number;
       vSpacing: number;
       alignment: 'left' | 'center' | 'right';
+      vAlignment: 'default' | 'top' | 'bottom';
       type: ModelType;
       supportHeight: number;
       supportBorderRadius: number;

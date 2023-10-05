@@ -55,6 +55,7 @@ text_settings:
   supportHeight: Hauteur du support
   supportPadding: Espacement du support
   alignment: Alignement du texte
+  valignment: Alignement vertical du texte
   supportBorderRadius: Rayon des coins
   handleSettings:
     label: Option d'accroche
@@ -72,6 +73,10 @@ alignment:
   left: Gauche
   center: Centré
   right: Droite
+valignment:
+  default: Auto
+  top: Haut
+  bottom: Bas
 directions:
   top: Haut
   bottom: Bas

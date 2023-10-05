@@ -28,6 +28,7 @@ module.exports = function (environment) {
         spacing: 2,
         vSpacing: 0,
         alignment: 'center',
+        vAlignment: 'default',
         type: 2,
         supportHeight: 5,
         supportBorderRadius: 5,

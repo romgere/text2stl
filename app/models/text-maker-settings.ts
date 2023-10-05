@@ -4,6 +4,7 @@ import {
   Handle,
   ModelType,
   TextMakerAlignment,
+  TextMakerVerticalAlignment,
 } from 'text2stl/services/text-maker';
 import { tracked } from '@glimmer/tracking';
 import config from 'text2stl/config/environment';
@@ -104,6 +105,7 @@ export default class TextMakerSettings implements TextMakerParameters, QPSeriali
   @tracked spacing?: number;
   @tracked vSpacing?: number;
   @tracked alignment: TextMakerAlignment;
+  @tracked vAlignment: TextMakerVerticalAlignment;
   @tracked type: ModelType;
   @tracked supportHeight?: number;
   @tracked supportBorderRadius?: number;
@@ -119,6 +121,7 @@ export default class TextMakerSettings implements TextMakerParameters, QPSeriali
     this.spacing = args.spacing ?? textMakerDefault.spacing;
     this.vSpacing = args.vSpacing ?? textMakerDefault.vSpacing;
     this.alignment = args.alignment ?? textMakerDefault.alignment;
+    this.vAlignment = args.vAlignment ?? textMakerDefault.vAlignment;
     this.type = args.type ?? textMakerDefault.type;
     this.supportHeight = args.supportHeight ?? textMakerDefault.supportHeight;
     this.supportBorderRadius = args.supportBorderRadius ?? textMakerDefault.supportBorderRadius;
@@ -141,6 +144,7 @@ export default class TextMakerSettings implements TextMakerParameters, QPSeriali
       spacing: this.spacing,
       vSpacing: this.vSpacing,
       alignment: this.alignment,
+      vAlignment: this.vAlignment,
       type: this.type,
       supportHeight: this.supportHeight,
       supportBorderRadius: this.supportBorderRadius,
@@ -164,6 +168,7 @@ export default class TextMakerSettings implements TextMakerParameters, QPSeriali
     this.spacing = v.spacing;
     this.vSpacing = v.vSpacing;
     this.alignment = v.alignment;
+    this.vAlignment = v.vAlignment;
     this.type = v.type;
     this.supportHeight = v.supportHeight;
     this.supportBorderRadius = v.supportBorderRadius;

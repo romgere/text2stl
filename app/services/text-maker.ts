@@ -13,6 +13,7 @@ const {
 } = config;
 
 export type TextMakerAlignment = 'left' | 'center' | 'right';
+export type TextMakerVerticalAlignment = 'default' | 'top' | 'bottom';
 
 export type SupportPadding = {
   top: number;
@@ -37,6 +38,7 @@ export interface TextMakerParameters {
   spacing?: number;
   vSpacing?: number;
   alignment?: TextMakerAlignment;
+  vAlignment?: TextMakerVerticalAlignment;
   type?: ModelType;
   supportHeight?: number;
   supportPadding?: SupportPadding;
@@ -209,12 +211,16 @@ export default class TextMakerService extends Service {
     const vSpacing = params.vSpacing !== undefined ? params.vSpacing : textMakerDefault.vSpacing;
     const alignment =
       params.alignment !== undefined ? params.alignment : textMakerDefault.alignment;
+    const vAlignment =
+      params.vAlignment !== undefined ? params.vAlignment : textMakerDefault.vAlignment;
 
     const scale = (1 / font.unitsPerEm) * size;
 
     const glyphShapes: SingleGlyphDef[] = [];
     // to handle alignment
     const linesWidth: number[] = [];
+    const linesMaxY: { maxY: number; minY: number }[] = [];
+    const linesGlyphInfos: Array<Array<{ height: number; maxY: number; minY: number }>> = [];
     const bounds = {
       min: { x: Number.MAX_SAFE_INTEGER, y: Number.MAX_SAFE_INTEGER },
       max: { x: 0, y: 0 },
@@ -227,12 +233,28 @@ export default class TextMakerService extends Service {
     for (const lineText of lines) {
       let dx = 0;
       let lineMaxX = 0;
+      const lineMaxY = { minY: Number.MAX_SAFE_INTEGER, maxY: -Number.MAX_SAFE_INTEGER };
+      const lineGlyphInfos: { height: number; maxY: number; minY: number }[] = [];
+
       font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
         x += dx;
         dx += spacing;
         const glyphBounds = glyph.getBoundingBox();
 
         lineMaxX = x + glyphBounds.x2 * scale;
+        const glyphHeight = (glyphBounds.y2 - glyphBounds.y1) * scale;
+
+        const minY = Math.min(glyphBounds.y1, glyphBounds.y2) * scale;
+        const maxY = Math.max(glyphBounds.y1, glyphBounds.y2) * scale;
+
+        lineMaxY.maxY = Math.max(lineMaxY.maxY, maxY);
+        lineMaxY.minY = Math.min(lineMaxY.minY, minY);
+
+        lineGlyphInfos.push({
+          height: glyphHeight,
+          maxY,
+          minY,
+        });
 
         bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1 * scale);
         bounds.min.y = Math.min(bounds.min.y, y - dy + glyphBounds.y1 * scale);
@@ -244,11 +266,13 @@ export default class TextMakerService extends Service {
 
       // Keep this for each line to handle alignment
       linesWidth.push(lineMaxX);
+      linesMaxY.push(lineMaxY);
+      linesGlyphInfos.push(lineGlyphInfos);
     }
 
     const linesAlignOffset = linesWidth.map(() => 0);
 
-    // Handle alignment (now we know all line size)
+    // Handle horizontal alignment (now we know all line size)
     if (alignment !== 'left') {
       const maxWidth = Math.max(...linesWidth);
 
@@ -264,10 +288,22 @@ export default class TextMakerService extends Service {
     for (const lineIndex in lines) {
       const lineText = lines[lineIndex];
       let dx = 0;
+      let glyphIndex = 0;
 
       // Iterate on text char to generate a Geometry for each
       font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
         x += dx + linesAlignOffset[lineIndex];
+
+        if (vAlignment !== 'default') {
+          const lineMaxY = linesMaxY[lineIndex];
+          const glyphInfo = linesGlyphInfos[lineIndex][glyphIndex];
+
+          if (vAlignment === 'bottom' && lineMaxY.minY !== glyphInfo.minY) {
+            y += lineMaxY.minY - glyphInfo.minY;
+          } else if (vAlignment === 'top' && lineMaxY.maxY !== glyphInfo.maxY) {
+            y += lineMaxY.maxY - glyphInfo.maxY;
+          }
+        }
 
         glyphShapes.push(
           this.glyphToShapes(
@@ -279,6 +315,7 @@ export default class TextMakerService extends Service {
           ),
         );
         dx += spacing;
+        glyphIndex++;
       });
 
       dy += size + vSpacing;
@@ -312,6 +349,9 @@ export default class TextMakerService extends Service {
 
     const textDepth =
       params.height !== undefined && params.height >= 0 ? params.height : textMakerDefault.height;
+
+    const vAlignment =
+      params.vAlignment !== undefined ? params.vAlignment : textMakerDefault.vAlignment;
 
     const plyghsDef = this.stringToGlyhpsDef(params, font);
     let supportShape: THREE.Shape | undefined = undefined;
@@ -445,13 +485,17 @@ export default class TextMakerService extends Service {
             ),
           );
         } else if (type === ModelType.VerticalTextWithSupport) {
+          // Ensure bottom of the text is touching the support
+          const verticalOffset = vAlignment === 'bottom' ? Math.min(0, plyghsDef.bounds.min.y) : 0;
+
           // Rotate & move text
           textGeometry.applyMatrix4(new THREE.Matrix4().makeRotationX(Math.PI / 2));
           textGeometry.applyMatrix4(
             new THREE.Matrix4().makeTranslation(
               supportPadding.left,
               supportPadding.bottom + size.z * 2,
-              supportDepth,
+
+              supportDepth - verticalOffset,
             ),
           );
         }
