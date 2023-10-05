@@ -5,12 +5,27 @@ import FontManagerService from 'text2stl/services/font-manager';
 import TextMakerService from 'text2stl/services/text-maker';
 import STLExporterService from 'text2stl/services/stl-exporter';
 import CounterService from 'text2stl/services/counter';
-import type ApplicationRoute from 'text2stl/routes/app/generator';
-import type IntlService from 'ember-intl/services/intl';
 import { tracked } from '@glimmer/tracking';
 import { trackedFunction } from 'ember-resources/util/function';
+import { Registry as Services } from '@ember/service';
+
+import type ApplicationRoute from 'text2stl/routes/app/generator';
+import type IntlService from 'ember-intl/services/intl';
 
 export default class GeneratorController extends Controller {
+  queryParams = ['modelSettings'];
+
+  // Serialize model settings as QP
+  get modelSettings() {
+    return this.model?.serialize() ?? '';
+  }
+
+  set modelSettings(_value: string) {
+    // Nothing needed here, model is update :
+    // By route according to QP when route is loaded
+    // By components for later update
+  }
+
   @service declare textMaker: TextMakerService;
 
   @service declare fontManager: FontManagerService;
@@ -20,6 +35,8 @@ export default class GeneratorController extends Controller {
   @service declare intl: IntlService;
 
   @service('counter') declare counterService: CounterService;
+
+  @service declare router: Services['router'];
 
   declare model: RouteModel<ApplicationRoute>;
 
@@ -73,6 +90,22 @@ export default class GeneratorController extends Controller {
 
     this.counterService.updateCounter();
     this.stlExporter.downloadMeshAsSTL(mesh);
+  }
+
+  @tracked saveModalVisible = false;
+
+  get currentUrl() {
+    return window.location.href;
+  }
+
+  @action
+  showSaveModal() {
+    this.saveModalVisible = true;
+  }
+
+  @action
+  hideSaveModal() {
+    this.saveModalVisible = false;
   }
 }
 

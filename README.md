@@ -24,8 +24,7 @@ Inspired from : https://github.com/mo22/textstl
 - [ ] finalize font-picker tests
 - [x] Add somes options (~~multiple kerning~~, multiple suport spacing, round corner, hole in support)
 - [x] multi-line text ? (#33)
-- [ ] save/load text (via URL encoded / local storage ?)
-- [ ] (or) QP to save current settings ?
+- [x] save/load text via  QP to save current settings
 - [x] handle custom font
 
 ## Prerequisites
