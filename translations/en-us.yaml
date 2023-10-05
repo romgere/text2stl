@@ -101,3 +101,8 @@ errors:
   unknown_font: The font is not in font list
 seo:
   description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts or use your own, different shape and settings & download an STL file to print.
+save: save settings
+save_modal:
+  title: Save your current settings
+  info: Bookmark the <a href="{currentUrl}">current URL</a> or save the URL bellow to easily retrieve the current settings.
+  close: Close

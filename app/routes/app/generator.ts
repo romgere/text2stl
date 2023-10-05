@@ -7,13 +7,26 @@ const {
 } = config;
 
 export default class ApplicationRoute extends Route {
-  async model() {
+  queryParams = {
+    modelSettings: {
+      replace: true, // No history for model changes
+    },
+  };
+
+  async model(params: { modelSettings: string }) {
     // Create a default settings for first rendering
-    return new TextMakerSettings({
+    const model = new TextMakerSettings({
       ...textMakerDefault,
       supportPadding: { ...textMakerDefault.supportPadding },
       handleSettings: { ...textMakerDefault.handleSettings },
     });
+
+    // Load model settings from QP if any
+    if (params.modelSettings) {
+      model.deserialize(params.modelSettings);
+    }
+
+    return model;
   }
 
   afterModel() {

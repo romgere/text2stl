@@ -64,6 +64,7 @@
     "@types/qunit": "^2.11.1",
     "@types/rsvp": "^4.0.3",
     "@types/three": "~0.137.0",
+    "@types/uikit": "^3.14.1",
     "@typescript-eslint/eslint-plugin": "^6.3.0",
     "@typescript-eslint/parser": "^6.3.0",
     "broccoli-asset-rev": "^3.0.0",

@@ -98,3 +98,8 @@ errors:
   unknown_font: Police non trouvée dans la liste
 seo:
   description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices Google ou utilisez la vôtre, différentes formes et réglagles & téléchargez un fichier STL à imprimer.
+save: enregister les réglages
+save_modal:
+  title: Enregistrer vos réglages actuels
+  info: Ajouter l'<a href="{currentUrl}">URL actuelle</a> de la page à vos favoris ou enregistrer l'URL ci dessous pour facilement retrouvé les réglages actuels.
+  close: Fermer

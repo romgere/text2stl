@@ -1,0 +1,14 @@
+<Ui::Modal @onHide={{@onHide}}>
+  <h2 class="uk-modal-title" for="current-url">
+    {{t "save_modal.title"}}
+  </h2>
+  <p>
+    {{t "save_modal.info" currentUrl=@currentUrl htmlSafe=true}}
+  </p>
+
+  <Ui::TextArea {{on "click" this.selectAll}} rows="15" id="current-url" readonly @value={{@currentUrl}} />
+
+  <button class="uk-button uk-button-primary uk-align-center uk-modal-close" type="button">
+    {{t "save_modal.close"}}
+  </button>
+</Ui::Modal>

@@ -3,19 +3,29 @@
   <div class='uk-width-1-1 uk-width-1-3@m'>
     <SettingsForm @model={{this.model}} />
 
-    {{! TODO: move this into basic button component ? }}
-    <button
-      type='button'
-      class='uk-button uk-button-primary uk-align-center'
-      disabled={{this.exportDisabled}}
-      {{on 'click' this.exportSTL}}
-    >
-      {{#if this.meshGenerating}}
-        <div uk-spinner></div>
-      {{else}}
-        {{t 'export_stl'}}
-      {{/if}}
-    </button>
+
+      <button
+        type='button'
+        class='uk-button uk-button-primary uk-align-center'
+        disabled={{this.exportDisabled}}
+        {{on 'click' this.exportSTL}}
+      >
+        {{#if this.meshGenerating}}
+          <div uk-spinner></div>
+        {{else}}
+          {{t 'export_stl'}}
+        {{/if}}
+      </button>
+
+      <button
+        type='button'
+        class='uk-button uk-align-center'
+        {{on 'click' this.showSaveModal}}
+      >
+        {{t 'save'}}
+      </button>
+
+
 
     {{#if this.counter}}
       <div class='uk-text-small uk-text-muted uk-text-center'>
@@ -37,3 +47,7 @@
     </ThreePreview>
   </div>
 </div>
+
+{{#if this.saveModalVisible}}
+  <SaveModal @onHide={{this.hideSaveModal}} @currentUrl={{this.currentUrl}} />
+{{/if}}

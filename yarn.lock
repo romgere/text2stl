@@ -2100,6 +2100,11 @@
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.1.tgz#8f80dd965ad81f3e1bc26d6f5c727e132721ff40"
   integrity sha512-Y0K95ThC3esLEYD6ZuqNek29lNX2EM1qxV8y2FTLUB0ff5wWrk7az+mLrnNFUnaXcgKye22+sFBRXOgpPILZNg==
 
+"@types/uikit@^3.14.1":
+  version "3.14.1"
+  resolved "https://registry.npmjs.org/@types/uikit/-/uikit-3.14.1.tgz#2dc17decee28c4fed2f96d9f67fc5ac5235794ca"
+  integrity sha512-DvyFy9PJjedeycR26zC71ri7OgpFkYa63xw6Cr9dOU2dlQWn8TmS8moHDFw3qsB0TDSJ3VaMQNYyE/lOH89e+w==
+
 "@typescript-eslint/eslint-plugin@^6.3.0":
   version "6.3.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-6.3.0.tgz#e751e148aab7ccaf8a7bfd370f7ce9e6bdd1f3f4"
