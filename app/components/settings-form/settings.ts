@@ -34,6 +34,7 @@ export default class SettingsFormTextSettings extends Component<SettingsFormText
   }
 
   alignmentOptions = ['left', 'center', 'right'];
+  vAlignmentOptions = ['default', 'top', 'bottom'];
 
   @action
   setInt(props: 'size' | 'height' | 'spacing' | 'vSpacing', value: string) {
@@ -46,6 +47,11 @@ export default class SettingsFormTextSettings extends Component<SettingsFormText
     this.args.model.type = type;
     if (!this.enableMultiline) {
       this.args.model.text = this.args.model.text.split('\n').join(' ');
+    }
+
+    // Force switch to bottom align when type is changed to vertical text
+    if (type === ModelType.VerticalTextWithSupport) {
+      this.args.model.vAlignment = 'bottom';
     }
   }
 }

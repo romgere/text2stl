@@ -58,6 +58,7 @@ text_settings:
   supportHeight: Support height
   supportPadding: Support spacing
   alignment: Text alignment
+  valignment: Text vertical alignement
   supportBorderRadius: Border radius
   handleSettings:
     label: Handle settings
@@ -75,6 +76,10 @@ alignment:
   left: Left
   center: Center
   right: Right
+valignment:
+  default: Default
+  top: Top
+  bottom: Bottom
 directions:
   top: Top
   bottom: Bottom

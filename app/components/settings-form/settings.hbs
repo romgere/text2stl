@@ -1,9 +1,9 @@
 <fieldset class="uk-fieldset">
-  
+
   <label class="uk-form-label" for="text-content">
     {{t "text_settings.type"}}
   </label>
-  <Ui::TypeSelect 
+  <Ui::TypeSelect
     @value={{@model.type}}
     @onChange={{this.changeType}}
     data-test-settings-type
@@ -21,7 +21,7 @@
         @debounce={{250}}
         data-test-settings-text
       />
-    {{else}}    
+    {{else}}
       <Ui::Input
         id="text-content"
         class="uk-input"
@@ -53,6 +53,22 @@
   {{/if}}
 
   <div class="uk-margin">
+    <label class="uk-form-label" for="text-alignment">
+      {{t "text_settings.valignment"}}
+    </label>
+    <Ui::RadioGroup
+      @radioName="text-alignment"
+      @options={{this.vAlignmentOptions}}
+      @checked={{@model.vAlignment}}
+      @onChange={{fn (mut @model.vAlignment)}}
+      class="uk-grid-small uk-child-width-auto uk-grid"
+      data-test-settings-text-valignment
+    as |align|>
+      {{t (concat "valignment." align)}}
+    </Ui::RadioGroup>
+  </div>
+
+  <div class="uk-margin">
     <label class="uk-form-label" for="text-size">
       {{t "text_settings.size"}}
     </label>
@@ -71,7 +87,7 @@
   </div>
 
   <div class="uk-margin">
-    
+
     <label class="uk-form-label" for="text-height">
       {{t "text_settings.height"}}
     </label>

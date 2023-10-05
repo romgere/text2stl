@@ -47,6 +47,12 @@ module('Integration | Component | settings-form/settings', function (hooks) {
     assert.strictEqual(model.spacing, 789, 'model.spacing was updated');
 
     assert
+      .dom(`[data-test-settings-text-valignment] input[type="radio"][value="${model.vAlignment}"]`)
+      .isChecked('current textAlignment radio is checked');
+    await click('[data-test-settings-text-valignment] input[type="radio"][value="bottom"]');
+    assert.strictEqual(model.vAlignment, 'bottom', 'model.vAlignment was updated');
+
+    assert
       .dom('[data-test-settings-supportHeight]')
       .doesNotExist('supportHeight field is not displayed when model.type is text only');
     assert
@@ -108,7 +114,7 @@ module('Integration | Component | settings-form/settings', function (hooks) {
     assert.dom('[data-test-settings-text-alignment]').exists();
     assert
       .dom(`[data-test-settings-text-alignment] input[type="radio"][value="${model.alignment}"]`)
-      .hasValue('center', 'current textAlignment radio is checked');
+      .isChecked('current textAlignment radio is checked');
     await click('[data-test-settings-text-alignment] input[type="radio"][value="right"]');
     assert.strictEqual(model.alignment, 'right', 'model.alignment was updated');
 
