@@ -1,4 +1,6 @@
 import Route from '@ember/routing/route';
+import { inject as service } from '@ember/service';
+import type FontManagerService from 'text2stl/services/font-manager';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import config from 'text2stl/config/environment';
 
@@ -6,7 +8,9 @@ const {
   APP: { textMakerDefault },
 } = config;
 
-export default class ApplicationRoute extends Route {
+export default class GeneratorRoute extends Route {
+  @service declare fontManager: FontManagerService;
+
   queryParams = {
     modelSettings: {
       replace: true, // No history for model changes
@@ -14,6 +18,7 @@ export default class ApplicationRoute extends Route {
   };
 
   async model(params: { modelSettings: string }) {
+    await this.fontManager.loadFontList();
     // Create a default settings for first rendering
     const model = new TextMakerSettings({
       ...textMakerDefault,
