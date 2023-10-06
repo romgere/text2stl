@@ -21,25 +21,6 @@
           <dd>{{t "index_page.list.stl.dd"}}</dd>
         </dl>
       </div>
-      <div class="uk-card-media-bottom">
-        <div uk-slideshow="animation: fade; autoplay: true; autoplay-interval: 3000; ratio: 7:3; max-height: 250; draggable: false">
-          <ul class="uk-slideshow-items">
-            {{#each this.model as |mesh idx|}}
-              <ThreePreview @mesh={{mesh}}  as |preview|>
-                <li>
-                  <preview.renderer @parentSize={{true}} @nearCamera={{true}} />
-                  <div class="uk-position-bottom uk-position-small uk-text-center">
-                    <h4 class="uk-margin-remove uk-text-primary">
-                      {{t (concat "text_type." (plus idx))}}
-                    </h4>
-                  </div>
-                </li>
-              </ThreePreview>
-            {{/each}}
-          </ul>
-          <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
-        </div>
-      </div>
       <div class="uk-card-footer">
         <LinkTo @route="app.generator" class="uk-button uk-button-primary uk-align-center">
           {{t "index_page.button"}}
@@ -47,5 +28,4 @@
       </div>
     </div>
   </div>
-</div> 
-        
+</div>
