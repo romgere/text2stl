@@ -101,3 +101,35 @@
     }
   }
 }
+
+
+
+// CALCITE
+#header-title {
+  margin-left: 1rem;
+  margin-right: 1rem;
+}
+
+#header {
+  display: flex;
+  padding: 0 1rem;
+  background-color: var(--calcite-ui-foreground-1);
+}
+
+#header-controls {
+  display: flex;
+  margin-inline-start: auto;
+  align-self: center;
+}
+
+.label-wrapper {
+  display: flex;
+  margin-inline: 1rem;
+  padding: 0.5rem;
+  border: 1px solid var(--calcite-ui-border-1);
+  cursor: pointer;
+}
+
+calcite-switch {
+  margin: 0 0.5rem;
+}

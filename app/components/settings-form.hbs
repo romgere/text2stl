@@ -1,18 +1,16 @@
-<ul uk-tab animation='uk-animation-fade'>
-  {{#each this.tabs as |tab|}}
-    <li class={{if (eq this.activeTab tab) 'uk-active'}} data-tab-item={{tab}}>
-      <a href='#' {{on 'click' (fn (mut this.currentTab) tab)}}>
-        {{t (concat 'settings_form.tabs.' tab)}}
-      </a>
-    </li>
-  {{/each}}
-</ul>
-<div>
-  {{#if (eq this.activeTab 'settings')}}
-    <SettingsForm::Settings @model={{@model}} />
-  {{else if (eq this.activeTab 'font')}}
-    <SettingsForm::Font @model={{@model}} />
-  {{else if (eq this.activeTab 'advanced')}}
+<calcite-block collapsible open heading={{t 'settings_form.tabs.settings.heading'}} description={{t 'settings_form.tabs.settings.description'}}>
+  <calcite-icon scale="s" slot="icon" icon="sliders"></calcite-icon>
+  <SettingsForm::Settings @model={{@model}} />
+</calcite-block>
+
+<calcite-block collapsible heading={{t 'settings_form.tabs.font.heading'}} description={{t 'settings_form.tabs.font.description'}}>
+  <calcite-icon scale="s" slot="icon" icon="description"></calcite-icon>
+  <SettingsForm::Font @model={{@model}} />
+</calcite-block>
+
+{{#if this.showAdvancedSettings}}
+  <calcite-block collapsible heading={{t 'settings_form.tabs.advanced.heading'}} description={{t 'settings_form.tabs.advanced.description'}}>
+    <calcite-icon scale="s" slot="icon" icon="plus"></calcite-icon>
     <SettingsForm::AdvancedSettings @model={{@model}} />
-  {{/if}}
-</div>
+  </calcite-block>
+{{/if}}

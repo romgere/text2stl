@@ -25,9 +25,9 @@ interface ThreeRendererModifierSignature {
 }
 
 export default class ThreeRendererModifier extends Modifier<ThreeRendererModifierSignature> {
-  scene: THREE.Scene;
-  camera: THREE.PerspectiveCamera;
-  renderer: THREE.WebGLRenderer;
+  scene?: THREE.Scene;
+  camera?: THREE.PerspectiveCamera;
+  renderer?: THREE.WebGLRenderer;
   mesh?: THREE.Mesh;
 
   controls?: OrbitControls;
@@ -37,7 +37,7 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
 
   rendererSize: { width: number; height: number } = { width: 0, height: 0 };
 
-  container?: HTMLDivElement;
+  canvas?: HTMLCanvasElement;
   namedArgs: namedArgs;
   animationFrameRequestID?: number;
 
@@ -45,6 +45,11 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
     super(owner, args);
 
     this.namedArgs = args.named;
+
+    registerDestructor(this, this.cleanup);
+  }
+
+  private initPreview() {
     this.scene = new THREE.Scene();
     this.scene.background = new THREE.Color(threePreviewSettings.backgroundColor);
 
@@ -69,17 +74,17 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
 
     // WebGL renderer
     this.renderer = new THREE.WebGLRenderer({
+      canvas: this.canvas,
       antialias: true,
       preserveDrawingBuffer: true, // use this to allow creation of image from canvas
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
     this.renderer.setSize(
+      // for parent sizing set size to 1x1 & let the renderFrame adapt the size accordingly later...
       this.namedArgs.parentSize ? 1 : 1024,
       this.namedArgs.parentSize ? 1 : 768,
     );
     this.renderer.setClearColor(0xffffff, 1);
-
-    registerDestructor(this, this.cleanup);
   }
 
   @action
@@ -88,16 +93,24 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
       cancelAnimationFrame(this.animationFrameRequestID);
     }
 
-    this.container = undefined;
+    this.canvas = undefined;
   }
 
   private addLight(x: number, y: number, z: number) {
+    if (!this.scene) {
+      return;
+    }
+
     const l = new THREE.PointLight(0xffffff, 0.7, 0);
     l.position.set(x, y, z);
     this.scene.add(l);
   }
 
   private addDecorators() {
+    if (!this.scene) {
+      return;
+    }
+
     const ground = new THREE.Mesh(
       new THREE.PlaneGeometry(2000, 2000),
       new THREE.MeshPhongMaterial({ color: threePreviewSettings.groundColor, depthWrite: false }),
@@ -115,12 +128,10 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
     this.scene.add(grid);
   }
 
-  private initContainer() {
-    if (!this.container) {
+  private initControl() {
+    if (!this.camera || !this.renderer) {
       return;
     }
-
-    this.container.appendChild(this.renderer.domElement);
 
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
 
@@ -161,15 +172,15 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
   }
 
   private renderFrame() {
-    if (!this.container) {
+    if (!this.canvas || !this.camera || !this.renderer || !this.scene) {
       return;
     }
 
     this.animationFrameRequestID = requestAnimationFrame(() => this.renderFrame());
 
     const { offsetWidth: width, offsetHeight: height } = this.namedArgs.parentSize
-      ? this.container?.parentElement ?? this.container
-      : this.container;
+      ? this.canvas?.parentElement ?? this.canvas
+      : this.canvas;
 
     if (this.rendererSize.width !== width || this.rendererSize.height !== height) {
       this.renderer.setSize(width, height);
@@ -187,15 +198,16 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
   }
 
   modify(
-    element: HTMLDivElement,
+    element: HTMLCanvasElement,
     [mesh]: [THREE.Mesh | undefined],
     { parentSize, nearCamera }: namedArgs,
   ) {
     this.namedArgs = { parentSize, nearCamera };
 
-    if (!this.container) {
-      this.container = element;
-      this.initContainer();
+    if (!this.canvas) {
+      this.canvas = element;
+      this.initPreview();
+      this.initControl();
       this.renderFrame();
     }
 

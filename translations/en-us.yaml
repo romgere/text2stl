@@ -28,10 +28,17 @@ language: Language
 mm_unit: mm
 settings_form:
   tabs:
-    settings: Settings
-    font: Font
-    advanced: More...
+    settings:
+      heading: Settings
+      description: Text, size, alignment...
+    font:
+      heading: Font
+      description: Choose google font or custom font file
+    advanced:
+      heading: More...
+      description: Lorem ipsum dolor sit amet consectetur
 export_stl: Export STL
+generating_stl: Export STL
 stl_counter: '{count} STL files have been generated'
 footer:
   made_by: Made with ♥ By {author} with {ember} & {three}

@@ -1,10 +1,33 @@
 {{page-title (concat (t "app_name") " - " (t "app_title"))}}
-<div class="uk-container" uk-height-viewport="expand: true">
+
+<calcite-shell >
+  <div slot="header" id="header">
+
+    <h2 id="header-title">
+      <LinkTo @route="app.index">{{t "app_name"}}</LinkTo>
+    </h2>
+
+    <h3 id="header-sub-title">{{t "app_subtitle"}}</h3>
+
+    <div id="header-controls">
+      <calcite-label layout="inline" class="label-wrapper">
+        Dark mode: Off
+        <calcite-switch></calcite-switch>
+        On
+      </calcite-label>
+
+      <LangSwitcher />
+    </div>
+  </div>
+
+  {{outlet}}
+</calcite-shell>
+
+{{!-- <div class="uk-container" uk-height-viewport="expand: true">
   <div class="uk-flex uk-flex-column" uk-height-viewport="expand: true">
-    
-    {{!-- HEADER --}}
+
     <div class="uk-flex-none">
-      <div uk-grid margin="" class="uk-grid">     
+      <div uk-grid margin="" class="uk-grid">
         <div class="uk-width-1-1 uk-width-1-4@m uk-first-column">
           <h1 class="uk-text-primary uk-text-center">
             <LinkTo @route="app.index">{{t "app_name"}}</LinkTo>
@@ -14,7 +37,7 @@
         <div class="uk-width-1-1 uk-width-3-4@m uk-flex uk-flex-middle">
           <div uk-grid="" class="uk-grid uk-width-expand">
             <div class="uk-width-1-1 uk-width-1-2@m uk-width-3-4@l uk-flex uk-flex-center uk-flex-middle">
-              <h4 class="uk-text-muted uk-margin-remove-top">{{t "app_subtitle"}}</h4>
+
             </div>
             <div class="uk-width-1-1 uk-width-1-2@m uk-width-1-4@l uk-flex uk-flex-center uk-flex-right@m uk-flex-middle">
               <LangSwitcher />
@@ -25,12 +48,10 @@
 
     </div>
 
-    {{!-- MAIN CONTENT --}}
     <div class="uk-flex-1 uk-padding uk-padding-small">
       {{outlet}}
     </div>
 
-    {{!-- FOOTER --}}
     <div class="uk-flex-none">
       <div class="uk-text-small uk-text-muted uk-text-center app-footer">
         {{t "footer.made_by"
@@ -46,8 +67,8 @@
         |
         <a href="https://github.com/romgere/text2stl/issues/new" target="_blank" rel="noopener noreferrer">
           {{t "footer.issue"}}
-        </a>        
+        </a>
       </div>
     </div>
   </div>
-</div>
+</div> --}}
