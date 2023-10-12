@@ -10,6 +10,7 @@ Inspired from : https://github.com/mo22/textstl
 ## UI Refacto TODO : 
 
 - Fix language switcher (model settings are lost)
+- move app footer in popover with "?" button at top right
 - Landing page
 - fix header
 - action bar tooltips 
