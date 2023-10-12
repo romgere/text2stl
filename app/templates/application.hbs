@@ -11,26 +11,10 @@
 
     <div id="header-controls">
       <LangSwitcher class="mr-2" />
-      <ThemeSwitcher />
+      <ThemeSwitcher class="mr-2" />
+      <About />
     </div>
   </div>
 
   {{outlet}}
-
-  <div slot="footer" class="center">
-    {{t "footer.made_by"
-      author=this.authorLink
-      ember=this.emberLink
-      three=this.threeLink
-      htmlSafe=true
-    }}
-    |
-    <a href="https://github.com/romgere/text2stl" target="_blank" rel="noopener noreferrer">
-      {{t "footer.github"}}
-    </a>
-    |
-    <a href="https://github.com/romgere/text2stl/issues/new" target="_blank" rel="noopener noreferrer">
-      {{t "footer.issue"}}
-    </a>
-  </div>
 </calcite-shell>

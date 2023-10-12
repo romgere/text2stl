@@ -22,6 +22,11 @@ export default class LangSwitcher extends Component<LangSwitcherArgs> {
   @action
   changeLanguage(e: CustomEvent) {
     const lang = (e.target as CalciteSegmentedControl).value;
-    this.router.replaceWith(this.router.currentRouteName, lang);
+    this.router.replaceWith(this.router.currentRouteName, lang, {
+      queryParams: {
+        // Keep model settings
+        modelSettings: this.router.currentRoute.queryParams.modelSettings,
+      },
+    });
   }
 }

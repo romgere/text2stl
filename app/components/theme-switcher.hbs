@@ -4,6 +4,7 @@
   scale="m"
   id="theme-switcher"
   icon-start={{if this.isLightTheme "brightness" "moon"}}
+  ...attributes
   {{on "click" this.switchTheme}}
 />
 <calcite-tooltip reference-element="theme-switcher">

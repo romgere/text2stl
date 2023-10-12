@@ -47,7 +47,8 @@ settings_form:
 export_stl: Export STL
 generating_stl: Export STL
 stl_counter: '{count} STL files have been generated'
-footer:
+info:
+  label: About Text2STL
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub
   issue: Find a bug ? Request a new feature ?

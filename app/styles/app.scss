@@ -33,6 +33,12 @@ img.text-type-icon {
   margin-right: 1rem;
 }
 
+#header-sub-title {
+  display: flex;
+  margin-inline-start: auto;
+  align-self: center;
+}
+
 #header {
   display: flex;
   padding: 0 1rem;
@@ -44,15 +50,3 @@ img.text-type-icon {
   margin-inline-start: auto;
   align-self: center;
 }
-
-.label-wrapper {
-  display: flex;
-  margin-inline: 1rem;
-  padding: 0.5rem;
-  border: 1px solid var(--calcite-ui-border-1);
-  cursor: pointer;
-}
-
-// calcite-switch {
-//   margin: 0 0.5rem;
-// }

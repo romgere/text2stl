@@ -26,6 +26,7 @@ import '@esri/calcite-components/dist/components/calcite-radio-button-group';
 import '@esri/calcite-components/dist/components/calcite-combobox';
 import '@esri/calcite-components/dist/components/calcite-combobox-item';
 import '@esri/calcite-components/dist/components/calcite-card';
+import '@esri/calcite-components/dist/components/calcite-popover';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;
