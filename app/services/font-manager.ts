@@ -55,7 +55,16 @@ export default class FontManagerService extends Service {
     return fetch(input, init);
   }
 
+  loadFontListPromise: undefined | Promise<void> = undefined;
   async loadFontList() {
+    if (!this.loadFontListPromise) {
+      this.loadFontListPromise = this._loadFontList();
+    }
+
+    await this.loadFontListPromise;
+  }
+
+  async _loadFontList() {
     for (const category of this.availableFontCategories) {
       const fontManager = new FontManager(googleFontApiKey, FONT_FAMILY_DEFAULT, {
         ...OPTIONS_DEFAULTS,
