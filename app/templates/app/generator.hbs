@@ -44,7 +44,10 @@
 
 <calcite-panel>
   <ThreePreview @mesh={{this.mesh.value}} @parentSize={{true}}  as |preview|>
-    <preview.renderer />
+
+    <div id="three-preview-container">
+      <preview.renderer />
+    </div>
     <div slot='footer'>
       <preview.size />
     </div>

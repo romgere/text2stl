@@ -1,9 +1,7 @@
+@import './spacing';
+
 .w-70 {
   width: 70%;
-}
-
-.m-0 {
-  margin: 0;
 }
 
 .center {
@@ -14,8 +12,20 @@
   visibility: hidden;
 }
 
-.link-color {
+.link-color,
+a {
   color: var(--calcite-ui-text-link);
+}
+
+img.text-type-icon {
+  display: inline-flex;
+  flex: 1 1 auto;
+  width: 1px;
+}
+
+#three-preview-container {
+  height: 100%;
+  overflow: hidden;
 }
 
 #header-title {

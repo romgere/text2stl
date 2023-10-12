@@ -1,17 +1,14 @@
-{{!-- <calcite-label>
-  {{t "text_settings.type"}} --}}
-  <calcite-segmented-control
-    width="full"
-    scale="s"
-    {{on "calciteSegmentedControlChange" this.changeType}}
-  >
-    {{#each this.types as |type|}}
-      <calcite-segmented-control-item value={{type}} checked={{eq @model.type type}} id="text_type-control-{{type}}">
-        <img src={{get this.typeImages type}} alt={{t (concat "text_type." type)}} style="width: 60px;">
-      </calcite-segmented-control-item>
-      <calcite-tooltip reference-element="text_type-control-{{type}}" placement="bottom" overlay-positioning="fixed">
-        <span>{{t (concat "text_type." type)}}</span>
-      </calcite-tooltip>
-    {{/each}}
-  </calcite-segmented-control>
-{{!-- </calcite-label> --}}
+<calcite-segmented-control
+  width="full"
+  scale="s"
+  {{on "calciteSegmentedControlChange" this.changeType}}
+>
+  {{#each this.types as |type|}}
+    <calcite-segmented-control-item value={{type}} checked={{eq @model.type type}} id="text_type-control-{{type}}">
+      <img src={{get this.typeImages type}} alt={{t (concat "text_type." type)}} class="text-type-icon" >
+    </calcite-segmented-control-item>
+    <calcite-tooltip reference-element="text_type-control-{{type}}" placement="bottom" overlay-positioning="fixed">
+      <span>{{t (concat "text_type." type)}}</span>
+    </calcite-tooltip>
+  {{/each}}
+</calcite-segmented-control>

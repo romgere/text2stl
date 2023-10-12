@@ -131,3 +131,4 @@ save_modal:
   title: Save your current settings
   info: Bookmark the <a href="{currentUrl}">current URL</a> or save the URL bellow to easily retrieve the current settings.
   close: Close
+switch_theme_tooltip: Switch to {current, select, light {dark} dark {light} other {light}} theme

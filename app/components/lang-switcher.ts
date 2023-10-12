@@ -1,9 +1,12 @@
 import Component from '@glimmer/component';
 import { inject as service } from '@ember/service';
+import { action } from '@ember/object';
 import config from 'text2stl/config/environment';
 const {
   APP: { availableLanguages },
 } = config;
+
+import type { CalciteSegmentedControl } from '@esri/calcite-components/dist/components/calcite-segmented-control';
 
 interface LangSwitcherArgs {}
 
@@ -15,4 +18,10 @@ export default class LangSwitcher extends Component<LangSwitcherArgs> {
   @service declare router: Services['router'];
 
   availableLanguages = availableLanguages;
+
+  @action
+  changeLanguage(e: CustomEvent) {
+    const lang = (e.target as CalciteSegmentedControl).value;
+    this.router.replaceWith(this.router.currentRouteName, lang);
+  }
 }
