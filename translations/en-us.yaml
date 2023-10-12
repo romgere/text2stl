@@ -6,10 +6,10 @@ index_page:
   list:
     font:
       dt: Custom font
-      dd: Choose a font from more than 1000 Google fonts or use your own.
+      dd: Pick a font from more than 1000 Google fonts or use your own.
     shape:
       dt: Custom shape
-      dd: Select a shape type (with or without support, negative text).
+      dd: Choose from multiple shape type (with or without support, negative text).
     text:
       dt: Custom text
       dd: You choose the text you want to print.
@@ -27,6 +27,7 @@ languages:
 language: Language
 mm_unit: mm
 settings_form:
+  label: Settings
   tabs:
     shape:
       heading: Type of shape
@@ -43,9 +44,7 @@ settings_form:
     handle:
       heading: Fixation
       description: Handle or hole settings
-
 export_stl: Export STL
-generating_stl: Export STL
 stl_counter: '{count} STL files have been generated'
 info:
   label: About Text2STL
@@ -60,8 +59,6 @@ font_picker:
   script_filter:
     label: Languages
     placeholder: All languages
-  more: Show more settings
-  less: Show less settings
   sort:
     label: Font sort by
     options:
@@ -128,6 +125,7 @@ errors:
 seo:
   description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts or use your own, different shape and settings & download an STL file to print.
 save: save settings
+reset: reset settings
 save_modal:
   title: Save your current settings
   info: Bookmark the <a href="{currentUrl}">current URL</a> or save the URL bellow to easily retrieve the current settings.

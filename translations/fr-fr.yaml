@@ -6,10 +6,10 @@ index_page:
   list:
     font:
       dt: Police personnalisée
-      dd: Choisissez une police parmis plus de 1000 polices Google ou utilisez la vôtre
+      dd: Utilisez une police parmis plus de 1000 polices Google ou utilisez la vôtre
     shape:
       dt: Forme personnalisée
-      dd: Choisissez une forme (avec ou sans support, texte inversé).
+      dd: Choisissez parmis plusieur forme (avec ou sans support, texte inversé).
     text:
       dt: Texte personnalisé
       dd: Vous choisissez le text à imprimer.
@@ -21,16 +21,33 @@ index_page:
       dd: Exportez votre fichier STL en un clique !
   image_alt: Texte 3D imprimable
   button: Commencez ...
+languages:
+  fr-fr: Français
+  en-us: English
 language: Langue
 mm_unit: mm
 settings_form:
+  label: Réglages
   tabs:
-    settings: Réglages
-    font: Police
-    advanced: Plus...
+    shape:
+      heading: Type de forme
+      description: Verticale, negative, text seulement
+    text:
+      heading: Réglages du text
+      description: Taille de text, hauteur, alignement
+    font:
+      heading: Police
+      description: Choisissez une police Google ou un fichier police personnalisé
+    support:
+      heading: Support
+      description: Espacement du support, hauteur, arrondis
+    handle:
+      heading: Fixation
+      description: Réglage de la poigné ou du trou
 export_stl: Exporter STL
 stl_counter: '{count} fichiers STL ont été générés'
-footer:
+info:
+  label: À propos de Text2STL
   made_by: Créer avec ♥ par {author} avec {ember} & {three}
   github: Contribuez ou faite un fork sur GitHub
   issue: Un bug ? Demander une nouvelle fonctionnalité ?
@@ -42,23 +59,26 @@ font_picker:
   script_filter:
     label: Langues
     placeholder: Toutes langues
-  sort: Tri des polices
-  more: Afficher plus d'option
-  less: Afficher mons d'option
+  sort:
+    label: Trier les polices par
+    options:
+      alphabet: Ordre alphabetique
+      popularity: Popularité
 text_settings:
-  type: Type de forme
   text: Texte
+  text_placeholder: Entrer votre texte...
   size: Taille du texte
   height: Hauteur du texte
   kerning: Espacement du texte
   vkerning: Espacement des lignes
   supportHeight: Hauteur du support
   supportPadding: Espacement du support
+  advancedSupportPadding: Espacement du support avancé
   alignment: Alignement du texte
   valignment: Alignement vertical du texte
   supportBorderRadius: Rayon des coins
   handleSettings:
-    label: Option d'accroche
+    label: Option de fixation
     type:
       label: Type
       none: Aucune
@@ -93,8 +113,9 @@ text_type:
 custom_font:
   ck_label: Utiliser une police personnalisé
   current_label: Fichier actuel
-  no_font: Aucune
+  no_font: Aucun
   upload:
+    title: Choisir un fichier
     drop_zone: Utiliser un fichier police personalisé en déposant un fichier (woff, otf, ttf) ici ou
     input_label: parcourir votre ordinateur & selectionner un fichier
     bad_file_type: Format de fichier non supporté, veuillez utiliser un fichier .woff, .otf ou .ttf
@@ -104,7 +125,15 @@ errors:
 seo:
   description: Générer du texte 3D en 1 click ! Choisissez une police parmi plus de 1000 polices Google ou utilisez la vôtre, différentes formes et réglagles & téléchargez un fichier STL à imprimer.
 save: enregister les réglages
+reset: Restaurer les réglages
 save_modal:
   title: Enregistrer vos réglages actuels
-  info: Ajouter l'<a href="{currentUrl}">URL actuelle</a> de la page à vos favoris ou enregistrer l'URL ci dessous pour facilement retrouvé les réglages actuels.
+  info: Ajouter l''<a href="{currentUrl}">URL actuelle</a> de la page à vos favoris ou enregistrer l''URL ci dessous pour facilement retrouvé les réglages actuels.
   close: Fermer
+switch_theme_tooltip: Changer pour le thème {current, select, light {foncé} dark {clair} other {clair}}
+reset_modal:
+  title: Restaurer tous les réglages
+  info: Tous vos réglages seront perdus, être vous sûre de vouloir restaurer tous les réglages à leur valeur par défaut ?
+  cancel: Annuler
+  reset: Restaurer les réglages
+font_loading: CHargement des polices Google, veuillez patienter...

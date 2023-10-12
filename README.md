@@ -9,10 +9,8 @@ Inspired from : https://github.com/mo22/textstl
 
 ## UI Refacto TODO : 
 
-- Landing page
 - French translation
 - tests
-- cherry pick three fixes (multiple instance)
 
 - UI state as QP (open/close panel)
 

@@ -1,5 +1,5 @@
 <calcite-shell-panel slot="panel-start">
-  <calcite-panel heading="Settings">
+  <calcite-panel heading={{t "settings_form.label"}}>
 
     <calcite-action
       icon="save"
@@ -9,7 +9,7 @@
     />
     <calcite-action
       icon="reset"
-      text="Reset"
+      text={{t 'reset'}}
       slot="header-actions-end"
       {{on 'click' this.showResetModal}}
     />
