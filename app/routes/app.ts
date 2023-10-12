@@ -23,6 +23,10 @@ export default class AppRoute extends Route {
     await this.fontManager.loadFontList();
   }
 
+  afterModel() {
+    document.querySelector('#app-loader')?.remove();
+  }
+
   updateMeta(transition: Transition) {
     const metaDescription = document.head.querySelector<HTMLMetaElement>(
       'meta[name="description"]',

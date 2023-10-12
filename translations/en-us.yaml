@@ -12,7 +12,7 @@ index_page:
       dd: Select a shape type (with or without support, negative text).
     text:
       dt: Custom text
-      dd: Choose the text you want to print.
+      dd: You choose the text you want to print.
     settings:
       dt: Custom settings
       dd: Adjust the settings, choose the font size, the support and/or text height...

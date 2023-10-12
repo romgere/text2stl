@@ -1,51 +1,42 @@
-<div class="uk-flex uk-flex-middle uk-flex-center" uk-height-viewport="expand: true">
-  <div>
-
-    <div class="uk-card uk-card-default uk-card-small" id="presentation-card">
-      <div class="uk-card-header">
-        <h3 class="uk-card-title">
-          {{t "index_page.title"}}
-        </h3>
-      </div>
-      <div class="uk-card-body">
-        <dl class="uk-description-list">
-          <dt class="uk-text-primary">{{t "index_page.list.font.dt"}}</dt>
-          <dd>{{t "index_page.list.font.dd"}}</dd>
-          <dt class="uk-text-primary">{{t "index_page.list.shape.dt"}}</dt>
-          <dd>{{t "index_page.list.shape.dd"}}</dd>
-          <dt class="uk-text-primary">{{t "index_page.list.text.dt"}}</dt>
-          <dd>{{t "index_page.list.text.dd"}}</dd>
-          <dt class="uk-text-primary">{{t "index_page.list.settings.dt"}}</dt>
-          <dd>{{t "index_page.list.settings.dd"}}</dd>
-          <dt class="uk-text-primary">{{t "index_page.list.stl.dt"}}</dt>
-          <dd>{{t "index_page.list.stl.dd"}}</dd>
-        </dl>
-      </div>
-      <div class="uk-card-media-bottom">
-        <div uk-slideshow="animation: fade; autoplay: true; autoplay-interval: 3000; ratio: 7:3; max-height: 250; draggable: false">
-          <ul class="uk-slideshow-items">
-            {{#each this.model as |mesh idx|}}
-              <ThreePreview @mesh={{mesh}}  as |preview|>
-                <li>
-                  <preview.renderer @parentSize={{true}} @nearCamera={{true}} />
-                  <div class="uk-position-bottom uk-position-small uk-text-center">
-                    <h4 class="uk-margin-remove uk-text-primary">
-                      {{t (concat "text_type." (plus idx))}}
-                    </h4>
-                  </div>
-                </li>
-              </ThreePreview>
-            {{/each}}
-          </ul>
-          <ul class="uk-slideshow-nav uk-dotnav uk-flex-center uk-margin"></ul>
-        </div>
-      </div>
-      <div class="uk-card-footer">
-        <LinkTo @route="app.generator" class="uk-button uk-button-primary uk-align-center">
-          {{t "index_page.button"}}
-        </LinkTo>
-      </div>
-    </div>
+<calcite-modal
+  aria-labelledby="modal-title"
+  resize="vertical"
+  open
+  close-button-disabled
+  {{on "calciteModalBeforeClose" this.gotoGenerator}}
+>
+  <div slot="header" id="modal-title">
+    {{t "index_page.title"}}
   </div>
-</div> 
-        
+  <div slot="content">
+
+    <calcite-notice open icon="description">
+      <div slot="title">{{t "index_page.list.font.dt"}}</div>
+      <div slot="message">{{t "index_page.list.font.dd"}}</div>
+    </calcite-notice>
+    <calcite-notice open icon="auto-layout">
+      <div slot="title">{{t "index_page.list.shape.dt"}}</div>
+      <div slot="message">{{t "index_page.list.shape.dd"}}</div>
+    </calcite-notice>
+    <calcite-notice open icon="text-paragraph-large">
+      <div slot="title">{{t "index_page.list.text.dt"}}</div>
+      <div slot="message">{{t "index_page.list.text.dd"}}</div>
+    </calcite-notice>
+    <calcite-notice open icon="sliders">
+      <div slot="title">{{t "index_page.list.settings.dt"}}</div>
+      <div slot="message">{{t "index_page.list.settings.dd"}}</div>
+    </calcite-notice>
+    <calcite-notice open icon="download">
+      <div slot="title">{{t "index_page.list.stl.dt"}}</div>
+      <div slot="message">{{t "index_page.list.stl.dd"}}</div>
+    </calcite-notice>
+
+
+  </div>
+
+  <LangSwitcher slot="back" />
+
+  <calcite-button {{on "click" this.gotoGenerator}} slot="primary" width="full">
+    {{t "index_page.button"}}
+  </calcite-button>
+</calcite-modal>

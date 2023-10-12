@@ -12,7 +12,7 @@ index_page:
       dd: Choisissez une forme (avec ou sans support, texte inversé).
     text:
       dt: Texte personnalisé
-      dd: Choisissez le text à imprimer.
+      dd: Vous choisissez le text à imprimer.
     settings:
       dt: Réglages personnalisés
       dd: Affinez les réglages, taille de police, hauteur du support et/ou du texte...
