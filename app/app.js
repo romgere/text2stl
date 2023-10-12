@@ -8,6 +8,7 @@ import '@esri/calcite-components/dist/components/calcite-shell';
 import '@esri/calcite-components/dist/components/calcite-shell-panel';
 import '@esri/calcite-components/dist/components/calcite-action-bar';
 import '@esri/calcite-components/dist/components/calcite-block';
+import '@esri/calcite-components/dist/components/calcite-block-section';
 import '@esri/calcite-components/dist/components/calcite-panel';
 import '@esri/calcite-components/dist/components/calcite-loader';
 import '@esri/calcite-components/dist/components/calcite-notice';
@@ -17,13 +18,14 @@ import '@esri/calcite-components/dist/components/calcite-label';
 import '@esri/calcite-components/dist/components/calcite-switch';
 import '@esri/calcite-components/dist/components/calcite-input-number';
 import '@esri/calcite-components/dist/components/calcite-input-text';
-
 import '@esri/calcite-components/dist/components/calcite-segmented-control';
 import '@esri/calcite-components/dist/components/calcite-segmented-control-item';
-
 import '@esri/calcite-components/dist/components/calcite-tooltip';
 import '@esri/calcite-components/dist/components/calcite-radio-button';
 import '@esri/calcite-components/dist/components/calcite-radio-button-group';
+import '@esri/calcite-components/dist/components/calcite-combobox';
+import '@esri/calcite-components/dist/components/calcite-combobox-item';
+import '@esri/calcite-components/dist/components/calcite-card';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;

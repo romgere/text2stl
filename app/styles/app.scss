@@ -1,113 +1,21 @@
-.font-picker__container {
-  box-shadow: none !important;
-  width: 100% !important;
-  color: #666;
-  border: 1px solid #e5e5e5;
-
-  .dropdown-button {
-    background-color: #fff !important;
-    height: 40px !important;
-  }
-
-  .dropdown-icon.finished::before {
-    border-top: 6px solid #666 !important;
-  }
-
-  &.expanded {
-    outline: none;
-    border-color: #1e87f0;
-
-    .font-list {
-      border: 1px solid #e5e5e5;
-      box-shadow: none;
-      background: #fff;
-      margin-top: 1px;
-      margin-left: -1px;
-      width: calc(100% + 2px);
-    }
-  }
-}
-
-.es-control--no-clear {
-  .es-clear-zone {
-    display: none;
-  }
-}
-
-
-.es-options {
-  margin-top: 0,
-}
-
-.es-control {
-  padding: 0 10px;
-  height: 40px !important;
-  border: 1px solid #e5e5e5;
-  border-radius: 0;
-  color: #666;
-  z-index: 0;
-
-  .es-input {
-    input {
-      color: #666;
-      height: 36px;
-    }
-  }
-
-  .es-arrow-zone {
-    .es-arrow {
-      display: block;
-      width: 0;
-      height: 0;
-      margin: 4px 2px 0 9px;
-      border-top: 6px solid #666;
-      border-right: 5px solid transparent;
-      border-left: 5px solid transparent;
-      transition: transform 0.3s;
-      content: '';
-    }
-  }
-}
-
-.es-open,
-.es-focus {
-  .es-control {
-    border-color: #1e87f0;
-  }
-}
-
-.text-type-select {
-  >label {
-    max-width: 5rem;
-
-    [type='radio'] {
-      position: absolute;
-      opacity: 0;
-      width: 0;
-      height: 0;
-    }
-
-    [type='radio']+img {
-      cursor: pointer;
-      border: 2px solid #e5e5e5;
-    }
-
-    [type='radio']:hover+img {
-      border-color: #b2b2b2;
-    }
-
-    [type='radio']:checked+img {
-      border-color: #1e87f0;
-    }
-  }
-}
-
-
-
-// CALCITE
-
 .w-70 {
   width: 70%;
+}
+
+.m-0 {
+  margin: 0;
+}
+
+.center {
+  text-align: center;
+}
+
+.visualy-hidden {
+  visibility: hidden;
+}
+
+.link-color {
+  color: var(--calcite-ui-text-link);
 }
 
 #header-title {
@@ -135,6 +43,6 @@
   cursor: pointer;
 }
 
-calcite-switch {
-  margin: 0 0.5rem;
-}
+// calcite-switch {
+//   margin: 0 0.5rem;
+// }

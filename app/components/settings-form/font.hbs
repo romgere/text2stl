@@ -1,36 +1,33 @@
-<label>
-  <input
-    class='uk-checkbox'
-    type='checkbox'
-    name='custom_font'
-    checked={{this.useCustomFont}}
-    {{on 'input' (fn this.toggleCustomFont (not this.useCustomFont))}}
-    data-test-custom-checkbox
-  />
+<calcite-label layout="inline">
   {{t 'custom_font.ck_label'}}
-</label>
+  <calcite-switch
+    checked={{this.useCustomFont}}
+    data-test-custom-checkbox
+    {{on "calciteSwitchChange" (fn this.toggleCustomFont (not this.useCustomFont))}}
+  />
+</calcite-label>
 
 <hr />
+
 {{#if this.useCustomFont}}
 
-  <Ui::FileUpload
-    @onFileChange={{this.setCustomFontFile}}
-    @mimeTypes={{this.acceptedMimeTypes}}
-    @dropZoneLabel={{t 'custom_font.upload.drop_zone'}}
-    @inputZoneLabel={{t 'custom_font.upload.input_label'}}
-    @mimeTypeError={{t 'custom_font.upload.bad_file_type'}}
-    data-test-custom-font-upload
-  />
+  <calcite-label>
+    {{t 'custom_font.upload.title'}}
+    <Ui::FileUpload
+      @onFileChange={{this.setCustomFontFile}}
+      @mimeTypes={{this.acceptedMimeTypes}}
+      @title={{t 'custom_font.upload.title'}}
+      @dropZoneLabel={{t 'custom_font.upload.drop_zone'}}
+      @inputZoneLabel={{t 'custom_font.upload.input_label'}}
+      @mimeTypeError={{t 'custom_font.upload.bad_file_type'}}
+      data-test-custom-font-upload
+    />
+  </calcite-label>
 
-  <div class='uk-margin'>
-    <label class='uk-form-label' for='custom-font-name'>
-      {{t 'custom_font.current_label'}}
-    </label>
-    <Ui::Input
-      id='custom-font-name'
-      class='uk-input'
-      @type='text'
-      @value={{if
+  <calcite-label>
+    {{t 'custom_font.current_label'}}
+    <calcite-input-text
+      value={{if
         @model.customFont
         @model.customFont.name
         (t 'custom_font.no_font')
@@ -38,51 +35,11 @@
       disabled
       data-test-custom-font-name
     />
-  </div>
+  </calcite-label>
 {{else}}
   <Ui::FontPicker
     @fontName={{@model.fontName}}
     @variantName={{@model.variantName}}
-    @fontSize={{@model.fontSize}}
     @onFontSettingsChange={{this.onFontSettingsChange}}
-    as |picker|
-  >
-
-    <div class='uk-margin'>
-      <label class='uk-form-label'>{{t 'font_picker.category'}}</label>
-      <div class='uk-form-controls'>
-        <picker.categories />
-      </div>
-    </div>
-
-    <div class='uk-margin'>
-      <label class='uk-form-label'>{{t
-          'font_picker.script_filter.label'
-        }}</label>
-      <div class='uk-form-controls'>
-        <picker.scriptFilterSelect />
-      </div>
-    </div>
-
-    <div class='uk-margin'>
-      <label class='uk-form-label'>{{t 'font_picker.sort'}}</label>
-      <div class='uk-form-controls'>
-        <picker.sort />
-      </div>
-    </div>
-
-    <hr />
-
-    <label class='uk-form-label' for={{picker.fontPickerID}}>{{t
-        'font_picker.name'
-      }}</label>
-    <br />
-    <picker.fontNameSelect />
-
-    <div class='uk-margin'>
-      <label class='uk-form-label'>{{t 'font_picker.variant'}}</label>
-      <picker.variantNameSelect class='es-control--no-clear' />
-    </div>
-
-  </Ui::FontPicker>
+  />
 {{/if}}

@@ -1,23 +1,27 @@
-<div
-  class="uk-placeholder uk-text-center {{if this.dropActive "uk-dragover"}}"
-  ...attributes
+<calcite-card
+  selected={{this.dropActive}}
   {{on "drop" this.onDropFile}}
   {{on "dragover" this.onDragOver}}
   {{on "dragleave" (fn (mut this.dropActive) false)}}
 >
-  <span uk-icon="icon: cloud-upload"></span>
-  <span class="uk-text-middle" data-test-drop-zone-label>
-    {{@dropZoneLabel}}
+  <span slot="subtitle">
+    <p class="center">
+      <calcite-icon icon="upload" scale="l" />
+    </p>
+    <p class="center m-0">
+      {{@dropZoneLabel}}
+
+      <label for={{this.id}} class="link-color" data-test-input-label>
+        {{@inputZoneLabel}}
+      </label>
+
+      <input
+        type="file"
+        id={{this.id}}
+        accept={{this.accept}}
+        class="visualy-hidden"
+        {{on "change" this.fileChange}}
+      >
+    </p>
   </span>
-  <div uk-form-custom>
-    <input
-      type="file"
-      id={{this.id}}
-      accept={{this.accept}}
-      {{on "change" this.fileChange}}
-    >
-    <label class="uk-link" for={{this.id}} data-test-input-label>
-      {{@inputZoneLabel}}
-    </label>
-  </div>
-</div>
+</calcite-card>

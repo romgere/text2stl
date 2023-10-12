@@ -24,6 +24,11 @@ export default class ApplicationRoute extends Route {
     // Load model settings from QP if any
     if (params.modelSettings) {
       model.deserialize(params.modelSettings);
+
+      // No custom font via QP
+      model.customFont = undefined;
+      model.fontName = textMakerDefault.fontName;
+      model.variantName = textMakerDefault.variantName;
     }
 
     return model;

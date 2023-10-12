@@ -59,9 +59,13 @@ font_picker:
   script_filter:
     label: Languages
     placeholder: All languages
-  sort: Font sort
   more: Show more settings
   less: Show less settings
+  sort:
+    label: Font sort by
+    options:
+      alphabet: Alphabet
+      popularity: Popularity
 text_settings:
   text: Text
   text_placeholder: Enter your text...
@@ -113,6 +117,7 @@ custom_font:
   current_label: Current file
   no_font: None
   upload:
+    title: Select file
     drop_zone: Use custom font file by dropping font file (woff, otf, ttf) here or
     input_label: browse your computer for a font file
     bad_file_type: Unsupported font file type, please use .woff, .otf or .ttf file

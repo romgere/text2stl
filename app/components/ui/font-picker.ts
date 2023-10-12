@@ -1,12 +1,13 @@
 import Component from '@glimmer/component';
-import { guidFor } from '@ember/object/internals';
 import { tracked } from '@glimmer/tracking';
 import FontManagerService from 'text2stl/services/font-manager';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
 
-import type { Script, Variant } from '@samuelmeuli/font-manager';
+import type { Script, Variant, Category, Font } from '@samuelmeuli/font-manager';
 import type IntlService from 'ember-intl/services/intl';
+import type { CalciteCombobox } from '@esri/calcite-components/dist/components/calcite-combobox';
+import type { CalciteRadioButtonGroup } from '@esri/calcite-components/dist/components/calcite-radio-button-group';
 
 interface UiFontPickerArgs {
   fontName: string;
@@ -16,14 +17,11 @@ interface UiFontPickerArgs {
 
 export default class UiFontPicker extends Component<UiFontPickerArgs> {
   @service declare fontManager: FontManagerService;
-
   @service declare intl: IntlService;
 
-  fontPickerID: string;
-
-  @tracked fontCategory;
+  @tracked fontCategory: Category;
   @tracked fontScript?: Script;
-  @tracked sort: 'alphabet' | 'popularity' = 'alphabet';
+  @tracked sort: 'alphabet' | 'popularity' = 'popularity';
 
   get fontVariants() {
     return this.fontManager.fontList.get(this.args.fontName)?.variants ?? [];
@@ -31,12 +29,34 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
 
   constructor(owner: unknown, args: UiFontPickerArgs) {
     super(owner, args);
-    this.fontPickerID = guidFor(this);
     this.fontCategory = this.fontManager.availableFontCategories[0];
   }
 
+  // Get filtered & sorted font list
+  get fontList() {
+    const filteredList = [...this.fontManager.fontList.values()].filter((font: Font) => {
+      if (font.category !== this.fontCategory) {
+        return false;
+      }
+      if (this.fontScript && !font.scripts.includes(this.fontScript)) {
+        return false;
+      }
+
+      return true;
+    });
+
+    if (this.sort === 'alphabet') {
+      filteredList.sort((font1: Font, font2: Font): number =>
+        font1.family.localeCompare(font2.family),
+      );
+    }
+
+    return filteredList;
+  }
+
   @action
-  onFontNameChange(fontName: string) {
+  onFontNameChange(e: CustomEvent) {
+    const fontName = (e.target as CalciteCombobox).value as string;
     const font = this.fontManager.fontList.get(fontName);
     if (font) {
       this.args.onFontSettingsChange(fontName, font.variants[0]);
@@ -46,12 +66,28 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
   }
 
   @action
-  onVariantNameChange(variantName: Variant) {
+  onVariantNameChange(e: CustomEvent) {
+    const variantName = (e.target as CalciteCombobox).value as Variant;
     this.args.onFontSettingsChange(this.args.fontName, variantName);
   }
 
   @action
-  onScriptChange(value?: Script) {
-    this.fontScript = value;
+  onScriptChange(e: CustomEvent) {
+    const v = (e.target as CalciteCombobox).value as Script | undefined;
+    this.fontScript = v;
+  }
+
+  @action
+  onFontCategoryChange(e: CustomEvent) {
+    const v = (e.target as CalciteCombobox).value as Category;
+    this.fontCategory = v;
+  }
+
+  @action
+  onSortChange(e: CustomEvent) {
+    const value = (e.target as CalciteRadioButtonGroup).selectedItem.value as
+      | 'alphabet'
+      | 'popularity';
+    this.sort = value;
   }
 }
