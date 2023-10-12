@@ -7,6 +7,20 @@ Generate STL with text easily !
 
 Inspired from : https://github.com/mo22/textstl
 
+## UI Refacto TODO : 
+
+- theme switcher (+ dark Three theme ?)
+- font form
+- Fix language switcher
+- Landing page
+- fix header
+- action bar tooltips 
+- Reset button (& undo redo ?)
+- French translation
+- tests 
+- UI state as QP (open/close panel)
+- cherry pick three fixes (multiple instance)
+
 ## TODO : 
 
 - [x] center 3D render
