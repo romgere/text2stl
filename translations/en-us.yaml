@@ -28,15 +28,22 @@ language: Language
 mm_unit: mm
 settings_form:
   tabs:
-    settings:
-      heading: Settings
-      description: Text, size, alignment...
+    shape:
+      heading: Type of shape
+      description: Vertical, negative, text only
+    text:
+      heading: Text settings
+      description: Text size, height, alignment
     font:
       heading: Font
       description: Choose google font or custom font file
-    advanced:
-      heading: More...
-      description: Lorem ipsum dolor sit amet consectetur
+    support:
+      heading: Support
+      description: Support padding, border radius
+    handle:
+      heading: Fixation
+      description: Handle or hole settings
+
 export_stl: Export STL
 generating_stl: Export STL
 stl_counter: '{count} STL files have been generated'
@@ -56,19 +63,20 @@ font_picker:
   more: Show more settings
   less: Show less settings
 text_settings:
-  type: Type of shape
   text: Text
+  text_placeholder: Enter your text...
   size: Text size
   height: Text height
   kerning: Text kerning
   vkerning: Line kerning
   supportHeight: Support height
   supportPadding: Support spacing
+  advancedSupportPadding: Advanced support spacing
   alignment: Text alignment
   valignment: Text vertical alignement
   supportBorderRadius: Border radius
   handleSettings:
-    label: Handle settings
+    label: Fixation type
     type:
       label: Type
       none: None

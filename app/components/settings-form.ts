@@ -7,7 +7,10 @@ interface SettingsFormTextSettingsArgs {
 }
 
 export default class SettingsFormSettings extends Component<SettingsFormTextSettingsArgs> {
-  get showAdvancedSettings() {
+  get showHandleSettings() {
+    return this.args.model.type !== ModelType.TextOnly;
+  }
+  get showSupportSettings() {
     return this.args.model.type !== ModelType.TextOnly;
   }
 }

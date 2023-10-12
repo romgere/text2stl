@@ -1,0 +1,122 @@
+<calcite-label>
+  {{t "text_settings.text"}}
+  {{#if this.enableMultiline}}
+    <calcite-text-area
+      value={{@model.text}}
+      placeholder={{t "text_settings.text_placeholder"}}
+      {{on "calciteTextAreaInput" this.changeText}}
+      data-test-settings-text
+      resize="vertical"
+    />
+  {{else}}
+    <calcite-input-text
+      value={{@model.text}}
+      placeholder={{t "text_settings.text_placeholder"}}
+      {{on "calciteInputTextInput" this.changeText}}
+      data-test-settings-text
+    />
+  {{/if}}
+</calcite-label>
+
+{{#if this.textIsMultiLine}}
+  <calcite-label>
+    {{t "text_settings.alignment"}}
+
+    <calcite-radio-button-group
+      name="text-alignment"
+      layout="horizontal"
+      data-test-settings-text-alignment
+      {{on "calciteRadioButtonGroupChange" this.setAlignment}}
+    >
+      {{#each this.alignmentOptions as |align|}}
+        <calcite-label layout="inline">
+          <calcite-radio-button value={{align}} checked={{eq @model.alignment align}}></calcite-radio-button>
+          {{t (concat "alignment." align)}}
+        </calcite-label>
+
+      {{/each}}
+    </calcite-radio-button-group>
+  </calcite-label>
+{{/if}}
+
+<calcite-label>
+  {{t "text_settings.valignment"}}
+
+  <calcite-radio-button-group
+    name="text-valignment"
+    layout="horizontal"
+    data-test-settings-text-alignment
+    {{on "calciteRadioButtonGroupChange" this.setVAlignment}}
+  >
+    {{#each this.vAlignmentOptions as |vAlign|}}
+      <calcite-label layout="inline">
+        <calcite-radio-button value={{vAlign}} checked={{eq @model.vAlignment vAlign}}></calcite-radio-button>
+        {{t (concat "valignment." vAlign)}}
+      </calcite-label>
+
+    {{/each}}
+  </calcite-radio-button-group>
+</calcite-label>
+
+
+<calcite-label>
+  {{t "text_settings.size"}}
+  <calcite-input-number
+    placeholder={{t "text_settings.size"}}
+    {{!-- suffix-text={{t "mm_unit"}} --}}
+    value={{@model.size}}
+    {{on "calciteInputNumberChange" (fn this.setInt 'size')}}
+    step="1"
+    number-button-type="horizontal"
+    icon="change-font-size"
+    integer
+    data-test-settings-size
+  />
+</calcite-label>
+
+<calcite-label>
+  {{t "text_settings.height"}}
+  <calcite-input-number
+    placeholder={{t "text_settings.height"}}
+    suffix-text={{t "mm_unit"}}
+    value={{@model.height}}
+    {{on "calciteInputNumberChange" (fn this.setInt 'height')}}
+    step="1"
+    number-button-type="horizontal"
+    icon="dimensions-wall"
+    integer
+    data-test-settings-height
+  />
+</calcite-label>
+
+<calcite-label>
+  {{t "text_settings.kerning"}}
+  <calcite-input-number
+    placeholder={{t "text_settings.kerning"}}
+    suffix-text={{t "mm_unit"}}
+    value={{@model.spacing}}
+    {{on "calciteInputNumberChange" (fn this.setInt 'spacing')}}
+    step="1"
+    number-button-type="horizontal"
+    icon="distribute-width-evenly"
+    integer
+    data-test-settings-spacing
+  />
+</calcite-label>
+
+{{#if this.textIsMultiLine}}
+  <calcite-label>
+    {{t "text_settings.vkerning"}}
+    <calcite-input-number
+      placeholder={{t "text_settings.vkerning"}}
+      suffix-text={{t "mm_unit"}}
+      value={{@model.vSpacing}}
+      {{on "calciteInputNumberChange" (fn this.setInt 'vSpacing')}}
+      step="1"
+      number-button-type="horizontal"
+      icon="distribute-height-evenly"
+      integer
+      data-test-settings-vspacing
+    />
+  </calcite-label>
+{{/if}}

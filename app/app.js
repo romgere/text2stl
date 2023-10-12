@@ -15,6 +15,15 @@ import '@esri/calcite-components/dist/components/calcite-modal';
 import '@esri/calcite-components/dist/components/calcite-text-area';
 import '@esri/calcite-components/dist/components/calcite-label';
 import '@esri/calcite-components/dist/components/calcite-switch';
+import '@esri/calcite-components/dist/components/calcite-input-number';
+import '@esri/calcite-components/dist/components/calcite-input-text';
+
+import '@esri/calcite-components/dist/components/calcite-segmented-control';
+import '@esri/calcite-components/dist/components/calcite-segmented-control-item';
+
+import '@esri/calcite-components/dist/components/calcite-tooltip';
+import '@esri/calcite-components/dist/components/calcite-radio-button';
+import '@esri/calcite-components/dist/components/calcite-radio-button-group';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;

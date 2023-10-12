@@ -38,6 +38,17 @@ export class SupportPaddingSettings implements SupportPadding, QPSerializable {
     this.right = args.right;
   }
 
+  get isCustom() {
+    return !(
+      this.top === this.bottom &&
+      this.top === this.left &&
+      this.top === this.right &&
+      this.bottom === this.left &&
+      this.bottom === this.right &&
+      this.left === this.right
+    );
+  }
+
   serialize(): string {
     return JSON.stringify({
       top: this.top,
