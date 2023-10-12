@@ -1,5 +1,5 @@
 import Service from '@ember/service';
-import { STLExporter } from 'three/examples/jsm/exporters/STLExporter';
+import { STLExporter } from 'text2stl/utils/STLExporter';
 
 import type { Mesh } from 'three';
 
