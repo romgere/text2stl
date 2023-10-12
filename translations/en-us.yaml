@@ -132,3 +132,8 @@ save_modal:
   info: Bookmark the <a href="{currentUrl}">current URL</a> or save the URL bellow to easily retrieve the current settings.
   close: Close
 switch_theme_tooltip: Switch to {current, select, light {dark} dark {light} other {light}} theme
+reset_modal:
+  title: Reset all settings
+  info: All your settings will be lost, are you sure you want to reset all settings to their default values ?
+  cancel: Cancel
+  reset: Reset Settings

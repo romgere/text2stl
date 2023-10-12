@@ -1,43 +1,39 @@
 <calcite-shell-panel slot="panel-start">
   <calcite-panel heading="Settings">
-      <calcite-action-bar slot="action-bar" expand-disabled>
-        <calcite-action-group>
-            <calcite-action
-              text={{t 'save'}}
-              icon="save"
-              {{on 'click' this.showSaveModal}}
-            />
-        </calcite-action-group>
-        <calcite-action-group>
-            <calcite-action text="Undo" icon="undo"></calcite-action>
-            <calcite-action text="Redo" icon="redo"></calcite-action>
-        </calcite-action-group>
-        <calcite-action-group>
-            <calcite-action text="Reset" icon="reset"></calcite-action>
-        </calcite-action-group>
-      </calcite-action-bar>
 
+    <calcite-action
+      icon="save"
+      text={{t 'save'}}
+      slot="header-actions-start"
+      {{on 'click' this.showSaveModal}}
+    />
+    <calcite-action
+      icon="reset"
+      text="Reset"
+      slot="header-actions-end"
+      {{on 'click' this.showResetModal}}
+    />
 
-      <div slot="footer">
-        {{#if this.counter}}
-          <calcite-notice open icon="information">
-            <div slot="message">
-              {{t 'stl_counter' count=this.counter}}
-            </div>
-          </calcite-notice>
-        {{/if}}
+    <div slot="footer">
+      {{#if this.counter}}
+        <calcite-notice open icon="information">
+          <div slot="message">
+            {{t 'stl_counter' count=this.counter}}
+          </div>
+        </calcite-notice>
+      {{/if}}
 
-        <calcite-button
-          width="full"
-          disabled={{this.exportDisabled}}
-          loading={{this.meshGenerating}}
-          {{on 'click' this.exportSTL}}
-        >
-          {{t 'export_stl'}}
-        </calcite-button>
-      </div>
+      <calcite-button
+        width="full"
+        disabled={{this.exportDisabled}}
+        loading={{this.meshGenerating}}
+        {{on 'click' this.exportSTL}}
+      >
+        {{t 'export_stl'}}
+      </calcite-button>
+    </div>
 
-      <SettingsForm @model={{this.model}} />
+    <SettingsForm @model={{this.model}} />
   </calcite-panel>
 </calcite-shell-panel>
 
@@ -57,4 +53,7 @@
 
 {{#if this.saveModalVisible}}
   <SaveModal @onHide={{this.hideSaveModal}} @currentUrl={{this.currentUrl}} />
+{{/if}}
+{{#if this.resetModalVisible}}
+  <ResetModal @onHide={{this.hideResetModal}} @onReset={{this.resetModel}} />
 {{/if}}
