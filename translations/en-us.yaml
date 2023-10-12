@@ -53,12 +53,12 @@ info:
   issue: Find a bug ? Request a new feature ?
 font_picker:
   category: Font category
-  name: Font name
+  name: Current font
   variant: Font variant
   size: Font size
   script_filter:
-    label: Languages
-    placeholder: All languages
+    label: Script
+    placeholder: All scripts
   sort:
     label: Font sort by
     options:

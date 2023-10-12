@@ -53,12 +53,12 @@ info:
   issue: Un bug ? Demander une nouvelle fonctionnalité ?
 font_picker:
   category: Category de police
-  name: Nom de police
+  name: Police actuelle
   variant: Variante de police
   size: Taille de police
   script_filter:
-    label: Langues
-    placeholder: Toutes langues
+    label: Script
+    placeholder: Tous les scripts
   sort:
     label: Trier les polices par
     options:
@@ -136,4 +136,4 @@ reset_modal:
   info: Tous vos réglages seront perdus, être vous sûre de vouloir restaurer tous les réglages à leur valeur par défaut ?
   cancel: Annuler
   reset: Restaurer les réglages
-font_loading: CHargement des polices Google, veuillez patienter...
+font_loading: Chargement des polices Google, veuillez patienter...

@@ -18,9 +18,6 @@ export default class GeneratorRoute extends Route {
   };
 
   async model(params: { modelSettings: string }) {
-    // Ensure font list is fully load
-    await this.fontManager.loadFontList();
-
     // Create a default settings for first rendering
     const model = new TextMakerSettings({
       ...textMakerDefault,
@@ -37,6 +34,9 @@ export default class GeneratorRoute extends Route {
       model.fontName = textMakerDefault.fontName;
       model.variantName = textMakerDefault.variantName;
     }
+
+    // Ensure font list is fully load
+    await this.fontManager.loadFont();
 
     return model;
   }

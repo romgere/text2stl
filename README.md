@@ -7,32 +7,11 @@ Generate STL with text easily !
 
 Inspired from : https://github.com/mo22/textstl
 
-## UI Refacto TODO : 
-
-- French translation
-- tests
-
-- UI state as QP (open/close panel)
-
 ## TODO : 
 
-- [x] center 3D render
-- [x] move mesh rendering in textMaker service
-- [x] Add model size information
-- [x] better UI
-- [x] better font management (limit list, allow filtering, live preview)
-- [x] add other type of shape (with support / negative text / badge)
-- [x] html loader
-- [x] counter of STL generated ?
-- [x] fr/en translation
-- [x] Language switcher
-- [x] deploy
-- [x] improve test coverage
 - [ ] finalize font-picker tests
-- [x] Add somes options (~~multiple kerning~~, multiple suport spacing, round corner, hole in support)
-- [x] multi-line text ? (#33)
-- [x] save/load text via  QP to save current settings
-- [x] handle custom font
+- [ ] UI state as QP (open/close panel)
+- [ ] See some improvements asked in GH issues
 
 ## Prerequisites
 

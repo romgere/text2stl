@@ -45,6 +45,7 @@
 <calcite-label>
   {{t 'font_picker.name'}}
   <calcite-combobox
+    scale="l"
     max-items="10"
     selection-mode="single-persist"
     clear-disabled
@@ -54,7 +55,8 @@
       <calcite-combobox-item
         value={{font.family}}
         text-label={{font.family}}
-        id="font-button-{{font.id}}"
+        {{!-- template-lint-disable no-inline-styles --}}
+        style={{this.fontStyle font.family}}
         selected={{eq @fontName font.family}}
       />
     {{/each}}

@@ -1026,7 +1026,7 @@
   dependencies:
     regenerator-runtime "^0.13.4"
 
-"@babel/runtime@^7.12.5", "@babel/runtime@^7.14.0", "@babel/runtime@^7.17.8", "@babel/runtime@^7.21.0", "@babel/runtime@^7.7.4", "@babel/runtime@^7.8.4":
+"@babel/runtime@^7.12.5", "@babel/runtime@^7.14.0", "@babel/runtime@^7.17.8", "@babel/runtime@^7.21.0", "@babel/runtime@^7.8.4":
   version "7.22.10"
   resolved "https://registry.npmjs.org/@babel/runtime/-/runtime-7.22.10.tgz#ae3e9631fd947cb7e3610d3e9d8fef5f76696682"
   integrity sha512-21t/fkKLMZI4pqP2wlmsQAWnYW1PDyKyyUV4vCi+B25ydmdaYTKXPwCj0BzSUnZf4seIiYvSA3jcZ3gdsMFkLQ==
@@ -1678,13 +1678,6 @@
     ember-cli-babel "^7.17.2"
     ember-cli-htmlbars "^4.2.2"
 
-"@samuelmeuli/font-manager@^1.4.0":
-  version "1.4.0"
-  resolved "https://registry.yarnpkg.com/@samuelmeuli/font-manager/-/font-manager-1.4.0.tgz#8499a00f5e48850128669e0c0775ae3a081bc0be"
-  integrity sha512-TaPoX4qA6ABrACiSI18lQOOKjvbLNrT+84UWfzwcguWQ4nT+sprOSRyt/RVXnt9fQp/wFQVC2NcHbzd+AkXffg==
-  dependencies:
-    "@babel/runtime" "^7.7.4"
-
 "@simple-dom/interface@^1.4.0":
   version "1.4.0"
   resolved "https://registry.yarnpkg.com/@simple-dom/interface/-/interface-1.4.0.tgz#e8feea579232017f89b0138e2726facda6fbb71f"
@@ -2165,11 +2158,6 @@
   version "4.0.1"
   resolved "https://registry.yarnpkg.com/@types/tough-cookie/-/tough-cookie-4.0.1.tgz#8f80dd965ad81f3e1bc26d6f5c727e132721ff40"
   integrity sha512-Y0K95ThC3esLEYD6ZuqNek29lNX2EM1qxV8y2FTLUB0ff5wWrk7az+mLrnNFUnaXcgKye22+sFBRXOgpPILZNg==
-
-"@types/uikit@^3.14.1":
-  version "3.14.1"
-  resolved "https://registry.npmjs.org/@types/uikit/-/uikit-3.14.1.tgz#2dc17decee28c4fed2f96d9f67fc5ac5235794ca"
-  integrity sha512-DvyFy9PJjedeycR26zC71ri7OgpFkYa63xw6Cr9dOU2dlQWn8TmS8moHDFw3qsB0TDSJ3VaMQNYyE/lOH89e+w==
 
 "@typescript-eslint/eslint-plugin@^6.3.0":
   version "6.3.0"
@@ -7260,13 +7248,6 @@ follow-redirects@^1.0.0:
   version "1.14.8"
   resolved "https://registry.yarnpkg.com/follow-redirects/-/follow-redirects-1.14.8.tgz#016996fb9a11a100566398b1c6839337d7bfa8fc"
   integrity sha512-1x0S9UVJHsQprFcEC/qnNzBLcIxsjAV905f/UkQxbclCsoTWlacCNOpQa/anodLl2uaEKFhfWOvM2Qg77+15zA==
-
-font-picker@^3.5.1:
-  version "3.5.1"
-  resolved "https://registry.yarnpkg.com/font-picker/-/font-picker-3.5.1.tgz#90e95cfbd282be0f71dff6d03c9132a8eaf84025"
-  integrity sha512-WhxgbjZB/pnpk9okPWLLpZFlzpszfqvWH1ZodEzXF4cbVnhkKX+m1Bi05KdlbV1R14FN6iIrAaBn1YW7xXhgMA==
-  dependencies:
-    "@samuelmeuli/font-manager" "^1.4.0"
 
 for-each@^0.3.3:
   version "0.3.3"
@@ -13039,11 +13020,6 @@ uglify-js@^3.1.4:
   version "3.14.4"
   resolved "https://registry.yarnpkg.com/uglify-js/-/uglify-js-3.14.4.tgz#68756f17d1b90b9d289341736cb9a567d6882f90"
   integrity sha512-AbiSR44J0GoCeV81+oxcy/jDOElO2Bx3d0MfQCUShq7JRXaM4KtQopZsq2vFv8bCq2yMaGrw1FgygUd03RyRDA==
-
-uikit@^3.16.4:
-  version "3.16.4"
-  resolved "https://registry.npmjs.org/uikit/-/uikit-3.16.4.tgz#9699d8d310ebe4fb3cc53cec0132503773e306d5"
-  integrity sha512-t2HUTdSr0Jf0nvcXcmIKkLFSN0cD+IK/e2he27mqe5WGhabvDaD0lG9aDlGgRQSlMO/89o4WakhufDPKtXa1KA==
 
 unbox-primitive@^1.0.2:
   version "1.0.2"

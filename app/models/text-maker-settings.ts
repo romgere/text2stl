@@ -9,7 +9,7 @@ import {
 import { tracked } from '@glimmer/tracking';
 import config from 'text2stl/config/environment';
 
-import type { Variant } from '@samuelmeuli/font-manager';
+import type { Variant } from 'text2stl/services/font-manager';
 
 const {
   APP: { textMakerDefault },

@@ -6,6 +6,7 @@ import type FontManagerService from 'text2stl/services/font-manager';
 import { Registry as Services } from '@ember/service';
 
 import type RouterService from '@ember/routing/router-service';
+
 type Transition = ReturnType<RouterService['transitionTo']>;
 
 export default class AppRoute extends Route {
@@ -21,7 +22,7 @@ export default class AppRoute extends Route {
   async model({ locale }: { locale: string }) {
     this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us'];
     // No await here, let's the loading happen & await for it in generator route
-    this.fontManager.loadFontList();
+    this.fontManager.loadFont();
   }
 
   afterModel() {

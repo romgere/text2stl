@@ -6,7 +6,7 @@ import { Font } from 'opentype.js';
 import { Mesh } from 'three';
 
 import type { TextMakerParameters } from 'text2stl/services/text-maker';
-import type { Variant } from '@samuelmeuli/font-manager';
+import type { Variant } from 'text2stl/services/font-manager';
 import type GeneratorController from 'text2stl/controllers/app/generator';
 
 function mockFont(name: string, variant: Variant) {

@@ -141,6 +141,10 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
   }
 
   private updateMesh(mesh?: THREE.Mesh) {
+    if (!this.scene) {
+      return;
+    }
+
     if (this.mesh) {
       this.scene.remove(this.mesh);
       this.mesh = undefined;

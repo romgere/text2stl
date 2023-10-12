@@ -3,8 +3,9 @@ import { tracked } from '@glimmer/tracking';
 import FontManagerService from 'text2stl/services/font-manager';
 import { inject as service } from '@ember/service';
 import { action } from '@ember/object';
+import { htmlSafe } from '@ember/template';
 
-import type { Script, Variant, Category, Font } from '@samuelmeuli/font-manager';
+import type { Script, Variant, Category, Font } from 'text2stl/services/font-manager';
 import type IntlService from 'ember-intl/services/intl';
 import type { CalciteCombobox } from '@esri/calcite-components/dist/components/calcite-combobox';
 import type { CalciteRadioButtonGroup } from '@esri/calcite-components/dist/components/calcite-radio-button-group';
@@ -52,6 +53,10 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
     }
 
     return filteredList;
+  }
+
+  fontStyle(fontFamily: string) {
+    return htmlSafe(`font-family: '${fontFamily}'`);
   }
 
   @action
