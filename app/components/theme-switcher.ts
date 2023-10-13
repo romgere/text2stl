@@ -8,10 +8,6 @@ interface ThemeSwitcherArgs {}
 type Theme = 'dark' | 'light';
 
 export default class ThemeSwitcher extends Component<ThemeSwitcherArgs> {
-  // @service declare intl: IntlService;
-  // @service declare router: Services['router'];
-
-  // availableLanguages = availableLanguages;
   @tracked _theme: Theme;
 
   get theme(): Theme {

@@ -157,8 +157,8 @@ export default class FontManagerService extends Service {
     url.searchParams.append('sort', 'popularity');
     url.searchParams.append('key', googleFontApiKey);
 
-    const reponse = await fetch(url);
-    const json = (await reponse.json()) as GoogleFontApiResponse;
+    const response = await fetch(url);
+    const json = (await response.json()) as GoogleFontApiResponse;
 
     const usableFonts = json.items.filter((f) => Boolean(f?.files));
 

@@ -9,7 +9,7 @@ const calciteAssetPath = ['development', 'test'].includes(environment)
 
 setAssetPath(calciteAssetPath);
 
-export function initialize(/* application */) {}
+export function initialize() {}
 
 export default {
   initialize,

@@ -1,6 +1,8 @@
 import Component from '@glimmer/component';
 import { action } from '@ember/object';
 
+import type { CalciteTextArea } from '@esri/calcite-components/dist/components/calcite-text-area';
+
 interface SaveModalArgs {
   currentUrl: string;
   onHide?: () => void;
@@ -8,7 +10,7 @@ interface SaveModalArgs {
 
 export default class SaveModal extends Component<SaveModalArgs> {
   @action
-  selectAll({ target }: { target: HTMLTextAreaElement }) {
-    target.select();
+  selectAll({ target }: { target: CalciteTextArea }) {
+    target.selectText();
   }
 }
