@@ -31,10 +31,9 @@
       <div slot="message">{{t "index_page.list.stl.dd"}}</div>
     </calcite-notice>
 
-
   </div>
 
-  <LangSwitcher slot="back" />
+  <LangSwitcher slot="back" width="full" @appearance="outline-fill" />
 
   <calcite-button {{on "click" this.gotoGenerator}} slot="primary" width="full">
     {{t "index_page.button"}}
