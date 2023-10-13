@@ -2,7 +2,7 @@ import Component from '@glimmer/component';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { action } from '@ember/object';
 import { tracked } from '@glimmer/tracking';
-import type { Variant } from '@samuelmeuli/font-manager';
+import type { Variant } from 'text2stl/services/font-manager';
 
 interface FontFormTextSettingsArgs {
   model: TextMakerSettings;

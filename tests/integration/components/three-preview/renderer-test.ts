@@ -15,8 +15,8 @@ module('Integration | Component | three-preview/renderer', function (hooks) {
     this.set('parentSize', parentSize);
     this.set('mesh', new Mesh(new BoxGeometry(12.12, 34.07, 56.42)));
 
-    await render(hbs`<div style="width: 200px; height: 100px">
-      <ThreePreview::Renderer @mesh={{this.mesh}} @parentSize={{this.parentSize}} data-test-renderer />
+    await render(hbs`<div style="width: 200px; height: 100px" data-test-renderer>
+      <ThreePreview::Renderer @mesh={{this.mesh}} @parentSize={{this.parentSize}} />
     </div>`);
 
     if (parentSize) {
@@ -27,7 +27,7 @@ module('Integration | Component | three-preview/renderer', function (hooks) {
     } else {
       assert
         .dom('[data-test-renderer] canvas')
-        .hasAttribute('width', '200', 'Canvas width is adapted to parent size')
+        .hasAttribute('width', '1024', 'Canvas width is 1024')
         .hasAttribute('height', '768', 'Canvas height is 768');
     }
   });

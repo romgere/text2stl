@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, triggerEvent, find } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
+import wait from 'text2stl/tests/helpers/wait';
 
 const validFile = new Blob(['foo', 'bar'], { type: 'my/mime_type' });
 const invalidFile = new Blob(['foo', 'bar'], { type: 'another/mime_type' });
@@ -35,11 +36,13 @@ module('Integration | Component | ui/file-upload', function (hooks) {
 
     assert.dom(input).hasAttribute('accept', 'toto tata');
 
-    assert.dom('[data-test-main]').doesNotHaveClass('uk-dragover');
+    assert.dom('[data-test-main]').doesNotHaveAttribute('selected');
     await triggerEvent('[data-test-main]', 'dragover');
-    assert.dom('[data-test-main]').hasClass('uk-dragover');
+    await wait();
+    assert.dom('[data-test-main]').hasAttribute('selected');
     await triggerEvent('[data-test-main]', 'dragleave');
-    assert.dom('[data-test-main]').doesNotHaveClass('uk-dragover');
+    await wait();
+    assert.dom('[data-test-main]').doesNotHaveAttribute('selected');
   });
 
   test('it handles file change for valid or invalid file type', async function (assert) {

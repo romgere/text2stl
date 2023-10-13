@@ -1,53 +1,88 @@
-<div uk-grid='' margin='' class='uk-grid-divider uk-grid'>
-
-  <div class='uk-width-1-1 uk-width-1-3@m'>
-    <SettingsForm @model={{this.model}} />
+<calcite-shell-panel slot="panel-start" collapsed={{this.mainPanelClosed}}>
+  <calcite-action-bar slot="action-bar">
 
 
-      <button
-        type='button'
-        class='uk-button uk-button-primary uk-align-center'
+    <calcite-action-group>
+      <calcite-action
+        text={{t "settings_form.label"}}
+        icon="sliders"
+        {{on "click" (if this.mainPanelClosed this.openMainPanel this.closeMainPanel)}}
+      />
+    </calcite-action-group>
+
+    <calcite-action-group>
+      <calcite-action
+        icon="save"
+        text={{t 'save'}}
+        {{on 'click' this.showSaveModal}}
+      />
+      <calcite-action
+        icon="reset"
+        text={{t 'reset'}}
+        {{on 'click' this.showResetModal}}
+      />
+    </calcite-action-group>
+
+    <calcite-action-group slot="actions-end">
+      <calcite-action
+        icon="download"
+        text={{t 'export_stl'}}
         disabled={{this.exportDisabled}}
         {{on 'click' this.exportSTL}}
+      />
+    </calcite-action-group>
+
+  </calcite-action-bar>
+
+  <calcite-panel
+    heading={{t "settings_form.label"}}
+    closable
+    closed={{this.mainPanelClosed}}
+    {{on "calcitePanelClose" this.closeMainPanel}}
+  >
+
+    <div slot="footer">
+      {{#if this.counter}}
+        <calcite-notice open icon="information">
+          <div slot="message">
+            {{t 'stl_counter' count=this.counter}}
+          </div>
+        </calcite-notice>
+      {{/if}}
+
+      <calcite-button
+        width="full"
+        scale="l"
+        disabled={{this.exportDisabled}}
+        loading={{this.meshGenerating}}
+        icon-start="download"
+        {{on 'click' this.exportSTL}}
       >
-        {{#if this.meshGenerating}}
-          <div uk-spinner></div>
-        {{else}}
-          {{t 'export_stl'}}
-        {{/if}}
-      </button>
+        {{t 'export_stl'}}
+      </calcite-button>
+    </div>
 
-      <button
-        type='button'
-        class='uk-button uk-align-center'
-        {{on 'click' this.showSaveModal}}
-      >
-        {{t 'save'}}
-      </button>
+    <SettingsForm @model={{this.model}} />
+  </calcite-panel>
+</calcite-shell-panel>
 
 
+<calcite-panel>
+  <ThreePreview @mesh={{this.mesh.value}} @parentSize={{true}}  as |preview|>
 
-    {{#if this.counter}}
-      <div class='uk-text-small uk-text-muted uk-text-center'>
-        {{t 'stl_counter' count=this.counter}}
-      </div>
-    {{/if}}
-  </div>
+    <div id="three-preview-container">
+      <preview.renderer />
+    </div>
+    <div slot='footer'>
+      <preview.size />
+    </div>
+</ThreePreview>
 
-  <div class='uk-width-1-1 uk-width-2-3@m'>
-    <ThreePreview @mesh={{this.mesh.value}} as |preview|>
-      <div class='uk-card uk-card-hover uk-card-small'>
-        <div class='uk-card-media-top'>
-          <preview.renderer />
-        </div>
-        <div class='uk-card-footer'>
-          <preview.size class='uk-text-small uk-text-muted uk-text-center' />
-        </div>
-      </div>
-    </ThreePreview>
-  </div>
-</div>
+</calcite-panel>
 
 {{#if this.saveModalVisible}}
   <SaveModal @onHide={{this.hideSaveModal}} @currentUrl={{this.currentUrl}} />
+{{/if}}
+{{#if this.resetModalVisible}}
+  <ResetModal @onHide={{this.hideResetModal}} @onReset={{this.resetModel}} />
 {{/if}}

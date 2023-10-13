@@ -1,53 +1,20 @@
 {{page-title (concat (t "app_name") " - " (t "app_title"))}}
-<div class="uk-container" uk-height-viewport="expand: true">
-  <div class="uk-flex uk-flex-column" uk-height-viewport="expand: true">
-    
-    {{!-- HEADER --}}
-    <div class="uk-flex-none">
-      <div uk-grid margin="" class="uk-grid">     
-        <div class="uk-width-1-1 uk-width-1-4@m uk-first-column">
-          <h1 class="uk-text-primary uk-text-center">
-            <LinkTo @route="app.index">{{t "app_name"}}</LinkTo>
-          </h1>
-        </div>
 
-        <div class="uk-width-1-1 uk-width-3-4@m uk-flex uk-flex-middle">
-          <div uk-grid="" class="uk-grid uk-width-expand">
-            <div class="uk-width-1-1 uk-width-1-2@m uk-width-3-4@l uk-flex uk-flex-center uk-flex-middle">
-              <h4 class="uk-text-muted uk-margin-remove-top">{{t "app_subtitle"}}</h4>
-            </div>
-            <div class="uk-width-1-1 uk-width-1-2@m uk-width-1-4@l uk-flex uk-flex-center uk-flex-right@m uk-flex-middle">
-              <LangSwitcher />
-            </div>
-          </div>
-        </div>
-      </div>
+<calcite-shell >
+  <div slot="header" id="header">
 
-    </div>
+    <h2 id="header-title">
+      <LinkTo @route="app.index">{{t "app_name"}}</LinkTo>
+    </h2>
 
-    {{!-- MAIN CONTENT --}}
-    <div class="uk-flex-1 uk-padding uk-padding-small">
-      {{outlet}}
-    </div>
+    <h3 id="header-sub-title">{{t "app_subtitle"}}</h3>
 
-    {{!-- FOOTER --}}
-    <div class="uk-flex-none">
-      <div class="uk-text-small uk-text-muted uk-text-center app-footer">
-        {{t "footer.made_by"
-          author=this.authorLink
-          ember=this.emberLink
-          three=this.threeLink
-          htmlSafe=true
-        }}
-        |
-        <a href="https://github.com/romgere/text2stl" target="_blank" rel="noopener noreferrer">
-          {{t "footer.github"}}
-        </a>
-        |
-        <a href="https://github.com/romgere/text2stl/issues/new" target="_blank" rel="noopener noreferrer">
-          {{t "footer.issue"}}
-        </a>        
-      </div>
+    <div id="header-controls">
+      <LangSwitcher class="mr-2" @appearance="outline-fill" />
+      <ThemeSwitcher class="mr-2" />
+      <About />
     </div>
   </div>
-</div>
+
+  {{outlet}}
+</calcite-shell>

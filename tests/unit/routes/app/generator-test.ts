@@ -2,6 +2,7 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import config from 'text2stl/config/environment';
+import Service from '@ember/service';
 
 import type GeneratorRoute from 'text2stl/routes/app/generator';
 const {
@@ -10,6 +11,15 @@ const {
 
 module('Unit | Route | app/generator', function (hooks) {
   setupTest(hooks);
+
+  hooks.beforeEach(function () {
+    this.owner.register(
+      'service:font-manager',
+      class extends Service {
+        async loadFont() {}
+      },
+    );
+  });
 
   test('it creates a model with default values & fetch default font', async function (assert) {
     const route = this.owner.lookup('route:app/generator') as GeneratorRoute;

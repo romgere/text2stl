@@ -1,7 +1,7 @@
 import Service from '@ember/service';
 import * as opentype from 'opentype.js';
 import * as THREE from 'three';
-import { mergeBufferGeometries } from 'three/examples/jsm/utils/BufferGeometryUtils';
+import { mergeBufferGeometries } from 'text2stl/utils/BufferGeometryUtils';
 import config from 'text2stl/config/environment';
 import { generateSupportShape } from 'text2stl/misc/support-shape-generation';
 

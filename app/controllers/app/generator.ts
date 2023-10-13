@@ -107,6 +107,42 @@ export default class GeneratorController extends Controller {
   hideSaveModal() {
     this.saveModalVisible = false;
   }
+
+  @tracked resetModalVisible = false;
+
+  @action
+  async resetModel() {
+    // Reset "modelSettings"
+    await this.router.transitionTo(this.router.currentRouteName, this.intl.locale[0], {
+      queryParams: { modelSettings: '' },
+    });
+
+    // Force refreshing model
+    await this.router.refresh('app');
+    this.hideResetModal();
+  }
+
+  @action
+  showResetModal() {
+    this.resetModalVisible = true;
+  }
+
+  @action
+  hideResetModal() {
+    this.resetModalVisible = false;
+  }
+
+  @tracked mainPanelClosed = false;
+
+  @action
+  closeMainPanel() {
+    this.mainPanelClosed = true;
+  }
+
+  @action
+  openMainPanel() {
+    this.mainPanelClosed = false;
+  }
 }
 
 declare module '@ember/controller' {

@@ -1,14 +1,26 @@
-<Ui::Modal @onHide={{@onHide}}>
-  <h2 class="uk-modal-title" for="current-url">
+<calcite-modal
+  aria-labelledby="modal-title"
+  resize="vertical"
+  open
+  {{on "calciteModalClose" @onHide}}
+>
+  <div slot="header" id="modal-title">
     {{t "save_modal.title"}}
-  </h2>
-  <p>
-    {{t "save_modal.info" currentUrl=@currentUrl htmlSafe=true}}
-  </p>
+  </div>
+  <div slot="content">
+    <p>
+      {{t "save_modal.info" currentUrl=@currentUrl htmlSafe=true}}
+    </p>
 
-  <Ui::TextArea {{on "click" this.selectAll}} rows="15" id="current-url" readonly @value={{@currentUrl}} />
-
-  <button class="uk-button uk-button-primary uk-align-center uk-modal-close" type="button">
+    <calcite-text-area
+      label={{t "save_modal.title"}}
+      {{on "click" this.selectAll}}
+      value={{@currentUrl}}
+      rows="10"
+      read-only
+    />
+  </div>
+  <calcite-button {{on "click" @onHide}} slot="primary" width="full">
     {{t "save_modal.close"}}
-  </button>
-</Ui::Modal>
+  </calcite-button>
+</calcite-modal>

@@ -1,9 +1,12 @@
-<ul ...attributes class="uk-subnav uk-subnav-divider" data-test-language-switcher>
+<calcite-segmented-control
+  {{this.changeAppearance}}
+  data-test-language-switcher
+  ...attributes
+  {{on "calciteSegmentedControlChange" this.changeLanguage}}
+>
   {{#each this.availableLanguages as |language|}}
-    <li class={{if (eq language this.intl.primaryLocale) "uk-active"}} data-test-language-item={{language}}>
-      <LinkTo @route={{this.router.currentRouteName}} @model={{language}}>
-        {{t (concat "languages." language)}}
-      </LinkTo>
-    </li>
+    <calcite-segmented-control-item value={{language}} data-test-lang={{language}} checked={{eq language this.intl.primaryLocale}}>
+      {{t (concat "languages." language)}}
+    </calcite-segmented-control-item>
   {{/each}}
-</ul>
+</calcite-segmented-control>

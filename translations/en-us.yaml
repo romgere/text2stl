@@ -6,13 +6,13 @@ index_page:
   list:
     font:
       dt: Custom font
-      dd: Choose a font from more than 1000 Google fonts or use your own.
+      dd: Pick a font from more than 1000 Google fonts or use your own.
     shape:
       dt: Custom shape
-      dd: Select a shape type (with or without support, negative text).
+      dd: Choose from multiple shape type (with or without support, negative text).
     text:
       dt: Custom text
-      dd: Choose the text you want to print.
+      dd: You choose the text you want to print.
     settings:
       dt: Custom settings
       dd: Adjust the settings, choose the font size, the support and/or text height...
@@ -27,41 +27,58 @@ languages:
 language: Language
 mm_unit: mm
 settings_form:
+  label: Settings
   tabs:
-    settings: Settings
-    font: Font
-    advanced: More...
+    shape:
+      heading: Type of shape
+      description: Vertical, negative, text only
+    text:
+      heading: Text settings
+      description: Text size, height, alignment
+    font:
+      heading: Font
+      description: Choose google font or custom font file
+    support:
+      heading: Support
+      description: Support padding, border radius
+    handle:
+      heading: Fixation
+      description: Handle or hole settings
 export_stl: Export STL
 stl_counter: '{count} STL files have been generated'
-footer:
+info:
+  label: About Text2STL
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub
   issue: Find a bug ? Request a new feature ?
 font_picker:
   category: Font category
-  name: Font name
+  name: Current font
   variant: Font variant
   size: Font size
   script_filter:
-    label: Languages
-    placeholder: All languages
-  sort: Font sort
-  more: Show more settings
-  less: Show less settings
+    label: Script
+    placeholder: All scripts
+  sort:
+    label: Font sort by
+    options:
+      alphabet: Alphabet
+      popularity: Popularity
 text_settings:
-  type: Type of shape
   text: Text
+  text_placeholder: Enter your text...
   size: Text size
   height: Text height
   kerning: Text kerning
   vkerning: Line kerning
   supportHeight: Support height
   supportPadding: Support spacing
+  advancedSupportPadding: Advanced support spacing
   alignment: Text alignment
   valignment: Text vertical alignement
   supportBorderRadius: Border radius
   handleSettings:
-    label: Handle settings
+    label: Fixation type
     type:
       label: Type
       none: None
@@ -98,6 +115,7 @@ custom_font:
   current_label: Current file
   no_font: None
   upload:
+    title: Select file
     drop_zone: Use custom font file by dropping font file (woff, otf, ttf) here or
     input_label: browse your computer for a font file
     bad_file_type: Unsupported font file type, please use .woff, .otf or .ttf file
@@ -107,7 +125,15 @@ errors:
 seo:
   description: Generate 3D printable text in one click ! Choose a font from more than 1000 fonts or use your own, different shape and settings & download an STL file to print.
 save: save settings
+reset: reset settings
 save_modal:
   title: Save your current settings
   info: Bookmark the <a href="{currentUrl}">current URL</a> or save the URL bellow to easily retrieve the current settings.
   close: Close
+switch_theme_tooltip: Switch to {current, select, light {dark} dark {light} other {light}} theme
+reset_modal:
+  title: Reset all settings
+  info: All your settings will be lost, are you sure you want to reset all settings to their default values ?
+  cancel: Cancel
+  reset: Reset Settings
+font_loading: Loading Google font, please wait...

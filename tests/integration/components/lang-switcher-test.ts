@@ -9,6 +9,7 @@ import config from 'text2stl/config/environment';
 const {
   APP: { availableLanguages },
 } = config;
+import wait from 'text2stl/tests/helpers/wait';
 
 import type IntlService from 'ember-intl/services/intl';
 
@@ -39,44 +40,32 @@ module('Integration | Component | lang-switcher', function (hooks) {
     await render(hbs`<LangSwitcher class="my-custom-class" />`);
 
     assert
-      .dom('[data-test-language-switcher]')
-      .hasClass('uk-subnav', 'it renders a sub nav')
+      .dom('calcite-segmented-control')
+      .exists('it renders a calcite-segmented-control')
       .hasClass('my-custom-class', 'it applies custom attribute');
 
     assert
-      .dom('[data-test-language-switcher] a')
+      .dom('[data-test-language-switcher] calcite-segmented-control-item')
       .exists({ count: availableLanguages.length }, 'available languages are render as link');
 
     assert
-      .dom('[data-test-language-item="en-us"] a')
-      .hasAttribute('data-route', 'the.current.route', 'LinkTo is linked to current route')
-      .hasAttribute('data-model', 'en-us', 'LinkTo have language as lang model');
+      .dom('calcite-segmented-control-item[data-test-lang="en-us"]')
+      .hasAttribute('checked', '', 'Current locale is "selected“');
 
     assert
-      .dom('[data-test-language-switcher] li.uk-active')
-      .hasText('English', 'Current locale is "selected“');
-    assert
-      .dom('[data-test-language-item="fr-fr"]')
-      .doesNotHaveClass('uk-active', 'Other button is not  "selected“');
+      .dom('calcite-segmented-control-item[data-test-lang="fr-fr"]')
+      .doesNotHaveAttribute('checked', 'Other button is not  "selected“');
 
     (this.owner.lookup('service:intl') as IntlService).locale = ['fr-fr'];
     await settled();
+    await wait();
 
     assert
-      .dom('[data-test-language-item="fr-fr"]')
-      .hasClass('uk-active', 'Current locale is "selected“');
-    assert
-      .dom('[data-test-language-item="en-us"]')
-      .doesNotHaveClass('uk-active', 'Other button is not  "selected“');
-
-    (this.owner.lookup('service:intl') as IntlService).locale = ['en-us'];
-    await settled();
+      .dom('calcite-segmented-control-item[data-test-lang="fr-fr"]')
+      .hasAttribute('checked', '', 'Current locale is "selected“');
 
     assert
-      .dom('[data-test-language-item="en-us"]')
-      .hasClass('uk-active', 'Current locale is "selected“');
-    assert
-      .dom('[data-test-language-item="fr-fr"]')
-      .doesNotHaveClass('uk-active', 'Other button is not  "selected“');
+      .dom('calcite-segmented-control-item[data-test-lang="en-us"]')
+      .doesNotHaveAttribute('checked', 'Other button is not  "selected“');
   });
 });

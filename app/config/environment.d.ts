@@ -1,6 +1,6 @@
 export default config;
 import { ModelType } from 'text2stl/services/text-maker';
-import type { Variant } from '@samuelmeuli/font-manager';
+import type { Variant } from 'text2stl/services/font-manager';
 
 /**
  * Type declarations for

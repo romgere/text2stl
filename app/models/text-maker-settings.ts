@@ -9,7 +9,7 @@ import {
 import { tracked } from '@glimmer/tracking';
 import config from 'text2stl/config/environment';
 
-import type { Variant } from '@samuelmeuli/font-manager';
+import type { Variant } from 'text2stl/services/font-manager';
 
 const {
   APP: { textMakerDefault },
@@ -36,6 +36,17 @@ export class SupportPaddingSettings implements SupportPadding, QPSerializable {
     this.bottom = args.bottom;
     this.left = args.left;
     this.right = args.right;
+  }
+
+  get isCustom() {
+    return !(
+      this.top === this.bottom &&
+      this.top === this.left &&
+      this.top === this.right &&
+      this.bottom === this.left &&
+      this.bottom === this.right &&
+      this.left === this.right
+    );
   }
 
   serialize(): string {

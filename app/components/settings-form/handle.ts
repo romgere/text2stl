@@ -6,13 +6,17 @@ const {
   APP: { textMakerDefault },
 } = config;
 
+import type { CalciteRadioButtonGroup } from '@esri/calcite-components/dist/components/calcite-radio-button-group';
+import type { CalciteInputNumber } from '@esri/calcite-components/dist/components/calcite-input-number';
+
 interface AdvancedSettingsFormTextSettingsArgs {
   model: TextMakerSettings;
 }
 
 export default class AdvancedSettingsFormTextSettings extends Component<AdvancedSettingsFormTextSettingsArgs> {
-  directions = ['top', 'bottom', 'right', 'left'];
   handleTypes = ['none', 'hole', 'handle'];
+
+  handlePosition = ['top', 'bottom', 'right', 'left'];
 
   get showHandleSettings() {
     return this.args.model.handleSettings.type !== 'none';
@@ -23,20 +27,13 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
   }
 
   @action
-  setSupportPaddingInt(props: 'top' | 'bottom' | 'right' | 'left', value: string) {
-    const v = parseInt(value, 10);
-    this.args.model.supportPadding[props] = isNaN(v) ? 0 : v;
-  }
-
-  @action
-  setInt(props: 'supportBorderRadius', value: string) {
-    const v = parseInt(value, 10);
-    this.args.model[props] = isNaN(v) ? undefined : v;
-  }
-
-  @action
-  updateHandleType(value: 'none' | 'hole' | 'handle') {
+  updateHandleType(e: CustomEvent) {
+    const value = (e.target as CalciteRadioButtonGroup).selectedItem.value as
+      | 'none'
+      | 'hole'
+      | 'handle';
     this.args.model.handleSettings.type = value;
+
     // reset some handle settings to "default"
     this.args.model.handleSettings.position = textMakerDefault.handleSettings.position;
     this.args.model.handleSettings.offsetX = textMakerDefault.handleSettings.offsetX;
@@ -46,15 +43,21 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
   }
 
   @action
-  updateHandlePosition(value: 'top' | 'bottom' | 'right' | 'left') {
+  updateHandlePosition(e: CustomEvent) {
+    const value = (e.target as CalciteRadioButtonGroup).selectedItem.value as
+      | 'top'
+      | 'bottom'
+      | 'right'
+      | 'left';
+
     this.args.model.handleSettings.position = value;
     this.args.model.handleSettings.offsetX = textMakerDefault.handleSettings.offsetX;
     this.args.model.handleSettings.offsetY = textMakerDefault.handleSettings.offsetY;
   }
 
   @action
-  setHandleSettingsInt(props: 'size' | 'size2' | 'offsetX' | 'offsetY', value: string) {
-    const v = parseInt(value, 10);
+  setHandleSettingsInt(props: 'size' | 'size2' | 'offsetX' | 'offsetY', e: CustomEvent) {
+    const v = parseInt((e.target as CalciteInputNumber).value, 10);
     this.args.model.handleSettings[props] = isNaN(v) ? 0 : v;
   }
 }

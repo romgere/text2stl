@@ -1,0 +1,32 @@
+<calcite-button
+  appearance="transparent"
+  kind="neutral"
+  scale="m"
+  id="about-button"
+  icon-start="information"
+/>
+
+<calcite-popover
+  label={{t "info.label"}}
+  heading={{t "info.label"}}
+  reference-element="about-button"
+  closable
+  auto-close
+>
+  <div class="m-2">
+    <p class="center">
+      {{t "info.made_by"
+        author=this.authorLink
+        ember=this.emberLink
+        three=this.threeLink
+        htmlSafe=true
+      }}
+    </p>
+    <p class="center">
+      <a href="https://github.com/romgere/text2stl" target="_blank" rel="noopener noreferrer">{{t "info.github"}}</a>
+    </p>
+    <p class="center">
+      <a href="https://github.com/romgere/text2stl/issues/new" target="_blank" rel="noopener noreferrer">{{t "info.issue"}}</a>
+    </p>
+  </div>
+</calcite-popover>

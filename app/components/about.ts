@@ -1,11 +1,9 @@
-import Controller from '@ember/controller';
+import Component from '@glimmer/component';
 import { htmlSafe } from '@ember/template';
 
-// Import UIKit css & js globally
-import 'uikit/dist/js/uikit';
-import 'uikit/dist/css/uikit.css';
+interface AboutComponentArgs {}
 
-export default class AppController extends Controller {
+export default class AboutComponent extends Component<AboutComponentArgs> {
   get authorLink() {
     return htmlSafe(
       '<a href="https://github.com/romgere" target="_blank" rel="noopener noreferrer">Romgere</a>',
@@ -22,11 +20,5 @@ export default class AppController extends Controller {
     return htmlSafe(
       '<a href="https://threejs.org/"  target="_blank" rel="noopener noreferrer">three.js</a>',
     );
-  }
-}
-
-declare module '@ember/controller' {
-  interface Registry {
-    application: AppController;
   }
 }
