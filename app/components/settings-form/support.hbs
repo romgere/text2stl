@@ -43,7 +43,6 @@
         value={{get @model.supportPadding pos}}
         {{on "calciteInputNumberChange" (fn this.setSupportPaddingDir pos)}}
         step="1"
-        number-button-type="horizontal"
         icon={{get this.supportPositionIcon pos}}
         integer
         data-test-settings-supportPadding={{pos}}

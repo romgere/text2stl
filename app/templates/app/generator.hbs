@@ -1,18 +1,45 @@
-<calcite-shell-panel slot="panel-start">
-  <calcite-panel heading={{t "settings_form.label"}}>
+<calcite-shell-panel slot="panel-start" collapsed={{this.mainPanelClosed}}>
+  <calcite-action-bar slot="action-bar">
 
-    <calcite-action
-      icon="save"
-      text={{t 'save'}}
-      slot="header-actions-start"
-      {{on 'click' this.showSaveModal}}
-    />
-    <calcite-action
-      icon="reset"
-      text={{t 'reset'}}
-      slot="header-actions-end"
-      {{on 'click' this.showResetModal}}
-    />
+
+    <calcite-action-group>
+      <calcite-action
+        text={{t "settings_form.label"}}
+        icon="sliders"
+        {{on "click" (if this.mainPanelClosed this.openMainPanel this.closeMainPanel)}}
+      />
+    </calcite-action-group>
+
+    <calcite-action-group>
+      <calcite-action
+        icon="save"
+        text={{t 'save'}}
+        {{on 'click' this.showSaveModal}}
+      />
+      <calcite-action
+        icon="reset"
+        text={{t 'reset'}}
+        {{on 'click' this.showResetModal}}
+      />
+    </calcite-action-group>
+
+    <calcite-action-group slot="actions-end">
+      <calcite-action
+        icon="download"
+        text={{t 'export_stl'}}
+        disabled={{this.exportDisabled}}
+        {{on 'click' this.exportSTL}}
+      />
+    </calcite-action-group>
+
+  </calcite-action-bar>
+
+  <calcite-panel
+    heading={{t "settings_form.label"}}
+    closable
+    closed={{this.mainPanelClosed}}
+    {{on "calcitePanelClose" this.closeMainPanel}}
+  >
 
     <div slot="footer">
       {{#if this.counter}}
@@ -28,6 +55,7 @@
         scale="l"
         disabled={{this.exportDisabled}}
         loading={{this.meshGenerating}}
+        icon-start="download"
         {{on 'click' this.exportSTL}}
       >
         {{t 'export_stl'}}

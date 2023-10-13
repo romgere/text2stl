@@ -4,6 +4,14 @@
   width: 70%;
 }
 
+.w-75 {
+  width: 75%;
+}
+
+.w-80 {
+  width: 80%;
+}
+
 .center {
   text-align: center;
 }
@@ -38,6 +46,13 @@ img.text-type-icon {
   margin-inline-start: auto;
   align-self: center;
 }
+
+@media (max-width: 768px) {
+  #header-sub-title {
+    display: none;
+  }
+}
+
 
 #header {
   display: flex;

@@ -131,6 +131,18 @@ export default class GeneratorController extends Controller {
   hideResetModal() {
     this.resetModalVisible = false;
   }
+
+  @tracked mainPanelClosed = false;
+
+  @action
+  closeMainPanel() {
+    this.mainPanelClosed = true;
+  }
+
+  @action
+  openMainPanel() {
+    this.mainPanelClosed = false;
+  }
 }
 
 declare module '@ember/controller' {
