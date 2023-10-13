@@ -8,6 +8,7 @@ const {
 } = config;
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
+import wait from 'text2stl/tests/helpers/wait';
 
 module('Integration | Component | settings-form/select-type', function (hooks) {
   setupRenderingTest(hooks);
@@ -20,6 +21,7 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
     this.set('model', model);
 
     await render(hbs`<SettingsForm::TypeSelect @model={{this.model}} />`);
+    await wait();
 
     assert.dom('calcite-segmented-control').exists('It render type selector');
     assert.dom('calcite-segmented-control-item').exists({ count: 4 });
