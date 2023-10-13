@@ -3,7 +3,7 @@ import { setupTest } from 'ember-qunit';
 import * as opentype from 'opentype.js';
 import cases from 'qunit-parameterize';
 import type FontManagerService from 'text2stl/services/font-manager';
-import type { Variant } from '@samuelmeuli/font-manager';
+import type { Variant } from 'text2stl/services/font-manager';
 
 const mockedFontList = new Map();
 

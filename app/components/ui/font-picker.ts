@@ -62,6 +62,18 @@ export default class UiFontPicker extends Component<UiFontPickerArgs> {
   @action
   onFontNameChange(e: CustomEvent) {
     const fontName = (e.target as CalciteCombobox).value as string;
+    // This is not supposed to happen (aka. not initiate by "calcite-combobox")
+    // this happens when `fontName` change from outside of font-picker & actual filter are no longer returning a list containing `fontName`
+    if (!fontName) {
+      // Reset font-picker to current font
+      const currentFont = this.fontManager.fontList.get(this.args.fontName);
+      if (currentFont) {
+        this.fontCategory = currentFont.category;
+        this.fontScript = undefined;
+        return;
+      }
+    }
+
     const font = this.fontManager.fontList.get(fontName);
     if (font) {
       this.args.onFontSettingsChange(fontName, font.variants[0]);
