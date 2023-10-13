@@ -28,7 +28,7 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
 
     assert
       .dom(`calcite-segmented-control-item[data-test-type="${ModelType.TextOnly}"]`)
-      .hasAttribute('checked', '', 'Correct type is checked');
+      .hasAttribute('data-test-checked', '', 'Correct type is checked');
 
     await click(`calcite-segmented-control-item[data-test-type="${ModelType.TextWithSupport}"]`);
     assert.strictEqual(model.type, ModelType.TextWithSupport, 'It change model type');
@@ -46,6 +46,7 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
     await click(
       `calcite-segmented-control-item[data-test-type="${ModelType.VerticalTextWithSupport}"]`,
     );
+    await wait();
     assert.strictEqual(model.text, 'some multiline text', 'text was updated');
   });
 });
