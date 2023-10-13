@@ -9,7 +9,8 @@ Inspired from : https://github.com/mo22/textstl
 
 ## TODO : 
 
-- [ ] finalize font-picker tests
+- [ ] get rid of "counter" service (api no longer available ?)
+- [ ] finalize tests (font-picker, theme switcher...)
 - [ ] UI state as QP (open/close panel)
 - [ ] See some improvements asked in GH issues
 

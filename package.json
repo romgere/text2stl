@@ -1,6 +1,6 @@
 {
   "name": "text2stl",
-  "version": "0.1.0",
+  "version": "2.0.0",
   "private": true,
   "description": "3D text generator for 3D printing",
   "homepage": "https://text2stl.mestres.fr/",
