@@ -30,7 +30,7 @@
     >
       {{#each this.alignmentOptions as |align|}}
         <calcite-label layout="inline">
-          <calcite-radio-button value={{align}} checked={{eq @model.alignment align}}></calcite-radio-button>
+          <calcite-radio-button value={{align}} data-test-value={{align}} checked={{eq @model.alignment align}}></calcite-radio-button>
           {{t (concat "alignment." align)}}
         </calcite-label>
 
@@ -45,12 +45,12 @@
   <calcite-radio-button-group
     name="text-valignment"
     layout="horizontal"
-    data-test-settings-text-alignment
+    data-test-settings-text-valignment
     {{on "calciteRadioButtonGroupChange" this.setVAlignment}}
   >
     {{#each this.vAlignmentOptions as |vAlign|}}
       <calcite-label layout="inline">
-        <calcite-radio-button value={{vAlign}} checked={{eq @model.vAlignment vAlign}}></calcite-radio-button>
+        <calcite-radio-button value={{vAlign}} data-test-value={{vAlign}} checked={{eq @model.vAlignment vAlign}}></calcite-radio-button>
         {{t (concat "valignment." vAlign)}}
       </calcite-label>
 

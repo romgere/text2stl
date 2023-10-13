@@ -61,7 +61,7 @@
       number-button-type="horizontal"
       icon="dimensions-unit"
       integer
-      data-test-settings-supportPadding
+      data-test-settings-supportPadding="basic"
     />
   </calcite-label>
 {{/if}}
@@ -70,6 +70,7 @@
   {{t "text_settings.advancedSupportPadding"}}
   <calcite-switch
     checked={{this.advancedSupportPadding}}
+    data-test-advanced-support-padding
     {{on "calciteSwitchChange" this.toggleAdvancedSupportPadding}}
   />
 </calcite-label>

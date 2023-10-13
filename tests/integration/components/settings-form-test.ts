@@ -1,7 +1,7 @@
 import Component from '@glimmer/component';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setComponentTemplate } from '@ember/component';
 import { ModelType } from 'text2stl/services/text-maker';
@@ -10,14 +10,6 @@ module('Integration | Component | settings-form', function (hooks) {
   setupRenderingTest(hooks);
 
   test('it renders', async function (assert) {
-    class SettingsFormSettings extends Component {}
-    setComponentTemplate(
-      // @ts-expect-error Type error ?
-      hbs(`<div data-mocked-settings data-model={{@model.name}} />`),
-      SettingsFormSettings,
-    );
-    this.owner.register('component:settings-form/settings', SettingsFormSettings);
-
     class SettingsFormFont extends Component {}
     setComponentTemplate(
       // @ts-expect-error Type error ?
@@ -26,56 +18,55 @@ module('Integration | Component | settings-form', function (hooks) {
     );
     this.owner.register('component:settings-form/font', SettingsFormFont);
 
-    class SettingsFormAdvancedSettings extends Component {}
+    class HandleFormFont extends Component {}
     setComponentTemplate(
       // @ts-expect-error Type error ?
-      hbs(`<div data-mocked-advanced-settings data-model={{@model.name}} />`),
-      SettingsFormAdvancedSettings,
+      hbs(`<div data-mocked-handle data-model={{@model.name}} />`),
+      HandleFormFont,
     );
-    this.owner.register('component:settings-form/advanced-settings', SettingsFormAdvancedSettings);
+    this.owner.register('component:settings-form/handle', HandleFormFont);
+
+    class SupportFormSettings extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error Type error ?
+      hbs(`<div data-mocked-support data-model={{@model.name}} />`),
+      SupportFormSettings,
+    );
+    this.owner.register('component:settings-form/support', SupportFormSettings);
+
+    class TextSettings extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error Type error ?
+      hbs(`<div data-mocked-text data-model={{@model.name}} />`),
+      TextSettings,
+    );
+    this.owner.register('component:settings-form/text', TextSettings);
+
+    class TypeSelectSettings extends Component {}
+    setComponentTemplate(
+      // @ts-expect-error Type error ?
+      hbs(`<div data-mocked-type-select data-model={{@model.name}} />`),
+      TypeSelectSettings,
+    );
+    this.owner.register('component:settings-form/type-select', TypeSelectSettings);
 
     this.set('model', { type: ModelType.TextOnly, name: 'the_model' });
     await render(hbs`<SettingsForm @model={{this.model}} @onFontChange="on_font_change" />`);
 
-    assert.dom('[uk-tab]').exists('It render tab');
-    assert.dom('[uk-tab] li').exists({ count: 2 }, 'It render 2 tabs');
-    assert.dom('[data-tab-item=advanced]').doesNotExist('advanced tab is not rendered');
-
-    assert.dom('[data-mocked-font]').isNotVisible('Font tab is not visible');
-    assert
-      .dom('[data-mocked-advanced-settings]')
-      .isNotVisible('Advanced settings tab is not visible');
-
-    assert
-      .dom('[data-mocked-settings]')
-      .exists('It render settings tab by default')
-      .hasAttribute('data-model', 'the_model', 'Model is passed to settings component');
-
-    // Change tab
-    await click('[data-tab-item=font] a');
-
-    assert.dom('[data-mocked-settings]').isNotVisible('Settings tab is not visible');
-    assert
-      .dom('[data-mocked-advanced-settings]')
-      .isNotVisible('Advanced settings tab is not visible');
-    assert
-      .dom('[data-mocked-font]')
-      .exists('font tab is rendered')
-      .hasAttribute('data-model', 'the_model', 'Model is passed to font component');
+    assert.dom('calcite-block').exists({ count: 3 }, 'It render 3 blocks');
+    assert.dom('[data-mocked-type-select]').exists('type-select block exists');
+    assert.dom('[data-mocked-text]').exists('text block exists');
+    assert.dom('[data-mocked-font]').exists('font block exists');
+    assert.dom('[data-mocked-handle]').doesNotExist('handle block does not exist');
+    assert.dom('[data-mocked-support]').doesNotExist('support block does not exist');
 
     this.set('model', { type: ModelType.TextWithSupport, name: 'the_model' });
-    assert.dom('[uk-tab]').exists('It render tab');
-    assert.dom('[uk-tab] li').exists({ count: 3 }, 'It render 3 tabs');
-    assert.dom('[data-tab-item=advanced]').exists('advanced tab not rendered');
 
-    // Change tab
-    await click('[data-tab-item=advanced] a');
-
-    assert.dom('[data-mocked-settings]').isNotVisible('Settings tab is not visible');
-    assert.dom('[data-mocked-font]').isNotVisible('Font tab is not visible');
-    assert
-      .dom('[data-mocked-advanced-settings]')
-      .exists('advanced-settings tab is rendered')
-      .hasAttribute('data-model', 'the_model', 'Model is passed to font component');
+    assert.dom('calcite-block').exists({ count: 5 }, 'It render 5 blocks');
+    assert.dom('[data-mocked-type-select]').exists('type-select block exists');
+    assert.dom('[data-mocked-text]').exists('text block exists');
+    assert.dom('[data-mocked-font]').exists('font block exists');
+    assert.dom('[data-mocked-handle]').exists('handle block exist');
+    assert.dom('[data-mocked-support]').exists('support block exist');
   });
 });

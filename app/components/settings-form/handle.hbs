@@ -9,7 +9,7 @@
   >
     {{#each this.handleTypes as |type|}}
       <calcite-label layout="inline">
-        <calcite-radio-button value={{type}} checked={{eq @model.handleSettings.type type}} />
+        <calcite-radio-button value={{type}} data-test-value={{type}} checked={{eq @model.handleSettings.type type}} />
         {{t (concat "text_settings.handleSettings.type." type)}}
       </calcite-label>
     {{/each}}
@@ -29,7 +29,7 @@
     >
       {{#each this.handlePosition as |pos|}}
         <calcite-label layout="inline">
-          <calcite-radio-button value={{pos}} checked={{eq @model.handleSettings.position pos}} />
+          <calcite-radio-button value={{pos}} data-test-value={{pos}} checked={{eq @model.handleSettings.position pos}} />
           {{t (concat "directions." pos)}}
         </calcite-label>
       {{/each}}

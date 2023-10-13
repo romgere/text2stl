@@ -1,5 +1,7 @@
 <calcite-card
   selected={{this.dropActive}}
+  id={{this.id}}
+  ...attributes
   {{on "drop" this.onDropFile}}
   {{on "dragover" this.onDragOver}}
   {{on "dragleave" (fn (mut this.dropActive) false)}}
@@ -9,7 +11,9 @@
       <calcite-icon icon="upload" scale="l" />
     </p>
     <p class="center m-0">
-      {{@dropZoneLabel}}
+      <span data-test-drop-zone-label>
+        {{@dropZoneLabel}}
+      </span>
 
       <label for={{this.id}} class="link-color" data-test-input-label>
         {{@inputZoneLabel}}
