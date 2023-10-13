@@ -66,11 +66,11 @@ export default class GeneratorController extends Controller {
   });
 
   get meshGenerating() {
-    return this.mesh.isLoading;
+    return false; //this.mesh.isLoading;
   }
 
   get exportDisabled() {
-    return !this.mesh.value;
+    return true; // !this.mesh.value;
   }
 
   @tracked isFontLoading = true;
