@@ -38,6 +38,8 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@onehilltech/ember-cli-google-analytics": "^1.2.0",
+    "@percy/cli": "^1.27.3",
+    "@percy/ember": "^4.2.0",
     "@types/ember__application": "^~4.0",
     "@types/ember__array": "~4.0",
     "@types/ember__component": "~4.0",

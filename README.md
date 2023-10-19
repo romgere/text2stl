@@ -56,23 +56,11 @@ Make use of the many generators for code, try `ember help generate` for more det
 * `ember test`
 * `ember test --server`
 
-#### Mesh snapshots
+**Update Percy snaphost**
 
-The [text-maker](https://github.com/romgere/text2stl/blob/master/app/services/text-maker.ts) service's unit tests use mesh snapshot to test the service works as expected.
+Run `yarn percy exec:start`, then run `ember test` or `ember test --server` & visit http://127.0.0.1:4200/tests?filter=Acceptance%20%7C%20visual.
 
-If the service is updated (aka. when the generated mesh changes) the test will break.
-
-~~To fix the tests, new mesh snapshots has to be generated. To generate the new snapshot use the command :~~
-
-~~`yarn generate:snapshot`~~
-
-~~Warning: Don't run this command to fix tests if no modifications was made on `text-maker` service (or `three` deps update) or if you don't know why you run it (generating new snapshots will generate new UUID for mesh & create new useless file diffs)~~
-
-**No longer work with node 14**
-
-Mesh snapshot need to be manualy updated, see console, when some mesh tests are failing...
-
-Easy way to re-generate snaptshot is to naviate to [127.0.0.1:4200/tests?filter=it generate mesh according to snapshots#download_fixture](127.0.0.1:4200/tests?filter=it generate mesh according to snapshots#download_fixture) & download all file in `tests/fixtures/meshs/`snapshots/
+Note: You'll need `PERCY_TOKEN` variable defined in your env.
 
 ### Linting
 

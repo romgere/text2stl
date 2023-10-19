@@ -27,7 +27,7 @@ interface ThreeRendererModifierSignature {
 export default class ThreeRendererModifier extends Modifier<ThreeRendererModifierSignature> {
   scene?: THREE.Scene;
   camera?: THREE.PerspectiveCamera;
-  renderer?: THREE.WebGLRenderer;
+  renderer?: THREE.WebGLRenderer | THREE.WebGL1Renderer;
   mesh?: THREE.Mesh;
 
   controls?: OrbitControls;
@@ -64,8 +64,8 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
     this.camera = new THREE.PerspectiveCamera(75);
     this.camera.position.set(
       0,
-      this.namedArgs.nearCamera ? 50 : 400,
-      this.namedArgs.nearCamera ? 70 : 300,
+      this.namedArgs.nearCamera ? 250 : 400,
+      this.namedArgs.nearCamera ? 150 : 300,
     );
     this.scene.add(this.camera);
 
