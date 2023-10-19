@@ -21,7 +21,7 @@ module('Acceptance | visual', function (hooks) {
       await visit(`/en-us/generator?modelSettings=${settingsQP}`);
 
       await new Promise(function (resolve) {
-        setTimeout(resolve, 100);
+        setTimeout(resolve, 250);
       });
       await percySnapshot(`visual test #${testIdx + 1}`);
       assert.true(true);

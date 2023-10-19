@@ -38,6 +38,7 @@ module('Integration | Component | lang-switcher', function (hooks) {
     this.owner.register('component:link-to', MyLinkTo);
 
     await render(hbs`<LangSwitcher class="my-custom-class" />`);
+    await wait();
 
     assert
       .dom('calcite-segmented-control')
