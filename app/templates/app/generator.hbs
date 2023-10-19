@@ -42,13 +42,13 @@
   >
 
     <div slot="footer">
-      {{#if this.counter}}
+      {{!-- {{#if this.counter}}
         <calcite-notice open icon="information">
           <div slot="message">
             {{t 'stl_counter' count=this.counter}}
           </div>
         </calcite-notice>
-      {{/if}}
+      {{/if}} --}}
 
       <calcite-button
         width="full"
@@ -68,7 +68,7 @@
 
 
 <calcite-panel>
-  <ThreePreview @mesh={{this.mesh.value}} @parentSize={{true}}  as |preview|>
+  <ThreePreview @mesh={{this.mesh.value}} @parentSize={{true}} @nearCamera={{true}}  as |preview|>
 
     <div id="three-preview-container">
       <preview.renderer />

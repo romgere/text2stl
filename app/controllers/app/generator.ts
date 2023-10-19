@@ -4,7 +4,7 @@ import { inject as service } from '@ember/service';
 import FontManagerService from 'text2stl/services/font-manager';
 import TextMakerService from 'text2stl/services/text-maker';
 import STLExporterService from 'text2stl/services/stl-exporter';
-import CounterService from 'text2stl/services/counter';
+// import CounterService from 'text2stl/services/counter';
 import { tracked } from '@glimmer/tracking';
 import { trackedFunction } from 'ember-resources/util/function';
 import { Registry as Services } from '@ember/service';
@@ -34,7 +34,7 @@ export default class GeneratorController extends Controller {
 
   @service declare intl: IntlService;
 
-  @service('counter') declare counterService: CounterService;
+  // @service('counter') declare counterService: CounterService;
 
   @service declare router: Services['router'];
 
@@ -42,9 +42,9 @@ export default class GeneratorController extends Controller {
 
   _gtag = gtag;
 
-  get counter() {
-    return this.counterService.counter;
-  }
+  // get counter() {
+  //   return this.counterService.counter;
+  // }
 
   font = trackedFunction(this, async () => {
     return this.model.customFont
@@ -88,7 +88,7 @@ export default class GeneratorController extends Controller {
       value: this.model.type,
     });
 
-    this.counterService.updateCounter();
+    // this.counterService.updateCounter();
     this.stlExporter.downloadMeshAsSTL(mesh);
   }
 

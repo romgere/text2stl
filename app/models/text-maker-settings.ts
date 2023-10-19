@@ -20,6 +20,8 @@ interface TextMakerAdditionnalSettings {
   variantName: Variant;
 }
 
+export type TextMakerSettingsParameters = TextMakerParameters & TextMakerAdditionnalSettings;
+
 interface QPSerializable {
   serialize(): string;
   deserialize(json: string): void;
@@ -123,7 +125,7 @@ export default class TextMakerSettings implements TextMakerParameters, QPSeriali
   @tracked supportPadding: SupportPaddingSettings;
   @tracked handleSettings: HandleSettings;
 
-  constructor(args: TextMakerParameters & TextMakerAdditionnalSettings) {
+  constructor(args: TextMakerSettingsParameters) {
     this.variantName = args.variantName;
     this.fontName = args.fontName;
     this.text = args.text ?? textMakerDefault.text;
