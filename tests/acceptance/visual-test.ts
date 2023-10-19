@@ -13,20 +13,6 @@ module('Acceptance | visual', function (hooks) {
     mockFontManager(this.owner);
   });
 
-  // const testIdx = 38;
-  // test(`visual test #${testIdx + 1}`, async function (assert) {
-  //   const settings = new TextMakerSettings(testsSettings[testIdx]);
-  //   const settingsQP = settings.serialize();
-  //   // Load test settings through QP
-  //   await visit(`/en-us/generator?modelSettings=${settingsQP}`);
-
-  //   await percySnapshot(`visual test #${testIdx + 1}`);
-  //   assert.true(true);
-  //   await new Promise(function (resolve) {
-  //     setTimeout(resolve, 5000);
-  //   });
-  // });
-
   for (let testIdx = 0; testIdx < testsSettings.length; testIdx++) {
     test(`visual test #${testIdx + 1}`, async function (assert) {
       const settings = new TextMakerSettings(testsSettings[testIdx]);
