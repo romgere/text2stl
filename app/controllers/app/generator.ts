@@ -34,13 +34,13 @@ export default class GeneratorController extends Controller {
 
   @service declare intl: IntlService;
 
+  @service declare gtag: GTagService;
+
   // @service('counter') declare counterService: CounterService;
 
   @service declare router: Services['router'];
 
   declare model: RouteModel<ApplicationRoute>;
-
-  _gtag = gtag;
 
   // get counter() {
   //   return this.counterService.counter;
@@ -54,7 +54,7 @@ export default class GeneratorController extends Controller {
 
   mesh = trackedFunction(this, () => {
     if (this.font.isResolved && this.font.value) {
-      this._gtag('event', 'stl_generation', {
+      this.gtag.event('stl_generation', {
         event_category: 'stl', // eslint-disable-line camelcase
         value: this.model.type,
       });
@@ -83,7 +83,7 @@ export default class GeneratorController extends Controller {
       return;
     }
 
-    this._gtag('event', 'stl_download', {
+    this.gtag.event('stl_download', {
       event_category: 'stl', // eslint-disable-line camelcase
       value: this.model.type,
     });

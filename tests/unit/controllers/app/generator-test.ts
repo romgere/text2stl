@@ -4,6 +4,7 @@ import waitUntil from '@ember/test-helpers/wait-until';
 import mockTextSettings from 'text2stl/tests/helpers/mock-text-maker-settings';
 import { Font } from 'opentype.js';
 import { Mesh } from 'three';
+import mockGtag from 'text2stl/tests/helpers/mock-gtag';
 
 import type { TextMakerParameters } from 'text2stl/services/text-maker';
 import type { Variant } from 'text2stl/services/font-manager';
@@ -78,7 +79,7 @@ module('Unit | Controller | app/generator', function (hooks) {
 
   test('it generate a STL with mesh', async function (assert) {
     assert.expect(6);
-
+    mockGtag(this.owner);
     const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
 
     const model = mockTextSettings({
@@ -108,9 +109,10 @@ module('Unit | Controller | app/generator', function (hooks) {
       assert.strictEqual(mesh, mockedMesh, 'it generates STL from mesh');
     };
 
-    controller._gtag = function (type: string, eventName: string, opts: { value: string }) {
-      assert.step(`gtag_${type}_${eventName}_${opts.value}`);
-    } as unknown as typeof gtag;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    this.owner.lookup('service:gtag').event = function (eventName: string, opts: any) {
+      assert.step(`gtag_event_${eventName}_${opts.value}`);
+    };
 
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);

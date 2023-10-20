@@ -6,11 +6,14 @@ import testsSettings from './_tests-settings';
 import percySnapshot from '@percy/ember';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import mockFontManager from 'text2stl/tests/helpers/mock-font-manager';
+import mockGtag from 'text2stl/tests/helpers/mock-gtag';
+
 module('Acceptance | visual', function (hooks) {
   setupApplicationTest(hooks);
 
   hooks.beforeEach(function () {
     mockFontManager(this.owner);
+    mockGtag(this.owner);
   });
 
   for (let testIdx = 0; testIdx < testsSettings.length; testIdx++) {

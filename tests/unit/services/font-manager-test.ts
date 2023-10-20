@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import * as opentype from 'opentype.js';
-import cases from 'qunit-parameterize';
 import type FontManagerService from 'text2stl/services/font-manager';
 import type { Variant } from 'text2stl/services/font-manager';
 
@@ -33,7 +32,7 @@ mockedFontList.set('font3', {
 module('Unit | Service | font-manager', function (hooks) {
   setupTest(hooks);
 
-  cases([
+  for (const { fontName, variantName, expectedFontUrl, title } of [
     {
       fontName: 'font2',
       variantName: undefined,
@@ -52,29 +51,36 @@ module('Unit | Service | font-manager', function (hooks) {
       expectedFontUrl: 'font2_italic.ttf',
       title: 'Font name with variant',
     },
-  ]).test('it fetch font', async function ({ expectedFontUrl, fontName, variantName }, assert) {
-    const service = this.owner.lookup('service:font-manager') as FontManagerService;
-    service.fontList = mockedFontList;
+  ]) {
+    test(`it fetch font [${title}]`, async function (assert) {
+      assert.expect(3);
+      const service = this.owner.lookup('service:font-manager') as FontManagerService;
+      service.fontList = mockedFontList;
 
-    service.fetch = async function (input: RequestInfo): Promise<Response> {
-      assert.strictEqual(input, expectedFontUrl, 'It fetch the correct font');
-      return {
-        arrayBuffer: () => 'fetched-array-buffer',
-      } as unknown as Response;
-    };
+      service.fetch = async function (input: RequestInfo): Promise<Response> {
+        assert.strictEqual(input, expectedFontUrl, 'It fetch the correct font');
+        return {
+          arrayBuffer: () => 'fetched-array-buffer',
+        } as unknown as Response;
+      };
 
-    service.opentype = {
-      parse(buffer: Response): opentype.Font {
-        assert.strictEqual(`${buffer}`, 'fetched-array-buffer', 'font is parsed with fetch result');
-        return 'parsed-font' as unknown as opentype.Font;
-      },
-    } as typeof opentype;
+      service.opentype = {
+        parse(buffer: Response): opentype.Font {
+          assert.strictEqual(
+            `${buffer}`,
+            'fetched-array-buffer',
+            'font is parsed with fetch result',
+          );
+          return 'parsed-font' as unknown as opentype.Font;
+        },
+      } as typeof opentype;
 
-    const font = await service.fetchFont(fontName, variantName);
-    assert.strictEqual(`${font}`, 'parsed-font', 'correct font is returned');
-  });
+      const font = await service.fetchFont(fontName, variantName);
+      assert.strictEqual(`${font}`, 'parsed-font', 'correct font is returned');
+    });
+  }
 
-  cases([
+  for (const { fontName, variantName, title } of [
     {
       fontName: 'Something',
       variantName: 'regular' as Variant,
@@ -85,9 +91,9 @@ module('Unit | Service | font-manager', function (hooks) {
       variantName: 'regular' as Variant,
       title: 'Font name with variant + unexisting files',
     },
-  ]).test(
-    "it throw error when font can't be load",
-    async function ({ fontName, variantName }, assert) {
+  ]) {
+    test(`it throw error when font can't be load  [${title}]`, async function (assert) {
+      assert.expect(1);
       const service = this.owner.lookup('service:font-manager') as FontManagerService;
       service.fontList = mockedFontList;
 
@@ -97,8 +103,8 @@ module('Unit | Service | font-manager', function (hooks) {
       } catch (e) {
         assert.true(true);
       }
-    },
-  );
+    });
+  }
 
   test('it cache font', async function (assert) {
     const fetchDone = assert.async();

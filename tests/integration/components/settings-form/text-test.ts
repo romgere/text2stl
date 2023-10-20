@@ -1,7 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
 import { render, click } from '@ember/test-helpers';
-import cases from 'qunit-parameterize';
 import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment';
 const {
@@ -58,7 +57,7 @@ module('Integration | Component | settings-form/text', function (hooks) {
     assert.strictEqual(model.vAlignment, 'bottom', 'model.vAlignment was updated');
   });
 
-  cases([
+  for (const { type, inputType, title } of [
     { type: ModelType.TextOnly, inputType: 'calcite-text-area', title: 'TextOnly' },
     { type: ModelType.NegativeText, inputType: 'calcite-text-area', title: 'NegativeText' },
     { type: ModelType.TextWithSupport, inputType: 'calcite-text-area', title: 'TextWithSupport' },
@@ -67,16 +66,18 @@ module('Integration | Component | settings-form/text', function (hooks) {
       inputType: 'calcite-input-text',
       title: 'VerticalTextWithSupport',
     },
-  ]).test('Text input type depends on model Type', async function ({ type, inputType }, assert) {
-    const model = new TextMakerSettings({
-      ...textMakerDefault,
-      type,
-    });
-    this.set('model', model);
+  ]) {
+    test(`Text input type depends on model Type [${title}]`, async function (assert) {
+      const model = new TextMakerSettings({
+        ...textMakerDefault,
+        type,
+      });
+      this.set('model', model);
 
-    await render(hbs`<SettingsForm::Text @model={{this.model}} />`);
-    assert.dom(`${inputType}[data-test-settings-text]`).exists(`It renders a ${inputType}`);
-  });
+      await render(hbs`<SettingsForm::Text @model={{this.model}} />`);
+      assert.dom(`${inputType}[data-test-settings-text]`).exists(`It renders a ${inputType}`);
+    });
+  }
 
   test('Text alignment & vertical spacing are shown when text is multiline', async function (assert) {
     const model = new TextMakerSettings({
