@@ -85,6 +85,7 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-inline-content": "^0.4.1",
     "ember-cli-sass": "^10.0.1",
+    "ember-cli-script": "1.0.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-typescript": "^4.1.0",

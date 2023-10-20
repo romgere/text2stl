@@ -5405,6 +5405,14 @@ ember-cli-sass@^10.0.1:
     broccoli-sass-source-maps "^4.0.0"
     ember-cli-version-checker "^2.1.0"
 
+ember-cli-script@1.0.0:
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/ember-cli-script/-/ember-cli-script-1.0.0.tgz#7868072bf27005685f89775e703b43b0d0762720"
+  integrity sha512-BPlpNik6YEsiSWCIpYJcEs7iVxavExMrVgkkPeLTUKTZwGf6fu0jjqmsdf7jCUupXzenl19XDWjBy7qXFrXfzQ==
+  dependencies:
+    ember-cli-babel "^7.26.10"
+    ember-cli-htmlbars "^5.7.2"
+
 ember-cli-sri@^2.1.1:
   version "2.1.1"
   resolved "https://registry.npmjs.org/ember-cli-sri/-/ember-cli-sri-2.1.1.tgz#971620934a4b9183cf7923cc03e178b83aa907fd"

@@ -6,7 +6,6 @@ import testsSettings from './_tests-settings';
 import percySnapshot from '@percy/ember';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import mockFontManager from 'text2stl/tests/helpers/mock-font-manager';
-import mockGtag from 'text2stl/tests/helpers/mock-gtag';
 import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
 
 module('Acceptance | visual', function (hooks) {
@@ -14,7 +13,6 @@ module('Acceptance | visual', function (hooks) {
 
   hooks.beforeEach(function () {
     mockFontManager(this.owner);
-    mockGtag(this.owner);
   });
 
   for (let testIdx = 0; testIdx < testsSettings.length; testIdx++) {

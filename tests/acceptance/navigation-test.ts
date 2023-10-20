@@ -2,14 +2,12 @@ import { module, test } from 'qunit';
 import { visit, currentURL, click } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import mockFontManager from 'text2stl/tests/helpers/mock-font-manager';
-import mockGtag from 'text2stl/tests/helpers/mock-gtag';
 
 module('Acceptance | navigation', function (hooks) {
   setupApplicationTest(hooks);
 
   hooks.beforeEach(function () {
     mockFontManager(this.owner);
-    mockGtag(this.owner);
   });
 
   test('visiting /', async function (assert) {
