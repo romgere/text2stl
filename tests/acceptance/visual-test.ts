@@ -1,6 +1,6 @@
 /* eslint-disable no-await-in-loop */
 import { module, test } from 'qunit';
-import { visit } from '@ember/test-helpers';
+import { visit, waitFor } from '@ember/test-helpers';
 import { setupApplicationTest } from 'ember-qunit';
 import testsSettings from './_tests-settings';
 import percySnapshot from '@percy/ember';
@@ -22,10 +22,7 @@ module('Acceptance | visual', function (hooks) {
       // Load test settings through QP
       await visit(`/en-us/generator?modelSettings=${settingsQP}`);
       await waitCalciteReady();
-
-      await new Promise(function (resolve) {
-        setTimeout(resolve, 250);
-      });
+      await waitFor('[data-test-export-stl]:not([loading])');
       await percySnapshot(`visual test #${testIdx + 1}`);
       assert.true(true);
     });
