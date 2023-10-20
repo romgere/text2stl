@@ -7,6 +7,7 @@ import percySnapshot from '@percy/ember';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import mockFontManager from 'text2stl/tests/helpers/mock-font-manager';
 import mockGtag from 'text2stl/tests/helpers/mock-gtag';
+import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
 
 module('Acceptance | visual', function (hooks) {
   setupApplicationTest(hooks);
@@ -22,6 +23,7 @@ module('Acceptance | visual', function (hooks) {
       const settingsQP = settings.serialize();
       // Load test settings through QP
       await visit(`/en-us/generator?modelSettings=${settingsQP}`);
+      await waitCalciteReady();
 
       await new Promise(function (resolve) {
         setTimeout(resolve, 250);

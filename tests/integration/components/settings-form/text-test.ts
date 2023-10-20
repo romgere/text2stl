@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, waitUntil } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment';
 const {
@@ -8,7 +8,6 @@ const {
 } = config;
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
-import wait from 'text2stl/tests/helpers/wait';
 
 import fillCalciteInput from 'text2stl/tests/helpers/fill-calcite-input';
 
@@ -101,7 +100,8 @@ module('Integration | Component | settings-form/text', function (hooks) {
     await click(
       '[data-test-settings-text-alignment] calcite-radio-button[data-test-value="right"]',
     );
-    await wait(250);
+
+    await waitUntil(() => model.alignment === 'right');
     assert.strictEqual(model.alignment, 'right', 'model.alignment was updated');
 
     assert

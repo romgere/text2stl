@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, waitUntil } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment';
 const {
@@ -8,7 +8,6 @@ const {
 } = config;
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
-import wait from 'text2stl/tests/helpers/wait';
 
 module('Integration | Component | settings-form/select-type', function (hooks) {
   setupRenderingTest(hooks);
@@ -21,8 +20,6 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
     this.set('model', model);
 
     await render(hbs`<SettingsForm::TypeSelect @model={{this.model}} />`);
-    await wait();
-
     assert.dom('calcite-segmented-control').exists('It render type selector');
     assert.dom('calcite-segmented-control-item').exists({ count: 4 });
 
@@ -31,6 +28,7 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
       .hasAttribute('data-test-checked', '', 'Correct type is checked');
 
     await click(`calcite-segmented-control-item[data-test-type="${ModelType.TextWithSupport}"]`);
+    await waitUntil(() => model.type === ModelType.TextWithSupport);
     assert.strictEqual(model.type, ModelType.TextWithSupport, 'It change model type');
   });
 
@@ -46,7 +44,7 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
     await click(
       `calcite-segmented-control-item[data-test-type="${ModelType.VerticalTextWithSupport}"]`,
     );
-    await wait();
+    await waitUntil(() => model.text === 'some multiline text');
     assert.strictEqual(model.text, 'some multiline text', 'text was updated');
   });
 });
