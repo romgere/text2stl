@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click } from '@ember/test-helpers';
+import { render, click, waitFor } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment';
 const {
@@ -29,6 +29,7 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
       .doesNotExist('it does not render handle settings when handle-type is "none"');
 
     await click('[data-test-handle-type-item] [data-test-value="hole"]');
+    await waitFor('[data-test-handle-position]', { timeout: 1000 });
 
     assert.dom('[data-test-handle-position]').exists('it show handle-position input');
     assert.dom('[data-test-settings-handle-size]').exists('it show handle-size input');

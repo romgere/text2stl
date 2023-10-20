@@ -31,6 +31,7 @@
     "generate:type_img": "misc/text_type/generate_logo.sh"
   },
   "devDependencies": {
+    "@babel/core": "7",
     "@babel/eslint-parser": "^7.21.3",
     "@babel/plugin-proposal-decorators": "^7.21.0",
     "@ember/optional-features": "^2.0.0",
@@ -38,6 +39,7 @@
     "@ember/test-helpers": "^3.2.0",
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
+    "@glint/template": "1",
     "@onehilltech/ember-cli-google-analytics": "^1.5.0",
     "@percy/cli": "^1.27.3",
     "@percy/ember": "^4.2.0",
@@ -83,6 +85,7 @@
     "ember-cli-inject-live-reload": "^2.1.0",
     "ember-cli-inline-content": "^0.4.1",
     "ember-cli-sass": "^10.0.1",
+    "ember-cli-script": "1.0.0",
     "ember-cli-sri": "^2.1.1",
     "ember-cli-terser": "^4.0.2",
     "ember-cli-typescript": "^4.1.0",

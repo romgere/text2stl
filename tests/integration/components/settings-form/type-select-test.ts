@@ -44,7 +44,7 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
     await click(
       `calcite-segmented-control-item[data-test-type="${ModelType.VerticalTextWithSupport}"]`,
     );
-    await waitUntil(() => model.text === 'some multiline text');
+    await waitUntil(() => model.text === 'some multiline text', { timeout: 1000 });
     assert.strictEqual(model.text, 'some multiline text', 'text was updated');
   });
 });
