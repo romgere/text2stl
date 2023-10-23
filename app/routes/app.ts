@@ -13,10 +13,13 @@ export default class AppRoute extends Route {
   @service declare intl: IntlService;
   @service declare router: Services['router'];
   @service declare fontManager: FontManagerService;
+  @service declare gtag: GTagService;
 
   constructor(props: object | undefined) {
     super(props);
     this.router.on('routeDidChange', (transition: Transition) => this.updateMeta(transition));
+    // Jut get the gtatg service to trigger Google script injection
+    this.gtag;
   }
 
   async model({ locale }: { locale: string }) {
