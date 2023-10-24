@@ -1531,15 +1531,6 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@onehilltech/ember-cli-google-analytics@^1.5.0":
-  version "1.5.0"
-  resolved "https://registry.npmjs.org/@onehilltech/ember-cli-google-analytics/-/ember-cli-google-analytics-1.5.0.tgz#19d576fc6db5f9088fe91598a61ed545c3c360fe"
-  integrity sha512-vILQX6bxCuoYem2fi0uYWPQHCx2aSOJECedDAJinX7q4dopJr+Fy4D3RJqClOOpzP28CZ47SI58v9pGF5rXl5g==
-  dependencies:
-    ember-cli-babel "^7.26.10"
-    ember-cli-blueprint-helpers "^0.4.8"
-    ember-cli-htmlbars "^5.7.2"
-
 "@percy/cli-app@1.27.3":
   version "1.27.3"
   resolved "https://registry.npmjs.org/@percy/cli-app/-/cli-app-1.27.3.tgz#c296e09ffac46c011e9f33ac779d6f0396e0b2b6"
@@ -3210,13 +3201,6 @@ balanced-match@^2.0.0:
   resolved "https://registry.npmjs.org/balanced-match/-/balanced-match-2.0.0.tgz#dc70f920d78db8b858535795867bf48f820633d9"
   integrity sha512-1ugUSr8BHXRnK23KfuYS+gVMC3LB8QGH9W1iGtDPsNWoQbgtXSExkBu2aDR4epiGWZOjZsj6lDl/N/AqqTC3UA==
 
-base-object@^1.2.1:
-  version "1.4.1"
-  resolved "https://registry.npmjs.org/base-object/-/base-object-1.4.1.tgz#e821b486ada5f1bef0bea460ba7c064fc4c21f69"
-  integrity sha512-oAb97VZZfoCmk3CJbEQuRtnQqgP5/Hnog0vtju9mZPOu/ez8ZB78OsZfFQIwRoUTPxE+5l1sD9X8Ou/3HPraNA==
-  dependencies:
-    lodash "^4.17.10"
-
 base64-js@^1.0.2, base64-js@^1.3.1:
   version "1.5.1"
   resolved "https://registry.npmjs.org/base64-js/-/base64-js-1.5.1.tgz#1b1b440160a5bf7ad40b650f095963481903930a"
@@ -3288,7 +3272,7 @@ blank-object@^1.0.1:
   resolved "https://registry.npmjs.org/blank-object/-/blank-object-1.0.2.tgz#f990793fbe9a8c8dd013fb3219420bec81d5f4b9"
   integrity sha512-kXQ19Xhoghiyw66CUiGypnuRpWlbHAzY/+NyvqTEdTfhfQGH1/dbEMYiXju7fYKIFePpzp/y9dsu5Cu/PkmawQ==
 
-bluebird@^3.4.6, bluebird@^3.5.1, bluebird@^3.5.5, bluebird@^3.7.2:
+bluebird@^3.4.6, bluebird@^3.5.5, bluebird@^3.7.2:
   version "3.7.2"
   resolved "https://registry.npmjs.org/bluebird/-/bluebird-3.7.2.tgz#9f229c15be272454ffa973ace0dbee79a1b0c36f"
   integrity sha512-XpNj6GDQzdfW+r2Wnn7xiSAd7TM3jzkxGXBGTtWKuSXv1xUV+azxAm8jdWZN06QTQk+2N2XB9jRDkvbmQmcRtg==
@@ -5262,18 +5246,6 @@ ember-cli-babel@^7.0.0, ember-cli-babel@^7.13.0, ember-cli-babel@^7.22.1, ember-
     resolve-package-path "^3.1.0"
     rimraf "^3.0.1"
     semver "^5.5.0"
-
-ember-cli-blueprint-helpers@^0.4.8:
-  version "0.4.8"
-  resolved "https://registry.npmjs.org/ember-cli-blueprint-helpers/-/ember-cli-blueprint-helpers-0.4.8.tgz#dfec3a876466247ac9a025babdea8e06fb3b77f4"
-  integrity sha512-oEhxc0IXNCxpNI2mPGYxwWOfxsD+HollaZTJa+JHELhByYZ1lCiGmbiRPLWA8QF3UjYxoPeR+7Pol5pHtaAweg==
-  dependencies:
-    base-object "^1.2.1"
-    bluebird "^3.5.1"
-    core-object "^3.1.5"
-    execa "^1.0.0"
-    fs-extra "^7.0.0"
-    semver "^5.5.1"
 
 ember-cli-bundle-analyzer@^0.2.2:
   version "0.2.2"
@@ -8890,7 +8862,7 @@ lodash.uniqby@^4.7.0:
   resolved "https://registry.npmjs.org/lodash.uniqby/-/lodash.uniqby-4.7.0.tgz#d99c07a669e9e6d24e1362dfe266c67616af1302"
   integrity sha512-e/zcLx6CSbmaEgFHCA7BnoQKyCtKMxnuWrJygbwPs/AIn+IMKl66L8/s+wBUn5LRw2pZx3bUHibiV1b6aTWIww==
 
-lodash@^4.17.10, lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.17.4:
+lodash@^4.17.12, lodash@^4.17.14, lodash@^4.17.15, lodash@^4.17.19, lodash@^4.17.21, lodash@^4.17.4:
   version "4.17.21"
   resolved "https://registry.npmjs.org/lodash/-/lodash-4.17.21.tgz#679591c564c3bffaae8454cf0b3df370c3d6911c"
   integrity sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==
@@ -11036,7 +11008,7 @@ schema-utils@^4.0.0:
     ajv-formats "^2.1.1"
     ajv-keywords "^5.1.0"
 
-semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.5.1, semver@^5.6.0, semver@^5.7.1:
+semver@^5.3.0, semver@^5.4.1, semver@^5.5.0, semver@^5.6.0, semver@^5.7.1:
   version "5.7.2"
   resolved "https://registry.npmjs.org/semver/-/semver-5.7.2.tgz#48d55db737c3287cd4835e17fa13feace1c41ef8"
   integrity sha512-cBznnQ9KjJqU67B52RMC65CMarK2600WFnbkcaiwWq3xy/5haFJlshgnpjovMVJ+Hff49d8GEn0b87C5pDQ10g==
