@@ -7,6 +7,7 @@ import percySnapshot from '@percy/ember';
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import mockFontManager from 'text2stl/tests/helpers/mock-font-manager';
 import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
+import wait from 'text2stl/tests/helpers/wait';
 
 module('Acceptance | visual', function (hooks) {
   setupApplicationTest(hooks);
@@ -23,6 +24,7 @@ module('Acceptance | visual', function (hooks) {
       await visit(`/en-us/generator?modelSettings=${settingsQP}`);
       await waitCalciteReady();
       await waitFor('[data-test-export-stl]:not([loading])');
+      await wait(250);
       await percySnapshot(`visual test #${testIdx + 1}`);
       assert.true(true);
     });
