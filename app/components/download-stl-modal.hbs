@@ -1,0 +1,44 @@
+<calcite-modal
+  aria-labelledby="modal-title"
+  resize="vertical"
+  open
+  {{on "calciteModalClose" @onHide}}
+>
+  <div slot="header" id="modal-title">
+    {{t 'download_modal.title'}}
+  </div>
+  <div slot="content">
+    <AmpAd
+      @width="100%"
+      @height="320px"
+      type="adsense"
+      data-ad-client="ca-pub-3813838413338800"
+      data-ad-slot="7911231338"
+      data-auto-format="rspv"
+      data-full-width=""
+    />
+    {{#if this.canDownload}}
+      <calcite-notice open icon="layers-reference" kind="success">
+        <div slot="title">{{t "download_modal.ready.title"}}</div>
+        <div slot="message">{{t "download_modal.ready.message"}}</div>
+        <calcite-link {{on "click" @downloadSTL}} slot="link" title={{t 'download_modal.download'}}>
+          {{t 'download_modal.download'}}
+        </calcite-link>
+      </calcite-notice>
+    {{else}}
+      <calcite-loader
+        label={{t "download_modal.wait"}}
+        text={{t "download_modal.wait"}}
+        scale="l"
+        type="indeterminate"
+        class="p-0"
+      />
+    {{/if}}
+  </div>
+  <calcite-button {{on "click" @onHide}} slot="secondary" width="full" appearance="outline">
+    {{t "download_modal.close"}}
+  </calcite-button>
+  <calcite-button {{on "click" @downloadSTL}} loading={{not this.canDownload}} slot="primary" width="full">
+    {{t 'download_modal.download'}}
+  </calcite-button>
+</calcite-modal>

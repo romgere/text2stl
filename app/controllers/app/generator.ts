@@ -68,6 +68,18 @@ export default class GeneratorController extends Controller {
 
   @tracked isFontLoading = true;
 
+  @tracked downloadModalVisible = false;
+
+  @action
+  showDownloadModal() {
+    this.downloadModalVisible = true;
+  }
+
+  @action
+  hideDownloadModal() {
+    this.downloadModalVisible = false;
+  }
+
   @action
   async exportSTL() {
     const { value: mesh } = await this.mesh;
@@ -82,6 +94,7 @@ export default class GeneratorController extends Controller {
     });
 
     this.stlExporter.downloadMeshAsSTL(mesh);
+    this.downloadModalVisible = false;
   }
 
   @tracked saveModalVisible = false;

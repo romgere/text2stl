@@ -5,7 +5,12 @@ module.exports = {
   rules: {
     'no-bare-strings': true,
     'no-invalid-interactive': {
-      additionalInteractiveTags: ['calcite-button', 'calcite-action', 'calcite-text-area'],
+      additionalInteractiveTags: [
+        'calcite-button',
+        'calcite-action',
+        'calcite-text-area',
+        'calcite-link',
+      ],
     },
   },
   overrides: [

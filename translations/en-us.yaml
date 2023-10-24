@@ -45,7 +45,7 @@ settings_form:
       heading: Fixation
       description: Handle or hole settings
 export_stl: Export STL
-stl_counter: '{count} STL files have been generated'
+stl_counter: "{count} STL files have been generated"
 info:
   label: About Text2STL
   made_by: Made with ♥ By {author} with {ember} & {three}
@@ -75,7 +75,7 @@ text_settings:
   supportPadding: Support spacing
   advancedSupportPadding: Advanced support spacing
   alignment: Text alignment
-  valignment: Text vertical alignement
+  valignment: Text vertical alignment
   supportBorderRadius: Border radius
   handleSettings:
     label: Fixation type
@@ -103,7 +103,7 @@ directions:
   left: Left
   right: Right
 three_preview:
-  size: 'Print size : {x} x {y} x {z} mm'
+  size: "Print size : {x} x {y} x {z} mm"
 text_type:
   1: Text only
   2: Text with support
@@ -137,3 +137,11 @@ reset_modal:
   cancel: Cancel
   reset: Reset Settings
 font_loading: Loading Google font, please wait...
+download_modal:
+  title: Download STL file
+  ready:
+    title: Your STL file is ready
+    message: Your STL file has been generated, click "Download STL" to save it on your computer... Happy print !
+  wait: Your STL file is being generated, please wait...
+  close: Cancel
+  download: Download STL

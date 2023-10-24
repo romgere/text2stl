@@ -1,0 +1,12 @@
+{{#if this.mockAd}}
+  {{!-- template-lint-disable no-bare-strings --}}
+  <div style={{this.mockStyle}}>SOME ADD HERE</div>
+{{else}}
+  <amp-ad
+    width={{@width}}
+    height={{@height}}
+    ...attributes
+  >
+    <div overflow=""></div>
+  </amp-ad>
+{{/if}}

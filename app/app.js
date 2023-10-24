@@ -29,6 +29,7 @@ import '@esri/calcite-components/dist/components/calcite-combobox';
 import '@esri/calcite-components/dist/components/calcite-combobox-item';
 import '@esri/calcite-components/dist/components/calcite-card';
 import '@esri/calcite-components/dist/components/calcite-popover';
+import '@esri/calcite-components/dist/components/calcite-link';
 
 export default class App extends Application {
   modulePrefix = config.modulePrefix;

@@ -45,7 +45,7 @@ settings_form:
       heading: Fixation
       description: Réglage de la poigné ou du trou
 export_stl: Exporter STL
-stl_counter: '{count} fichiers STL ont été générés'
+stl_counter: "{count} fichiers STL ont été générés"
 info:
   label: À propos de Text2STL
   made_by: Créer avec ♥ par {author} avec {ember} & {three}
@@ -137,3 +137,11 @@ reset_modal:
   cancel: Annuler
   reset: Restaurer les réglages
 font_loading: Chargement des polices Google, veuillez patienter...
+download_modal:
+  title: Exporter STL
+  ready:
+    title: Votre fichier STL est prêt
+    message: Votre fichier STL a été généré, cliquer sur le button "Télécharger" pour le sauvegarder sur votre ordinateur... Bonne impression !
+  wait: Votre fichier STL est en cours de création, veuillez patienter...
+  close: Annuler
+  download: Télécharger
