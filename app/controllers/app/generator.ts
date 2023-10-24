@@ -4,7 +4,6 @@ import { inject as service } from '@ember/service';
 import FontManagerService from 'text2stl/services/font-manager';
 import TextMakerService from 'text2stl/services/text-maker';
 import STLExporterService from 'text2stl/services/stl-exporter';
-// import CounterService from 'text2stl/services/counter';
 import { tracked } from '@glimmer/tracking';
 import { trackedFunction } from 'ember-resources/util/function';
 import { Registry as Services } from '@ember/service';
@@ -34,17 +33,11 @@ export default class GeneratorController extends Controller {
 
   @service declare intl: IntlService;
 
-  @service declare gtag: GTagService;
-
-  // @service('counter') declare counterService: CounterService;
-
   @service declare router: Services['router'];
 
-  declare model: RouteModel<ApplicationRoute>;
+  _gtag = gtag;
 
-  // get counter() {
-  //   return this.counterService.counter;
-  // }
+  declare model: RouteModel<ApplicationRoute>;
 
   font = trackedFunction(this, async () => {
     return this.model.customFont
@@ -54,7 +47,7 @@ export default class GeneratorController extends Controller {
 
   mesh = trackedFunction(this, () => {
     if (this.font.isResolved && this.font.value) {
-      this.gtag.event('stl_generation', {
+      this._gtag('event', 'stl_generation', {
         event_category: 'stl', // eslint-disable-line camelcase
         value: this.model.type,
       });
@@ -83,12 +76,11 @@ export default class GeneratorController extends Controller {
       return;
     }
 
-    this.gtag.event('stl_download', {
+    this._gtag('event', 'stl_download', {
       event_category: 'stl', // eslint-disable-line camelcase
       value: this.model.type,
     });
 
-    // this.counterService.updateCounter();
     this.stlExporter.downloadMeshAsSTL(mesh);
   }
 

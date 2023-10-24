@@ -106,10 +106,9 @@ module('Unit | Controller | app/generator', function (hooks) {
       assert.strictEqual(mesh, mockedMesh, 'it generates STL from mesh');
     };
 
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    this.owner.lookup('service:gtag').event = function (eventName: string, opts: any) {
-      assert.step(`gtag_event_${eventName}_${opts.value}`);
-    };
+    controller._gtag = function (type: string, eventName: string, opts: { value: string }) {
+      assert.step(`gtag_${type}_${eventName}_${opts.value}`);
+    } as unknown as typeof gtag;
 
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);

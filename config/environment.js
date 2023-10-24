@@ -14,6 +14,11 @@ module.exports = function (environment) {
       },
     },
 
+    gTag: {
+      tag: 'G-47QBQ5GB3Y',
+      forceEnable: true,
+    },
+
     'ember-toggle': {
       includedThemes: ['default'],
     },
@@ -71,13 +76,6 @@ module.exports = function (environment) {
           environment === 'development' || environment === 'test'
             ? 'test_stl'
             : process.env.COUNTAPI_API_KEY,
-      },
-    },
-
-    'ember-cli-google': {
-      analytics: {
-        version: 'v4',
-        measurementId: 'G-47QBQ5GB3Y',
       },
     },
   };

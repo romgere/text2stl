@@ -12,6 +12,10 @@ declare const config: {
   podModulePrefix: string;
   locationType: string;
   rootURL: string;
+  gTag: {
+    tag: string;
+    forceEnable: true | undefined;
+  };
   APP: Record<string, unknown> & {
     textMakerDefault: {
       fontName: string;
