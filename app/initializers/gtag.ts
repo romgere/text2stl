@@ -6,12 +6,13 @@ export function initialize() {
     return;
   }
 
+  injectGtag();
+  initGtag();
+}
+
+async function injectGtag() {
   const script = document.createElement('script');
   script.setAttribute('src', `https://www.googletagmanager.com/gtag/js?id=${gTag.tag}`);
-  script.async = true;
-
-  script.onload = initGtag;
-
   document.body.appendChild(script);
 }
 
@@ -21,7 +22,6 @@ function initGtag() {
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
-
     gtag('config', '${gTag.tag}');
 `;
 
