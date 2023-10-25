@@ -16,7 +16,7 @@ module.exports = function (environment) {
 
     gTag: {
       tag: 'G-47QBQ5GB3Y',
-      forceEnable: true,
+      // forceEnable: true, // For testing
     },
 
     'ember-toggle': {
