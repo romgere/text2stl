@@ -3,8 +3,11 @@ const { gTag, environment } = config;
 
 export function initialize() {
   if (!gTag?.forceEnable && ['development', 'test'].includes(environment)) {
+    // Just define gtag function to prevent dev/test to fail
+    fakeGtag();
     return;
   } else if (!gTag?.tag) {
+    console.error('no GTAG defined, skipping Gtag script load');
     return;
   }
 
@@ -26,6 +29,14 @@ function initGtag() {
     gtag('js', new Date());
     gtag('config', '${gTag?.tag}');
 `;
+
+  // Append the script tag to the document.
+  document.body.appendChild(script);
+}
+
+function fakeGtag() {
+  const script = document.createElement('script');
+  script.innerHTML = `function gtag(){}`;
 
   // Append the script tag to the document.
   document.body.appendChild(script);
