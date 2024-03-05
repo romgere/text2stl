@@ -44,7 +44,8 @@ settings_form:
     handle:
       heading: Fixation
       description: Handle or hole settings
-export_stl: Export STL
+export_file: Export {type}
+export_file_type: Export as .{type} file
 stl_counter: '{count} STL files have been generated'
 info:
   label: About Text2STL

@@ -44,7 +44,8 @@ settings_form:
     handle:
       heading: Fixation
       description: Réglage de la poigné ou du trou
-export_stl: Exporter STL
+export_file: Exporter {type}
+export_file_type: Exporter un fichier .{type}
 stl_counter: '{count} fichiers STL ont été générés'
 info:
   label: À propos de Text2STL

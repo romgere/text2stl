@@ -3,13 +3,14 @@ import { action } from '@ember/object';
 import { inject as service } from '@ember/service';
 import FontManagerService from 'text2stl/services/font-manager';
 import TextMakerService from 'text2stl/services/text-maker';
-import STLExporterService from 'text2stl/services/stl-exporter';
+import FileExporterService from 'text2stl/services/file-exporter';
 import { tracked } from '@glimmer/tracking';
 import { trackedFunction } from 'ember-resources/util/function';
 import { Registry as Services } from '@ember/service';
 
 import type ApplicationRoute from 'text2stl/routes/app/generator';
 import type IntlService from 'ember-intl/services/intl';
+import type { FileType } from 'text2stl/services/file-exporter';
 
 export default class GeneratorController extends Controller {
   queryParams = ['modelSettings'];
@@ -29,7 +30,7 @@ export default class GeneratorController extends Controller {
 
   @service declare fontManager: FontManagerService;
 
-  @service declare stlExporter: STLExporterService;
+  @service declare fileExporter: FileExporterService;
 
   @service declare intl: IntlService;
 
@@ -68,20 +69,33 @@ export default class GeneratorController extends Controller {
 
   @tracked isFontLoading = true;
 
+  @tracked fileType: FileType = 'stl';
+
+  fileTypes: FileType[] = ['stl', 'obj'];
+
+  get exportFileLabel() {
+    return this.intl.t('export_file', { type: this.fileType.toUpperCase() });
+  }
+
   @action
-  async exportSTL() {
+  changeFileType(fileType: FileType) {
+    this.fileType = fileType;
+  }
+
+  @action
+  async exportFile() {
     const { value: mesh } = await this.mesh;
 
     if (!mesh) {
       return;
     }
 
-    this._gtag('event', 'stl_download', {
-      event_category: 'stl', // eslint-disable-line camelcase
-      value: this.model.type,
+    this._gtag('event', 'file_download', {
+      event_category: 'file', // eslint-disable-line camelcase
+      value: this.fileType,
     });
 
-    this.stlExporter.downloadMeshAsSTL(mesh);
+    this.fileExporter.downloadMeshFile(mesh, this.fileType);
   }
 
   @tracked saveModalVisible = false;
