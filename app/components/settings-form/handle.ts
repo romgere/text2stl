@@ -26,6 +26,10 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
     return this.args.model.handleSettings.type === 'handle';
   }
 
+  get showHandleOffsetY() {
+    return this.args.model.handleSettings.type === 'hole';
+  }
+
   @action
   updateHandleType(e: CustomEvent) {
     const value = (e.target as CalciteRadioButtonGroup).selectedItem.value as
@@ -56,8 +60,8 @@ export default class AdvancedSettingsFormTextSettings extends Component<Advanced
   }
 
   @action
-  setHandleSettingsInt(props: 'size' | 'size2' | 'offsetX' | 'offsetY', e: CustomEvent) {
-    const v = parseInt((e.target as CalciteInputNumber).value, 10);
+  setHandleSettingsValue(props: 'size' | 'size2' | 'offsetX' | 'offsetY', e: CustomEvent) {
+    const v = parseFloat((e.target as CalciteInputNumber).value);
     this.args.model.handleSettings[props] = isNaN(v) ? 0 : v;
   }
 }

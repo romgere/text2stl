@@ -45,20 +45,20 @@ export default class SupportFormTextSettings extends Component<SupportFormTextSe
   }
 
   @action
-  setInt(props: 'supportHeight' | 'supportBorderRadius', e: CustomEvent) {
-    const v = parseInt((e.target as CalciteInputNumber).value, 10);
+  setNumber(props: 'supportHeight' | 'supportBorderRadius', e: CustomEvent) {
+    const v = parseFloat((e.target as CalciteInputNumber).value);
     this.args.model[props] = isNaN(v) ? undefined : v;
   }
 
   @action
   setSupportPadding(e: CustomEvent) {
-    const v = parseInt((e.target as CalciteInputNumber).value, 10);
+    const v = parseFloat((e.target as CalciteInputNumber).value);
     this.supportPadding = v;
   }
 
   @action
   setSupportPaddingDir(props: 'top' | 'bottom' | 'right' | 'left', e: CustomEvent) {
-    const v = parseInt((e.target as CalciteInputNumber).value, 10);
+    const v = parseFloat((e.target as CalciteInputNumber).value);
     this.args.model.supportPadding[props] = isNaN(v) ? 0 : v;
   }
 

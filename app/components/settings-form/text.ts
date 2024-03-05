@@ -26,8 +26,8 @@ export default class TextFormTextSettings extends Component<TextFormTextSettings
   vAlignmentOptions: TextMakerVerticalAlignment[] = ['default', 'top', 'bottom'];
 
   @action
-  setInt(props: 'size' | 'height' | 'spacing' | 'vSpacing', e: CustomEvent) {
-    const v = parseInt((e.target as CalciteInputNumber).value, 10);
+  setNumber(props: 'size' | 'height' | 'spacing' | 'vSpacing', e: CustomEvent) {
+    const v = parseFloat((e.target as CalciteInputNumber).value);
     this.args.model[props] = isNaN(v) ? undefined : v;
   }
 

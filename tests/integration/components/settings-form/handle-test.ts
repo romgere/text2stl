@@ -46,7 +46,9 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
     assert.dom('[data-test-handle-position]').exists('it show handle-position input');
     assert.dom('[data-test-settings-handle-size]').exists('it show handle-size input');
     assert.dom('[data-test-settings-handle-offsetX]').exists('it show handle-offsetX input');
-    assert.dom('[data-test-settings-handle-offsetY]').exists('it show handle-offsetY input');
+    assert
+      .dom('[data-test-settings-handle-offsetY]')
+      .doesNotExist('it does not show handle-offsetY input');
     assert
       .dom('[data-test-settings-handle-size2]')
       .exists('it renders handle size 2 when handle type is "handle"');
@@ -72,12 +74,6 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
       .hasValue(`${model.handleSettings.offsetX}`, 'It render correct handle offsetX value');
     await fillCalciteInput('[data-test-settings-handle-offsetX]', '456');
     assert.strictEqual(model.handleSettings.offsetX, 456, 'handle offsetX was updated');
-
-    assert
-      .dom('[data-test-settings-handle-offsetY]')
-      .hasValue(`${model.handleSettings.offsetY}`, 'It render correct handle offsetY value');
-    await fillCalciteInput('[data-test-settings-handle-offsetY]', '654');
-    assert.strictEqual(model.handleSettings.offsetY, 654, 'handle offsetY was updated');
 
     await click('[data-test-handle-position] [data-test-value="bottom"]');
     assert.strictEqual(model.handleSettings.position, 'bottom', 'handle position was updated');
