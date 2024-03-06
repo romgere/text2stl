@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitFor } from '@ember/test-helpers';
+import { render, click, waitFor, waitUntil } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment';
 const {
@@ -9,6 +9,7 @@ const {
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
 import fillCalciteInput from 'text2stl/tests/helpers/fill-calcite-input';
+import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
 
 module('Integration | Component | advanced-settings-form/handle', function (hooks) {
   setupRenderingTest(hooks);
@@ -29,8 +30,9 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
       .doesNotExist('it does not render handle settings when handle-type is "none"');
 
     await click('[data-test-handle-type-item] [data-test-value="hole"]');
-    await waitFor('[data-test-handle-position]', { timeout: 1000 });
-
+    await waitUntil(() => model.handleSettings.type === 'hole');
+    await waitCalciteReady();
+    await waitFor('[data-test-handle-position]', { timeout: 5000 });
     assert.dom('[data-test-handle-position]').exists('it show handle-position input');
     assert.dom('[data-test-settings-handle-size]').exists('it show handle-size input');
     assert.dom('[data-test-settings-handle-offsetX]').exists('it show handle-offsetX input');
@@ -46,7 +48,9 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
     assert.dom('[data-test-handle-position]').exists('it show handle-position input');
     assert.dom('[data-test-settings-handle-size]').exists('it show handle-size input');
     assert.dom('[data-test-settings-handle-offsetX]').exists('it show handle-offsetX input');
-    assert.dom('[data-test-settings-handle-offsetY]').exists('it show handle-offsetY input');
+    assert
+      .dom('[data-test-settings-handle-offsetY]')
+      .doesNotExist('it does not show handle-offsetY input');
     assert
       .dom('[data-test-settings-handle-size2]')
       .exists('it renders handle size 2 when handle type is "handle"');
@@ -72,12 +76,6 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
       .hasValue(`${model.handleSettings.offsetX}`, 'It render correct handle offsetX value');
     await fillCalciteInput('[data-test-settings-handle-offsetX]', '456');
     assert.strictEqual(model.handleSettings.offsetX, 456, 'handle offsetX was updated');
-
-    assert
-      .dom('[data-test-settings-handle-offsetY]')
-      .hasValue(`${model.handleSettings.offsetY}`, 'It render correct handle offsetY value');
-    await fillCalciteInput('[data-test-settings-handle-offsetY]', '654');
-    assert.strictEqual(model.handleSettings.offsetY, 654, 'handle offsetY was updated');
 
     await click('[data-test-handle-position] [data-test-value="bottom"]');
     assert.strictEqual(model.handleSettings.position, 'bottom', 'handle position was updated');

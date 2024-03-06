@@ -2,13 +2,14 @@ import Component from '@glimmer/component';
 import Service from '@ember/service';
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, settled, waitFor } from '@ember/test-helpers';
+import { render, settled } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setComponentTemplate } from '@ember/component';
 import config from 'text2stl/config/environment';
 const {
   APP: { availableLanguages },
 } = config;
+import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
 
 import type IntlService from 'ember-intl/services/intl';
 
@@ -37,6 +38,8 @@ module('Integration | Component | lang-switcher', function (hooks) {
     this.owner.register('component:link-to', MyLinkTo);
 
     await render(hbs`<LangSwitcher class="my-custom-class" />`);
+    await waitCalciteReady();
+
     assert
       .dom('calcite-segmented-control')
       .exists('it renders a calcite-segmented-control')
@@ -48,18 +51,21 @@ module('Integration | Component | lang-switcher', function (hooks) {
 
     assert
       .dom('calcite-segmented-control-item[data-test-lang="en-us"]')
-      .hasAttribute('checked', '', 'Current locale is "selected“');
+      .hasAttribute('checked', '', 'Current locale (EN) is "selected“');
 
     assert
       .dom('calcite-segmented-control-item[data-test-lang="fr-fr"]')
-      .doesNotHaveAttribute('checked', 'Other button is not "selected“');
+      .doesNotHaveAttribute('checked', 'FR is not "selected“');
 
     (this.owner.lookup('service:intl') as IntlService).locale = ['fr-fr'];
     await settled();
-    await waitFor('calcite-segmented-control-item[data-test-lang="fr-fr"][checked]');
+    await waitCalciteReady();
 
     assert
+      .dom('calcite-segmented-control-item[data-test-lang="fr-fr"]')
+      .hasAttribute('checked', '', 'Current locale (FR) is "selected“');
+    assert
       .dom('calcite-segmented-control-item[data-test-lang="en-us"]')
-      .doesNotHaveAttribute('checked', 'Other button is not "selected“');
+      .doesNotHaveAttribute('checked', 'EN is not "selected“');
   });
 });

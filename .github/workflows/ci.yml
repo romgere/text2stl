@@ -15,7 +15,12 @@ jobs:
         node-version: '18'
     - name: Install Dependencies
       run: yarn install --frozen-lockfile
+    - name: Lint
+      run: yarn lint
     - name: Test
-      run: yarn percy exec -- ember test
+      run: yarn test:ember
+    - name: Visual Tests
+      if: success()
+      run: yarn percy exec -- yarn test:ember:visual
       env:
         PERCY_TOKEN: ${{ secrets.PERCY_TOKEN }}

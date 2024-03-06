@@ -5,6 +5,7 @@ import { hbs } from 'ember-cli-htmlbars';
 import { setComponentTemplate } from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 import templateOnly from '@ember/component/template-only';
+import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
 
 module('Integration | Component | settings-form/font', function (hooks) {
   setupRenderingTest(hooks);
@@ -38,7 +39,9 @@ module('Integration | Component | settings-form/font', function (hooks) {
 
     assert.dom('[data-mocked-font-picker]').exists('It renders font picker');
 
-    await click('[data-test-custom-checkbox]');
+    await triggerEvent('[data-test-custom-checkbox]', 'calciteSwitchChange');
+    await waitCalciteReady();
+
     assert.verifySteps([]);
 
     assert.dom('[data-test-custom-font-upload]').exists('Custom font upload is now rendered');
@@ -81,6 +84,8 @@ module('Integration | Component | settings-form/font', function (hooks) {
 
     // Switch back to custom font
     await click('[data-test-custom-checkbox]');
+    await waitCalciteReady();
+
     assert.dom('[data-test-custom-font-upload]').exists('Custom font upload is now rendered');
     assert.dom('[data-mocked-font-picker]').doesNotExist('It no longer renders font picker');
     assert.strictEqual(model.customFont, fontFile, 'model.customFont was update with font file');
