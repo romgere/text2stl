@@ -27,7 +27,8 @@
     "lint:types": "tsc --noEmit --composite false",
     "start": "ember serve",
     "test": "concurrently \"npm:lint\" \"npm:test:*\" --names \"lint,test:\"",
-    "test:ember": "ember test",
+    "test:ember": "ember test --filter=\"!Visual\"",
+    "test:ember:visual": "ember test --filter=\"Visual\"",
     "generate:type_img": "misc/text_type/generate_logo.sh"
   },
   "devDependencies": {

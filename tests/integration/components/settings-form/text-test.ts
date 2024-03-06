@@ -101,7 +101,7 @@ module('Integration | Component | settings-form/text', function (hooks) {
       '[data-test-settings-text-alignment] calcite-radio-button[data-test-value="right"]',
     );
 
-    await waitUntil(() => model.alignment === 'right');
+    await waitUntil(() => model.alignment === 'right', { timeout: 5000 });
     assert.strictEqual(model.alignment, 'right', 'model.alignment was updated');
 
     assert

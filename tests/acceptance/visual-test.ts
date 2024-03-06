@@ -9,7 +9,7 @@ import mockFontManager from 'text2stl/tests/helpers/mock-font-manager';
 import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
 import wait from 'text2stl/tests/helpers/wait';
 
-module('Acceptance | visual', function (hooks) {
+module('Visual | percy', function (hooks) {
   setupApplicationTest(hooks);
 
   hooks.beforeEach(function () {
