@@ -8,6 +8,7 @@ const {
 } = config;
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
+import wait from 'text2stl/tests/helpers/wait';
 
 module('Integration | Component | settings-form/select-type', function (hooks) {
   setupRenderingTest(hooks);
@@ -27,7 +28,11 @@ module('Integration | Component | settings-form/select-type', function (hooks) {
       .dom(`calcite-segmented-control-item[data-test-type="${ModelType.TextOnly}"]`)
       .hasAttribute('data-test-checked', '', 'Correct type is checked');
 
+    // double click is a CI failing workaround
     await click(`calcite-segmented-control-item[data-test-type="${ModelType.TextWithSupport}"]`);
+    await wait(1500);
+    await click(`calcite-segmented-control-item[data-test-type="${ModelType.TextWithSupport}"]`);
+    await wait(1500);
     await waitUntil(() => model.type === ModelType.TextWithSupport, { timeout: 5000 });
     assert.strictEqual(model.type, ModelType.TextWithSupport, 'It change model type');
   });
