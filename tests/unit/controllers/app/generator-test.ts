@@ -76,7 +76,7 @@ module('Unit | Controller | app/generator', function (hooks) {
   });
 
   test('it generate a STL with mesh', async function (assert) {
-    assert.expect(6);
+    assert.expect(7);
     const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
 
     const model = mockTextSettings({
@@ -102,8 +102,12 @@ module('Unit | Controller | app/generator', function (hooks) {
       return mockedMesh;
     };
 
-    this.owner.lookup('service:stl-exporter').downloadMeshAsSTL = function (mesh: Mesh) {
-      assert.strictEqual(mesh, mockedMesh, 'it generates STL from mesh');
+    this.owner.lookup('service:file-exporter').downloadMeshFile = function (
+      mesh: Mesh,
+      type: string | undefined,
+    ) {
+      assert.strictEqual(mesh, mockedMesh, 'it generates FILE from mesh');
+      assert.strictEqual(type, 'stl', 'it generates STL by default');
     };
 
     controller._gtag = function (type: string, eventName: string, opts: { value: string }) {
@@ -113,7 +117,7 @@ module('Unit | Controller | app/generator', function (hooks) {
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);
 
-    await controller.exportSTL();
-    assert.verifySteps(['gtag_event_stl_generation_2', 'gtag_event_stl_download_2']);
+    await controller.exportFile();
+    assert.verifySteps(['gtag_event_stl_generation_2', 'gtag_event_file_download_stl']);
   });
 });
