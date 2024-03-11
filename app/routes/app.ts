@@ -1,10 +1,10 @@
 import Route from '@ember/routing/route';
 import { inject as service } from '@ember/service';
-import type IntlService from 'ember-intl/services/intl';
-import type FontManagerService from 'text2stl/services/font-manager';
-
 import { Registry as Services } from '@ember/service';
 
+import type IntlService from 'ember-intl/services/intl';
+import type FontManagerService from 'text2stl/services/font-manager';
+import type HarfbuzzService from 'text2stl/services/harfbuzz';
 import type RouterService from '@ember/routing/router-service';
 
 type Transition = ReturnType<RouterService['transitionTo']>;
@@ -13,6 +13,7 @@ export default class AppRoute extends Route {
   @service declare intl: IntlService;
   @service declare router: Services['router'];
   @service declare fontManager: FontManagerService;
+  @service declare harfbuzz: HarfbuzzService;
 
   constructor(props: object | undefined) {
     super(props);
@@ -23,6 +24,7 @@ export default class AppRoute extends Route {
     this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us'];
     // No await here, let's the loading happen & await for it in generator route
     this.fontManager.loadFont();
+    this.harfbuzz.loadWASM();
   }
 
   afterModel() {

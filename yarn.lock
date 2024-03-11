@@ -7432,6 +7432,11 @@ hard-rejection@^2.1.0:
   resolved "https://registry.npmjs.org/hard-rejection/-/hard-rejection-2.1.0.tgz#1c6eda5c1685c63942766d79bb40ae773cecd883"
   integrity sha512-VIZB+ibDhx7ObhAe7OVtoEbuP4h/MuOTHJ+J8h/eBXotJYl0fBgR72xDFCKgIh22OJZIOVNxBMWuhAr10r8HdA==
 
+harfbuzzjs@^0.3.4:
+  version "0.3.4"
+  resolved "https://registry.npmjs.org/harfbuzzjs/-/harfbuzzjs-0.3.4.tgz#ded565faf5ea70c88e7164f1ac33caf6619d0d1b"
+  integrity sha512-0TH7j8TIqCJB6RVpcJ7IyhPpHRq1JlyBiSOcNRAWpuN6S1HVSBmNtdt+G0jND1Y2qLnh70nXZ2R2zYqO57y92Q==
+
 has-ansi@^2.0.0:
   version "2.0.0"
   resolved "https://registry.npmjs.org/has-ansi/-/has-ansi-2.0.0.tgz#34f5049ce1ecdf2b0649af3ef24e45ed35416d91"
@@ -9878,6 +9883,11 @@ pako@~1.0.5:
   version "1.0.11"
   resolved "https://registry.npmjs.org/pako/-/pako-1.0.11.tgz#6c9599d340d54dfd3946380252a35705a6b992bf"
   integrity sha512-4hLB8Py4zZce5s4yd9XzopqwVv/yGNhV1Bl8NTmCq1763HeK2+EwVTv+leGeL13Dnh2wfbqowVPXCIO0z4taYw==
+
+paper@^0.12.17:
+  version "0.12.17"
+  resolved "https://registry.yarnpkg.com/paper/-/paper-0.12.17.tgz#57215615f3db5a32826ab60d3e08bc7953614052"
+  integrity sha512-oCe+e1C2w8hKIcGoAqUjD0GGxGPv+itrRXlEFUmp3H8tY/NTnHOkYgpJFPGw6OJ8Q1Wa6+RgzlY7Dx/2WWHtkA==
 
 parallel-transform@^1.1.0:
   version "1.2.0"

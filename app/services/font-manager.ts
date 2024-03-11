@@ -1,6 +1,9 @@
 import Service from '@ember/service';
-import * as opentype from 'opentype.js';
 import config from 'text2stl/config/environment';
+import { inject as service } from '@ember/service';
+
+import type HarfbuzzService from 'text2stl/services/harfbuzz';
+import type { HBFont, HBFace } from 'harfbuzzjs/hbjs';
 
 export type Category = 'sans-serif' | 'serif' | 'display' | 'handwriting' | 'monospace';
 export type Script =
@@ -81,7 +84,14 @@ type GoogleFontApiResponse = {
   }[];
 };
 
+export interface FaceAndFont {
+  font: HBFont;
+  face: HBFace;
+}
+
 export default class FontManagerService extends Service {
+  @service declare harfbuzz: HarfbuzzService;
+
   availableFontScript: Script[] = [
     'arabic',
     'bengali',
@@ -120,9 +130,7 @@ export default class FontManagerService extends Service {
 
   fontList: Map<string, Font> = new Map();
 
-  fontCache: Record<string, opentype.Font> = {};
-
-  opentype = opentype; // For easy mock
+  fontCache: Record<string, FaceAndFont> = {};
 
   // For easy mock
   fetch(input: RequestInfo, init?: RequestInit | undefined): Promise<Response> {
@@ -216,7 +224,16 @@ export default class FontManagerService extends Service {
     document.adoptedStyleSheets.push(await stylesheet.replace(style));
   }
 
-  async fetchFont(fontName: string, variantName?: Variant): Promise<opentype.Font> {
+  private openHBFont(buffer: ArrayBuffer): FaceAndFont {
+    const blob = this.harfbuzz.hb.createBlob(buffer);
+    const face = this.harfbuzz.hb.createFace(blob, 0);
+    return {
+      font: this.harfbuzz.hb.createFont(face),
+      face,
+    };
+  }
+
+  async fetchFont(fontName: string, variantName?: Variant): Promise<FaceAndFont> {
     const font = this.fontList.get(fontName);
     if (!font) {
       throw `Unknown font name ${fontName}`;
@@ -238,15 +255,15 @@ export default class FontManagerService extends Service {
     if (!this.fontCache[cacheName]) {
       const res = await this.fetch(url.replace('http:', 'https:'));
       const fontData = await res.arrayBuffer();
-      this.fontCache[cacheName] = this.opentype.parse(fontData);
+      this.fontCache[cacheName] = this.openHBFont(fontData);
     }
 
     return this.fontCache[cacheName];
   }
 
-  async loadCustomFont(fontTTFFile: Blob): Promise<opentype.Font> {
+  async loadCustomFont(fontTTFFile: Blob): Promise<FaceAndFont> {
     const fontAsBuffer = await fontTTFFile.arrayBuffer();
-    return this.opentype.parse(fontAsBuffer);
+    return this.openHBFont(fontAsBuffer);
   }
 
   private chunk<T>(array: T[], chunkSize: number) {
