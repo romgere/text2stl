@@ -1,8 +1,7 @@
 import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
-import * as opentype from 'opentype.js';
 import type FontManagerService from 'text2stl/services/font-manager';
-import type { Variant } from 'text2stl/services/font-manager';
+import type { Variant, FaceAndFont } from 'text2stl/services/font-manager';
 
 const mockedFontList = new Map();
 
@@ -64,16 +63,12 @@ module('Unit | Service | font-manager', function (hooks) {
         } as unknown as Response;
       };
 
-      service.opentype = {
-        parse(buffer: Response): opentype.Font {
-          assert.strictEqual(
-            `${buffer}`,
-            'fetched-array-buffer',
-            'font is parsed with fetch result',
-          );
-          return 'parsed-font' as unknown as opentype.Font;
-        },
-      } as typeof opentype;
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      service.openHBFont = (buffer: ArrayBuffer): FaceAndFont => {
+        assert.strictEqual(`${buffer}`, 'fetched-array-buffer', 'font is parsed with fetch result');
+        return 'parsed-font' as unknown as FaceAndFont;
+      };
 
       const font = await service.fetchFont(fontName, variantName);
       assert.strictEqual(`${font}`, 'parsed-font', 'correct font is returned');
@@ -120,13 +115,12 @@ module('Unit | Service | font-manager', function (hooks) {
       } as Response;
     };
 
-    service.opentype = {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      parse(_: unknown): opentype.Font {
-        parseDone();
-        return 'a-parsed-font' as unknown as opentype.Font;
-      },
-    } as typeof opentype;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    service.openHBFont = (): FaceAndFont => {
+      parseDone();
+      return 'a-parsed-font' as unknown as FaceAndFont;
+    };
 
     let font = await service.fetchFont('font1');
     assert.strictEqual(`${font}`, 'a-parsed-font', 'Font is returned');
@@ -146,13 +140,16 @@ module('Unit | Service | font-manager', function (hooks) {
       },
     };
 
-    service.opentype = {
-      // eslint-disable-next-line @typescript-eslint/no-unused-vars
-      parse(buffer: unknown): opentype.Font {
-        assert.strictEqual(buffer, 'a_great_boeuf-er', 'blob buffer is passed to opentype.parse');
-        return 'a-parsed-font' as unknown as opentype.Font;
-      },
-    } as typeof opentype;
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    service.openHBFont = (buffer: ArrayBuffer): FaceAndFont => {
+      assert.strictEqual(
+        buffer as unknown as string,
+        'a_great_boeuf-er',
+        'blob buffer is passed to opentype.parse',
+      );
+      return 'a-parsed-font' as unknown as FaceAndFont;
+    };
 
     const font = await service.loadCustomFont(mockedBlob as unknown as Blob);
     assert.strictEqual(`${font}`, 'a-parsed-font', 'Font is returned');
