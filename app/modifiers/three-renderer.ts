@@ -13,7 +13,6 @@ const {
 } = config;
 
 type namedArgs = {
-  parentSize?: boolean;
   nearCamera?: boolean;
 };
 
@@ -79,11 +78,8 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
       preserveDrawingBuffer: true, // use this to allow creation of image from canvas
     });
     this.renderer.setPixelRatio(window.devicePixelRatio);
-    this.renderer.setSize(
-      // for parent sizing set size to 1x1 & let the renderFrame adapt the size accordingly later...
-      this.namedArgs.parentSize ? 1 : 1024,
-      this.namedArgs.parentSize ? 1 : 768,
-    );
+    // set size to 1x1 & let the renderFrame adapt the size accordingly later...
+    this.renderer.setSize(1, 1);
     this.renderer.setClearColor(0xffffff, 1);
   }
 
@@ -182,9 +178,7 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
 
     this.animationFrameRequestID = requestAnimationFrame(() => this.renderFrame());
 
-    const { offsetWidth: width, offsetHeight: height } = this.namedArgs.parentSize
-      ? this.canvas?.parentElement ?? this.canvas
-      : this.canvas;
+    const { offsetWidth: width, offsetHeight: height } = this.canvas?.parentElement ?? this.canvas;
 
     if (this.rendererSize.width !== width || this.rendererSize.height !== height) {
       this.renderer.setSize(width, height);
@@ -201,12 +195,8 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
     this.renderer.render(this.scene, this.camera);
   }
 
-  modify(
-    element: HTMLCanvasElement,
-    [mesh]: [THREE.Mesh | undefined],
-    { parentSize, nearCamera }: namedArgs,
-  ) {
-    this.namedArgs = { parentSize, nearCamera };
+  modify(element: HTMLCanvasElement, [mesh]: [THREE.Mesh | undefined], { nearCamera }: namedArgs) {
+    this.namedArgs = { nearCamera };
 
     if (!this.canvas) {
       this.canvas = element;

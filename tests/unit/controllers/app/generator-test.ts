@@ -2,34 +2,29 @@ import { module, test } from 'qunit';
 import { setupTest } from 'ember-qunit';
 import waitUntil from '@ember/test-helpers/wait-until';
 import mockTextSettings from 'text2stl/tests/helpers/mock-text-maker-settings';
-import { Font } from 'opentype.js';
 import { Mesh } from 'three';
 import type { TextMakerParameters } from 'text2stl/services/text-maker';
-import type { Variant } from 'text2stl/services/font-manager';
+import type { Variant, FaceAndFont } from 'text2stl/services/font-manager';
 import type GeneratorController from 'text2stl/controllers/app/generator';
 
-function mockFont(name: string, variant: Variant) {
-  return new Font({
-    familyName: `mocked_${name}_${variant}`,
-    styleName: 'mocked',
-    unitsPerEm: 16,
-    ascender: 1,
-    descender: -1,
-    glyphs: [],
-  });
+function mockFont(name: string, variant: Variant | undefined) {
+  return {
+    font: `mocked_font_${name}_${variant ?? 'nope'}`,
+    face: `mocked_face_${name}_${variant ?? 'nope'}`,
+  } as unknown as FaceAndFont;
 }
 
 module('Unit | Controller | app/generator', function (hooks) {
   setupTest(hooks);
 
   test('it handles font change & font loading (google font)', async function (assert) {
-    assert.expect(3);
+    assert.expect(4);
 
     const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
 
     this.owner.lookup('service:font-manager').fetchFont = async function (
       name: string,
-      variant: Variant,
+      variant: Variant | undefined,
     ) {
       assert.strictEqual(name, controller.model.fontName, 'it requires correct fontName');
       assert.strictEqual(variant, controller.model.variantName, 'it requires correct variantName');
@@ -44,14 +39,19 @@ module('Unit | Controller | app/generator', function (hooks) {
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);
     assert.strictEqual(
-      controller.font.value?.names.fontFamily['en'],
-      'mocked_my-font_500italic',
+      controller.font.value?.font as unknown as string,
+      'mocked_font_my-font_500italic',
+      'Font was load on model',
+    );
+    assert.strictEqual(
+      controller.font.value?.face as unknown as string,
+      'mocked_face_my-font_500italic',
       'Font was load on model',
     );
   });
 
   test('it handles font change & font loading (custom font)', async function (assert) {
-    assert.expect(2);
+    assert.expect(3);
     this.owner.lookup('service:font-manager').loadCustomFont = async function (file: Blob) {
       const filename = await new Response(file).text();
       assert.strictEqual(filename, 'my-font.file', 'font file is passed to font-manager');
@@ -69,8 +69,13 @@ module('Unit | Controller | app/generator', function (hooks) {
     // Wait for the font to be load
     await waitUntil(() => controller.font.isResolved);
     assert.strictEqual(
-      controller.font.value?.names.fontFamily['en'],
-      'mocked_my-font.file_100',
+      controller.font.value?.font as unknown as string,
+      'mocked_font_my-font.file_100',
+      'Font was load on model',
+    );
+    assert.strictEqual(
+      controller.font.value?.face as unknown as string,
+      'mocked_face_my-font.file_100',
       'Font was load on model',
     );
   });
@@ -95,7 +100,7 @@ module('Unit | Controller | app/generator', function (hooks) {
 
     this.owner.lookup('service:text-maker').generateMesh = function (
       settings: TextMakerParameters,
-      font: Font,
+      font: FaceAndFont,
     ) {
       assert.strictEqual(settings, model, 'it generate mesh with model settings');
       assert.strictEqual(font, mockedFont, 'it generate mesh with fetched font');
