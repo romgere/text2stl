@@ -1,9 +1,13 @@
 import Service from '@ember/service';
-import * as opentype from 'opentype.js';
 import * as THREE from 'three';
 import { mergeBufferGeometries } from 'text2stl/utils/BufferGeometryUtils';
 import config from 'text2stl/config/environment';
 import { generateSupportShape } from 'text2stl/misc/support-shape-generation';
+import { inject as service } from '@ember/service';
+
+import type HarfbuzzService from 'text2stl/services/harfbuzz';
+import type { SVGPathSegment, HBFont, BufferContent } from 'harfbuzzjs/hbjs';
+import type { FaceAndFont } from 'text2stl/services/font-manager';
 
 const {
   APP: {
@@ -66,47 +70,48 @@ type MultipleGlyphDef = {
   };
 };
 
+type LineInfo = {
+  // glyphs shape indexed by Glyph ID
+  glyphs: Record<number, SVGPathSegment[]>;
+  // Line composition ()
+  buffer: BufferContent;
+};
+
 export default class TextMakerService extends Service {
+  @service declare harfbuzz: HarfbuzzService;
+
   private glyphToShapes(
-    outlinesFormat: string,
-    glyph: opentype.Glyph,
-    size: number,
+    glyphPath: SVGPathSegment[],
     xOffset: number,
     yOffset: number,
+    isCFFFont: boolean = false,
   ): SingleGlyphDef {
-    // Font x/y origin to Three x/y origin
-    const coord = function (x: number, y: number): [number, number] {
-      return [x, 0 - y];
-    };
-
     let paths: THREE.Path[] = [];
     const holes: THREE.Path[] = [];
 
     let path = new THREE.Path();
-
-    const pathCommands = glyph.getPath(xOffset, 0 - yOffset, size).commands;
 
     // Following is only to manage "cff" font & detect hole shape
     const paths2D: Path2D[] = [];
     let path2D = new Path2D();
 
     // https://github.com/opentypejs/opentype.js#path-commands
-    for (let i = 0; i < pathCommands.length; i++) {
-      const command = pathCommands[i];
+    for (let i = 0; i < glyphPath.length; i++) {
+      const command = glyphPath[i];
 
       switch (command.type) {
         case 'M':
           path = new THREE.Path();
           path2D = new Path2D();
-          path.moveTo(...coord(command.x, command.y));
-          path2D.moveTo(...coord(command.x, command.y));
+          path.moveTo(command.values[0] + xOffset, command.values[1] + yOffset);
+          path2D.moveTo(command.values[0] + xOffset, command.values[1] + yOffset);
           break;
         case 'Z':
           path.closePath();
           path2D.closePath();
 
           // With CCF font Detect path/hole can be done only at the end with all path...
-          if (outlinesFormat === 'cff') {
+          if (isCFFFont) {
             paths.push(path);
             paths2D.push(path2D);
           } else {
@@ -119,24 +124,40 @@ export default class TextMakerService extends Service {
 
           break;
         case 'L':
-          path.lineTo(...coord(command.x, command.y));
-          path2D.lineTo(...coord(command.x, command.y));
+          path.lineTo(command.values[0] + xOffset, command.values[1] + yOffset);
+          path2D.lineTo(command.values[0] + xOffset, command.values[1] + yOffset);
           break;
         case 'C':
           path.bezierCurveTo(
-            ...coord(command.x1, command.y1),
-            ...coord(command.x2, command.y2),
-            ...coord(command.x, command.y),
+            command.values[0] + xOffset,
+            command.values[1] + yOffset,
+            command.values[2] + xOffset,
+            command.values[3] + yOffset,
+            command.values[4] + xOffset,
+            command.values[5] + yOffset,
           );
           path2D.bezierCurveTo(
-            ...coord(command.x1, command.y1),
-            ...coord(command.x2, command.y2),
-            ...coord(command.x, command.y),
+            command.values[0] + xOffset,
+            command.values[1] + yOffset,
+            command.values[2] + xOffset,
+            command.values[3] + yOffset,
+            command.values[4] + xOffset,
+            command.values[5] + yOffset,
           );
           break;
         case 'Q':
-          path.quadraticCurveTo(...coord(command.x1, command.y1), ...coord(command.x, command.y));
-          path2D.quadraticCurveTo(...coord(command.x1, command.y1), ...coord(command.x, command.y));
+          path.quadraticCurveTo(
+            command.values[0] + xOffset,
+            command.values[1] + yOffset,
+            command.values[2] + xOffset,
+            command.values[3] + yOffset,
+          );
+          path2D.quadraticCurveTo(
+            command.values[0] + xOffset,
+            command.values[1] + yOffset,
+            command.values[2] + xOffset,
+            command.values[3] + yOffset,
+          );
           break;
       }
     }
@@ -144,7 +165,7 @@ export default class TextMakerService extends Service {
     // https://github.com/opentypejs/opentype.js/issues/347
     // if "cff" : subpath B contained by outermost subpath A is a cutout ...
     // if "truetype" : solid shapes are defined clockwise (CW) and holes are defined counterclockwise (CCW)
-    if (outlinesFormat === 'cff') {
+    if (isCFFFont) {
       const canvas = document.createElement('canvas');
       const ctx = canvas.getContext('2d');
 
@@ -203,7 +224,52 @@ export default class TextMakerService extends Service {
     return mergeBufferGeometries(geometries.flat());
   }
 
-  private stringToGlyhpsDef(params: TextMakerParameters, font: opentype.Font): MultipleGlyphDef {
+  private generateTextLineInfo(text: string, font: HBFont): LineInfo {
+    const buffer = this.harfbuzz.hb.createBuffer();
+    buffer.addText(text);
+    buffer.guessSegmentProperties();
+
+    this.harfbuzz.hb.shape(font, buffer);
+    const result = buffer.json();
+
+    return {
+      buffer: result,
+      glyphs: result.reduce<Record<number, SVGPathSegment[]>>(function (acc, e) {
+        if (!acc[e.g]) {
+          acc[e.g] = font.glyphToJson(e.g);
+        }
+
+        return acc;
+      }, {}),
+    };
+  }
+
+  private getSVGPathSegmentsBoundingBox(path: SVGPathSegment[]) {
+    const bound = {
+      x1: Number.MAX_SAFE_INTEGER,
+      x2: 0,
+      y1: Number.MAX_SAFE_INTEGER,
+      y2: 0,
+    };
+
+    for (const p of path) {
+      const xCoords = p.values.filter((_v, idx) => !(idx % 2));
+      const yCoords = p.values.filter((_v, idx) => idx % 2);
+
+      for (const x of xCoords) {
+        bound.x1 = Math.min(bound.x1, x);
+        bound.x2 = Math.max(bound.x2, x);
+      }
+      for (const y of yCoords) {
+        bound.y1 = Math.min(bound.y1, y);
+        bound.y2 = Math.max(bound.y2, y);
+      }
+    }
+
+    return bound;
+  }
+
+  private stringToGlyhpsDef(params: TextMakerParameters, font: FaceAndFont): MultipleGlyphDef {
     const text = params.text || textMakerDefault.text;
     const size =
       params.size !== undefined && params.size >= 0 ? params.size : textMakerDefault.size;
@@ -214,41 +280,47 @@ export default class TextMakerService extends Service {
     const vAlignment =
       params.vAlignment !== undefined ? params.vAlignment : textMakerDefault.vAlignment;
 
-    const scale = (1 / font.unitsPerEm) * size;
-
     const glyphShapes: SingleGlyphDef[] = [];
-    // to handle alignment
-    const linesWidth: number[] = [];
-    const linesMaxY: { maxY: number; minY: number }[] = [];
-    const linesGlyphInfos: Array<Array<{ height: number; maxY: number; minY: number }>> = [];
+
+    const linesWidth: number[] = []; // to handle horizontal alignment
+    const linesMinMaxY: { maxY: number; minY: number }[] = []; // to handle vertical alignment
+    const linesGlyphInfos: Array<Array<{ height: number; maxY: number; minY: number }>> = []; // to handle vertical alignment (move each glyph according to line MinMaxY)
+
+    // bounds of all text
     const bounds = {
       min: { x: Number.MAX_SAFE_INTEGER, y: Number.MAX_SAFE_INTEGER },
       max: { x: 0, y: 0 },
     };
 
+    // https://harfbuzz.github.io/harfbuzz-hb-font.html (see hb_font_set_scale)
+    font.font.setScale(size, size);
+
     const lines = text.split('\n').map((s) => s.trimEnd());
-    let dy = 0;
+    let oy = 0; // Last x offset where to start drawing glyph
+
+    // Generate info for each line of text
+    const linesInfos = lines.map((text) => this.generateTextLineInfo(text, font.font));
 
     // Iterate a first time on all lines to calculate line width (text align)
-    for (const lineText of lines) {
-      let dx = 0;
+    for (const lineText of linesInfos) {
+      let ox = 0; // Last x offset where to start drawing glyph
       let lineMaxX = 0;
-      const lineMaxY = { minY: Number.MAX_SAFE_INTEGER, maxY: -Number.MAX_SAFE_INTEGER };
+      const lineMinMaxY = { minY: Number.MAX_SAFE_INTEGER, maxY: -Number.MAX_SAFE_INTEGER };
       const lineGlyphInfos: { height: number; maxY: number; minY: number }[] = [];
 
-      font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
-        x += dx;
-        dx += spacing;
-        const glyphBounds = glyph.getBoundingBox();
+      // Iterate through line "element" (single char or "complex element", see https://github.com/romgere/text2stl/issues/100)
+      lineText.buffer.forEach((info) => {
+        const x = ox + info.dx;
+        const y = info.dy;
 
-        lineMaxX = x + glyphBounds.x2 * scale;
-        const glyphHeight = (glyphBounds.y2 - glyphBounds.y1) * scale;
+        const glyphBounds = this.getSVGPathSegmentsBoundingBox(lineText.glyphs[info.g]);
+        const glyphHeight = glyphBounds.y2 - glyphBounds.y1;
 
-        const minY = Math.min(glyphBounds.y1, glyphBounds.y2) * scale;
-        const maxY = Math.max(glyphBounds.y1, glyphBounds.y2) * scale;
+        const minY = Math.min(glyphBounds.y1, glyphBounds.y2);
+        const maxY = Math.max(glyphBounds.y1, glyphBounds.y2);
 
-        lineMaxY.maxY = Math.max(lineMaxY.maxY, maxY);
-        lineMaxY.minY = Math.min(lineMaxY.minY, minY);
+        lineMinMaxY.maxY = Math.max(lineMinMaxY.maxY, maxY);
+        lineMinMaxY.minY = Math.min(lineMinMaxY.minY, minY);
 
         lineGlyphInfos.push({
           height: glyphHeight,
@@ -256,17 +328,21 @@ export default class TextMakerService extends Service {
           minY,
         });
 
-        bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1 * scale);
-        bounds.min.y = Math.min(bounds.min.y, y - dy + glyphBounds.y1 * scale);
-        bounds.max.x = Math.max(bounds.max.x, x + glyphBounds.x2 * scale);
-        bounds.max.y = Math.max(bounds.max.y, y - dy + glyphBounds.y2 * scale);
+        lineMaxX = x + glyphBounds.x2;
+
+        bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1);
+        bounds.min.y = Math.min(bounds.min.y, y - oy + glyphBounds.y1);
+        bounds.max.x = Math.max(bounds.max.x, x + glyphBounds.x2);
+        bounds.max.y = Math.max(bounds.max.y, y - oy + glyphBounds.y2);
+
+        ox += spacing + info.ax;
       });
 
-      dy += size + vSpacing;
+      oy += size + vSpacing;
 
       // Keep this for each line to handle alignment
       linesWidth.push(lineMaxX);
-      linesMaxY.push(lineMaxY);
+      linesMinMaxY.push(lineMinMaxY);
       linesGlyphInfos.push(lineGlyphInfos);
     }
 
@@ -284,18 +360,22 @@ export default class TextMakerService extends Service {
       });
     }
 
-    dy = 0;
-    for (const lineIndex in lines) {
-      const lineText = lines[lineIndex];
-      let dx = 0;
+    oy = 0;
+    // Iterate second time on line to actually "render" glyph (aligned according to info from previous iteration)
+    // for (const lineIndex in lines) {
+    for (const lineIndex in linesInfos) {
+      const lineText = linesInfos[lineIndex];
+      let ox = 0; // Last x offset where to start drawing glyph
       let glyphIndex = 0;
 
       // Iterate on text char to generate a Geometry for each
-      font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
-        x += dx + linesAlignOffset[lineIndex];
+      lineText.buffer.forEach((info) => {
+        // font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
+        const x = ox + info.dx + linesAlignOffset[lineIndex];
+        let y = info.dy;
 
         if (vAlignment !== 'default') {
-          const lineMaxY = linesMaxY[lineIndex];
+          const lineMaxY = linesMinMaxY[lineIndex];
           const glyphInfo = linesGlyphInfos[lineIndex][glyphIndex];
 
           if (vAlignment === 'bottom' && lineMaxY.minY !== glyphInfo.minY) {
@@ -307,18 +387,16 @@ export default class TextMakerService extends Service {
 
         glyphShapes.push(
           this.glyphToShapes(
-            font.outlinesFormat,
-            glyph,
-            size,
+            lineText.glyphs[info.g],
             x, // x offset
-            y - dy, // y offset
+            y - oy, // y offset
           ),
         );
-        dx += spacing;
+        ox += spacing + info.ax;
         glyphIndex++;
       });
 
-      dy += size + vSpacing;
+      oy += size + vSpacing;
     }
 
     return {
@@ -344,7 +422,7 @@ export default class TextMakerService extends Service {
     );
   }
 
-  generateMesh(params: TextMakerParameters, font: opentype.Font): THREE.Mesh {
+  generateMesh(params: TextMakerParameters, font: FaceAndFont): THREE.Mesh {
     const type = params.type || ModelType.TextOnly;
 
     const textDepth =
