@@ -313,11 +313,13 @@ export default class TextMakerService extends Service {
         const x = ox + info.dx;
         const y = info.dy;
 
+        const emptyGlyph = lineText.glyphs[info.g].length === 0;
+
         const glyphBounds = this.getSVGPathSegmentsBoundingBox(lineText.glyphs[info.g]);
         const glyphHeight = glyphBounds.y2 - glyphBounds.y1;
 
-        const minY = Math.min(glyphBounds.y1, glyphBounds.y2);
-        const maxY = Math.max(glyphBounds.y1, glyphBounds.y2);
+        const minY = emptyGlyph ? 0 : Math.min(glyphBounds.y1, glyphBounds.y2);
+        const maxY = emptyGlyph ? 0 : Math.max(glyphBounds.y1, glyphBounds.y2);
 
         lineMinMaxY.maxY = Math.max(lineMinMaxY.maxY, maxY);
         lineMinMaxY.minY = Math.min(lineMinMaxY.minY, minY);
