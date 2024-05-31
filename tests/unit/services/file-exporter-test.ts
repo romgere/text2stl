@@ -7,6 +7,7 @@ import type { Mesh } from 'three';
 module('Unit | Service | file-exporter', function (hooks) {
   setupTest(hooks);
 
+  // eslint-disable-next-line qunit/require-expect
   test(`downloadMeshFile works [STL]`, function (assert) {
     assert.expect(5);
     const service = this.owner.lookup('service:file-exporter') as FileExporterService;
@@ -28,6 +29,7 @@ module('Unit | Service | file-exporter', function (hooks) {
     service.downloadMeshFile('a_mesh' as unknown as Mesh, 'stl');
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test(`downloadMeshFile works [OBJ]`, function (assert) {
     assert.expect(4);
     const service = this.owner.lookup('service:file-exporter') as FileExporterService;

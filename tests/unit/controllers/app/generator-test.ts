@@ -17,6 +17,7 @@ function mockFont(name: string, variant: Variant | undefined) {
 module('Unit | Controller | app/generator', function (hooks) {
   setupTest(hooks);
 
+  // eslint-disable-next-line qunit/require-expect
   test('it handles font change & font loading (google font)', async function (assert) {
     assert.expect(4);
 
@@ -50,6 +51,7 @@ module('Unit | Controller | app/generator', function (hooks) {
     );
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test('it handles font change & font loading (custom font)', async function (assert) {
     assert.expect(3);
     this.owner.lookup('service:font-manager').loadCustomFont = async function (file: Blob) {
@@ -80,6 +82,7 @@ module('Unit | Controller | app/generator', function (hooks) {
     );
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test('it generate a STL with mesh', async function (assert) {
     assert.expect(7);
     const controller = this.owner.lookup('controller:app/generator') as GeneratorController;
