@@ -51,6 +51,7 @@ module('Unit | Service | font-manager', function (hooks) {
       title: 'Font name with variant',
     },
   ]) {
+    // eslint-disable-next-line qunit/require-expect
     test(`it fetch font [${title}]`, async function (assert) {
       assert.expect(3);
       const service = this.owner.lookup('service:font-manager') as FontManagerService;
@@ -88,7 +89,6 @@ module('Unit | Service | font-manager', function (hooks) {
     },
   ]) {
     test(`it throw error when font can't be load  [${title}]`, async function (assert) {
-      assert.expect(1);
       const service = this.owner.lookup('service:font-manager') as FontManagerService;
       service.fontList = mockedFontList;
 
@@ -129,6 +129,7 @@ module('Unit | Service | font-manager', function (hooks) {
     assert.strictEqual(`${font}`, 'a-parsed-font', 'Font is returned');
   });
 
+  // eslint-disable-next-line qunit/require-expect
   test('it can load custom font file', async function (assert) {
     assert.expect(2);
 

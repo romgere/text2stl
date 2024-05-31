@@ -73,6 +73,7 @@
     {{!-- suffix-text={{t "mm_unit"}} --}}
     value={{@model.size}}
     {{on 'calciteInputNumberChange' (fn this.setNumber 'size')}}
+    {{scrollable-input-number}}
     step='1'
     number-button-type='horizontal'
     icon='change-font-size'
@@ -87,6 +88,7 @@
     suffix-text={{t 'mm_unit'}}
     value={{@model.height}}
     {{on 'calciteInputNumberChange' (fn this.setNumber 'height')}}
+    {{scrollable-input-number}}
     step='1'
     number-button-type='horizontal'
     icon='dimensions-wall'
@@ -101,6 +103,7 @@
     suffix-text={{t 'mm_unit'}}
     value={{@model.spacing}}
     {{on 'calciteInputNumberChange' (fn this.setNumber 'spacing')}}
+    {{scrollable-input-number}}
     step='1'
     number-button-type='horizontal'
     icon='distribute-width-evenly'
@@ -116,6 +119,7 @@
       suffix-text={{t 'mm_unit'}}
       value={{@model.vSpacing}}
       {{on 'calciteInputNumberChange' (fn this.setNumber 'vSpacing')}}
+      {{scrollable-input-number}}
       step='1'
       number-button-type='horizontal'
       icon='distribute-height-evenly'

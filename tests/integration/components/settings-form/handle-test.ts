@@ -10,9 +10,11 @@ import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
 import fillCalciteInput from 'text2stl/tests/helpers/fill-calcite-input';
 import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | advanced-settings-form/handle', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders', async function (assert) {
     const model = new TextMakerSettings({

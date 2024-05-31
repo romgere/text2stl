@@ -49,6 +49,7 @@
       suffix-text={{t 'mm_unit'}}
       value={{@model.handleSettings.size}}
       {{on 'calciteInputNumberChange' (fn this.setHandleSettingsValue 'size')}}
+      {{scrollable-input-number}}
       step='1'
       number-button-type='horizontal'
       icon='measure'
@@ -64,6 +65,7 @@
         suffix-text={{t 'mm_unit'}}
         value={{@model.handleSettings.size2}}
         {{on 'calciteInputNumberChange' (fn this.setHandleSettingsValue 'size2')}}
+        {{scrollable-input-number}}
         step='1'
         number-button-type='horizontal'
         icon='dimensions'
@@ -79,6 +81,7 @@
       suffix-text={{t 'mm_unit'}}
       value={{@model.handleSettings.offsetX}}
       {{on 'calciteInputNumberChange' (fn this.setHandleSettingsValue 'offsetX')}}
+      {{scrollable-input-number}}
       step='1'
       number-button-type='horizontal'
       icon='center-horizontal'
@@ -93,6 +96,7 @@
         suffix-text={{t 'mm_unit'}}
         value={{@model.handleSettings.offsetY}}
         {{on 'calciteInputNumberChange' (fn this.setHandleSettingsValue 'offsetY')}}
+        {{scrollable-input-number}}
         step='1'
         number-button-type='horizontal'
         icon='center-vertical'

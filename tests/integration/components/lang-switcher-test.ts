@@ -10,11 +10,13 @@ const {
   APP: { availableLanguages },
 } = config;
 import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
+import { setupIntl } from 'ember-intl/test-support';
 
 import type IntlService from 'ember-intl/services/intl';
 
 module('Integration | Component | lang-switcher', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   hooks.afterEach(function () {
     (this.owner.lookup('service:intl') as IntlService).locale = 'en-us';

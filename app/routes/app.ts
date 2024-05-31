@@ -21,7 +21,9 @@ export default class AppRoute extends Route {
   }
 
   async model({ locale }: { locale: string }) {
-    this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us'];
+    if (this.intl.locale[0] !== locale) {
+      this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us'];
+    }
     // No await here, let's the loading happen & await for it in generator route
     this.harfbuzz.loadWASM();
     this.fontManager.loadFont();
@@ -40,7 +42,7 @@ export default class AppRoute extends Route {
       metaDescription.content = this.intl.t('seo.description');
     }
 
-    const { name: toRouteName } = transition.to;
+    const toRouteName = transition.to?.name || 'app';
     const canonicalHref = this.router.urlFor(toRouteName, { locale: this.intl.primaryLocale });
 
     const canonicalLink = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');

@@ -5,6 +5,7 @@
     suffix-text={{t 'mm_unit'}}
     value={{@model.supportHeight}}
     {{on 'calciteInputNumberChange' (fn this.setNumber 'supportHeight')}}
+    {{scrollable-input-number}}
     step='1'
     number-button-type='horizontal'
     icon='antenna-height'
@@ -19,6 +20,7 @@
     suffix-text={{t 'mm_unit'}}
     value={{@model.supportBorderRadius}}
     {{on 'calciteInputNumberChange' (fn this.setNumber 'supportBorderRadius')}}
+    {{scrollable-input-number}}
     step='1'
     number-button-type='horizontal'
     icon='border-radius-rounded'
@@ -44,6 +46,7 @@
         suffix-text={{t 'mm_unit'}}
         value={{get @model.supportPadding pos}}
         {{on 'calciteInputNumberChange' (fn this.setSupportPaddingDir pos)}}
+        {{scrollable-input-number}}
         step='1'
         icon={{get this.supportPositionIcon pos}}
         data-test-settings-supportPadding={{pos}}
@@ -58,6 +61,7 @@
       suffix-text={{t 'mm_unit'}}
       value={{this.supportPadding}}
       {{on 'calciteInputNumberChange' this.setSupportPadding}}
+      {{scrollable-input-number}}
       step='1'
       number-button-type='horizontal'
       icon='dimensions-unit'

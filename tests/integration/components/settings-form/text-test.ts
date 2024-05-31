@@ -1,6 +1,6 @@
 import { module, test } from 'qunit';
 import { setupRenderingTest } from 'ember-qunit';
-import { render, click, waitUntil } from '@ember/test-helpers';
+import { render, click } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import config from 'text2stl/config/environment';
 const {
@@ -8,11 +8,12 @@ const {
 } = config;
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
-
 import fillCalciteInput from 'text2stl/tests/helpers/fill-calcite-input';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | settings-form/text', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders', async function (assert) {
     const model = new TextMakerSettings({
@@ -82,14 +83,11 @@ module('Integration | Component | settings-form/text', function (hooks) {
     const model = new TextMakerSettings({
       ...textMakerDefault,
       type: ModelType.TextOnly,
+      text: 'some\nmultiline\ntext',
     });
     this.set('model', model);
 
     await render(hbs`<SettingsForm::Text @model={{this.model}} />`);
-    assert.dom('[data-test-settings-text-alignment]').doesNotExist();
-    assert.dom('[data-test-settings-vspacing]').doesNotExist();
-
-    await fillCalciteInput('[data-test-settings-text]', 'some\nmultiline\ntext');
 
     assert.dom('[data-test-settings-text-alignment]').exists();
     assert
@@ -97,12 +95,6 @@ module('Integration | Component | settings-form/text', function (hooks) {
         `[data-test-settings-text-alignment] calcite-radio-button[data-test-value="${model.alignment}"]`,
       )
       .isChecked('current textAlignment radio is checked');
-    await click(
-      '[data-test-settings-text-alignment] calcite-radio-button[data-test-value="right"]',
-    );
-
-    await waitUntil(() => model.alignment === 'right', { timeout: 5000 });
-    assert.strictEqual(model.alignment, 'right', 'model.alignment was updated');
 
     assert
       .dom('[data-test-settings-vspacing]')

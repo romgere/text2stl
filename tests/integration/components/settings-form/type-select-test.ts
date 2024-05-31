@@ -9,9 +9,11 @@ const {
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
 import wait from 'text2stl/tests/helpers/wait';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | settings-form/select-type', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders', async function (assert) {
     const model = new TextMakerSettings({
