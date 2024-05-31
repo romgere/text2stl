@@ -40,7 +40,7 @@ export default class AppRoute extends Route {
       metaDescription.content = this.intl.t('seo.description');
     }
 
-    const { name: toRouteName } = transition.to;
+    const toRouteName = transition.to?.name || 'app';
     const canonicalHref = this.router.urlFor(toRouteName, { locale: this.intl.primaryLocale });
 
     const canonicalLink = document.head.querySelector<HTMLLinkElement>('link[rel="canonical"]');
