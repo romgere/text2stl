@@ -70,6 +70,7 @@ const {
 
 const FONT_BASE_URL = 'https://fonts.googleapis.com/css';
 const LIST_BASE_URL = 'https://www.googleapis.com/webfonts/v1/webfonts';
+const EMOJI_FONT_FILE = '/NotoEmoji-Regular.ttf';
 
 type GoogleFontApiResponse = {
   items: {
@@ -131,6 +132,16 @@ export default class FontManagerService extends Service {
   fontList: Map<string, Font> = new Map();
 
   fontCache: Record<string, FaceAndFont> = {};
+
+  _emojiFont?: FaceAndFont;
+
+  get emojiFont() {
+    if (!this._emojiFont) {
+      throw 'Emoji font not loaded, please call loadEmojiFont() first.';
+    }
+
+    return this._emojiFont;
+  }
 
   // For easy mock
   fetch(input: RequestInfo, init?: RequestInit | undefined): Promise<Response> {
@@ -264,6 +275,22 @@ export default class FontManagerService extends Service {
   async loadCustomFont(fontTTFFile: Blob): Promise<FaceAndFont> {
     const fontAsBuffer = await fontTTFFile.arrayBuffer();
     return this.openHBFont(fontAsBuffer);
+  }
+
+  private async _loadEmojiFont() {
+    await this.harfbuzz.loadWASM();
+    const res = await this.fetch(EMOJI_FONT_FILE);
+    const fontData = await res.arrayBuffer();
+    this._emojiFont = this.openHBFont(fontData);
+  }
+
+  loadEmojiFontPromise: undefined | Promise<void> = undefined;
+  async loadEmojiFont() {
+    if (!this.loadEmojiFontPromise) {
+      this.loadEmojiFontPromise = this._loadEmojiFont();
+    }
+
+    await this.loadEmojiFontPromise;
   }
 
   private chunk<T>(array: T[], chunkSize: number) {

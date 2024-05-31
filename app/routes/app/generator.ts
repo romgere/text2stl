@@ -38,6 +38,9 @@ export default class GeneratorRoute extends Route {
 
     // Ensure font list is fully load
     await this.fontManager.loadFont();
+    // Ensure emoji font is fully load
+    await this.fontManager.loadEmojiFont();
+
     // Ensure harfbuzzJS is fully load (WASM loaded & lib instance created)
     await this.harfbuzz.loadWASM();
 
