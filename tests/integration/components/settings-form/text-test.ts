@@ -8,11 +8,12 @@ const {
 } = config;
 import TextMakerSettings from 'text2stl/models/text-maker-settings';
 import { ModelType } from 'text2stl/services/text-maker';
-
 import fillCalciteInput from 'text2stl/tests/helpers/fill-calcite-input';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | settings-form/text', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders', async function (assert) {
     const model = new TextMakerSettings({

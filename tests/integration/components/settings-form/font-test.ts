@@ -6,9 +6,11 @@ import { setComponentTemplate } from '@ember/component';
 import { tracked } from '@glimmer/tracking';
 import templateOnly from '@ember/component/template-only';
 import waitCalciteReady from 'text2stl/tests/helpers/wait-calcite-ready';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | settings-form/font', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders', async function (assert) {
     // mock the FontPicker

@@ -3,9 +3,11 @@ import { setupRenderingTest } from 'ember-qunit';
 import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { Mesh, BoxGeometry } from 'three';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | tree-preview/size', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders nothing when no mesh is specified', async function (assert) {
     await render(hbs`<ThreePreview::Size data-test />`);

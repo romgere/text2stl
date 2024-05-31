@@ -5,9 +5,11 @@ import { render } from '@ember/test-helpers';
 import { hbs } from 'ember-cli-htmlbars';
 import { setComponentTemplate } from '@ember/component';
 import { ModelType } from 'text2stl/services/text-maker';
+import { setupIntl } from 'ember-intl/test-support';
 
 module('Integration | Component | settings-form', function (hooks) {
   setupRenderingTest(hooks);
+  setupIntl(hooks);
 
   test('it renders', async function (assert) {
     class SettingsFormFont extends Component {}
