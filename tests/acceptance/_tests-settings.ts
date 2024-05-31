@@ -334,6 +334,7 @@ const testsSettingsOverride: Array<TextMakerSettingsParameters> = [
   },
   // Various font
   {
+    text: 'multi\nline\nwith custom font',
     fontName: 'chango',
   },
 ].map((settings) => {

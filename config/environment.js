@@ -27,7 +27,7 @@ module.exports = function (environment) {
       textMakerDefault: {
         fontName: 'Roboto',
         variantName: 'regular',
-        text: 'Bienvenue !',
+        text: '🤍Hello !🔥',
         size: 45,
         height: 10,
         spacing: 2,

@@ -22,6 +22,7 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
     this.set('model', model);
 
     await render(hbs`<SettingsForm::Handle @model={{this.model}} />`);
+    await waitCalciteReady();
 
     assert.dom('[data-test-handle-type-item]').exists('it render handle type radio group');
 
@@ -30,7 +31,7 @@ module('Integration | Component | advanced-settings-form/handle', function (hook
       .doesNotExist('it does not render handle settings when handle-type is "none"');
 
     await click('[data-test-handle-type-item] [data-test-value="hole"]');
-    await waitUntil(() => model.handleSettings.type === 'hole');
+    await waitUntil(() => model.handleSettings.type === 'hole', { timeout: 5000 });
     await waitCalciteReady();
     await waitFor('[data-test-handle-position]', { timeout: 5000 });
     assert.dom('[data-test-handle-position]').exists('it show handle-position input');

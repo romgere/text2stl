@@ -51,7 +51,19 @@ info:
   label: À propos de Text2STL
   made_by: Créer avec ♥ par {author} avec {ember} & {three}
   github: Contribuez ou faite un fork sur GitHub
-  issue: Un bug ? Demander une nouvelle fonctionnalité ?
+issue:
+  label: Un bug ?
+  info: "Avant de soumettre un bug, merci de lire ce qui suit :"
+  know_bug:
+    free: <b>Ceci est un outil gratuit fait sur mon temps libre</b>. Soyez indulgent & essayez de donner autant de détails que possible.
+    font: "<b>Certaines polices ne fonctionnent pas correctement</b>. Il s'agit d'un problème connu dû à une librairie externe utilisée par cet outil."
+    font1: "Merci de ne pas ouvrir de bug si certains caractères de la police ne fontionnent pas correctement (sauf si vous êtes sûr qu'il s'agit d'un comportement  \"anormal\"), essayez de trouver une autre police."
+    emoji: "<b>Certains emojis ne fonctionnent pas correctement</b>. Il s'agit d'un problème connu dû à une librairie externe utilisée par cet outil."
+    emoji1: "Vous pouvez essayer d'utiliser une autre \"version\" du même emoji, par exemple 🤍 au lieu de ❤️."
+    emoji2: "Merci de ne pas ouvrir de bug pour si un seul emoji ne fonctionne pas correctement."
+    three_js: "Si vous avez des connaissances à propos de Three.js et/ou des SVG, vous pouvez jeter un coup d'oeil à <a href=\"https://github.com/mrdoob/three.js/issues/26613\" target=\"_blank\">ce bug Three.js</a>."
+    gh_account: Vous aurez besoin d'un compte <a href=\"https://github.com/\" target=\"_blank\">Github</a> pour ouvrir un bug
+    submit: Ouvrir un bug sur Github
 font_picker:
   category: Category de police
   name: Police actuelle

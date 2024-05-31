@@ -1,11 +1,13 @@
 import Service from '@ember/service';
 import * as THREE from 'three';
-import { mergeBufferGeometries } from 'text2stl/utils/BufferGeometryUtils';
+import { mergeBufferGeometries } from 'text2stl/misc/threejs/BufferGeometryUtils';
 import config from 'text2stl/config/environment';
 import { generateSupportShape } from 'text2stl/misc/support-shape-generation';
 import { inject as service } from '@ember/service';
+import extractEmoji from 'text2stl/misc/extract-emoji';
 
 import type HarfbuzzService from 'text2stl/services/harfbuzz';
+import type FontManagerService from 'text2stl/services/font-manager';
 import type { SVGPathSegment, HBFont, BufferContent } from 'harfbuzzjs/hbjs';
 import type { FaceAndFont } from 'text2stl/services/font-manager';
 
@@ -79,6 +81,11 @@ type LineInfo = {
 
 export default class TextMakerService extends Service {
   @service declare harfbuzz: HarfbuzzService;
+  @service declare fontManager: FontManagerService;
+
+  get emojiFont() {
+    return this.fontManager.emojiFont;
+  }
 
   private glyphToShapes(
     glyphPath: SVGPathSegment[],
@@ -224,24 +231,31 @@ export default class TextMakerService extends Service {
     return mergeBufferGeometries(geometries.flat());
   }
 
-  private generateTextLineInfo(text: string, font: HBFont): LineInfo {
-    const buffer = this.harfbuzz.hb.createBuffer();
-    buffer.addText(text);
-    buffer.guessSegmentProperties();
+  private generateTextLineInfo(text: string, font: HBFont): LineInfo[] {
+    const stringParts = extractEmoji(text);
+    const lineInfo: LineInfo[] = [];
 
-    this.harfbuzz.hb.shape(font, buffer);
-    const result = buffer.json();
+    for (const part of stringParts) {
+      const buffer = this.harfbuzz.hb.createBuffer();
+      buffer.addText(part.value);
+      buffer.guessSegmentProperties();
 
-    return {
-      buffer: result,
-      glyphs: result.reduce<Record<number, SVGPathSegment[]>>(function (acc, e) {
-        if (!acc[e.g]) {
-          acc[e.g] = font.glyphToJson(e.g);
-        }
+      this.harfbuzz.hb.shape(part.type === 'text' ? font : this.emojiFont.font, buffer);
+      const result = buffer.json();
 
-        return acc;
-      }, {}),
-    };
+      lineInfo.push({
+        buffer: result,
+        glyphs: result.reduce<Record<number, SVGPathSegment[]>>((acc, e) => {
+          if (!acc[e.g]) {
+            acc[e.g] = (part.type === 'text' ? font : this.emojiFont.font).glyphToJson(e.g);
+          }
+
+          return acc;
+        }, {}),
+      });
+    }
+
+    return lineInfo;
   }
 
   private getSVGPathSegmentsBoundingBox(path: SVGPathSegment[]) {
@@ -294,6 +308,7 @@ export default class TextMakerService extends Service {
 
     // https://harfbuzz.github.io/harfbuzz-hb-font.html (see hb_font_set_scale)
     font.font.setScale(size, size);
+    this.emojiFont.font.setScale(size, size);
 
     const lines = text.split('\n').map((s) => s.trimEnd());
     let oy = 0; // Last x offset where to start drawing glyph
@@ -302,43 +317,46 @@ export default class TextMakerService extends Service {
     const linesInfos = lines.map((text) => this.generateTextLineInfo(text, font.font));
 
     // Iterate a first time on all lines to calculate line width (text align)
-    for (const lineText of linesInfos) {
+    for (const lineParts of linesInfos) {
       let ox = 0; // Last x offset where to start drawing glyph
       let lineMaxX = 0;
       const lineMinMaxY = { minY: Number.MAX_SAFE_INTEGER, maxY: -Number.MAX_SAFE_INTEGER };
       const lineGlyphInfos: { height: number; maxY: number; minY: number }[] = [];
 
-      // Iterate through line "element" (single char or "complex element", see https://github.com/romgere/text2stl/issues/100)
-      lineText.buffer.forEach((info) => {
-        const x = ox + info.dx;
-        const y = info.dy;
+      // Iterate through single line parts (text or emoji parts)
+      for (const lineText of lineParts) {
+        // Iterate through line "element" (single char or "complex element", see https://github.com/romgere/text2stl/issues/100)
+        lineText.buffer.forEach((info) => {
+          const x = ox + info.dx;
+          const y = info.dy;
 
-        const emptyGlyph = lineText.glyphs[info.g].length === 0;
+          const emptyGlyph = lineText.glyphs[info.g].length === 0;
 
-        const glyphBounds = this.getSVGPathSegmentsBoundingBox(lineText.glyphs[info.g]);
-        const glyphHeight = glyphBounds.y2 - glyphBounds.y1;
+          const glyphBounds = this.getSVGPathSegmentsBoundingBox(lineText.glyphs[info.g]);
+          const glyphHeight = glyphBounds.y2 - glyphBounds.y1;
 
-        const minY = emptyGlyph ? 0 : Math.min(glyphBounds.y1, glyphBounds.y2);
-        const maxY = emptyGlyph ? 0 : Math.max(glyphBounds.y1, glyphBounds.y2);
+          const minY = emptyGlyph ? 0 : Math.min(glyphBounds.y1, glyphBounds.y2);
+          const maxY = emptyGlyph ? 0 : Math.max(glyphBounds.y1, glyphBounds.y2);
 
-        lineMinMaxY.maxY = Math.max(lineMinMaxY.maxY, maxY);
-        lineMinMaxY.minY = Math.min(lineMinMaxY.minY, minY);
+          lineMinMaxY.maxY = Math.max(lineMinMaxY.maxY, maxY);
+          lineMinMaxY.minY = Math.min(lineMinMaxY.minY, minY);
 
-        lineGlyphInfos.push({
-          height: glyphHeight,
-          maxY,
-          minY,
+          lineGlyphInfos.push({
+            height: glyphHeight,
+            maxY,
+            minY,
+          });
+
+          lineMaxX = x + glyphBounds.x2;
+
+          bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1);
+          bounds.min.y = Math.min(bounds.min.y, y - oy + glyphBounds.y1);
+          bounds.max.x = Math.max(bounds.max.x, x + glyphBounds.x2);
+          bounds.max.y = Math.max(bounds.max.y, y - oy + glyphBounds.y2);
+
+          ox += spacing + info.ax;
         });
-
-        lineMaxX = x + glyphBounds.x2;
-
-        bounds.min.x = Math.min(bounds.min.x, x + glyphBounds.x1);
-        bounds.min.y = Math.min(bounds.min.y, y - oy + glyphBounds.y1);
-        bounds.max.x = Math.max(bounds.max.x, x + glyphBounds.x2);
-        bounds.max.y = Math.max(bounds.max.y, y - oy + glyphBounds.y2);
-
-        ox += spacing + info.ax;
-      });
+      }
 
       oy += size + vSpacing;
 
@@ -366,37 +384,40 @@ export default class TextMakerService extends Service {
     // Iterate second time on line to actually "render" glyph (aligned according to info from previous iteration)
     // for (const lineIndex in lines) {
     for (const lineIndex in linesInfos) {
-      const lineText = linesInfos[lineIndex];
+      const lineParts = linesInfos[lineIndex];
       let ox = 0; // Last x offset where to start drawing glyph
       let glyphIndex = 0;
 
-      // Iterate on text char to generate a Geometry for each
-      lineText.buffer.forEach((info) => {
-        // font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
-        const x = ox + info.dx + linesAlignOffset[lineIndex];
-        let y = info.dy;
+      // Iterate through single line parts (text or emoji parts)
+      for (const lineText of lineParts) {
+        // Iterate on text char to generate a Geometry for each
+        lineText.buffer.forEach((info) => {
+          // font.forEachGlyph(lineText, 0, 0, size, undefined, (glyph, x, y) => {
+          const x = ox + info.dx + linesAlignOffset[lineIndex];
+          let y = info.dy;
 
-        if (vAlignment !== 'default') {
-          const lineMaxY = linesMinMaxY[lineIndex];
-          const glyphInfo = linesGlyphInfos[lineIndex][glyphIndex];
+          if (vAlignment !== 'default') {
+            const lineMaxY = linesMinMaxY[lineIndex];
+            const glyphInfo = linesGlyphInfos[lineIndex][glyphIndex];
 
-          if (vAlignment === 'bottom' && lineMaxY.minY !== glyphInfo.minY) {
-            y += lineMaxY.minY - glyphInfo.minY;
-          } else if (vAlignment === 'top' && lineMaxY.maxY !== glyphInfo.maxY) {
-            y += lineMaxY.maxY - glyphInfo.maxY;
+            if (vAlignment === 'bottom' && lineMaxY.minY !== glyphInfo.minY) {
+              y += lineMaxY.minY - glyphInfo.minY;
+            } else if (vAlignment === 'top' && lineMaxY.maxY !== glyphInfo.maxY) {
+              y += lineMaxY.maxY - glyphInfo.maxY;
+            }
           }
-        }
 
-        glyphShapes.push(
-          this.glyphToShapes(
-            lineText.glyphs[info.g],
-            x, // x offset
-            y - oy, // y offset
-          ),
-        );
-        ox += spacing + info.ax;
-        glyphIndex++;
-      });
+          glyphShapes.push(
+            this.glyphToShapes(
+              lineText.glyphs[info.g],
+              x, // x offset
+              y - oy, // y offset
+            ),
+          );
+          ox += spacing + info.ax;
+          glyphIndex++;
+        });
+      }
 
       oy += size + vSpacing;
     }

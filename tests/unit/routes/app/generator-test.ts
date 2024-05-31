@@ -17,6 +17,7 @@ module('Unit | Route | app/generator', function (hooks) {
       'service:font-manager',
       class extends Service {
         async loadFont() {}
+        async loadEmojiFont() {}
       },
     );
   });

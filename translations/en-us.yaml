@@ -51,7 +51,19 @@ info:
   label: About Text2STL
   made_by: Made with ♥ By {author} with {ember} & {three}
   github: Contribute or fork me on GitHub
-  issue: Find a bug ? Request a new feature ?
+issue:
+  label: Found a bug ?
+  info: "Before submitting a bug, please consider the following :"
+  know_bug:
+    free: <b>This is a free tool built on my free time</b>. Be kind & try to give as much detail as possible.
+    font: "<b>Some fonts are not correctly rendered</b>. This is a know issue due to 3rd party library used by this tool."
+    font1: "Please don't open issue about some characters of a font not rendering correctly (unless you're sure this is not a \"normal\" issue), just try to find an alternative font."
+    emoji: "<b>Not all emojis are correctly rendered</b>. this is a know issue due to 3rd party library used by this tool."
+    emoji1: "You can try to use another version of the same emoji, for example, use 🤍 instead of ❤️."
+    emoji2: "Please don't open issue about a single emoji not rendering as expected."
+    three_js: "If you have knowledge about Three.js and/or How SVG works, please take a look at <a href=\"https://github.com/mrdoob/three.js/issues/26613\" target=\"_blank\">this Three.js issue</a>."
+    gh_account: You'll need a <a href=\"https://github.com/\" target=\"_blank\">Github</a> account to create issue
+    submit: Please submit issue on Github
 font_picker:
   category: Font category
   name: Current font

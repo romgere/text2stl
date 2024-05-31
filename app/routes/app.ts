@@ -23,8 +23,9 @@ export default class AppRoute extends Route {
   async model({ locale }: { locale: string }) {
     this.intl.locale = locale === 'en-us' ? locale : [locale, 'en-us'];
     // No await here, let's the loading happen & await for it in generator route
-    this.fontManager.loadFont();
     this.harfbuzz.loadWASM();
+    this.fontManager.loadFont();
+    this.fontManager.loadEmojiFont();
   }
 
   afterModel() {
