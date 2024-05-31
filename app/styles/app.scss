@@ -1,19 +1,31 @@
 @import './spacing';
 
-.w-70 {
+.w-30p {
+  width: 30%;
+}
+
+.w-70p {
   width: 70%;
 }
 
-.w-75 {
+.w-75p {
   width: 75%;
 }
 
-.w-80 {
+.w-80p {
   width: 80%;
+}
+
+.w-40 {
+  width: 40rem;
 }
 
 .center {
   text-align: center;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 .visualy-hidden {
