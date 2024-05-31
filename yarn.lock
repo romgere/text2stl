@@ -2628,120 +2628,123 @@
     "@nodelib/fs.scandir" "2.1.5"
     fastq "^1.6.0"
 
-"@percy/cli-app@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-app/-/cli-app-1.27.3.tgz#c296e09ffac46c011e9f33ac779d6f0396e0b2b6"
-  integrity sha512-RUSzWTRkG4hjUy7dzu+zlKVlbXEcj3yoiFTpjrmUxoK5QMVQtZfDdkHfJNSI51w1ZRzuxmO5x5uqFRpgUKh8QQ==
+"@percy/cli-app@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-app/-/cli-app-1.28.7.tgz#0b77c98a6f0fc87321015b0b7709148719f23f4e"
+  integrity sha512-5Dgtx3m+eX2NPYrt11gOAhH0q4UYFORzOTkocELQZ6+9naKOi0PD9e9/T8A6yRQ5dbfMoNfi/xQ9tLoxCPcM5g==
   dependencies:
-    "@percy/cli-command" "1.27.3"
-    "@percy/cli-exec" "1.27.3"
+    "@percy/cli-command" "1.28.7"
+    "@percy/cli-exec" "1.28.7"
 
-"@percy/cli-build@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-build/-/cli-build-1.27.3.tgz#7c193adf86beecd74541d94e32dad9d7f884c630"
-  integrity sha512-F7vWMmXipINDO9kvDyaPaIeUZlZLfIbg74oRaAJUOVH2nkf0FNSPy7Dy/MEsFWAiKNeW7/UwHjuYl+I/yMBZPw==
+"@percy/cli-build@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-build/-/cli-build-1.28.7.tgz#8a7aa9ba464aefdf070d7bb013704273e350b4a4"
+  integrity sha512-LXDXbE3G994K1Wovivukjbzj7wqENPa/A3WvveVdLqfTLepTcJZ3LvPV79BsgJgIMN2vksaeCxwIgjMn1vT8mQ==
   dependencies:
-    "@percy/cli-command" "1.27.3"
+    "@percy/cli-command" "1.28.7"
 
-"@percy/cli-command@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-command/-/cli-command-1.27.3.tgz#fe0112987e25c28f25705c4e604c0f06a8484803"
-  integrity sha512-aU76lu2a2/N/BUSsXpLXRzeJeXzmAcA3s9EFDeMNDMZY/7dV6wlLX9r7n931UD3bIhdlkl1o7COXIIATtPymJQ==
+"@percy/cli-command@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-command/-/cli-command-1.28.7.tgz#673b859fa4585ea72551a03fa82ba2dca900d14d"
+  integrity sha512-Rs66JVZLdb4D/+hPXNdd9Qi9+FA9xCgrzpmdKak8HzstcfsRdJ999J5exQZc7dM1N3Th76wrA5d4woCgDskYDQ==
   dependencies:
-    "@percy/config" "1.27.3"
-    "@percy/core" "1.27.3"
-    "@percy/logger" "1.27.3"
+    "@percy/config" "1.28.7"
+    "@percy/core" "1.28.7"
+    "@percy/logger" "1.28.7"
 
-"@percy/cli-config@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-config/-/cli-config-1.27.3.tgz#23fb52ed0916a466afcae229ea02e8583ae5b654"
-  integrity sha512-+gUZUlbpgllux0yJnCFYMuNn1kItfIP9F1AIYqdqFM9KLixodMCWAXDUQ4V4EVLDjOR7fD3NKmyoFUFJgwcIww==
+"@percy/cli-config@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-config/-/cli-config-1.28.7.tgz#c3a4f11d4c23d4773c61c4835708429d35903280"
+  integrity sha512-26Wo9EYQt2uDROSjNyYMX8XuJ30IPIwR4JsNKO0DbQUBqq071to5AiaROXs2QLH0m2KGFyYavLxHJ54ZCDbMQQ==
   dependencies:
-    "@percy/cli-command" "1.27.3"
+    "@percy/cli-command" "1.28.7"
 
-"@percy/cli-exec@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-exec/-/cli-exec-1.27.3.tgz#82f8d610722d57a9a6d3a9050c7ece545dbada55"
-  integrity sha512-PuSxfZKWx9BoeCbt5U1Edc+fv5kb/mYr+9sgoBsoHmwe5iNIgYKx6D+wmNK7FHgc82mycNLaEguew2JwJXlPew==
+"@percy/cli-exec@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-exec/-/cli-exec-1.28.7.tgz#aae8b21b20736baf5d1bbca3d4fe3ef4ab59d480"
+  integrity sha512-0HEOmMNexRbn09Ju3Etd5agEhBtgqNrT3eiRMcX4ThbQgOFkAQIll6IFfVqafujJHNL1SF+HjcyZmyoEF9tJOw==
   dependencies:
-    "@percy/cli-command" "1.27.3"
+    "@percy/cli-command" "1.28.7"
     cross-spawn "^7.0.3"
     which "^2.0.2"
 
-"@percy/cli-snapshot@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-snapshot/-/cli-snapshot-1.27.3.tgz#0fa75e42c4ab8c551c7b0e38e5a06391e4919700"
-  integrity sha512-HU7p5FLJ1W+QM3mbq8MFyqukthFnxPXrBAC7O0Dh4GfxXfdThV1HOdXqCEZ1pj1b3XkEM5SvvLKc7mClnc4D1Q==
+"@percy/cli-snapshot@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-snapshot/-/cli-snapshot-1.28.7.tgz#0fd99733cb9fa2199133c0b429fb9fd310a6d733"
+  integrity sha512-nWk2/sjIh8Vy6+T7BNwSVdtXUdR0cYpXJrbO1hfxRB56pUf8KFcG7GqUzOZ7QDHqlyQGH/posAjAoPmy8okyAQ==
   dependencies:
-    "@percy/cli-command" "1.27.3"
+    "@percy/cli-command" "1.28.7"
     yaml "^2.0.0"
 
-"@percy/cli-upload@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli-upload/-/cli-upload-1.27.3.tgz#a12ca27786aa2d1356f9c8f068a4aad21a4111fa"
-  integrity sha512-sqzOAMqFKXhpuXDGAK5zUf5Aw/xgBbAP4o4y43dRBi6gIgf8DiiLuc+avyfcKm+2lW5cUTG9SPETVCpu03WozQ==
+"@percy/cli-upload@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli-upload/-/cli-upload-1.28.7.tgz#ab8f178f0001ec5e66fc5bcade0efffcf5e5bd91"
+  integrity sha512-hcIe9RGHDk+G+lanlLy1IrDRgODsTYzjmtPex9wEg4yo/JzubVwkF3r/0iQuT+srkELKUcTSJ1iX7/d0kK61uQ==
   dependencies:
-    "@percy/cli-command" "1.27.3"
+    "@percy/cli-command" "1.28.7"
     fast-glob "^3.2.11"
     image-size "^1.0.0"
 
-"@percy/cli@^1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/cli/-/cli-1.27.3.tgz#186d5fea311bbad1db5f987ad40a0a77cf4bed9b"
-  integrity sha512-GyAIk9wm32cheYAeVyY6nOkDcGgSeG7wgLhZJWzi0gVhFE9W04sudWa++7akEqpGLMnTM2Q4OZv5P3cy1F9iPA==
+"@percy/cli@^1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/cli/-/cli-1.28.7.tgz#4608d5347da6858d4f11720dc15947ee14d17024"
+  integrity sha512-FvvyTFTGuIiBsSs8epENGq2U62oKnzfXW6F80JFShaZ5ZjMc2t6riVq4EPEsBANstql+j4Y853tYe2aGVX9pbw==
   dependencies:
-    "@percy/cli-app" "1.27.3"
-    "@percy/cli-build" "1.27.3"
-    "@percy/cli-command" "1.27.3"
-    "@percy/cli-config" "1.27.3"
-    "@percy/cli-exec" "1.27.3"
-    "@percy/cli-snapshot" "1.27.3"
-    "@percy/cli-upload" "1.27.3"
-    "@percy/client" "1.27.3"
-    "@percy/logger" "1.27.3"
+    "@percy/cli-app" "1.28.7"
+    "@percy/cli-build" "1.28.7"
+    "@percy/cli-command" "1.28.7"
+    "@percy/cli-config" "1.28.7"
+    "@percy/cli-exec" "1.28.7"
+    "@percy/cli-snapshot" "1.28.7"
+    "@percy/cli-upload" "1.28.7"
+    "@percy/client" "1.28.7"
+    "@percy/logger" "1.28.7"
 
-"@percy/client@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/client/-/client-1.27.3.tgz#79a2e9cb059892d820f90b4b5f95fede34ec0246"
-  integrity sha512-AuVpiuknK8OiDIN7BpkDRTYx6yAQVI4TjLFy/QmfZDK0PQMH+2dNIBi/pXooC5Ac64I7BYVqdaUk2IbdxEXbqQ==
+"@percy/client@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/client/-/client-1.28.7.tgz#7baced7a2b2cb82de294f9943d749f8bc440e1f3"
+  integrity sha512-3ocKEej268Xj3q98seUi88mtFcTYNy3F/zMTwk+pdnoWc1QVOGsCQ3elIS2X35hhBFgYw2i1bbuzmt7UdOK79A==
   dependencies:
-    "@percy/env" "1.27.3"
-    "@percy/logger" "1.27.3"
+    "@percy/env" "1.28.7"
+    "@percy/logger" "1.28.7"
+    pako "^2.1.0"
 
-"@percy/config@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/config/-/config-1.27.3.tgz#8b4cc77def10f4de52aad0682bfc7e13d2dbd429"
-  integrity sha512-hxp/zQz/3IQcyBbMkmvvnlkwMn9tgYFAOAFtZqECruqQ1M9XE10uYtWjvVwt9s4rlJEB4PWFvAV4c04/CT6ugQ==
+"@percy/config@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/config/-/config-1.28.7.tgz#b304fd2bb8da08b05046605645583870d4a1887e"
+  integrity sha512-N8fZAj8ejgddxz4lzNIK9cCQdoIuISK7a/JyGAD5vY+CuZutCBM0zuN9g/Higv/LI78Sct69Qpik/+rLIyBZxA==
   dependencies:
-    "@percy/logger" "1.27.3"
+    "@percy/logger" "1.28.7"
     ajv "^8.6.2"
     cosmiconfig "^8.0.0"
     yaml "^2.0.0"
 
-"@percy/core@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/core/-/core-1.27.3.tgz#f577fb49e046ca14da87557463b0b98d68414587"
-  integrity sha512-LK+7dVLRQdVEQUG6Qn61awLbdYmazLwXWYg2UHqEWrbRIygkhoe+n3pPTwzxjiJxJsYYlelx/gDzGwjYzvV4aA==
+"@percy/core@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/core/-/core-1.28.7.tgz#7576ecf1f69b45e160c59bb5f8adbb8af139eb2d"
+  integrity sha512-OOTVMHU+0O7Qh3TIL21fxX9H5ctRWPIG03IJsFpIXIIh2Wni5nf8tSUWroFwSSneZihxaA8ETQxCtJXBVe+JUA==
   dependencies:
-    "@percy/client" "1.27.3"
-    "@percy/config" "1.27.3"
-    "@percy/dom" "1.27.3"
-    "@percy/logger" "1.27.3"
-    "@percy/webdriver-utils" "1.27.3"
+    "@percy/client" "1.28.7"
+    "@percy/config" "1.28.7"
+    "@percy/dom" "1.28.7"
+    "@percy/logger" "1.28.7"
+    "@percy/webdriver-utils" "1.28.7"
     content-disposition "^0.5.4"
     cross-spawn "^7.0.3"
     extract-zip "^2.0.1"
     fast-glob "^3.2.11"
     micromatch "^4.0.4"
     mime-types "^2.1.34"
+    pako "^2.1.0"
     path-to-regexp "^6.2.0"
     rimraf "^3.0.2"
     ws "^8.0.0"
+    yaml "^2.4.1"
 
-"@percy/dom@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/dom/-/dom-1.27.3.tgz#126f2389dfbb7f4ee3b81a5fcce65f5b02a9c33c"
-  integrity sha512-QVSmogZhlVjy5mzqSesWbS5hjV8+1gMtAXSLtfRjdkZGQ/h2rnDbRZUW4PoJQ9ZpxBZegU5/W9LFvEO3FMVelA==
+"@percy/dom@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/dom/-/dom-1.28.7.tgz#6d07e96ee630ac3762e1e94804d94a1d038f8558"
+  integrity sha512-aYm/xTqNWaLodRdmWqiA0zekaUMkE8boJ1ApljO8KTKihv7eJWpgSDJT7m73xOd/JAplER5LSGjrUpnWLOTDYQ==
 
 "@percy/ember@^4.2.0":
   version "4.2.0"
@@ -2751,30 +2754,35 @@
     "@percy/sdk-utils" "^1.18.0"
     ember-cli-babel "^7.26.11"
 
-"@percy/env@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/env/-/env-1.27.3.tgz#0c3c1a991f2ffb53a819cf78f006c4cc93ff7d69"
-  integrity sha512-f9NwjAmcN6HEfJ2/32fmBwUJ3xjn/JXmGUKqmSvw0L3WZuvKaYRpYtaI+n0B6NsujZ4R+KUEGr0jczEoQ62UEg==
+"@percy/env@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/env/-/env-1.28.7.tgz#3dc71ff9e30e53681618f8ab389721acc1f734a4"
+  integrity sha512-ExpCDSm2bMwTlF7LOuE6dDB0QFa2VzpuFF/t9O0TyUgBgaiDZzcdsMQrLxDlUbuqjA8vc+vo8931x0i2sN5LBQ==
   dependencies:
-    "@percy/logger" "1.27.3"
+    "@percy/logger" "1.28.7"
 
-"@percy/logger@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/logger/-/logger-1.27.3.tgz#7bc8d7666d50930e7be34e50ff09f23344efc1ee"
-  integrity sha512-Z/XoEakUHVBivZqmRwFTwiOWT6v5nJgQ6V9aNs2FzjcpyFlJAFZTmHv8+craDKehmnND3tp8FGdPe34Ty0JhEQ==
+"@percy/logger@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/logger/-/logger-1.28.7.tgz#3ef2e35cefdc717ace4918fb9e42ef6e60a4beb4"
+  integrity sha512-OktqjykPT3FMUKkwyafjQdRWMQ8jnXOOcSkvyVIT9P7cbU1USeRUWw8Z6+W1cLk50RdsimChnab6F/GRWRdBew==
 
-"@percy/sdk-utils@1.27.3", "@percy/sdk-utils@^1.18.0":
+"@percy/sdk-utils@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/sdk-utils/-/sdk-utils-1.28.7.tgz#22393f76d69ffee2f4def79aa41f15a7369f7503"
+  integrity sha512-LIhfHnkcS0fyIdo3gvKn7rwodZjbEtyLkgiDRSRulcBOatI2mhn2Bh269sXXiiFTyAW2BDQjyE3DWc4hkGbsbQ==
+
+"@percy/sdk-utils@^1.18.0":
   version "1.27.3"
   resolved "https://registry.npmjs.org/@percy/sdk-utils/-/sdk-utils-1.27.3.tgz#2ac9dcfd3d4f314f4f8715cb84297085c97a4259"
   integrity sha512-IhNx5VaYsKiHaFYFbX6BsVb4bNWojNrKyDa9aRF1afAWAeVWHd1Jq/XeVfMDNCrYcsrA+pYDPSXfb+N5cpAeGQ==
 
-"@percy/webdriver-utils@1.27.3":
-  version "1.27.3"
-  resolved "https://registry.npmjs.org/@percy/webdriver-utils/-/webdriver-utils-1.27.3.tgz#4e008bffd8120cbb6b4babd50c6a6d69e1a99f44"
-  integrity sha512-yV+7nc8aUPQHP1KnWwTndVHqvgs4xzCA8ObzRFuAaKSTC/hBgpI5ceCDv3aSM03ZtXk4f06AWtsgpU5BYpoP1A==
+"@percy/webdriver-utils@1.28.7":
+  version "1.28.7"
+  resolved "https://registry.npmjs.org/@percy/webdriver-utils/-/webdriver-utils-1.28.7.tgz#b17573f8e42f2830c4ca95a388dcc41d9f8351b5"
+  integrity sha512-BviRMj/oHgdniHoz1nzInpIXl4JTk4vZ0+9azWntGCThITc/HhQE1sLDcHhZGYvviY+NQ4ofCcBSzZRu1z1GcQ==
   dependencies:
-    "@percy/config" "1.27.3"
-    "@percy/sdk-utils" "1.27.3"
+    "@percy/config" "1.28.7"
+    "@percy/sdk-utils" "1.28.7"
 
 "@pkgr/core@^0.1.0":
   version "0.1.1"
@@ -10126,6 +10134,11 @@ p-try@^2.0.0:
   resolved "https://registry.npmjs.org/p-try/-/p-try-2.2.0.tgz#cb2868540e313d61de58fafbe35ce9004d5540e6"
   integrity sha512-R4nPAVTAU0B9D35/Gk3uJf/7XYbQcyohSKdvAxIRSNghFl4e71hVoGnBNQz9cWaXxO2I10KTC+3jMdvvoKw6dQ==
 
+pako@^2.1.0:
+  version "2.1.0"
+  resolved "https://registry.npmjs.org/pako/-/pako-2.1.0.tgz#266cc37f98c7d883545d11335c00fbd4062c9a86"
+  integrity sha512-w+eufiZ1WuJYgPXbV/PO3NCMEc3xqylkKHzp8bxp1uW4qaSNQUkwmLLEc3kKsfz8lpV1F8Ht3U1Cm+9Srog2ug==
+
 parent-module@^1.0.0:
   version "1.0.1"
   resolved "https://registry.npmjs.org/parent-module/-/parent-module-1.0.1.tgz#691d2709e78c79fae3a156622452d00762caaaa2"
@@ -12701,6 +12714,11 @@ yaml@^2.0.0:
   version "2.3.3"
   resolved "https://registry.npmjs.org/yaml/-/yaml-2.3.3.tgz#01f6d18ef036446340007db8e016810e5d64aad9"
   integrity sha512-zw0VAJxgeZ6+++/su5AFoqBbZbrEakwu+X0M5HmcwUiBL7AzcuPKjj5we4xfQLp78LkEMpD0cOnUhmgOVy3KdQ==
+
+yaml@^2.4.1:
+  version "2.4.2"
+  resolved "https://registry.npmjs.org/yaml/-/yaml-2.4.2.tgz#7a2b30f2243a5fc299e1f14ca58d475ed4bc5362"
+  integrity sha512-B3VqDZ+JAg1nZpaEmWtTXUlBneoGx6CPM9b0TENK6aoSu5t73dItudwdgmi6tHlIZZId4dZ9skcAQ2UbcyAeVA==
 
 yargs-parser@^18.1.2:
   version "18.1.3"

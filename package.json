@@ -41,7 +41,7 @@
     "@glimmer/component": "^1.1.2",
     "@glimmer/tracking": "^1.1.2",
     "@glint/template": "1",
-    "@percy/cli": "^1.27.3",
+    "@percy/cli": "^1.28.7",
     "@percy/ember": "^4.2.0",
     "@types/ember": "^4.0.11",
     "@types/ember-data": "^4.4.16",
