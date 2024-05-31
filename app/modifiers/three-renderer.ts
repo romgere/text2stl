@@ -1,6 +1,6 @@
 import Modifier, { ArgsFor } from 'ember-modifier';
 import * as THREE from 'three';
-import { OrbitControls } from 'text2stl/utils/OrbitControls';
+import { OrbitControls } from 'text2stl/misc/threejs/OrbitControls';
 import { tracked } from '@glimmer/tracking';
 import config from 'text2stl/config/environment';
 import { registerDestructor } from '@ember/destroyable';

@@ -1,6 +1,6 @@
 import Service from '@ember/service';
-import { STLExporter } from 'text2stl/utils/STLExporter';
-import { OBJExporter } from 'text2stl/utils/OBJExporter';
+import { STLExporter } from 'text2stl/misc/threejs/STLExporter';
+import { OBJExporter } from 'text2stl/misc/threejs/OBJExporter';
 
 import type { Mesh } from 'three';
 

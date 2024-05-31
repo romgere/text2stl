@@ -1,6 +1,6 @@
 import Service from '@ember/service';
 import * as THREE from 'three';
-import { mergeBufferGeometries } from 'text2stl/utils/BufferGeometryUtils';
+import { mergeBufferGeometries } from 'text2stl/misc/threejs/BufferGeometryUtils';
 import config from 'text2stl/config/environment';
 import { generateSupportShape } from 'text2stl/misc/support-shape-generation';
 import { inject as service } from '@ember/service';
