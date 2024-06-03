@@ -1,6 +1,7 @@
 import Service from '@ember/service';
 import config from 'text2stl/config/environment';
 import { inject as service } from '@ember/service';
+import * as opentype from 'opentype.js';
 
 import type HarfbuzzService from 'text2stl/services/harfbuzz';
 import type { HBFont, HBFace } from 'harfbuzzjs/hbjs';
@@ -88,6 +89,7 @@ type GoogleFontApiResponse = {
 export interface FaceAndFont {
   font: HBFont;
   face: HBFace;
+  opentype: opentype.Font; // This is only used to determine outline type (TrueType / CFF). TODO: find how to do that with harfbuzz.
 }
 
 export default class FontManagerService extends Service {
@@ -132,6 +134,8 @@ export default class FontManagerService extends Service {
   fontList: Map<string, Font> = new Map();
 
   fontCache: Record<string, FaceAndFont> = {};
+
+  opentype = opentype; // For easy mock
 
   _emojiFont?: FaceAndFont;
 
@@ -241,6 +245,7 @@ export default class FontManagerService extends Service {
     return {
       font: this.harfbuzz.hb.createFont(face),
       face,
+      opentype: this.opentype.parse(buffer),
     };
   }
 

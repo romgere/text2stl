@@ -1,5 +1,6 @@
 import Service, { inject as service } from '@ember/service';
 import loadFont from 'text2stl/tests/helpers/load-font';
+import type { Font } from 'opentype.js';
 
 import type { FaceAndFont } from 'text2stl/services/font-manager';
 
@@ -25,6 +26,7 @@ class FakeFontManager extends Service {
     return {
       font: this.harfbuzz.hb.createFont(face),
       face,
+      opentype: { outlinesFormat: 'trueType' } as Font,
     };
   }
 
@@ -38,6 +40,7 @@ class FakeFontManager extends Service {
     this.emojiFont = {
       font: this.harfbuzz.hb.createFont(face),
       face,
+      opentype: { outlinesFormat: 'trueType' } as Font,
     };
   }
 }
