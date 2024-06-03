@@ -101,7 +101,7 @@ export default class TextMakerService extends Service {
     // Following is only to manage "cff" font & detect hole shape
     const paths2D: Path2D[] = [];
     let path2D = new Path2D();
-
+    console.log(glyphPath);
     // https://github.com/opentypejs/opentype.js#path-commands
     for (let i = 0; i < glyphPath.length; i++) {
       const command = glyphPath[i];
@@ -412,6 +412,7 @@ export default class TextMakerService extends Service {
               lineText.glyphs[info.g],
               x, // x offset
               y - oy, // y offset
+              font.opentype.outlinesFormat === 'cff',
             ),
           );
           ox += spacing + info.ax;
