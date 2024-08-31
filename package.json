@@ -127,7 +127,7 @@
     "tracked-built-ins": "^3.3.0",
     "tracked-toolbox": "^1.2.2",
     "typescript": "^5.4.5",
-    "webpack": "^5.91.0"
+    "webpack": "^5.94.0"
   },
   "engines": {
     "node": ">= 18"
