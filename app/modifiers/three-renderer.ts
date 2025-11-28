@@ -26,7 +26,7 @@ interface ThreeRendererModifierSignature {
 export default class ThreeRendererModifier extends Modifier<ThreeRendererModifierSignature> {
   scene?: THREE.Scene;
   camera?: THREE.PerspectiveCamera;
-  renderer?: THREE.WebGLRenderer | THREE.WebGL1Renderer;
+  renderer?: THREE.WebGLRenderer;
   mesh?: THREE.Mesh;
 
   controls?: OrbitControls;
@@ -58,6 +58,9 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
       { x: 100, y: 200, z: 100 },
       { x: -100, y: -200, z: -100 },
     ].forEach(({ x, y, z }) => this.addLight(x, y, z));
+
+    const ambientLight = new THREE.AmbientLight(0x606060);
+    this.scene.add(ambientLight);
 
     // Camera
     this.camera = new THREE.PerspectiveCamera(75);
@@ -97,9 +100,9 @@ export default class ThreeRendererModifier extends Modifier<ThreeRendererModifie
       return;
     }
 
-    const l = new THREE.PointLight(0xffffff, 0.7, 0);
-    l.position.set(x, y, z);
-    this.scene.add(l);
+    const directionalLight = new THREE.DirectionalLight(0xffffff, 0.7);
+    directionalLight.position.set(x, y, z).normalize();
+    this.scene.add(directionalLight);
   }
 
   private addDecorators() {
