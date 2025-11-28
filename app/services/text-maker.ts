@@ -5,6 +5,8 @@ import config from 'text2stl/config/environment';
 import { generateSupportShape } from 'text2stl/misc/support-shape-generation';
 import { inject as service } from '@ember/service';
 import extractEmoji from 'text2stl/misc/extract-emoji';
+import createShapes from 'text2stl/misc/create-shape-fixed';
+import { SVGLoader } from 'three/examples/jsm/loaders/SVGLoader';
 
 import type HarfbuzzService from 'text2stl/services/harfbuzz';
 import type FontManagerService from 'text2stl/services/font-manager';
@@ -59,22 +61,24 @@ export enum ModelType {
   VerticalTextWithSupport = 4,
 }
 
-type SingleGlyphDef = {
-  paths: THREE.Path[];
-  holes: THREE.Path[];
+type GlyphDef = {
+  shapes: THREE.Shape[];
+  x: number;
+  y: number;
 };
 
 type MultipleGlyphDef = {
-  glyphs: SingleGlyphDef[];
+  glyphs: GlyphDef[];
   bounds: {
     min: { x: number; y: number };
     max: { x: number; y: number };
   };
 };
 
+type GlyphSVG = { json: SVGPathSegment[]; text: string };
 type LineInfo = {
   // glyphs shape indexed by Glyph ID
-  glyphs: Record<number, SVGPathSegment[]>;
+  glyphs: Record<number, GlyphSVG>;
   // Line composition ()
   buffer: BufferContent;
 };
@@ -87,136 +91,22 @@ export default class TextMakerService extends Service {
     return this.fontManager.emojiFont;
   }
 
-  private glyphToShapes(
-    glyphPath: SVGPathSegment[],
-    xOffset: number,
-    yOffset: number,
-    isCFFFont: boolean = false,
-  ): SingleGlyphDef {
-    let paths: THREE.Path[] = [];
-    const holes: THREE.Path[] = [];
+  private glyphToShapes(glyphSvg: GlyphSVG, _isCFFFont: boolean = false): THREE.Shape[] {
+    // TODO : make usage of isCFFFont ?
 
-    let path = new THREE.Path();
+    // Convert "simple" SVG path to SVG file string for SVGLoader
+    const svgString = `<svg  xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"><g><path fill-rule="nonzero" d="${glyphSvg.text}" /></g></svg>`;
 
-    // Following is only to manage "cff" font & detect hole shape
-    const paths2D: Path2D[] = [];
-    let path2D = new Path2D();
-    console.log(glyphPath);
-    // https://github.com/opentypejs/opentype.js#path-commands
-    for (let i = 0; i < glyphPath.length; i++) {
-      const command = glyphPath[i];
+    const data = new SVGLoader().parse(svgString);
 
-      switch (command.type) {
-        case 'M':
-          path = new THREE.Path();
-          path2D = new Path2D();
-          path.moveTo(command.values[0] + xOffset, command.values[1] + yOffset);
-          path2D.moveTo(command.values[0] + xOffset, command.values[1] + yOffset);
-          break;
-        case 'Z':
-          path.closePath();
-          path2D.closePath();
-
-          // With CCF font Detect path/hole can be done only at the end with all path...
-          if (isCFFFont) {
-            paths.push(path);
-            paths2D.push(path2D);
-          } else {
-            if (THREE.ShapeUtils.isClockWise(path.getPoints())) {
-              paths.push(path);
-            } else {
-              holes.push(path);
-            }
-          }
-
-          break;
-        case 'L':
-          path.lineTo(command.values[0] + xOffset, command.values[1] + yOffset);
-          path2D.lineTo(command.values[0] + xOffset, command.values[1] + yOffset);
-          break;
-        case 'C':
-          path.bezierCurveTo(
-            command.values[0] + xOffset,
-            command.values[1] + yOffset,
-            command.values[2] + xOffset,
-            command.values[3] + yOffset,
-            command.values[4] + xOffset,
-            command.values[5] + yOffset,
-          );
-          path2D.bezierCurveTo(
-            command.values[0] + xOffset,
-            command.values[1] + yOffset,
-            command.values[2] + xOffset,
-            command.values[3] + yOffset,
-            command.values[4] + xOffset,
-            command.values[5] + yOffset,
-          );
-          break;
-        case 'Q':
-          path.quadraticCurveTo(
-            command.values[0] + xOffset,
-            command.values[1] + yOffset,
-            command.values[2] + xOffset,
-            command.values[3] + yOffset,
-          );
-          path2D.quadraticCurveTo(
-            command.values[0] + xOffset,
-            command.values[1] + yOffset,
-            command.values[2] + xOffset,
-            command.values[3] + yOffset,
-          );
-          break;
-      }
-    }
-
-    // https://github.com/opentypejs/opentype.js/issues/347
-    // if "cff" : subpath B contained by outermost subpath A is a cutout ...
-    // if "truetype" : solid shapes are defined clockwise (CW) and holes are defined counterclockwise (CCW)
-    if (isCFFFont) {
-      const canvas = document.createElement('canvas');
-      const ctx = canvas.getContext('2d');
-
-      for (let i = 0; i < paths.length; i++) {
-        path = paths[i];
-
-        let isHole = false;
-        for (const otherPath of paths2D.filter((_, idx) => idx !== i)) {
-          // Iterate on path point & check if they are inside any existing paths
-          isHole = path.getPoints().every(function (point) {
-            return ctx?.isPointInPath(otherPath, point.x, point.y);
-          });
-
-          if (isHole) {
-            break;
-          }
-        }
-
-        if (isHole) {
-          holes.push(path);
-        }
-      }
-
-      paths = paths.filter((p) => holes.indexOf(p) === -1);
-    }
-
-    return {
-      paths,
-      holes,
-    };
+    return data.paths.flatMap((path) => createShapes(path));
   }
 
   private glyphsDefToGeometry(depth: number, glyphsDef: MultipleGlyphDef): THREE.BufferGeometry {
     const geometries: THREE.ExtrudeGeometry[] = [];
 
     for (const glyphDef of glyphsDef.glyphs) {
-      const shapes = glyphDef.paths.map(function (path) {
-        const shape = new THREE.Shape();
-        shape.add(path);
-        shape.holes = glyphDef.holes;
-        return shape;
-      });
-
-      const geometry = new THREE.ExtrudeGeometry(shapes, {
+      const geometry = new THREE.ExtrudeGeometry(glyphDef.shapes, {
         depth,
         bevelEnabled: true,
         bevelThickness: 0,
@@ -224,6 +114,8 @@ export default class TextMakerService extends Service {
         bevelOffset: 0,
         bevelSegments: 0,
       });
+
+      geometry.translate(glyphDef.x, glyphDef.y, 0);
 
       geometries.push(geometry);
     }
@@ -245,9 +137,14 @@ export default class TextMakerService extends Service {
 
       lineInfo.push({
         buffer: result,
-        glyphs: result.reduce<Record<number, SVGPathSegment[]>>((acc, e) => {
+        glyphs: result.reduce<Record<number, GlyphSVG>>((acc, e) => {
           if (!acc[e.g]) {
-            acc[e.g] = (part.type === 'text' ? font : this.emojiFont.font).glyphToJson(e.g);
+            const f = part.type === 'text' ? font : this.emojiFont.font;
+
+            acc[e.g] = {
+              json: f.glyphToJson(e.g),
+              text: f.glyphToPath(e.g),
+            };
           }
 
           return acc;
@@ -258,7 +155,7 @@ export default class TextMakerService extends Service {
     return lineInfo;
   }
 
-  private getSVGPathSegmentsBoundingBox(path: SVGPathSegment[]) {
+  private getSVGPathSegmentsBoundingBox(glyphSvg: GlyphSVG) {
     const bound = {
       x1: Number.MAX_SAFE_INTEGER,
       x2: 0,
@@ -266,7 +163,7 @@ export default class TextMakerService extends Service {
       y2: 0,
     };
 
-    for (const p of path) {
+    for (const p of glyphSvg.json) {
       const xCoords = p.values.filter((_v, idx) => !(idx % 2));
       const yCoords = p.values.filter((_v, idx) => idx % 2);
 
@@ -294,7 +191,7 @@ export default class TextMakerService extends Service {
     const vAlignment =
       params.vAlignment !== undefined ? params.vAlignment : textMakerDefault.vAlignment;
 
-    const glyphShapes: SingleGlyphDef[] = [];
+    const glyphShapes: GlyphDef[] = [];
 
     const linesWidth: number[] = []; // to handle horizontal alignment
     const linesMinMaxY: { maxY: number; minY: number }[] = []; // to handle vertical alignment
@@ -330,7 +227,7 @@ export default class TextMakerService extends Service {
           const x = ox + info.dx;
           const y = info.dy;
 
-          const emptyGlyph = lineText.glyphs[info.g].length === 0;
+          const emptyGlyph = lineText.glyphs[info.g].json.length === 0;
 
           const glyphBounds = this.getSVGPathSegmentsBoundingBox(lineText.glyphs[info.g]);
           const glyphHeight = glyphBounds.y2 - glyphBounds.y1;
@@ -407,14 +304,15 @@ export default class TextMakerService extends Service {
             }
           }
 
-          glyphShapes.push(
-            this.glyphToShapes(
+          glyphShapes.push({
+            shapes: this.glyphToShapes(
               lineText.glyphs[info.g],
-              x, // x offset
-              y - oy, // y offset
               font.opentype.outlinesFormat === 'cff',
             ),
-          );
+            x, // x offset
+            y: y - oy, // y offset
+          });
+
           ox += spacing + info.ax;
           glyphIndex++;
         });
@@ -497,7 +395,7 @@ export default class TextMakerService extends Service {
       const moveTextX = -min.x + supportPadding.left;
       const moveTextY = -min.y + supportPadding.bottom;
 
-      let supportGeometry: THREE.ExtrudeBufferGeometry | undefined;
+      let supportGeometry: THREE.ExtrudeGeometry | undefined;
 
       if (supportDepth > textDepth) {
         const plainSupportDepth = supportDepth - textDepth;
@@ -513,17 +411,27 @@ export default class TextMakerService extends Service {
       }
 
       // extract glyph path & move them according to support padding
-      const glyphsPaths = plyghsDef.glyphs
-        .map((g) => g.paths)
-        .flat()
-        .map((p) => this.translatePath(p, moveTextX, moveTextY));
-      const glyphsHolesPaths = plyghsDef.glyphs
-        .map((g) => g.holes)
-        .flat()
-        .map((p) => this.translatePath(p, moveTextX, moveTextY));
+      const glyphsPaths: THREE.Path[] = plyghsDef.glyphs.flatMap((g) => {
+        return g.shapes.map((shape) => {
+          return this.translatePath(shape, g.x + moveTextX, g.y + moveTextY);
+        });
+      });
+
+      const glyphsHolesPaths: THREE.Path[] = plyghsDef.glyphs.flatMap((g) => {
+        return g.shapes
+          .flatMap((s) => s.holes)
+          .map((shape) => {
+            return this.translatePath(shape, g.x + moveTextX, g.y + moveTextY);
+          });
+      });
 
       // Add Glyph paths as hole in support & extrude
+      // This is where issue come from, for example with only "a" letter, there's 2 glyph paths
+      // Adding one or the other here is OK, but addiing both make three "explode" because the 2 path collide at smoe point.
+      // It's ok in "mergeBufferGeometries" when creating regular text Gemotetry, but it's not here :/
       supportShape?.holes.push(...glyphsPaths);
+      // TODO: give a try with https://github.com/gkjohnson/three-bvh-csg ?
+
       const negativeTextGeometry = new THREE.ExtrudeGeometry(supportShape, {
         depth: textDepth,
         bevelEnabled: true,
