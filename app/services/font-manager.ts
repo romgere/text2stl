@@ -166,7 +166,7 @@ export default class FontManagerService extends Service {
     await this._loadFontList();
 
     // Load Font CSS by chunk of 500 fonts
-    const fontChunks = this.chunk([...this.fontList.values()], 500);
+    const fontChunks = this.chunk([...this.fontList.values()], 120);
     const styles = await Promise.all(fontChunks.map((fonts) => this._getStylesheet(fonts)));
 
     // Add font CSS to document
