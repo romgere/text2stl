@@ -19,6 +19,7 @@
     "inlineSources": true,
     "baseUrl": ".",
     "module": "es6",
+    "skipLibCheck": true,
     "experimentalDecorators": true,
     "paths": {
       "text2stl/tests/*": [
