@@ -24,9 +24,9 @@
     "test:ember:visual": "yarn workspace legacy test:ember:visual"
   },
   "engines": {
-    "node": ">= 18"
+    "node": ">= 22"
   },
   "volta": {
-    "node": "20.14.0"
+    "node": "22.14.0"
   }
 }
