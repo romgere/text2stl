@@ -16,7 +16,7 @@
   "scripts": {
     "generate:type_img": "misc/text_type/generate_logo.sh",
     "start": "yarn workspace legacy start",
-    "build": "yarn workspace legacy build",
+    "build": "yarn workspace legacy build && rm -rf dist && mv packages/legacy/dist dist",
     "lint": "yarn workspace legacy lint",
     "lint:fix": "yarn workspace legacy lint:fix",
     "test": "yarn workspace legacy test",
