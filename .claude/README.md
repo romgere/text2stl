@@ -19,3 +19,5 @@ from Ember to Vite + Lit + Vitest; see `MIGRATION_PLAN.md` in this directory.
 
 - Stop before staging or committing any file — let the human review and run
   `git add`/`git commit` themselves.
+- Never manipulate git history without approval — no fast-forwarding a branch,
+  rebasing, resetting, or similar, without asking first.
