@@ -116,22 +116,53 @@ about it changes until the deploy target flips in Phase 11.
 
 ### Phase 0 — Monorepo split + scaffold
 
-- [ ] Add `"workspaces": ["packages/*"]` to root `package.json`.
-- [ ] `git mv app tests config translations public types packages/legacy/`, same for
+- [x] Add `"workspaces": ["packages/*"]` to root `package.json`.
+- [x] `git mv app tests config translations public types packages/legacy/`, same for
       `ember-cli-build.js`, `testem.js`, `.ember-cli`, `tsconfig.json`, `.percy.js`, and
       the Ember-specific `package.json` contents (deps + `build`/`start`/`test`/`lint`
       scripts move into `packages/legacy/package.json`). Use `git mv` file-by-file (not
       a directory rewrite) so history is preserved per file.
-- [ ] **Validate immediately:** `yarn workspace legacy start`, `yarn workspace legacy
+      Also moved (not in the original list, but needed for correctness):
+      `.eslintrc.js`, `.eslintignore`, `.stylelintrc.js`, `.stylelintignore`,
+      `.template-lintrc.js`, `.watchmanconfig` — see notes below.
+- [x] **Validate immediately:** `yarn workspace legacy start`, `yarn workspace legacy
       build`, `yarn workspace legacy test` all still work unchanged from the new
       location. Ember-CLI is layout-sensitive (addon resolution, broccoli watched
       trees, hoisted `node_modules`) — treat this as the riskiest step in the whole
       plan and land it as its own isolated, easily-revertable commit before anything
       else changes.
+      Landed in commit `c71fbb6`. Three real bugs surfaced and were fixed along the way:
+      1. `.eslintignore` doesn't cascade upward like `.eslintrc.js` does — ESLint only
+         reads it from cwd, so once `eslint .` ran with cwd=`packages/legacy`, it
+         stopped ignoring `dist/` and ground for ~11 minutes re-formatting a 1.3MB
+         build artifact via `prettier/prettier`. Fixed by moving the lint/style ignore
+         *and* config files into `packages/legacy` alongside the app.
+      2. `ember-cli-build.js` funneled calcite-components' static assets via a literal
+         `./node_modules/@esri/calcite-components/dist` path; yarn hoists that package
+         to the repo-root `node_modules`, so the literal path silently stopped
+         resolving. Fixed via `require.resolve('@esri/calcite-components/package.json')`.
+      3. `EmberApp`'s module namespace defaults to `package.json`'s `name` field, which
+         is now `"legacy"` (the workspace name) instead of `"text2stl"` — diverging
+         from the `modulePrefix: 'text2stl'` in `config/environment.js` and breaking
+         module resolution (e.g. `text2stl/tests/test-helper` not found). Fixed by
+         pinning `name: 'text2stl'` explicitly in the `EmberApp` constructor options.
+      Also: `.gitignore`'s patterns (`/dist/`, `/node_modules/`, etc.) were anchored to
+      the repo root with a leading `/`, so they no longer matched the same directories
+      one level down in `packages/legacy`. Un-anchored them so they apply at any depth.
+      Remaining known gap: `.eslintrc.js`'s `ignorePatterns: ['tests/fixtures/meshs']`
+      now resolves relative to `packages/legacy` (where the config file lives), which
+      is correct, but wasn't specifically re-verified against an actual
+      `tests/fixtures/meshs` directory — low risk, revisit if lint ever mis-ignores it.
+      `ember serve` and `ember build` both verified serving/building correctly from the
+      new location (HTTP 200 on `/` and `/hb.wasm`). Test suite: 46/48 pass; the 2
+      failures are "Error creating WebGL context" from headless Chrome having no GPU in
+      this sandbox — reproduced consistently across runs, unrelated to the file move.
 - [ ] Repoint Netlify's build base directory / build command at `packages/legacy` (site
       output must stay byte-identical to today) and confirm a deploy preview still
       serves the app correctly. Do this before writing any new-app code, so the deploy
       pipeline is proven working on the new layout early.
+      **Blocked on user action** — this is a Netlify dashboard setting (no `netlify.toml`
+      in the repo), which Claude has no credentials/access to change.
 - [ ] `packages/app/`: Vite + Lit + TypeScript scaffold, `vite.config.ts`.
 - [ ] Vitest wired up in `packages/app/` (`vitest.config.ts`), one smoke test passing.
 - [ ] ESLint/Prettier/stylelint for `packages/app/` — reuse root-level shared config
