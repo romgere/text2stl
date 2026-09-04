@@ -17,6 +17,11 @@ module.exports = {
         '--mute-audio',
         '--remote-debugging-port=0',
         '--window-size=1440,900',
+        // Headless Chrome has no GPU, so WebGL (used by ThreePreview::Renderer)
+        // needs an explicit software (SwiftShader) fallback via ANGLE.
+        '--use-gl=angle',
+        '--use-angle=swiftshader',
+        '--enable-unsafe-swiftshader',
       ].filter(Boolean),
     },
   },
