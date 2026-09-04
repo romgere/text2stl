@@ -165,13 +165,35 @@ about it changes until the deploy target flips in Phase 11.
       so `yarn build`'s output path is byte-identical to pre-migration and Netlify
       needs zero config changes for this branch. Revisit only if/when Netlify's build
       base actually needs to move (e.g. Phase 11 cutover).
-- [ ] `packages/app/`: Vite + Lit + TypeScript scaffold, `vite.config.ts`.
-- [ ] Vitest wired up in `packages/app/` (`vitest.config.ts`), one smoke test passing.
-- [ ] ESLint/Prettier/stylelint for `packages/app/` — reuse root-level shared config
+- [x] `packages/app/`: Vite + Lit + TypeScript scaffold, `vite.config.ts`.
+- [x] Vitest wired up in `packages/app/` (`vitest.config.ts`), one smoke test passing.
+      (`src/scaffold.test.ts` — temporary, delete once Phase 1 lands the first real
+      test.)
+- [x] ESLint/Prettier/stylelint for `packages/app/` — reuse root-level shared config
       where it makes sense (e.g. Prettier), package-local config where Ember and Lit
       conventions diverge (ESLint, TS).
-- [ ] Confirm `packages/app` runs via `yarn workspace app dev` alongside
+      `.prettierrc.js` and `.stylelintrc.js`/`.stylelintignore` are shared from the repo
+      root (the latter two moved back there from `packages/legacy`, where they'd been
+      swept up by mistake in the earlier move — see commit `e1a8cb3`). ESLint is
+      package-local (`packages/app/eslint.config.js`) — this package pulled in
+      ESLint 10, which requires flat config, so it can't share `packages/legacy`'s
+      classic `.eslintrc.js` even in principle. `stylelint` isn't wired into
+      `packages/app`'s own `lint` script yet since there's no CSS to lint (Lit uses
+      `static styles` in `.ts` files); revisit in Phase 4 when real stylesheets land.
+      **Node version note:** `packages/app`'s toolchain (vite 8, vitest 5, eslint 10,
+      and transitively `yargs@18`) requires Node >=20.19 or >=22.12. This sandbox's
+      default Node (20.1.0, via nvm) doesn't qualify — nor does this repo's own
+      `volta` pin of 20.14.0, which isn't installed here either. Per the user's
+      direction, this was resolved by using Node 22.14.0 (already available via nvm)
+      for `packages/app` work, without changing the repo's root `engines`/`volta`/
+      `.node-version` — those still target `packages/legacy`'s validated baseline.
+      Whoever picks up later phases needs Node >=22.12 on their machine/CI runner to
+      work on `packages/app`; `packages/legacy` was spot-checked to still boot under
+      Node 22 too, but wasn't re-run through its full build/lint/test suite on
+      anything but Node 20.1.0.
+- [x] Confirm `packages/app` runs via `yarn workspace app dev` alongside
       `yarn workspace legacy start`, both serving without port conflicts.
+      Verified: Vite on `:5173`, Ember on `:4200`/`:4201`, both HTTP 200 simultaneously.
 - **Exit criteria:** `packages/legacy` builds/serves/tests identically to the
   pre-monorepo app and is the confirmed live deploy; `packages/app` has a green empty
   Vite/Lit/Vitest scaffold next to it.
