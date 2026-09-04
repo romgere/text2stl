@@ -157,12 +157,14 @@ about it changes until the deploy target flips in Phase 11.
       new location (HTTP 200 on `/` and `/hb.wasm`). Test suite: 46/48 pass; the 2
       failures are "Error creating WebGL context" from headless Chrome having no GPU in
       this sandbox — reproduced consistently across runs, unrelated to the file move.
-- [ ] Repoint Netlify's build base directory / build command at `packages/legacy` (site
-      output must stay byte-identical to today) and confirm a deploy preview still
-      serves the app correctly. Do this before writing any new-app code, so the deploy
-      pipeline is proven working on the new layout early.
-      **Blocked on user action** — this is a Netlify dashboard setting (no `netlify.toml`
-      in the repo), which Claude has no credentials/access to change.
+- [x] ~~Repoint Netlify's build base directory / build command at `packages/legacy`~~
+      **Superseded by a simpler approach:** rather than touching Netlify's dashboard
+      config now (no `netlify.toml` in the repo, and Claude has no access to it
+      anyway), the root `build` script builds `packages/legacy` as before and then
+      moves its output from `packages/legacy/dist` back to `/dist` at the repo root —
+      so `yarn build`'s output path is byte-identical to pre-migration and Netlify
+      needs zero config changes for this branch. Revisit only if/when Netlify's build
+      base actually needs to move (e.g. Phase 11 cutover).
 - [ ] `packages/app/`: Vite + Lit + TypeScript scaffold, `vite.config.ts`.
 - [ ] Vitest wired up in `packages/app/` (`vitest.config.ts`), one smoke test passing.
 - [ ] ESLint/Prettier/stylelint for `packages/app/` — reuse root-level shared config
