@@ -14,3 +14,8 @@ from Ember to Vite + Lit + Vitest; see `MIGRATION_PLAN.md` in this directory.
   non-obvious *why*, never the *what*.
 - File names are kebab-case and match their primary export/content.
 - Prefer early returns over nested conditionals.
+
+## Workflow
+
+- Stop before staging or committing any file — let the human review and run
+  `git add`/`git commit` themselves.
