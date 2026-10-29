@@ -101,13 +101,10 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    // Netlify deploy preview: use its preview URL
     // Cloudflare preview (non-master branch): use a relative root URL
     // Production URL otherwise
     const cfBranch = process.env.WORKERS_CI_BRANCH;
-    if (process.env.CONTEXT === 'deploy-preview') {
-      ENV.rootURL = process.env.DEPLOY_PRIME_URL;
-    } else if (cfBranch && cfBranch !== 'master') {
+    if (cfBranch && cfBranch !== 'master') {
       ENV.rootURL = '/';
     } else {
       ENV.rootURL = 'https://text2stl.mestres.fr/';
