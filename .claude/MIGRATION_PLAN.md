@@ -421,11 +421,12 @@ wires them all together into the actual working app.
 
 - [ ] `vite build` in `packages/app` replacing `ember build`; confirm `hb.wasm`/Calcite
       assets/fonts all land in `packages/app/dist/` correctly.
-- [ ] Netlify config: a second Netlify site (or a second build context pointed at
+- [ ] Cloudflare config: a second Worker (or a second build config pointed at
       `packages/app`) for previewing the new app pre-cutover, confirming
-      `rootURL`-equivalent behavior (`DEPLOY_PRIME_URL`) and the SPA fallback
-      (`public/_redirects`) work from the new package's output dir — kept separate from
-      `packages/legacy`'s still-live production deploy.
+      `rootURL`-equivalent behavior (`WORKERS_CI_BRANCH` previews), the SPA fallback
+      (`assets.not_found_handling` in `wrangler.jsonc`) and `public/_redirects` work from
+      the new package's output dir — kept separate from `packages/legacy`'s still-live
+      production deploy.
 - [ ] **Google Fonts API key: carry over unchanged, out of scope for this migration.**
       The key is already client-exposed today (`.env` → `config/environment.js`); this
       migration reproduces that with `GOOGLE_FONT_API_KEY` wired through Vite's
@@ -451,8 +452,8 @@ wires them all together into the actual working app.
 
 - [ ] Final parity check: `packages/app` vs. `packages/legacy`, side-by-side manual pass
       plus test-suite comparison.
-- [ ] **Turn the switch:** repoint the production Netlify site's base directory/build
-      command from `packages/legacy` to `packages/app`. This is the entire cutover —
+- [ ] **Turn the switch:** repoint the production Cloudflare Worker's build
+      command / assets directory from `packages/legacy` to `packages/app`. This is the entire cutover —
       no code moves, easy to revert by pointing back if something's wrong.
 - [ ] Bake period: keep `packages/legacy` in the repo (not deployed) for a rollback
       window.
