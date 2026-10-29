@@ -1,11 +1,10 @@
 import { setAssetPath } from '@esri/calcite-components/dist/components';
 
 import config from 'text2stl/config/environment';
-const { rootURL, environment } = config;
+const { rootURL } = config;
 
-const calciteAssetPath = ['development', 'test'].includes(environment)
-  ? `${window.location.origin}${rootURL}assets/calcite/`
-  : `${rootURL}assets/calcite/`;
+// rootURL is either absolute (production) or relative (dev, test, Cloudflare previews)
+const calciteAssetPath = new URL(`${rootURL}assets/calcite/`, window.location.origin).href;
 
 setAssetPath(calciteAssetPath);
 
