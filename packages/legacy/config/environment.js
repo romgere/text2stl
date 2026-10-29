@@ -101,9 +101,17 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    // Relative root URL on Cloudflare preview builds (non-master branch), prod URL otherwise
-    const branch = process.env.WORKERS_CI_BRANCH;
-    ENV.rootURL = branch && branch !== 'master' ? '/' : 'https://text2stl.mestres.fr/';
+    // Netlify deploy preview: use its preview URL
+    // Cloudflare preview (non-master branch): use a relative root URL
+    // Production URL otherwise
+    const cfBranch = process.env.WORKERS_CI_BRANCH;
+    if (process.env.CONTEXT === 'deploy-preview') {
+      ENV.rootURL = process.env.DEPLOY_PRIME_URL;
+    } else if (cfBranch && cfBranch !== 'master') {
+      ENV.rootURL = '/';
+    } else {
+      ENV.rootURL = 'https://text2stl.mestres.fr/';
+    }
   }
 
   return ENV;

@@ -1,0 +1,6 @@
+# Netlify only (Cloudflare uses assets.not_found_handling in wrangler.jsonc instead).
+# Kept out of _redirects so the SPA rewrite doesn't apply on Cloudflare.
+[[redirects]]
+  from = "/*"
+  to = "/index.html"
+  status = 200
