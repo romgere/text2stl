@@ -1,0 +1,11 @@
+{
+  "name": "text2stl",
+  "compatibility_date": "2026-10-01",
+  "assets": {
+    "directory": "./dist",
+    // Ember app uses history location: unknown paths must serve index.html
+    "not_found_handling": "single-page-application"
+  },
+  "preview_urls": true,
+  "previews": {}
+}

@@ -23,3 +23,6 @@ yarn.lock.ember-try
 
 # broccoli-debug
 DEBUG/
+
+# wrangler
+.wrangler/

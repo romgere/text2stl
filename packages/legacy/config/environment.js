@@ -101,11 +101,9 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    // Use the preview URL if it's a netlify preview deploy, production URL otherwise
-    ENV.rootURL =
-      process.env.CONTEXT === 'deploy-preview'
-        ? process.env.DEPLOY_PRIME_URL
-        : 'https://text2stl.mestres.fr/';
+    // Relative root URL on Cloudflare preview builds (non-master branches), production URL otherwise
+    const branch = process.env.WORKERS_CI_BRANCH;
+    ENV.rootURL = branch && branch !== 'master' ? '/' : 'https://text2stl.mestres.fr/';
   }
 
   return ENV;
