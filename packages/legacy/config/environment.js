@@ -101,7 +101,7 @@ module.exports = function (environment) {
   }
 
   if (environment === 'production') {
-    // Relative root URL on Cloudflare preview builds (non-master branches), production URL otherwise
+    // Relative root URL on Cloudflare preview builds (non-master branch), prod URL otherwise
     const branch = process.env.WORKERS_CI_BRANCH;
     ENV.rootURL = branch && branch !== 'master' ? '/' : 'https://text2stl.mestres.fr/';
   }
